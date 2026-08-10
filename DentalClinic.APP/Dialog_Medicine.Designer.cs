@@ -273,7 +273,6 @@
         private Label label3;
         private Label label2;
         private Button btSave;
-        private TextBox ds;
         private Label label1;
         private Label label4;
         private Label label5;

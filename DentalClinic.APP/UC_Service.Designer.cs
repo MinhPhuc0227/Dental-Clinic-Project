@@ -30,19 +30,27 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            label3 = new Label();
-            textBox1 = new TextBox();
             panel1 = new Panel();
-            label1 = new Label();
-            textBox2 = new TextBox();
-            btAdd = new Button();
-            label2 = new Label();
-            label4 = new Label();
+            label3 = new Label();
             txtSearch = new TextBox();
+            btAdd = new Button();
+            label1 = new Label();
             dgvService = new DataGridView();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvService).BeginInit();
             SuspendLayout();
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(txtSearch);
+            panel1.Controls.Add(btAdd);
+            panel1.Controls.Add(label1);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(10, 10);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(984, 75);
+            panel1.TabIndex = 0;
             // 
             // label3
             // 
@@ -50,103 +58,46 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(602, 17);
+            label3.Location = new Point(603, 21);
             label3.Name = "label3";
             label3.Size = new Size(91, 28);
             label3.TabIndex = 7;
             label3.Text = "Tìm kiếm";
             // 
-            // textBox1
+            // txtSearch
             // 
-            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            textBox1.Font = new Font("Segoe UI", 12F);
-            textBox1.Location = new Point(699, 14);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(268, 34);
-            textBox1.TabIndex = 6;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.White;
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(btAdd);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(txtSearch);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(10, 10);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(984, 75);
-            panel1.TabIndex = 8;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F);
-            label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(1390, 16);
-            label1.Name = "label1";
-            label1.Size = new Size(91, 28);
-            label1.TabIndex = 5;
-            label1.Text = "Tìm kiếm";
-            // 
-            // textBox2
-            // 
-            textBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            textBox2.Font = new Font("Segoe UI", 12F);
-            textBox2.Location = new Point(1487, 13);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(268, 34);
-            textBox2.TabIndex = 4;
+            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearch.Font = new Font("Segoe UI", 12F);
+            txtSearch.Location = new Point(700, 18);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(268, 34);
+            txtSearch.TabIndex = 6;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // btAdd
             // 
             btAdd.FlatAppearance.BorderSize = 0;
             btAdd.Image = Properties.Resources.add;
             btAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btAdd.Location = new Point(261, 10);
+            btAdd.Location = new Point(255, 13);
             btAdd.Name = "btAdd";
             btAdd.Size = new Size(118, 49);
-            btAdd.TabIndex = 3;
+            btAdd.TabIndex = 5;
             btAdd.Text = "Thêm mới";
             btAdd.TextAlign = ContentAlignment.MiddleRight;
             btAdd.UseVisualStyleBackColor = true;
+            btAdd.Click += btAdd_Click;
             // 
-            // label2
+            // label1
             // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F);
-            label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(2228, 17);
-            label2.Name = "label2";
-            label2.Size = new Size(91, 28);
-            label2.TabIndex = 2;
-            label2.Text = "Tìm kiếm";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(21, 14);
-            label4.Name = "label4";
-            label4.Size = new Size(223, 32);
-            label4.TabIndex = 1;
-            label4.Text = "Danh mục Dịch vụ";
-            // 
-            // txtSearch
-            // 
-            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(2325, 14);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(268, 34);
-            txtSearch.TabIndex = 0;
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label1.ForeColor = Color.DarkCyan;
+            label1.Location = new Point(2, 18);
+            label1.Name = "label1";
+            label1.Size = new Size(223, 32);
+            label1.TabIndex = 4;
+            label1.Text = "Danh mục Dịch vụ";
             // 
             // dgvService
             // 
@@ -187,7 +138,8 @@
             dgvService.RowTemplate.Height = 38;
             dgvService.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvService.Size = new Size(984, 461);
-            dgvService.TabIndex = 9;
+            dgvService.TabIndex = 3;
+            dgvService.CellContentClick += dgvService_CellContentClick;
             // 
             // UC_Service
             // 
@@ -199,6 +151,7 @@
             Name = "UC_Service";
             Padding = new Padding(10);
             Size = new Size(1004, 556);
+            Load += UC_Service_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvService).EndInit();
@@ -207,15 +160,11 @@
 
         #endregion
 
-        private Label label3;
-        private TextBox textBox1;
         private Panel panel1;
-        private Label label1;
-        private TextBox textBox2;
-        private Button btAdd;
-        private Label label2;
-        private Label label4;
-        private TextBox txtSearch;
         private DataGridView dgvService;
+        private Button btAdd;
+        private Label label1;
+        private Label label3;
+        private TextBox txtSearch;
     }
 }

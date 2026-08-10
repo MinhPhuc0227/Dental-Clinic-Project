@@ -30,17 +30,27 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            dgvMedicine = new DataGridView();
             panel1 = new Panel();
+            dgvMedicine = new DataGridView();
             label3 = new Label();
-            textBox1 = new TextBox();
-            btAdd = new Button();
-            label2 = new Label();
-            label1 = new Label();
             txtSearch = new TextBox();
-            ((System.ComponentModel.ISupportInitialize)dgvMedicine).BeginInit();
+            btAdd = new Button();
+            label1 = new Label();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvMedicine).BeginInit();
             SuspendLayout();
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(txtSearch);
+            panel1.Controls.Add(btAdd);
+            panel1.Controls.Add(label1);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(10, 10);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(984, 75);
+            panel1.TabIndex = 0;
             // 
             // dgvMedicine
             // 
@@ -81,23 +91,8 @@
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvMedicine.Size = new Size(984, 461);
-            dgvMedicine.TabIndex = 2;
+            dgvMedicine.TabIndex = 4;
             dgvMedicine.CellContentClick += dgvMedicine_CellContentClick;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.White;
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(btAdd);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(txtSearch);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(10, 10);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(984, 75);
-            panel1.TabIndex = 3;
             // 
             // label3
             // 
@@ -105,67 +100,45 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(606, 16);
+            label3.Location = new Point(610, 21);
             label3.Name = "label3";
             label3.Size = new Size(91, 28);
-            label3.TabIndex = 5;
+            label3.TabIndex = 11;
             label3.Text = "Tìm kiếm";
             // 
-            // textBox1
+            // txtSearch
             // 
-            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            textBox1.Font = new Font("Segoe UI", 12F);
-            textBox1.Location = new Point(703, 13);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(268, 34);
-            textBox1.TabIndex = 4;
-            textBox1.TextChanged += txtSearch_TextChanged;
+            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearch.Font = new Font("Segoe UI", 12F);
+            txtSearch.Location = new Point(707, 18);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(268, 34);
+            txtSearch.TabIndex = 10;
             // 
             // btAdd
             // 
             btAdd.FlatAppearance.BorderSize = 0;
             btAdd.Image = Properties.Resources.add;
             btAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btAdd.Location = new Point(244, 9);
+            btAdd.Location = new Point(262, 13);
             btAdd.Name = "btAdd";
             btAdd.Size = new Size(118, 49);
-            btAdd.TabIndex = 3;
+            btAdd.TabIndex = 9;
             btAdd.Text = "Thêm mới";
             btAdd.TextAlign = ContentAlignment.MiddleRight;
             btAdd.UseVisualStyleBackColor = true;
             btAdd.Click += btAdd_Click;
-            // 
-            // label2
-            // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F);
-            label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(1444, 17);
-            label2.Name = "label2";
-            label2.Size = new Size(91, 28);
-            label2.TabIndex = 2;
-            label2.Text = "Tìm kiếm";
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(21, 14);
+            label1.Location = new Point(9, 18);
             label1.Name = "label1";
             label1.Size = new Size(207, 32);
-            label1.TabIndex = 1;
+            label1.TabIndex = 8;
             label1.Text = "Danh mục Thuốc";
-            // 
-            // txtSearch
-            // 
-            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(1541, 14);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(268, 34);
-            txtSearch.TabIndex = 0;
             // 
             // UC_Medicine
             // 
@@ -178,21 +151,19 @@
             Padding = new Padding(10);
             Size = new Size(1004, 556);
             Load += UC_Medicine_Load;
-            ((System.ComponentModel.ISupportInitialize)dgvMedicine).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvMedicine).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private DataGridView dgvMedicine;
         private Panel panel1;
-        private Button btAdd;
-        private Label label2;
-        private Label label1;
-        private TextBox txtSearch;
+        private DataGridView dgvMedicine;
         private Label label3;
-        private TextBox textBox1;
+        private TextBox txtSearch;
+        private Button btAdd;
+        private Label label1;
     }
 }

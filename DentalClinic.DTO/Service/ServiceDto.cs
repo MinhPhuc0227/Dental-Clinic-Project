@@ -20,9 +20,10 @@ namespace DentalClinic.DTO.Service
         [DisplayName("Mô tả")]
         public string? Description { get; set; }
 
+        [Browsable(false)]
         public ServiceStatus Status { get; set; } = ServiceStatus.Active;
 
         [DisplayName("Trạng thái")]
-        public string StatusDisplay => Status == ServiceStatus.Active ? "Hoạt động" : "Ngừng hoạt động";
+        public string StatusDisplay => Status == ServiceStatus.Active ? "Kinh doanh" : "Ngừng kinh doanh";
     }
 }

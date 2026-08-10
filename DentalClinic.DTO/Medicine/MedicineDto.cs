@@ -26,6 +26,7 @@ namespace DentalClinic.DTO.Medicine
         [DisplayName("Mô tả")]
         public string? Description { get; set; }
 
+        [Browsable(false)]
         public MedicineStatus Status { get; set; } = MedicineStatus.Active;
 
         [DisplayName("Trạng thái")]

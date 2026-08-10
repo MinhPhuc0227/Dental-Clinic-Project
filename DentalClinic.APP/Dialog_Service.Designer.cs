@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lbMedicineId = new Label();
-            txtMedicineName = new TextBox();
+            lbServiceId = new Label();
+            txtServiceName = new TextBox();
             txtUnitPrice = new TextBox();
             label7 = new Label();
             label4 = new Label();
@@ -42,25 +42,25 @@
             label1 = new Label();
             SuspendLayout();
             // 
-            // lbMedicineId
+            // lbServiceId
             // 
-            lbMedicineId.AutoSize = true;
-            lbMedicineId.Font = new Font("Segoe UI Semibold", 12F);
-            lbMedicineId.ForeColor = Color.DarkCyan;
-            lbMedicineId.Location = new Point(140, 17);
-            lbMedicineId.Name = "lbMedicineId";
-            lbMedicineId.Size = new Size(47, 28);
-            lbMedicineId.TabIndex = 44;
-            lbMedicineId.Text = "lbId";
+            lbServiceId.AutoSize = true;
+            lbServiceId.Font = new Font("Segoe UI Semibold", 12F);
+            lbServiceId.ForeColor = Color.DarkCyan;
+            lbServiceId.Location = new Point(140, 17);
+            lbServiceId.Name = "lbServiceId";
+            lbServiceId.Size = new Size(47, 28);
+            lbServiceId.TabIndex = 44;
+            lbServiceId.Text = "lbId";
             // 
-            // txtMedicineName
+            // txtServiceName
             // 
-            txtMedicineName.BorderStyle = BorderStyle.FixedSingle;
-            txtMedicineName.Font = new Font("Segoe UI", 12F);
-            txtMedicineName.Location = new Point(140, 65);
-            txtMedicineName.Name = "txtMedicineName";
-            txtMedicineName.Size = new Size(378, 34);
-            txtMedicineName.TabIndex = 42;
+            txtServiceName.BorderStyle = BorderStyle.FixedSingle;
+            txtServiceName.Font = new Font("Segoe UI", 12F);
+            txtServiceName.Location = new Point(140, 65);
+            txtServiceName.Name = "txtServiceName";
+            txtServiceName.Size = new Size(378, 34);
+            txtServiceName.TabIndex = 42;
             // 
             // txtUnitPrice
             // 
@@ -126,6 +126,7 @@
             btCancel.TabIndex = 32;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
+            btCancel.Click += btCancel_Click;
             // 
             // label3
             // 
@@ -162,6 +163,7 @@
             btSave.TabIndex = 29;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
+            btSave.Click += btSave_Click;
             // 
             // label1
             // 
@@ -181,8 +183,8 @@
             BackColor = Color.White;
             ClientSize = new Size(542, 526);
             ControlBox = false;
-            Controls.Add(lbMedicineId);
-            Controls.Add(txtMedicineName);
+            Controls.Add(lbServiceId);
+            Controls.Add(txtServiceName);
             Controls.Add(txtUnitPrice);
             Controls.Add(label7);
             Controls.Add(label4);
@@ -204,8 +206,8 @@
 
         #endregion
 
-        private Label lbMedicineId;
-        private TextBox txtMedicineName;
+        private Label lbServiceId;
+        private TextBox txtServiceName;
         private TextBox txtUnitPrice;
         private Label label7;
         private Label label4;

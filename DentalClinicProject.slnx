@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="DentalClinic.APP/DentalClinic.APP.csproj" />
+  <Project Path="DentalClinic.BLL/DentalClinic.BLL.csproj" />
+  <Project Path="DentalClinic.DAL/DentalClinic.DAL.csproj" />
+  <Project Path="DentalClinic.DTO/DentalClinic.DTO.csproj" />
+  <Project Path="DentalClinic.MODEL/DentalClinic.MODEL.csproj" />
+</Solution>

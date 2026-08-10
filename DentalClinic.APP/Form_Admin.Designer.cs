@@ -42,7 +42,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.FromArgb(255, 192, 192);
+            panel1.BackColor = Color.DarkCyan;
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -51,7 +51,7 @@
             // 
             // panel2
             // 
-            panel2.BackColor = Color.FromArgb(255, 255, 128);
+            panel2.BackColor = Color.DarkCyan;
             panel2.Dock = DockStyle.Bottom;
             panel2.Location = new Point(0, 513);
             panel2.Name = "panel2";
@@ -60,7 +60,7 @@
             // 
             // panel3
             // 
-            panel3.BackColor = Color.FromArgb(192, 255, 192);
+            panel3.BackColor = Color.DarkCyan;
             panel3.Controls.Add(rbPayment);
             panel3.Controls.Add(rbMedicine);
             panel3.Controls.Add(rbService);
@@ -75,85 +75,85 @@
             // rbPayment
             // 
             rbPayment.Appearance = Appearance.Button;
-            rbPayment.BackColor = Color.White;
+            rbPayment.BackColor = Color.DarkCyan;
             rbPayment.FlatAppearance.BorderSize = 0;
             rbPayment.FlatStyle = FlatStyle.Flat;
-            rbPayment.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbPayment.Font = new Font("Segoe UI Semibold", 12F);
+            rbPayment.ForeColor = Color.White;
             rbPayment.Location = new Point(12, 238);
             rbPayment.Name = "rbPayment";
             rbPayment.Size = new Size(169, 38);
             rbPayment.TabIndex = 1;
             rbPayment.TabStop = true;
             rbPayment.Text = "Thanh toán";
-            rbPayment.TextAlign = ContentAlignment.MiddleCenter;
             rbPayment.UseVisualStyleBackColor = false;
             rbPayment.CheckedChanged += rbPayment_CheckedChanged;
             // 
             // rbMedicine
             // 
             rbMedicine.Appearance = Appearance.Button;
-            rbMedicine.BackColor = Color.White;
+            rbMedicine.BackColor = Color.DarkCyan;
             rbMedicine.FlatAppearance.BorderSize = 0;
             rbMedicine.FlatStyle = FlatStyle.Flat;
-            rbMedicine.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbMedicine.Font = new Font("Segoe UI Semibold", 12F);
+            rbMedicine.ForeColor = Color.White;
             rbMedicine.Location = new Point(12, 185);
             rbMedicine.Name = "rbMedicine";
             rbMedicine.Size = new Size(169, 38);
             rbMedicine.TabIndex = 2;
             rbMedicine.TabStop = true;
             rbMedicine.Text = "Thuốc";
-            rbMedicine.TextAlign = ContentAlignment.MiddleCenter;
             rbMedicine.UseVisualStyleBackColor = false;
             rbMedicine.CheckedChanged += rbMedicine_CheckedChanged;
             // 
             // rbService
             // 
             rbService.Appearance = Appearance.Button;
-            rbService.BackColor = Color.White;
+            rbService.BackColor = Color.DarkCyan;
             rbService.FlatAppearance.BorderSize = 0;
             rbService.FlatStyle = FlatStyle.Flat;
-            rbService.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbService.Font = new Font("Segoe UI Semibold", 12F);
+            rbService.ForeColor = Color.White;
             rbService.Location = new Point(12, 127);
             rbService.Name = "rbService";
             rbService.Size = new Size(169, 38);
             rbService.TabIndex = 3;
             rbService.TabStop = true;
             rbService.Text = "Dịch vụ";
-            rbService.TextAlign = ContentAlignment.MiddleCenter;
             rbService.UseVisualStyleBackColor = false;
             rbService.CheckedChanged += rbService_CheckedChanged;
             // 
             // rbAccount
             // 
             rbAccount.Appearance = Appearance.Button;
-            rbAccount.BackColor = Color.White;
+            rbAccount.BackColor = Color.DarkCyan;
             rbAccount.FlatAppearance.BorderSize = 0;
             rbAccount.FlatStyle = FlatStyle.Flat;
-            rbAccount.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbAccount.Font = new Font("Segoe UI Semibold", 12F);
+            rbAccount.ForeColor = Color.White;
             rbAccount.Location = new Point(12, 74);
             rbAccount.Name = "rbAccount";
             rbAccount.Size = new Size(169, 38);
             rbAccount.TabIndex = 5;
             rbAccount.TabStop = true;
             rbAccount.Text = "Tài khoản";
-            rbAccount.TextAlign = ContentAlignment.MiddleCenter;
             rbAccount.UseVisualStyleBackColor = false;
             rbAccount.CheckedChanged += rbAccount_CheckedChanged;
             // 
             // rbDashBoard
             // 
             rbDashBoard.Appearance = Appearance.Button;
-            rbDashBoard.BackColor = Color.White;
+            rbDashBoard.BackColor = Color.DarkCyan;
             rbDashBoard.FlatAppearance.BorderSize = 0;
             rbDashBoard.FlatStyle = FlatStyle.Flat;
-            rbDashBoard.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbDashBoard.Font = new Font("Segoe UI Semibold", 12F);
+            rbDashBoard.ForeColor = Color.White;
             rbDashBoard.Location = new Point(12, 17);
             rbDashBoard.Name = "rbDashBoard";
             rbDashBoard.Size = new Size(169, 38);
             rbDashBoard.TabIndex = 0;
             rbDashBoard.TabStop = true;
             rbDashBoard.Text = "DashBoard";
-            rbDashBoard.TextAlign = ContentAlignment.MiddleCenter;
             rbDashBoard.UseVisualStyleBackColor = false;
             rbDashBoard.CheckedChanged += rbDashBoard_CheckedChanged;
             // 

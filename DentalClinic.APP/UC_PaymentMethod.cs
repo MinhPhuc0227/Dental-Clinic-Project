@@ -1,23 +1,16 @@
 ﻿using DentalClinic.APP;
 using DentalClinic.BLL;
 using DentalClinic.DTO.PaymentMethod;
-using DentalClinic.MODEL;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace DentalClinic.App
 {
-    public partial class UC_Payment : UserControl
+    public partial class UC_PaymentMethod : UserControl
     {
         private readonly PaymentMethod_BLL _bll = new PaymentMethod_BLL();
 
-        public UC_Payment()
+        public UC_PaymentMethod()
         {
             InitializeComponent();
         }
@@ -62,25 +55,7 @@ namespace DentalClinic.App
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var createDto = new CreatePaymentMethodDto
-                    {
-                        PaymentMethodName = dialog.PaymentData!.PaymentMethodName,
-                        Description = dialog.PaymentData.Description,
-                        IsCash = dialog.PaymentData.IsCash,
-                        Status = dialog.PaymentData.Status
-                    };
-
-                    var result = _bll.Add(createDto);
-
-                    if (result.IsSuccess)
-                    {
-                        MessageBox.Show("Thêm mới phương thức thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadDataToGridView();
-                    }
-                    else
-                    {
-                        MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    LoadDataToGridView();
                 }
             }
         }
@@ -95,37 +70,18 @@ namespace DentalClinic.App
 
             string colName = dgvPaymentMethod.Columns[e.ColumnIndex].Name;
 
-            // Edit 
+            // Edit click
             if (colName == "EditCol")
             {
                 using (var dialog = new Dialog_PaymentMethod(selectedDto))
                 {
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        var updateDto = new UpdatePaymentMethodDto
-                        {
-                            PaymentMethodId = selectedDto.PaymentMethodId,
-                            PaymentMethodName = dialog.PaymentData!.PaymentMethodName,
-                            Description = dialog.PaymentData.Description,
-                            IsCash = dialog.PaymentData.IsCash,
-                            Status = dialog.PaymentData.Status
-                        };
-
-                        var result = _bll.Update(updateDto);
-
-                        if (result.IsSuccess)
-                        {
-                            MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            LoadDataToGridView();
-                        }
-                        else
-                        {
-                            MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        LoadDataToGridView();
                     }
                 }
             }
-            // 2. Delete 
+            // Delete click
             else if (colName == "DeleteCol")
             {
                 var confirm = MessageBox.Show(
@@ -142,7 +98,7 @@ namespace DentalClinic.App
                     if (result.IsSuccess)
                     {
                         MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadDataToGridView(); 
+                        LoadDataToGridView();
                     }
                     else
                     {

@@ -145,7 +145,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(402, 434);
+            ClientSize = new Size(404, 434);
             ControlBox = false;
             Controls.Add(cbStatus);
             Controls.Add(txtDescription);

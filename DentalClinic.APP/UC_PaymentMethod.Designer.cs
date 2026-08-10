@@ -1,6 +1,6 @@
 ﻿namespace DentalClinic.App
 {
-    partial class UC_Payment
+    partial class UC_PaymentMethod
     {
         /// <summary> 
         /// Required designer variable.

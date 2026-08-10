@@ -1,0 +1,220 @@
+﻿namespace DentalClinic.APP
+{
+    partial class Dialog_Service
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            lbMedicineId = new Label();
+            txtMedicineName = new TextBox();
+            txtUnitPrice = new TextBox();
+            label7 = new Label();
+            label4 = new Label();
+            cbStatus = new ComboBox();
+            txtDescription = new TextBox();
+            btCancel = new Button();
+            label3 = new Label();
+            label2 = new Label();
+            btSave = new Button();
+            label1 = new Label();
+            SuspendLayout();
+            // 
+            // lbMedicineId
+            // 
+            lbMedicineId.AutoSize = true;
+            lbMedicineId.Font = new Font("Segoe UI Semibold", 12F);
+            lbMedicineId.ForeColor = Color.DarkCyan;
+            lbMedicineId.Location = new Point(140, 17);
+            lbMedicineId.Name = "lbMedicineId";
+            lbMedicineId.Size = new Size(47, 28);
+            lbMedicineId.TabIndex = 44;
+            lbMedicineId.Text = "lbId";
+            // 
+            // txtMedicineName
+            // 
+            txtMedicineName.BorderStyle = BorderStyle.FixedSingle;
+            txtMedicineName.Font = new Font("Segoe UI", 12F);
+            txtMedicineName.Location = new Point(140, 65);
+            txtMedicineName.Name = "txtMedicineName";
+            txtMedicineName.Size = new Size(378, 34);
+            txtMedicineName.TabIndex = 42;
+            // 
+            // txtUnitPrice
+            // 
+            txtUnitPrice.BorderStyle = BorderStyle.FixedSingle;
+            txtUnitPrice.Font = new Font("Segoe UI", 12F);
+            txtUnitPrice.Location = new Point(140, 117);
+            txtUnitPrice.Name = "txtUnitPrice";
+            txtUnitPrice.Size = new Size(378, 34);
+            txtUnitPrice.TabIndex = 40;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI Semibold", 12F);
+            label7.ForeColor = Color.DarkCyan;
+            label7.Location = new Point(16, 17);
+            label7.Name = "label7";
+            label7.Size = new Size(112, 28);
+            label7.TabIndex = 38;
+            label7.Text = "Mã dịch vụ";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Semibold", 12F);
+            label4.ForeColor = Color.DarkCyan;
+            label4.Location = new Point(16, 120);
+            label4.Name = "label4";
+            label4.Size = new Size(83, 28);
+            label4.TabIndex = 35;
+            label4.Text = "Đơn giá";
+            // 
+            // cbStatus
+            // 
+            cbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbStatus.Font = new Font("Segoe UI", 12F);
+            cbStatus.FormattingEnabled = true;
+            cbStatus.Location = new Point(140, 180);
+            cbStatus.Name = "cbStatus";
+            cbStatus.Size = new Size(270, 36);
+            cbStatus.TabIndex = 34;
+            // 
+            // txtDescription
+            // 
+            txtDescription.BorderStyle = BorderStyle.FixedSingle;
+            txtDescription.Font = new Font("Segoe UI", 12F);
+            txtDescription.Location = new Point(140, 243);
+            txtDescription.Multiline = true;
+            txtDescription.Name = "txtDescription";
+            txtDescription.Size = new Size(378, 186);
+            txtDescription.TabIndex = 33;
+            // 
+            // btCancel
+            // 
+            btCancel.AutoSize = true;
+            btCancel.BackColor = Color.Red;
+            btCancel.FlatStyle = FlatStyle.Flat;
+            btCancel.Font = new Font("Segoe UI Semibold", 12F);
+            btCancel.ForeColor = Color.White;
+            btCancel.Location = new Point(310, 456);
+            btCancel.Name = "btCancel";
+            btCancel.Size = new Size(101, 40);
+            btCancel.TabIndex = 32;
+            btCancel.Text = "Hủy";
+            btCancel.UseVisualStyleBackColor = false;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI Semibold", 12F);
+            label3.ForeColor = Color.DarkCyan;
+            label3.Location = new Point(16, 243);
+            label3.Name = "label3";
+            label3.Size = new Size(65, 28);
+            label3.TabIndex = 31;
+            label3.Text = "Mô tả";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Semibold", 12F);
+            label2.ForeColor = Color.DarkCyan;
+            label2.Location = new Point(16, 184);
+            label2.Name = "label2";
+            label2.Size = new Size(102, 28);
+            label2.TabIndex = 30;
+            label2.Text = "Trạng thái";
+            // 
+            // btSave
+            // 
+            btSave.AutoSize = true;
+            btSave.BackColor = Color.DarkCyan;
+            btSave.FlatStyle = FlatStyle.Flat;
+            btSave.Font = new Font("Segoe UI Semibold", 12F);
+            btSave.ForeColor = Color.White;
+            btSave.Location = new Point(417, 456);
+            btSave.Name = "btSave";
+            btSave.Size = new Size(101, 40);
+            btSave.TabIndex = 29;
+            btSave.Text = "Lưu";
+            btSave.UseVisualStyleBackColor = false;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Semibold", 12F);
+            label1.ForeColor = Color.DarkCyan;
+            label1.Location = new Point(16, 68);
+            label1.Name = "label1";
+            label1.Size = new Size(116, 28);
+            label1.TabIndex = 28;
+            label1.Text = "Tên dịch vụ";
+            // 
+            // Dialog_Service
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
+            ClientSize = new Size(542, 526);
+            ControlBox = false;
+            Controls.Add(lbMedicineId);
+            Controls.Add(txtMedicineName);
+            Controls.Add(txtUnitPrice);
+            Controls.Add(label7);
+            Controls.Add(label4);
+            Controls.Add(cbStatus);
+            Controls.Add(txtDescription);
+            Controls.Add(btCancel);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(btSave);
+            Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Name = "Dialog_Service";
+            ShowIcon = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Dialog_Service";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label lbMedicineId;
+        private TextBox txtMedicineName;
+        private TextBox txtUnitPrice;
+        private Label label7;
+        private Label label4;
+        private ComboBox cbStatus;
+        private TextBox txtDescription;
+        private Button btCancel;
+        private Label label3;
+        private Label label2;
+        private Button btSave;
+        private Label label1;
+    }
+}

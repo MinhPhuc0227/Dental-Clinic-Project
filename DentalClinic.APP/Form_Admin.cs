@@ -15,7 +15,7 @@ namespace DentalClinic.App
         private UC_Account userUC = new UC_Account();
         private UC_Service serviceUC = new UC_Service();
         private UC_Medicine medicineUC = new UC_Medicine();
-        private UC_Payment paymentUC = new UC_Payment();
+        private UC_PaymentMethod paymentUC = new UC_PaymentMethod();
 
         public Form_Admin()
         {

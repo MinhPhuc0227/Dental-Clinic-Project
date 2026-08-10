@@ -11,14 +11,12 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_PaymentMethod : Form
     {
-        public PaymentMethodDto PaymentData { get; private set; }
-        private bool isEditMode = false;
+        public PaymentMethodDto? PaymentData { get; private set; }
 
         // Constructor 1: Adding form
         public Dialog_PaymentMethod()
         {
             InitializeComponent();
-            isEditMode = false;
             this.Text = "Thêm phương thức thanh toán";
             LoadStatusComboBox();
         }
@@ -26,7 +24,6 @@ namespace DentalClinic.APP
         // Constructor 2: Editing form (with existing data)
         public Dialog_PaymentMethod(PaymentMethodDto data) : this()
         {
-            isEditMode = true;
             this.Text = "Sửa phương thức thanh toán";
             PaymentData = data;
 

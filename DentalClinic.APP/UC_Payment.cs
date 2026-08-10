@@ -64,7 +64,7 @@ namespace DentalClinic.App
                 {
                     var createDto = new CreatePaymentMethodDto
                     {
-                        PaymentMethodName = dialog.PaymentData.PaymentMethodName,
+                        PaymentMethodName = dialog.PaymentData!.PaymentMethodName,
                         Description = dialog.PaymentData.Description,
                         IsCash = dialog.PaymentData.IsCash,
                         Status = dialog.PaymentData.Status
@@ -96,7 +96,7 @@ namespace DentalClinic.App
             string colName = dgvPaymentMethod.Columns[e.ColumnIndex].Name;
 
             // Edit 
-            if (colName == "EditCol" || colName == "colSua" || colName == EditCol.Name)
+            if (colName == "EditCol")
             {
                 using (var dialog = new Dialog_PaymentMethod(selectedDto))
                 {
@@ -105,7 +105,7 @@ namespace DentalClinic.App
                         var updateDto = new UpdatePaymentMethodDto
                         {
                             PaymentMethodId = selectedDto.PaymentMethodId,
-                            PaymentMethodName = dialog.PaymentData.PaymentMethodName,
+                            PaymentMethodName = dialog.PaymentData!.PaymentMethodName,
                             Description = dialog.PaymentData.Description,
                             IsCash = dialog.PaymentData.IsCash,
                             Status = dialog.PaymentData.Status
@@ -126,7 +126,7 @@ namespace DentalClinic.App
                 }
             }
             // 2. Delete 
-            else if (colName == "DeleteCol" || colName == "colXoa" || colName == DeleteCol.Name)
+            else if (colName == "DeleteCol")
             {
                 var confirm = MessageBox.Show(
                     $"Bạn có chắc chắn muốn xóa phương thức '{selectedDto.PaymentMethodName}' không?",

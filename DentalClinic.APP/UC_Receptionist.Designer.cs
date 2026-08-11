@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
-            dgvReceptionist = new DataGridView();
             label3 = new Label();
             txtSearch = new TextBox();
             btAdd = new Button();
             label1 = new Label();
+            dgvReceptionist = new DataGridView();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvReceptionist).BeginInit();
             SuspendLayout();
@@ -51,47 +51,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(984, 75);
             panel1.TabIndex = 1;
-            // 
-            // dgvReceptionist
-            // 
-            dgvReceptionist.AllowUserToAddRows = false;
-            dgvReceptionist.AllowUserToDeleteRows = false;
-            dgvReceptionist.AllowUserToOrderColumns = true;
-            dgvReceptionist.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvReceptionist.BackgroundColor = Color.White;
-            dgvReceptionist.BorderStyle = BorderStyle.None;
-            dgvReceptionist.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvReceptionist.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvReceptionist.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            dgvReceptionist.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle6.ForeColor = Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvReceptionist.DefaultCellStyle = dataGridViewCellStyle6;
-            dgvReceptionist.Dock = DockStyle.Fill;
-            dgvReceptionist.EnableHeadersVisualStyles = false;
-            dgvReceptionist.GridColor = Color.DarkCyan;
-            dgvReceptionist.Location = new Point(10, 85);
-            dgvReceptionist.MultiSelect = false;
-            dgvReceptionist.Name = "dgvReceptionist";
-            dgvReceptionist.ReadOnly = true;
-            dgvReceptionist.RowHeadersVisible = false;
-            dgvReceptionist.RowHeadersWidth = 51;
-            dgvReceptionist.RowTemplate.Height = 38;
-            dgvReceptionist.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvReceptionist.Size = new Size(984, 461);
-            dgvReceptionist.TabIndex = 6;
             // 
             // label3
             // 
@@ -113,6 +72,7 @@
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(268, 34);
             txtSearch.TabIndex = 18;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // btAdd
             // 
@@ -126,6 +86,7 @@
             btAdd.Text = "Thêm mới";
             btAdd.TextAlign = ContentAlignment.MiddleRight;
             btAdd.UseVisualStyleBackColor = true;
+            btAdd.Click += btAdd_Click;
             // 
             // label1
             // 
@@ -137,6 +98,48 @@
             label1.Size = new Size(83, 32);
             label1.TabIndex = 16;
             label1.Text = "Lễ tân";
+            // 
+            // dgvReceptionist
+            // 
+            dgvReceptionist.AllowUserToAddRows = false;
+            dgvReceptionist.AllowUserToDeleteRows = false;
+            dgvReceptionist.AllowUserToOrderColumns = true;
+            dgvReceptionist.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvReceptionist.BackgroundColor = Color.White;
+            dgvReceptionist.BorderStyle = BorderStyle.None;
+            dgvReceptionist.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvReceptionist.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvReceptionist.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvReceptionist.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvReceptionist.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvReceptionist.Dock = DockStyle.Fill;
+            dgvReceptionist.EnableHeadersVisualStyles = false;
+            dgvReceptionist.GridColor = Color.DarkCyan;
+            dgvReceptionist.Location = new Point(10, 85);
+            dgvReceptionist.MultiSelect = false;
+            dgvReceptionist.Name = "dgvReceptionist";
+            dgvReceptionist.ReadOnly = true;
+            dgvReceptionist.RowHeadersVisible = false;
+            dgvReceptionist.RowHeadersWidth = 51;
+            dgvReceptionist.RowTemplate.Height = 38;
+            dgvReceptionist.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvReceptionist.Size = new Size(984, 461);
+            dgvReceptionist.TabIndex = 6;
+            dgvReceptionist.CellContentClick += dgvReceptionist_CellContentClick;
             // 
             // UC_Receptionist
             // 
@@ -150,6 +153,7 @@
             Name = "UC_Receptionist";
             Padding = new Padding(10);
             Size = new Size(1004, 556);
+            Load += UC_Receptionist_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvReceptionist).EndInit();

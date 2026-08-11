@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             label9 = new Label();
-            panel2 = new Panel();
+            pnAccount = new Panel();
             lbCreatedDate = new Label();
             cbStatus = new ComboBox();
             txtPassword = new TextBox();
@@ -55,7 +55,7 @@
             txtPhone = new TextBox();
             label4 = new Label();
             label5 = new Label();
-            lbDoctorId = new Label();
+            lbPatientId = new Label();
             label6 = new Label();
             txtFullName = new TextBox();
             label7 = new Label();
@@ -63,7 +63,8 @@
             btCancel = new Button();
             btSave = new Button();
             label17 = new Label();
-            panel2.SuspendLayout();
+            chkCreateAccount = new CheckBox();
+            pnAccount.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -78,25 +79,26 @@
             label9.TabIndex = 58;
             label9.Text = "Tài khoản đăng nhập";
             // 
-            // panel2
+            // pnAccount
             // 
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(lbCreatedDate);
-            panel2.Controls.Add(cbStatus);
-            panel2.Controls.Add(txtPassword);
-            panel2.Controls.Add(cbRole);
-            panel2.Controls.Add(label10);
-            panel2.Controls.Add(label11);
-            panel2.Controls.Add(label12);
-            panel2.Controls.Add(label13);
-            panel2.Controls.Add(lbAccountId);
-            panel2.Controls.Add(label15);
-            panel2.Controls.Add(txtUserName);
-            panel2.Controls.Add(label16);
-            panel2.Location = new Point(569, 98);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(541, 349);
-            panel2.TabIndex = 57;
+            pnAccount.BorderStyle = BorderStyle.FixedSingle;
+            pnAccount.Controls.Add(lbCreatedDate);
+            pnAccount.Controls.Add(cbStatus);
+            pnAccount.Controls.Add(txtPassword);
+            pnAccount.Controls.Add(cbRole);
+            pnAccount.Controls.Add(label10);
+            pnAccount.Controls.Add(label11);
+            pnAccount.Controls.Add(label12);
+            pnAccount.Controls.Add(label13);
+            pnAccount.Controls.Add(lbAccountId);
+            pnAccount.Controls.Add(label15);
+            pnAccount.Controls.Add(txtUserName);
+            pnAccount.Controls.Add(label16);
+            pnAccount.Enabled = false;
+            pnAccount.Location = new Point(569, 98);
+            pnAccount.Name = "pnAccount";
+            pnAccount.Size = new Size(541, 349);
+            pnAccount.TabIndex = 57;
             // 
             // lbCreatedDate
             // 
@@ -238,7 +240,7 @@
             panel1.Controls.Add(txtPhone);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label5);
-            panel1.Controls.Add(lbDoctorId);
+            panel1.Controls.Add(lbPatientId);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(txtFullName);
             panel1.Controls.Add(label7);
@@ -368,16 +370,16 @@
             label5.TabIndex = 36;
             label5.Text = "Giới tính";
             // 
-            // lbDoctorId
+            // lbPatientId
             // 
-            lbDoctorId.AutoSize = true;
-            lbDoctorId.Font = new Font("Segoe UI Semibold", 12F);
-            lbDoctorId.ForeColor = Color.DarkCyan;
-            lbDoctorId.Location = new Point(163, 27);
-            lbDoctorId.Name = "lbDoctorId";
-            lbDoctorId.Size = new Size(89, 28);
-            lbDoctorId.TabIndex = 44;
-            lbDoctorId.Text = "Tự động";
+            lbPatientId.AutoSize = true;
+            lbPatientId.Font = new Font("Segoe UI Semibold", 12F);
+            lbPatientId.ForeColor = Color.DarkCyan;
+            lbPatientId.Location = new Point(163, 27);
+            lbPatientId.Name = "lbPatientId";
+            lbPatientId.Size = new Size(89, 28);
+            lbPatientId.TabIndex = 44;
+            lbPatientId.Text = "Tự động";
             // 
             // label6
             // 
@@ -434,6 +436,7 @@
             btCancel.TabIndex = 54;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
+            btCancel.Click += btCancel_Click;
             // 
             // btSave
             // 
@@ -448,17 +451,30 @@
             btSave.TabIndex = 53;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
+            btSave.Click += btSave_Click;
             // 
             // label17
             // 
             label17.AutoSize = true;
-            label17.Font = new Font("Segoe UI Semibold", 12F);
+            label17.Font = new Font("Segoe UI Semilight", 10F, FontStyle.Italic);
             label17.ForeColor = Color.FromArgb(0, 69, 139);
-            label17.Location = new Point(908, 45);
+            label17.Location = new Point(906, 50);
             label17.Name = "label17";
-            label17.Size = new Size(167, 28);
+            label17.Size = new Size(129, 23);
             label17.TabIndex = 59;
             label17.Text = "(nếu có nhu cầu)";
+            // 
+            // chkCreateAccount
+            // 
+            chkCreateAccount.AutoSize = true;
+            chkCreateAccount.Font = new Font("Segoe UI", 12F);
+            chkCreateAccount.Location = new Point(569, 475);
+            chkCreateAccount.Name = "chkCreateAccount";
+            chkCreateAccount.Size = new Size(152, 32);
+            chkCreateAccount.TabIndex = 60;
+            chkCreateAccount.Text = "Tạo tài khoản";
+            chkCreateAccount.UseVisualStyleBackColor = true;
+            chkCreateAccount.CheckedChanged += chkCreateAccount_CheckedChanged;
             // 
             // Dialog_Patient
             // 
@@ -467,9 +483,10 @@
             BackColor = Color.White;
             ClientSize = new Size(1124, 672);
             ControlBox = false;
+            Controls.Add(chkCreateAccount);
             Controls.Add(label17);
             Controls.Add(label9);
-            Controls.Add(panel2);
+            Controls.Add(pnAccount);
             Controls.Add(panel1);
             Controls.Add(label8);
             Controls.Add(btCancel);
@@ -479,8 +496,8 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Dialog_Patient";
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            pnAccount.ResumeLayout(false);
+            pnAccount.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -490,7 +507,7 @@
         #endregion
 
         private Label label9;
-        private Panel panel2;
+        private Panel pnAccount;
         private Label lbCreatedDate;
         private ComboBox cbStatus;
         private TextBox txtPassword;
@@ -514,7 +531,7 @@
         private TextBox txtPhone;
         private Label label4;
         private Label label5;
-        private Label lbDoctorId;
+        private Label lbPatientId;
         private Label label6;
         private TextBox txtFullName;
         private Label label7;
@@ -524,5 +541,6 @@
         private TextBox txtAddress;
         private Label label14;
         private Label label17;
+        private CheckBox chkCreateAccount;
     }
 }

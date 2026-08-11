@@ -10,9 +10,4 @@
     <ProjectReference Include="..\DentalClinic.MODEL\DentalClinic.MODEL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Patient\" />
-    <Folder Include="Receptionist\" />
-  </ItemGroup>
-
 </Project>

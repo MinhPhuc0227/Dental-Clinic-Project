@@ -409,6 +409,7 @@
             btCancel.TabIndex = 54;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
+            btCancel.Click += btCancel_Click;
             // 
             // btSave
             // 
@@ -423,6 +424,7 @@
             btSave.TabIndex = 53;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
+            btSave.Click += btSave_Click;
             // 
             // Dialog_Receptionist
             // 

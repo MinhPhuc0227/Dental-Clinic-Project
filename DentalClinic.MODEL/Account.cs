@@ -25,6 +25,6 @@ namespace DentalClinic.MODEL
         public string Password { get; set; } = string.Empty;
         public AccountRole Role { get; set; }
         public AccountStatus Status { get; set; } = AccountStatus.Active;
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

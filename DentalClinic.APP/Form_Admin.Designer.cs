@@ -37,6 +37,9 @@
             rbAccount = new RadioButton();
             rbDashBoard = new RadioButton();
             pnContent = new Panel();
+            rbPatient = new RadioButton();
+            rbReceptionist = new RadioButton();
+            rbDoctor = new RadioButton();
             panel3.SuspendLayout();
             SuspendLayout();
             // 
@@ -53,7 +56,7 @@
             // 
             panel2.BackColor = Color.DarkCyan;
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(0, 513);
+            panel2.Location = new Point(0, 545);
             panel2.Name = "panel2";
             panel2.Size = new Size(1019, 63);
             panel2.TabIndex = 1;
@@ -61,15 +64,18 @@
             // panel3
             // 
             panel3.BackColor = Color.DarkCyan;
-            panel3.Controls.Add(rbPayment);
             panel3.Controls.Add(rbMedicine);
             panel3.Controls.Add(rbService);
+            panel3.Controls.Add(rbDoctor);
+            panel3.Controls.Add(rbPayment);
+            panel3.Controls.Add(rbReceptionist);
+            panel3.Controls.Add(rbPatient);
             panel3.Controls.Add(rbAccount);
             panel3.Controls.Add(rbDashBoard);
             panel3.Dock = DockStyle.Left;
             panel3.Location = new Point(0, 56);
             panel3.Name = "panel3";
-            panel3.Size = new Size(199, 457);
+            panel3.Size = new Size(199, 489);
             panel3.TabIndex = 2;
             // 
             // rbPayment
@@ -80,7 +86,7 @@
             rbPayment.FlatStyle = FlatStyle.Flat;
             rbPayment.Font = new Font("Segoe UI Semibold", 12F);
             rbPayment.ForeColor = Color.White;
-            rbPayment.Location = new Point(12, 238);
+            rbPayment.Location = new Point(12, 416);
             rbPayment.Name = "rbPayment";
             rbPayment.Size = new Size(169, 38);
             rbPayment.TabIndex = 1;
@@ -97,7 +103,7 @@
             rbMedicine.FlatStyle = FlatStyle.Flat;
             rbMedicine.Font = new Font("Segoe UI Semibold", 12F);
             rbMedicine.ForeColor = Color.White;
-            rbMedicine.Location = new Point(12, 185);
+            rbMedicine.Location = new Point(12, 359);
             rbMedicine.Name = "rbMedicine";
             rbMedicine.Size = new Size(169, 38);
             rbMedicine.TabIndex = 2;
@@ -114,7 +120,7 @@
             rbService.FlatStyle = FlatStyle.Flat;
             rbService.Font = new Font("Segoe UI Semibold", 12F);
             rbService.ForeColor = Color.White;
-            rbService.Location = new Point(12, 127);
+            rbService.Location = new Point(12, 302);
             rbService.Name = "rbService";
             rbService.Size = new Size(169, 38);
             rbService.TabIndex = 3;
@@ -163,14 +169,65 @@
             pnContent.Dock = DockStyle.Fill;
             pnContent.Location = new Point(199, 56);
             pnContent.Name = "pnContent";
-            pnContent.Size = new Size(820, 457);
+            pnContent.Size = new Size(820, 489);
             pnContent.TabIndex = 3;
+            // 
+            // rbPatient
+            // 
+            rbPatient.Appearance = Appearance.Button;
+            rbPatient.BackColor = Color.DarkCyan;
+            rbPatient.FlatAppearance.BorderSize = 0;
+            rbPatient.FlatStyle = FlatStyle.Flat;
+            rbPatient.Font = new Font("Segoe UI Semibold", 12F);
+            rbPatient.ForeColor = Color.White;
+            rbPatient.Location = new Point(12, 245);
+            rbPatient.Name = "rbPatient";
+            rbPatient.Size = new Size(169, 38);
+            rbPatient.TabIndex = 6;
+            rbPatient.TabStop = true;
+            rbPatient.Text = "Bệnh nhân";
+            rbPatient.UseVisualStyleBackColor = false;
+            rbPatient.CheckedChanged += rbPatient_CheckedChanged;
+            // 
+            // rbReceptionist
+            // 
+            rbReceptionist.Appearance = Appearance.Button;
+            rbReceptionist.BackColor = Color.DarkCyan;
+            rbReceptionist.FlatAppearance.BorderSize = 0;
+            rbReceptionist.FlatStyle = FlatStyle.Flat;
+            rbReceptionist.Font = new Font("Segoe UI Semibold", 12F);
+            rbReceptionist.ForeColor = Color.White;
+            rbReceptionist.Location = new Point(12, 188);
+            rbReceptionist.Name = "rbReceptionist";
+            rbReceptionist.Size = new Size(169, 38);
+            rbReceptionist.TabIndex = 7;
+            rbReceptionist.TabStop = true;
+            rbReceptionist.Text = "Lễ tân";
+            rbReceptionist.UseVisualStyleBackColor = false;
+            rbReceptionist.CheckedChanged += rbReceptionist_CheckedChanged;
+            // 
+            // rbDoctor
+            // 
+            rbDoctor.Appearance = Appearance.Button;
+            rbDoctor.BackColor = Color.DarkCyan;
+            rbDoctor.FlatAppearance.BorderSize = 0;
+            rbDoctor.FlatStyle = FlatStyle.Flat;
+            rbDoctor.Font = new Font("Segoe UI Semibold", 12F);
+            rbDoctor.ForeColor = Color.White;
+            rbDoctor.Location = new Point(12, 131);
+            rbDoctor.Name = "rbDoctor";
+            rbDoctor.Size = new Size(169, 38);
+            rbDoctor.TabIndex = 8;
+            rbDoctor.TabStop = true;
+            rbDoctor.Text = "Bác sĩ";
+            rbDoctor.UseVisualStyleBackColor = false;
+            rbDoctor.CheckedChanged += rbDoctor_CheckedChanged;
             // 
             // Form_Admin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1019, 576);
+            ClientSize = new Size(1019, 608);
             Controls.Add(pnContent);
             Controls.Add(panel3);
             Controls.Add(panel2);
@@ -194,5 +251,8 @@
         private RadioButton rbService;
         private RadioButton rbMedicine;
         private RadioButton rbPayment;
+        private RadioButton rbDoctor;
+        private RadioButton rbReceptionist;
+        private RadioButton rbPatient;
     }
 }

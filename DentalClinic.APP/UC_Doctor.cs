@@ -1,5 +1,5 @@
 ﻿using DentalClinic.BLL;
-using DentalClinic.DTO.Account;
+using DentalClinic.DTO.Doctor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,26 +10,26 @@ using System.Windows.Forms;
 
 namespace DentalClinic.APP
 {
-    public partial class UC_Account : UserControl
+    public partial class UC_Doctor : UserControl
     {
-        private readonly Account_BLL _bll = new Account_BLL();
-        private List<AccountDto> _fullList = new List<AccountDto>();
+        private readonly Doctor_BLL _bll = new Doctor_BLL();
+        private List<DoctorDto> _fullList = new List<DoctorDto>();
 
-        public UC_Account()
+        public UC_Doctor()
         {
             InitializeComponent();
         }
 
-        private void UC_Account_Load(object sender, EventArgs e)
+        private void UC_Doctor_Load(object sender, EventArgs e)
         {
             ConfigureDataGridView();
             LoadDataToGridView();
         }
 
-        // Config datagridview 
+        // Config datagridview
         private void ConfigureDataGridView()
         {
-            dgvAccount.AutoGenerateColumns = true;
+            dgvDoctor.AutoGenerateColumns = true;
         }
 
         // Load data to datagridview
@@ -40,7 +40,7 @@ namespace DentalClinic.APP
             if (result.IsSuccess && result.Data != null)
             {
                 _fullList = result.Data;
-                dgvAccount.DataSource = _fullList;
+                dgvDoctor.DataSource = _fullList;
                 AddActionImageColumns();
             }
             else
@@ -52,20 +52,20 @@ namespace DentalClinic.APP
         // Add edit and delete image columns 
         private void AddActionImageColumns()
         {
-            if (!dgvAccount.Columns.Contains("EditCol"))
+            if (!dgvDoctor.Columns.Contains("EditCol"))
             {
                 var imgEdit = new DataGridViewImageColumn
                 {
                     Name = "EditCol",
-                    HeaderText = "Sửa / Đổi MK",
+                    HeaderText = "Sửa",
                     Image = SystemIcons.Information.ToBitmap(),
-                    Width = 80,
+                    Width = 50,
                     ImageLayout = DataGridViewImageCellLayout.Zoom
                 };
-                dgvAccount.Columns.Add(imgEdit);
+                dgvDoctor.Columns.Add(imgEdit);
             }
 
-            if (!dgvAccount.Columns.Contains("DeleteCol"))
+            if (!dgvDoctor.Columns.Contains("DeleteCol"))
             {
                 var imgDelete = new DataGridViewImageColumn
                 {
@@ -75,24 +75,36 @@ namespace DentalClinic.APP
                     Width = 50,
                     ImageLayout = DataGridViewImageCellLayout.Zoom
                 };
-                dgvAccount.Columns.Add(imgDelete);
+                dgvDoctor.Columns.Add(imgDelete);
             }
         }
 
-        // Cellcontentclick (Edit/Delete) 
-        private void dgvAccount_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        // Add button
+        private void btAdd_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new Dialog_Doctor())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    LoadDataToGridView();
+                }
+            }
+        }
+
+        // Cellcontentclick (Edit/Delete)
+        private void dgvDoctor_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            var selectedDto = dgvAccount.Rows[e.RowIndex].DataBoundItem as AccountDto;
+            var selectedDto = dgvDoctor.Rows[e.RowIndex].DataBoundItem as DoctorDto;
             if (selectedDto == null) return;
 
-            string colName = dgvAccount.Columns[e.ColumnIndex].Name;
+            string colName = dgvDoctor.Columns[e.ColumnIndex].Name;
 
             // EDIT
             if (colName == "EditCol")
             {
-                using (var dialog = new Dialog_Account(selectedDto))
+                using (var dialog = new Dialog_Doctor(selectedDto))
                 {
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
@@ -104,7 +116,7 @@ namespace DentalClinic.APP
             else if (colName == "DeleteCol")
             {
                 var confirm = MessageBox.Show(
-                    $"Bạn có chắc chắn muốn xóa tài khoản '{selectedDto.UserName}' không?",
+                    $"Bạn có chắc chắn muốn xóa bác sĩ '{selectedDto.FullName}' và tài khoản liên quan không?",
                     "Xác nhận xóa",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
@@ -112,7 +124,7 @@ namespace DentalClinic.APP
 
                 if (confirm == DialogResult.Yes)
                 {
-                    var result = _bll.Delete(selectedDto.AccountId);
+                    var result = _bll.Delete(selectedDto.DoctorId);
 
                     if (result.IsSuccess)
                     {
@@ -133,14 +145,14 @@ namespace DentalClinic.APP
             string keyword = txtSearch.Text.Trim().ToLower();
             if (string.IsNullOrEmpty(keyword))
             {
-                dgvAccount.DataSource = _fullList;
+                dgvDoctor.DataSource = _fullList;
             }
             else
             {
-                var filtered = _fullList.Where(a => a.UserName.ToLower().Contains(keyword)
-                                                 || a.RoleDisplay.ToLower().Contains(keyword)
-                                                 || a.StatusDisplay.ToLower().Contains(keyword)).ToList();
-                dgvAccount.DataSource = filtered;
+                var filtered = _fullList.Where(d => d.FullName.ToLower().Contains(keyword)
+                                                 || d.Phone.Contains(keyword)
+                                                 || d.UserName.ToLower().Contains(keyword)).ToList();
+                dgvDoctor.DataSource = filtered;
             }
         }
     }

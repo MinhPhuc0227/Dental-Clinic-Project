@@ -257,10 +257,12 @@
             Controls.Add(btSave);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 12F);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Margin = new Padding(4);
             Name = "Dialog_Medicine";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
+            Text = "Dialog_Medicine";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -12,6 +12,7 @@ namespace DentalClinic.MODEL
         public DateOnly DateOfBirth { get; set; }
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         // Foreign Key
         public int AccountId { get; set; }

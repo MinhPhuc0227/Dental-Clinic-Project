@@ -18,7 +18,7 @@ namespace DentalClinic.MODEL
 
         public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
         public string? Note { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         // Foreign Key
         public int PatientId { get; set; }

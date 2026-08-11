@@ -75,8 +75,8 @@ namespace DentalClinic.DAL
                       .HasMaxLength(20)
                       .HasDefaultValue(AccountStatus.Active);
 
-                // CreatedAt
-                entity.Property(a => a.CreatedAt)
+                // CreatedDate
+                entity.Property(a => a.CreatedDate)
                       .IsRequired()
                       .HasDefaultValueSql("GETDATE()");
             });
@@ -165,6 +165,11 @@ namespace DentalClinic.DAL
                 entity.Property(r => r.Email)
                       .IsRequired()
                       .HasMaxLength(100);
+
+                // Description
+                entity.Property(r => r.Description)
+                      .IsRequired(false)
+                      .HasMaxLength(1000); 
 
                 // Relationship: Account (1-1)
                 entity.HasOne(r => r.Account)
@@ -321,8 +326,8 @@ namespace DentalClinic.DAL
                       .IsRequired(false)
                       .HasMaxLength(1000);
 
-                // CreatedAt
-                entity.Property(a => a.CreatedAt)
+                // CreatedDate
+                entity.Property(a => a.CreatedDate)
                       .IsRequired()
                       .HasDefaultValueSql("GETDATE()");
 

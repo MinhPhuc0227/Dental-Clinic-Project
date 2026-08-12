@@ -36,13 +36,6 @@
             label2 = new Label();
             label1 = new Label();
             txtSearch = new TextBox();
-            IdCol = new DataGridViewTextBoxColumn();
-            NameCol = new DataGridViewTextBoxColumn();
-            DescriptionCol = new DataGridViewTextBoxColumn();
-            IsCashCol = new DataGridViewCheckBoxColumn();
-            StatusCol = new DataGridViewTextBoxColumn();
-            EditCol = new DataGridViewImageColumn();
-            DeleteCol = new DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)dgvPaymentMethod).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -66,7 +59,6 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvPaymentMethod.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvPaymentMethod.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPaymentMethod.Columns.AddRange(new DataGridViewColumn[] { IdCol, NameCol, DescriptionCol, IsCashCol, StatusCol, EditCol, DeleteCol });
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.White;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
@@ -148,77 +140,16 @@
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(268, 34);
             txtSearch.TabIndex = 0;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
-            // IdCol
-            // 
-            IdCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            IdCol.DataPropertyName = "PaymentMethodId";
-            IdCol.HeaderText = "ID";
-            IdCol.MinimumWidth = 6;
-            IdCol.Name = "IdCol";
-            IdCol.ReadOnly = true;
-            IdCol.Width = 59;
-            // 
-            // NameCol
-            // 
-            NameCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            NameCol.DataPropertyName = "PaymentMethodName";
-            NameCol.HeaderText = "Phương thức";
-            NameCol.MinimumWidth = 6;
-            NameCol.Name = "NameCol";
-            NameCol.ReadOnly = true;
-            // 
-            // DescriptionCol
-            // 
-            DescriptionCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            DescriptionCol.DataPropertyName = "Description";
-            DescriptionCol.HeaderText = "Mô tả";
-            DescriptionCol.MinimumWidth = 6;
-            DescriptionCol.Name = "DescriptionCol";
-            DescriptionCol.ReadOnly = true;
-            // 
-            // IsCashCol
-            // 
-            IsCashCol.HeaderText = "Bằng tiền mặt";
-            IsCashCol.MinimumWidth = 6;
-            IsCashCol.Name = "IsCashCol";
-            IsCashCol.ReadOnly = true;
-            // 
-            // StatusCol
-            // 
-            StatusCol.HeaderText = "Trang thái";
-            StatusCol.MinimumWidth = 6;
-            StatusCol.Name = "StatusCol";
-            StatusCol.ReadOnly = true;
-            // 
-            // EditCol
-            // 
-            EditCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            EditCol.HeaderText = "Sửa";
-            EditCol.Image = APP.Properties.Resources.edit;
-            EditCol.MinimumWidth = 6;
-            EditCol.Name = "EditCol";
-            EditCol.ReadOnly = true;
-            EditCol.Width = 49;
-            // 
-            // DeleteCol
-            // 
-            DeleteCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            DeleteCol.HeaderText = "Xóa";
-            DeleteCol.Image = APP.Properties.Resources.delete;
-            DeleteCol.MinimumWidth = 6;
-            DeleteCol.Name = "DeleteCol";
-            DeleteCol.ReadOnly = true;
-            DeleteCol.Width = 50;
-            // 
-            // UC_Payment
+            // UC_PaymentMethod
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             Controls.Add(dgvPaymentMethod);
             Controls.Add(panel1);
-            Name = "UC_Payment";
+            Name = "UC_PaymentMethod";
             Padding = new Padding(10);
             Size = new Size(1065, 479);
             Load += UC_Payment_Load;
@@ -236,12 +167,5 @@
         private Label label2;
         private Label label1;
         private Button btAdd;
-        private DataGridViewTextBoxColumn IdCol;
-        private DataGridViewTextBoxColumn NameCol;
-        private DataGridViewTextBoxColumn DescriptionCol;
-        private DataGridViewCheckBoxColumn IsCashCol;
-        private DataGridViewTextBoxColumn StatusCol;
-        private DataGridViewImageColumn EditCol;
-        private DataGridViewImageColumn DeleteCol;
     }
 }

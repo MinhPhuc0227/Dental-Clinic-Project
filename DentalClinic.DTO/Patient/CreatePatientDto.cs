@@ -25,8 +25,15 @@ namespace DentalClinic.DTO.Patient
         [StringLength(20, ErrorMessage = "Số điện thoại không được vượt quá 20 ký tự.")]
         public string Phone { get; set; } = string.Empty;
 
+        private string? _email;
+
         [EmailAddress(ErrorMessage = "Email không đúng định dạng.")]
-        public string? Email { get; set; }
+        [StringLength(100, ErrorMessage = "Email không được vượt quá 100 ký tự.")]
+        public string? Email
+        {
+            get => _email;
+            set => _email = string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+        }
 
         [StringLength(255, ErrorMessage = "Địa chỉ không vượt quá 255 ký tự.")]
         public string? Address { get; set; }

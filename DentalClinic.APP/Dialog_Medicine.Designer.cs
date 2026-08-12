@@ -55,7 +55,7 @@
             cbStatus.Location = new Point(143, 229);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(270, 36);
-            cbStatus.TabIndex = 17;
+            cbStatus.TabIndex = 4;
             // 
             // txtDescription
             // 
@@ -64,8 +64,9 @@
             txtDescription.Location = new Point(143, 344);
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
+            txtDescription.ScrollBars = ScrollBars.Vertical;
             txtDescription.Size = new Size(378, 186);
-            txtDescription.TabIndex = 16;
+            txtDescription.TabIndex = 5;
             // 
             // btCancel
             // 
@@ -77,7 +78,7 @@
             btCancel.Location = new Point(313, 550);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 15;
+            btCancel.TabIndex = 6;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
@@ -114,7 +115,7 @@
             btSave.Location = new Point(420, 550);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
-            btSave.TabIndex = 12;
+            btSave.TabIndex = 7;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
@@ -181,7 +182,7 @@
             txtQuantityInStock.Location = new Point(372, 282);
             txtQuantityInStock.Name = "txtQuantityInStock";
             txtQuantityInStock.Size = new Size(149, 34);
-            txtQuantityInStock.TabIndex = 22;
+            txtQuantityInStock.TabIndex = 4;
             // 
             // txtUnitPrice
             // 
@@ -190,7 +191,7 @@
             txtUnitPrice.Location = new Point(143, 178);
             txtUnitPrice.Name = "txtUnitPrice";
             txtUnitPrice.Size = new Size(378, 34);
-            txtUnitPrice.TabIndex = 23;
+            txtUnitPrice.TabIndex = 3;
             // 
             // txtUnit
             // 
@@ -199,7 +200,7 @@
             txtUnit.Location = new Point(143, 127);
             txtUnit.Name = "txtUnit";
             txtUnit.Size = new Size(378, 34);
-            txtUnit.TabIndex = 24;
+            txtUnit.TabIndex = 2;
             // 
             // txtMedicineName
             // 
@@ -208,7 +209,7 @@
             txtMedicineName.Location = new Point(143, 76);
             txtMedicineName.Name = "txtMedicineName";
             txtMedicineName.Size = new Size(378, 34);
-            txtMedicineName.TabIndex = 25;
+            txtMedicineName.TabIndex = 1;
             // 
             // lbQuantityInStock
             // 
@@ -234,9 +235,11 @@
             // 
             // Dialog_Medicine
             // 
+            AcceptButton = btSave;
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btCancel;
             ClientSize = new Size(544, 606);
             ControlBox = false;
             Controls.Add(lbMedicineId);
@@ -262,7 +265,8 @@
             Name = "Dialog_Medicine";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dialog_Medicine";
+            Text = "Thuốc";
+            Load += Dialog_Medicine_Load;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -82,7 +82,7 @@
             txtFullName.Location = new Point(136, 75);
             txtFullName.Name = "txtFullName";
             txtFullName.Size = new Size(378, 34);
-            txtFullName.TabIndex = 42;
+            txtFullName.TabIndex = 1;
             // 
             // label7
             // 
@@ -137,7 +137,7 @@
             txtDescription.Name = "txtDescription";
             txtDescription.ScrollBars = ScrollBars.Vertical;
             txtDescription.Size = new Size(378, 186);
-            txtDescription.TabIndex = 33;
+            txtDescription.TabIndex = 6;
             // 
             // btCancel
             // 
@@ -149,7 +149,7 @@
             btCancel.Location = new Point(880, 594);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 32;
+            btCancel.TabIndex = 11;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
@@ -186,7 +186,7 @@
             btSave.Location = new Point(987, 594);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
-            btSave.TabIndex = 29;
+            btSave.TabIndex = 12;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
@@ -209,7 +209,7 @@
             txtPhone.Location = new Point(136, 232);
             txtPhone.Name = "txtPhone";
             txtPhone.Size = new Size(378, 34);
-            txtPhone.TabIndex = 46;
+            txtPhone.TabIndex = 4;
             // 
             // cbGender
             // 
@@ -218,15 +218,17 @@
             cbGender.Location = new Point(136, 126);
             cbGender.Name = "cbGender";
             cbGender.Size = new Size(378, 36);
-            cbGender.TabIndex = 47;
+            cbGender.TabIndex = 2;
             // 
             // dtpDateOfBirth
             // 
+            dtpDateOfBirth.CustomFormat = "dd/MM/yyyy";
             dtpDateOfBirth.Font = new Font("Segoe UI", 12F);
+            dtpDateOfBirth.Format = DateTimePickerFormat.Custom;
             dtpDateOfBirth.Location = new Point(136, 182);
             dtpDateOfBirth.Name = "dtpDateOfBirth";
             dtpDateOfBirth.Size = new Size(378, 34);
-            dtpDateOfBirth.TabIndex = 48;
+            dtpDateOfBirth.TabIndex = 3;
             // 
             // label8
             // 
@@ -268,7 +270,7 @@
             txtEmail.Location = new Point(136, 284);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(378, 34);
-            txtEmail.TabIndex = 49;
+            txtEmail.TabIndex = 5;
             // 
             // panel2
             // 
@@ -308,7 +310,7 @@
             cbStatus.Location = new Point(168, 232);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(348, 36);
-            cbStatus.TabIndex = 60;
+            cbStatus.TabIndex = 10;
             // 
             // txtPassword
             // 
@@ -316,8 +318,9 @@
             txtPassword.Font = new Font("Segoe UI", 12F);
             txtPassword.Location = new Point(168, 129);
             txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '•';
             txtPassword.Size = new Size(348, 34);
-            txtPassword.TabIndex = 59;
+            txtPassword.TabIndex = 8;
             // 
             // cbRole
             // 
@@ -327,7 +330,7 @@
             cbRole.Location = new Point(168, 180);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(348, 36);
-            cbRole.TabIndex = 49;
+            cbRole.TabIndex = 9;
             // 
             // label10
             // 
@@ -402,7 +405,7 @@
             txtUserName.Location = new Point(168, 75);
             txtUserName.Name = "txtUserName";
             txtUserName.Size = new Size(348, 34);
-            txtUserName.TabIndex = 55;
+            txtUserName.TabIndex = 7;
             // 
             // label16
             // 
@@ -428,9 +431,11 @@
             // 
             // Dialog_Doctor
             // 
+            AcceptButton = btSave;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btCancel;
             ClientSize = new Size(1124, 672);
             ControlBox = false;
             Controls.Add(label9);
@@ -443,7 +448,8 @@
             Name = "Dialog_Doctor";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dialog_Doctor";
+            Text = "Bác sĩ";
+            Load += Dialog_Doctor_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);

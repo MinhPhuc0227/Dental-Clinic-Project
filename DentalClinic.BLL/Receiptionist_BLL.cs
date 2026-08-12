@@ -45,7 +45,7 @@ namespace DentalClinic.BLL
         // Add
         public Result Add(CreateReceptionistDto dto)
         {
-            var validationError = ValidateDto(dto);
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
 
             if (string.IsNullOrWhiteSpace(dto.Password))
@@ -90,7 +90,7 @@ namespace DentalClinic.BLL
         // Update
         public Result Update(UpdateReceptionistDto dto)
         {
-            var validationError = ValidateDto(dto);
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
 
             if (_dal.IsPhoneExists(dto.Phone.Trim(), dto.ReceptionistId))
@@ -145,16 +145,6 @@ namespace DentalClinic.BLL
             {
                 return Result.Failure("Không thể xóa lễ tân này do đã có dữ liệu giao dịch/tiếp nhận liên quan.");
             }
-        }
-
-        // ValidateDto
-        private string? ValidateDto(object dto)
-        {
-            var context = new ValidationContext(dto);
-            var results = new List<ValidationResult>();
-            if (!Validator.TryValidateObject(dto, context, results, validateAllProperties: true))
-                return results.FirstOrDefault()?.ErrorMessage;
-            return null;
         }
     }
 }

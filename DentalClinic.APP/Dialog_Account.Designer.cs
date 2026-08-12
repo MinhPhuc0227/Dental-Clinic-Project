@@ -61,7 +61,6 @@
             // 
             // panel2
             // 
-            panel2.BorderStyle = BorderStyle.FixedSingle;
             panel2.Controls.Add(label1);
             panel2.Controls.Add(lbCreatedDate);
             panel2.Controls.Add(cbStatus);
@@ -110,7 +109,7 @@
             cbStatus.Location = new Point(168, 253);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(348, 36);
-            cbStatus.TabIndex = 60;
+            cbStatus.TabIndex = 4;
             // 
             // txtPassword
             // 
@@ -120,7 +119,7 @@
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '•';
             txtPassword.Size = new Size(348, 34);
-            txtPassword.TabIndex = 59;
+            txtPassword.TabIndex = 2;
             // 
             // cbRole
             // 
@@ -129,7 +128,7 @@
             cbRole.Location = new Point(168, 201);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(348, 36);
-            cbRole.TabIndex = 49;
+            cbRole.TabIndex = 3;
             // 
             // label10
             // 
@@ -204,7 +203,7 @@
             txtUserName.Location = new Point(168, 75);
             txtUserName.Name = "txtUserName";
             txtUserName.Size = new Size(348, 34);
-            txtUserName.TabIndex = 55;
+            txtUserName.TabIndex = 1;
             // 
             // label16
             // 
@@ -227,7 +226,7 @@
             btCancel.Location = new Point(345, 502);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 56;
+            btCancel.TabIndex = 5;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
@@ -242,16 +241,17 @@
             btSave.Location = new Point(452, 502);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
-            btSave.TabIndex = 55;
+            btSave.TabIndex = 6;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
             // 
             // Dialog_Account
             // 
-            AutoScaleDimensions = new SizeF(11F, 28F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AcceptButton = btSave;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
+            CancelButton = btCancel;
             ClientSize = new Size(572, 554);
             ControlBox = false;
             Controls.Add(btCancel);
@@ -265,6 +265,7 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Chỉnh sửa tài khoản";
+            Load += Dialog_Account_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ResumeLayout(false);

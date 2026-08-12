@@ -45,7 +45,14 @@ namespace DentalClinic.BLL
         // Add
         public Result Add(CreatePatientDto dto)
         {
-            var validationError = ValidateDto(dto);
+            // When no need account for patient (avoid dto error message)
+            if (!dto.CreateAccount)
+            {
+                dto.UserName = null;
+                dto.Password = null;
+            }
+
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
 
             if (_dal.IsPhoneExists(dto.Phone.Trim()))
@@ -96,34 +103,58 @@ namespace DentalClinic.BLL
         // Update
         public Result Update(UpdatePatientDto dto)
         {
-            var validationError = ValidateDto(dto);
+            if (!dto.AccountId.HasValue && !dto.CreateAccount)
+            {
+                dto.UserName = null;
+                dto.Password = null;
+            }
+
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
 
             if (_dal.IsPhoneExists(dto.Phone.Trim(), dto.PatientId))
                 return Result.Failure("Số điện thoại trùng với bệnh nhân khác.");
 
-            if (dto.AccountId.HasValue && !string.IsNullOrWhiteSpace(dto.UserName))
-            {
-                if (_dal.IsUserNameExists(dto.UserName.Trim(), dto.AccountId.Value))
-                    return Result.Failure("Tên đăng nhập trùng với tài khoản khác.");
-            }
+            Account? account = null;
+            bool hasNewPassword = false;
 
-            bool hasNewPassword = !string.IsNullOrWhiteSpace(dto.Password);
+            // Case 1: no account yet and tick "Create account" checkbox
+            if (!dto.AccountId.HasValue && dto.CreateAccount)
+            {
+                string userName = string.IsNullOrWhiteSpace(dto.UserName) ? dto.Phone.Trim() : dto.UserName.Trim();
+                if (_dal.IsUserNameExists(userName))
+                    return Result.Failure("Tên đăng nhập đã tồn tại trong hệ thống.");
+
+                string password = string.IsNullOrWhiteSpace(dto.Password) ? "123456" : dto.Password.Trim();
+
+                account = new Account
+                {
+                    UserName = userName,
+                    Password = password,
+                    Role = AccountRole.Patient,
+                    Status = dto.Status,
+                    CreatedDate = DateTime.Now
+                };
+            }
+            // Case 2: already hava an account -> update existing account
+            else if (dto.AccountId.HasValue)
+            {
+                if (!string.IsNullOrWhiteSpace(dto.UserName) && _dal.IsUserNameExists(dto.UserName.Trim(), dto.AccountId.Value))
+                    return Result.Failure("Tên đăng nhập trùng với tài khoản khác.");
+
+                hasNewPassword = !string.IsNullOrWhiteSpace(dto.Password);
+
+                account = new Account
+                {
+                    AccountId = dto.AccountId.Value,
+                    UserName = dto.UserName?.Trim() ?? string.Empty,
+                    Password = dto.Password?.Trim() ?? string.Empty,
+                    Status = dto.Status
+                };
+            }
 
             try
             {
-                Account? account = null;
-                if (dto.AccountId.HasValue)
-                {
-                    account = new Account
-                    {
-                        AccountId = dto.AccountId.Value,
-                        UserName = dto.UserName?.Trim() ?? string.Empty,
-                        Password = dto.Password?.Trim() ?? string.Empty,
-                        Status = dto.Status
-                    };
-                }
-
                 var patient = new Patient
                 {
                     PatientId = dto.PatientId,
@@ -160,16 +191,6 @@ namespace DentalClinic.BLL
             {
                 return Result.Failure("Không thể xóa bệnh nhân đã có hồ sơ bệnh án hoặc hóa đơn điều trị.");
             }
-        }
-
-        // ValidateDto
-        private string? ValidateDto(object dto)
-        {
-            var context = new ValidationContext(dto);
-            var results = new List<ValidationResult>();
-            if (!Validator.TryValidateObject(dto, context, results, validateAllProperties: true))
-                return results.FirstOrDefault()?.ErrorMessage;
-            return null;
         }
     }
 }

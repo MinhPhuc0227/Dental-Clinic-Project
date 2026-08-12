@@ -60,7 +60,7 @@
             txtServiceName.Location = new Point(140, 65);
             txtServiceName.Name = "txtServiceName";
             txtServiceName.Size = new Size(378, 34);
-            txtServiceName.TabIndex = 42;
+            txtServiceName.TabIndex = 1;
             // 
             // txtUnitPrice
             // 
@@ -69,7 +69,7 @@
             txtUnitPrice.Location = new Point(140, 117);
             txtUnitPrice.Name = "txtUnitPrice";
             txtUnitPrice.Size = new Size(378, 34);
-            txtUnitPrice.TabIndex = 40;
+            txtUnitPrice.TabIndex = 2;
             // 
             // label7
             // 
@@ -101,7 +101,7 @@
             cbStatus.Location = new Point(140, 180);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(270, 36);
-            cbStatus.TabIndex = 34;
+            cbStatus.TabIndex = 3;
             // 
             // txtDescription
             // 
@@ -110,8 +110,9 @@
             txtDescription.Location = new Point(140, 243);
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
+            txtDescription.ScrollBars = ScrollBars.Vertical;
             txtDescription.Size = new Size(378, 186);
-            txtDescription.TabIndex = 33;
+            txtDescription.TabIndex = 4;
             // 
             // btCancel
             // 
@@ -123,7 +124,7 @@
             btCancel.Location = new Point(310, 456);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 32;
+            btCancel.TabIndex = 5;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
@@ -160,7 +161,7 @@
             btSave.Location = new Point(417, 456);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
-            btSave.TabIndex = 29;
+            btSave.TabIndex = 6;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
@@ -178,9 +179,11 @@
             // 
             // Dialog_Service
             // 
+            AcceptButton = btSave;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btCancel;
             ClientSize = new Size(542, 526);
             ControlBox = false;
             Controls.Add(lbServiceId);
@@ -199,7 +202,8 @@
             Name = "Dialog_Service";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dialog_Service";
+            Text = "Dịch vụ";
+            Load += Dialog_Service_Load;
             ResumeLayout(false);
             PerformLayout();
         }

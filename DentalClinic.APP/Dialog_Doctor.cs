@@ -117,7 +117,7 @@ namespace DentalClinic.APP
                 if (!result.IsSuccess)
                 {
                     MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return; 
+                    return;
                 }
 
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -153,6 +153,11 @@ namespace DentalClinic.APP
 
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void Dialog_Doctor_Load(object sender, EventArgs e)
+        {
+            txtFullName.Focus();
         }
     }
 }

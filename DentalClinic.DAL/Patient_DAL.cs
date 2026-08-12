@@ -97,14 +97,26 @@ namespace DentalClinic.DAL
                         existingPatient.Address = patientEntity.Address;
                         existingPatient.Note = patientEntity.Note;
 
-                        if (accountEntity != null && existingPatient.AccountId.HasValue)
+                        if (accountEntity != null)
                         {
-                            var existingAcc = context.Accounts.FirstOrDefault(a => a.AccountId == existingPatient.AccountId.Value);
-                            if (existingAcc != null)
+                            // Case 1: hasn't had an account yet -> add new account
+                            if (!existingPatient.AccountId.HasValue)
                             {
-                                existingAcc.UserName = accountEntity.UserName;
-                                existingAcc.Status = accountEntity.Status;
-                                if (updatePassword) existingAcc.Password = accountEntity.Password;
+                                context.Accounts.Add(accountEntity);
+                                context.SaveChanges(); 
+
+                                existingPatient.AccountId = accountEntity.AccountId; 
+                            }
+                            // Case 2: already had an account -> update existing account
+                            else
+                            {
+                                var existingAcc = context.Accounts.FirstOrDefault(a => a.AccountId == existingPatient.AccountId.Value);
+                                if (existingAcc != null)
+                                {
+                                    existingAcc.UserName = accountEntity.UserName;
+                                    existingAcc.Status = accountEntity.Status;
+                                    if (updatePassword) existingAcc.Password = accountEntity.Password;
+                                }
                             }
                         }
 

@@ -41,7 +41,7 @@ namespace DentalClinic.BLL
         // 2. Thêm thuốc mới (Dùng Result không tham số data)
         public Result Add(CreateMedicineDto dto)
         {
-            var validationError = ValidateDto(dto);
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
@@ -78,7 +78,7 @@ namespace DentalClinic.BLL
         // 3. Cập nhật thông tin thuốc
         public Result Update(UpdateMedicineDto dto)
         {
-            var validationError = ValidateDto(dto);
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
@@ -132,19 +132,6 @@ namespace DentalClinic.BLL
             {
                 return Result.Failure("Không thể xóa do thuốc này đã xuất hiện trong đơn thuốc hoặc hóa đơn.");
             }
-        }
-
-        // Hàm hỗ trợ đọc validation lỗi từ Attribute trong DTO
-        private string? ValidateDto(object dto)
-        {
-            var context = new ValidationContext(dto);
-            var results = new List<ValidationResult>();
-
-            if (!Validator.TryValidateObject(dto, context, results, validateAllProperties: true))
-            {
-                return results.FirstOrDefault()?.ErrorMessage;
-            }
-            return null;
         }
     }
 }

@@ -46,7 +46,7 @@ namespace DentalClinic.BLL
         // ADD
         public Result Add(CreateDoctorDto dto)
         {
-            var validationError = ValidateDto(dto);
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
@@ -102,7 +102,7 @@ namespace DentalClinic.BLL
         // UPDATE
         public Result Update(UpdateDoctorDto dto)
         {
-            var validationError = ValidateDto(dto);
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
@@ -171,19 +171,6 @@ namespace DentalClinic.BLL
             {
                 return Result.Failure("Không thể xóa bác sĩ này do đã phát sinh dữ liệu liên quan (lịch khám, hóa đơn).");
             }
-        }
-
-        // ValidateDto
-        private string? ValidateDto(object dto)
-        {
-            var context = new ValidationContext(dto);
-            var results = new List<ValidationResult>();
-
-            if (!Validator.TryValidateObject(dto, context, results, validateAllProperties: true))
-            {
-                return results.FirstOrDefault()?.ErrorMessage;
-            }
-            return null;
         }
     }
 }

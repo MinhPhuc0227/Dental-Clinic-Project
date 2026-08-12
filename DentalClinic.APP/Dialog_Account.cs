@@ -93,12 +93,17 @@ namespace DentalClinic.APP
             if (!result.IsSuccess)
             {
                 MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; 
+                return;
             }
 
             MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void Dialog_Account_Load(object sender, EventArgs e)
+        {
+            txtUserName.Focus();
         }
     }
 }

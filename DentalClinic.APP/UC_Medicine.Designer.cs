@@ -31,11 +31,11 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
-            dgvMedicine = new DataGridView();
             label3 = new Label();
             txtSearch = new TextBox();
             btAdd = new Button();
             label1 = new Label();
+            dgvMedicine = new DataGridView();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMedicine).BeginInit();
             SuspendLayout();
@@ -51,6 +51,53 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(984, 75);
             panel1.TabIndex = 0;
+            // 
+            // label3
+            // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F);
+            label3.ForeColor = Color.DarkCyan;
+            label3.Location = new Point(610, 21);
+            label3.Name = "label3";
+            label3.Size = new Size(91, 28);
+            label3.TabIndex = 11;
+            label3.Text = "Tìm kiếm";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearch.Font = new Font("Segoe UI", 12F);
+            txtSearch.Location = new Point(707, 18);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(268, 34);
+            txtSearch.TabIndex = 10;
+            txtSearch.TextChanged += txtSearch_TextChanged;
+            // 
+            // btAdd
+            // 
+            btAdd.FlatAppearance.BorderSize = 0;
+            btAdd.Image = Properties.Resources.add;
+            btAdd.ImageAlign = ContentAlignment.MiddleLeft;
+            btAdd.Location = new Point(262, 13);
+            btAdd.Name = "btAdd";
+            btAdd.Size = new Size(118, 49);
+            btAdd.TabIndex = 9;
+            btAdd.Text = "Thêm mới";
+            btAdd.TextAlign = ContentAlignment.MiddleRight;
+            btAdd.UseVisualStyleBackColor = true;
+            btAdd.Click += btAdd_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label1.ForeColor = Color.DarkCyan;
+            label1.Location = new Point(9, 18);
+            label1.Name = "label1";
+            label1.Size = new Size(207, 32);
+            label1.TabIndex = 8;
+            label1.Text = "Danh mục Thuốc";
             // 
             // dgvMedicine
             // 
@@ -93,52 +140,6 @@
             dgvMedicine.Size = new Size(984, 461);
             dgvMedicine.TabIndex = 4;
             dgvMedicine.CellContentClick += dgvMedicine_CellContentClick;
-            // 
-            // label3
-            // 
-            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F);
-            label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(610, 21);
-            label3.Name = "label3";
-            label3.Size = new Size(91, 28);
-            label3.TabIndex = 11;
-            label3.Text = "Tìm kiếm";
-            // 
-            // txtSearch
-            // 
-            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(707, 18);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(268, 34);
-            txtSearch.TabIndex = 10;
-            // 
-            // btAdd
-            // 
-            btAdd.FlatAppearance.BorderSize = 0;
-            btAdd.Image = Properties.Resources.add;
-            btAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btAdd.Location = new Point(262, 13);
-            btAdd.Name = "btAdd";
-            btAdd.Size = new Size(118, 49);
-            btAdd.TabIndex = 9;
-            btAdd.Text = "Thêm mới";
-            btAdd.TextAlign = ContentAlignment.MiddleRight;
-            btAdd.UseVisualStyleBackColor = true;
-            btAdd.Click += btAdd_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(9, 18);
-            label1.Name = "label1";
-            label1.Size = new Size(207, 32);
-            label1.TabIndex = 8;
-            label1.Text = "Danh mục Thuốc";
             // 
             // UC_Medicine
             // 

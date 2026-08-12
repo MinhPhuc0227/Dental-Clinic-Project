@@ -8,72 +8,109 @@ namespace DentalClinic.DAL
 {
     public class PaymentMethod_DAL
     {
-        // 1. Get all 
+        // GetAll
         public List<PaymentMethod> GetAll()
         {
-            using (var db = new AppDbContext())
-                return db.PaymentMethods.AsNoTracking().ToList();
-        }
-
-        // 2. Get by ID
-        public PaymentMethod? GetById(int paymentMethodId)
-        {
-            using (var db = new AppDbContext())
-                return db.PaymentMethods
-                    .AsNoTracking()
-                    .FirstOrDefault(p => p.PaymentMethodId == paymentMethodId);
-        }
-
-        // 3. Add
-        public void Add(PaymentMethod p)
-        {
-            using (var db = new AppDbContext())
+            using (var context = new AppDbContext())
             {
-                db.PaymentMethods.Add(p);
-                db.SaveChanges();
+                return context.PaymentMethods.ToList();
             }
         }
 
-        // 4. Update
-        public bool Update(PaymentMethod p)
+        // GetById
+        public PaymentMethod? GetById(int id)
         {
-            using (var db = new AppDbContext())
+            using (var context = new AppDbContext())
             {
-                var editPaymentMethod = db.PaymentMethods.Find(p.PaymentMethodId);
-                if (editPaymentMethod != null)
+                return context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == id);
+            }
+        }
+
+        // Check if name exists
+        public bool IsNameExists(string name, int excludeId = 0)
+        {
+            using (var context = new AppDbContext())
+            {
+                return context.PaymentMethods.Any(pm => pm.PaymentMethodName.ToLower() == name.ToLower() && pm.PaymentMethodId != excludeId);
+            }
+        }
+
+        // Add
+        public bool Add(PaymentMethod entity)
+        {
+            using (var context = new AppDbContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    editPaymentMethod.PaymentMethodName = p.PaymentMethodName;
-                    editPaymentMethod.Description = p.Description;
-                    editPaymentMethod.IsCash = p.IsCash;
-                    editPaymentMethod.Status = p.Status;
-                    db.SaveChanges();
-                    return true;
+                    try
+                    {
+                        context.PaymentMethods.Add(entity);
+                        context.SaveChanges();
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
-                return false;
             }
         }
 
-        // 5. Delete
-        public bool Delete(int paymentMethodId)
+        // Update
+        public bool Update(PaymentMethod entity)
         {
-            using (var db = new AppDbContext())
+            using (var context = new AppDbContext())
             {
-                var item = db.PaymentMethods.Find(paymentMethodId);
-                if (item != null)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    db.PaymentMethods.Remove(item);
-                    return db.SaveChanges() > 0;
+                    try
+                    {
+                        var existing = context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == entity.PaymentMethodId);
+                        if (existing == null) return false;
+
+                        existing.PaymentMethodName = entity.PaymentMethodName;
+                        existing.Description = entity.Description;
+                        existing.IsCash = entity.IsCash;
+                        existing.Status = entity.Status;
+
+                        context.SaveChanges();
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
-                return false;
             }
         }
 
-        // 6. Check if there are any invoices associated with the payment method 
-        public bool HasAssociatedInvoices(int paymentMethodId)
+        // Delete
+        public bool Delete(int id)
         {
-            using (var db = new AppDbContext())
+            using (var context = new AppDbContext())
             {
-                return db.Invoices.Any(hd => hd.PaymentMethodId == paymentMethodId);
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var existing = context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == id);
+                        if (existing == null) return false;
+
+                        context.PaymentMethods.Remove(existing);
+                        context.SaveChanges();
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
             }
         }
     }

@@ -13,6 +13,7 @@ namespace DentalClinic.BLL
     {
         private readonly Service_DAL _dal = new Service_DAL();
 
+        // GetAll
         public Result<List<ServiceDto>> GetAll()
         {
             try
@@ -35,9 +36,10 @@ namespace DentalClinic.BLL
             }
         }
 
+        // Add
         public Result Add(CreateServiceDto dto)
         {
-            var validationError = ValidateDto(dto);
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
@@ -69,9 +71,10 @@ namespace DentalClinic.BLL
             }
         }
 
+        // Update
         public Result Update(UpdateServiceDto dto)
         {
-            var validationError = ValidateDto(dto);
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
@@ -104,6 +107,7 @@ namespace DentalClinic.BLL
             }
         }
 
+        // Delete
         public Result Delete(int serviceId)
         {
             if (serviceId <= 0)
@@ -122,18 +126,6 @@ namespace DentalClinic.BLL
             {
                 return Result.Failure("Không thể xóa do dịch vụ này đã phát sinh trong lịch khám hoặc hóa đơn.");
             }
-        }
-
-        private string? ValidateDto(object dto)
-        {
-            var context = new ValidationContext(dto);
-            var results = new List<ValidationResult>();
-
-            if (!Validator.TryValidateObject(dto, context, results, validateAllProperties: true))
-            {
-                return results.FirstOrDefault()?.ErrorMessage;
-            }
-            return null;
         }
     }
 }

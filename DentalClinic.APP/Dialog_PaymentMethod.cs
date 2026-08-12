@@ -12,38 +12,37 @@ namespace DentalClinic.APP
         public PaymentMethodDto? PaymentData { get; private set; }
         private readonly bool _isEdit = false;
 
-        // Constructor 1: for Adding 
         public Dialog_PaymentMethod()
         {
             InitializeComponent();
             this.Text = "Thêm phương thức thanh toán";
             _isEdit = false;
-            LoadStatusComboBox();
+
+            lbPaymentMethodId.Text = "Tự động";
+            LoadComboBoxes();
         }
 
-        // Constructor 2: for Updating 
         public Dialog_PaymentMethod(PaymentMethodDto data) : this()
         {
-            this.Text = "Sửa phương thức thanh toán";
+            this.Text = "Chỉnh sửa phương thức thanh toán";
             _isEdit = true;
             PaymentData = data;
 
-            txtName.Text = data.PaymentMethodName;
+            lbPaymentMethodId.Text = data.PaymentMethodId.ToString();
+            txtPaymentMethodName.Text = data.PaymentMethodName;
             txtDescription.Text = data.Description;
-            checkBoxIsCash.Checked = data.IsCash;
+            chkIsCash.Checked = data.IsCash;
             cbStatus.SelectedValue = data.Status;
         }
 
-        // Load status combo box
-        private void LoadStatusComboBox()
+        // Load status combobox
+        private void LoadComboBoxes()
         {
-            var statusList = new[]
+            cbStatus.DataSource = new[]
             {
                 new { Value = PaymentMethodStatus.Active, Display = "Hoạt động" },
                 new { Value = PaymentMethodStatus.Inactive, Display = "Ngừng hoạt động" }
             };
-
-            cbStatus.DataSource = statusList;
             cbStatus.DisplayMember = "Display";
             cbStatus.ValueMember = "Value";
         }
@@ -58,26 +57,16 @@ namespace DentalClinic.APP
         // Save button
         private void btSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtName.Text))
-            {
-                MessageBox.Show("Vui lòng nhập tên phương thức!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtName.Focus();
-                return; 
-            }
+            var selectedStatus = cbStatus.SelectedValue != null ? (PaymentMethodStatus)cbStatus.SelectedValue : PaymentMethodStatus.Active;
 
-            var selectedStatus = cbStatus.SelectedValue != null
-                ? (PaymentMethodStatus)cbStatus.SelectedValue
-                : PaymentMethodStatus.Active;
-
-            // Save new data to database (using BLL)
+            // Add
             if (!_isEdit)
             {
-                // Add
                 var createDto = new CreatePaymentMethodDto
                 {
-                    PaymentMethodName = txtName.Text.Trim(),
-                    Description = txtDescription.Text.Trim(),
-                    IsCash = checkBoxIsCash.Checked,
+                    PaymentMethodName = txtPaymentMethodName.Text.Trim(),
+                    Description = string.IsNullOrWhiteSpace(txtDescription.Text) ? null : txtDescription.Text.Trim(),
+                    IsCash = chkIsCash.Checked,
                     Status = selectedStatus
                 };
 
@@ -87,20 +76,19 @@ namespace DentalClinic.APP
                     MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            // Edit
             else
             {
-                // Update
                 if (PaymentData == null) return;
 
                 var updateDto = new UpdatePaymentMethodDto
                 {
                     PaymentMethodId = PaymentData.PaymentMethodId,
-                    PaymentMethodName = txtName.Text.Trim(),
-                    Description = txtDescription.Text.Trim(),
-                    IsCash = checkBoxIsCash.Checked,
+                    PaymentMethodName = txtPaymentMethodName.Text.Trim(),
+                    Description = string.IsNullOrWhiteSpace(txtDescription.Text) ? null : txtDescription.Text.Trim(),
+                    IsCash = chkIsCash.Checked,
                     Status = selectedStatus
                 };
 
@@ -108,14 +96,18 @@ namespace DentalClinic.APP
                 if (!result.IsSuccess)
                 {
                     MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return; 
+                    return;
                 }
-
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void Dialog_PaymentMethod_Load(object sender, EventArgs e)
+        {
+            txtPaymentMethodName.Focus();
         }
     }
 }

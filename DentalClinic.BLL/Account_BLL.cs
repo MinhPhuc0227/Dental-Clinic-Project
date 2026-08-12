@@ -39,7 +39,7 @@ namespace DentalClinic.BLL
         // Update
         public Result Update(UpdateAccountDto dto)
         {
-            var validationError = ValidateDto(dto);
+            var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
@@ -105,19 +105,6 @@ namespace DentalClinic.BLL
             {
                 return Result.Failure("Không thể xóa do tài khoản này đang liên kết với hồ sơ Nhân viên / Bệnh nhân.");
             }
-        }
-
-        // ValidateDto
-        private string? ValidateDto(object dto)
-        {
-            var context = new ValidationContext(dto);
-            var results = new List<ValidationResult>();
-
-            if (!Validator.TryValidateObject(dto, context, results, validateAllProperties: true))
-            {
-                return results.FirstOrDefault()?.ErrorMessage;
-            }
-            return null;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace DentalClinic.App
     public partial class UC_PaymentMethod : UserControl
     {
         private readonly PaymentMethod_BLL _bll = new PaymentMethod_BLL();
+        private List<PaymentMethodDto> _fullList = new List<PaymentMethodDto>();
 
         public UC_PaymentMethod()
         {
@@ -17,34 +18,53 @@ namespace DentalClinic.App
 
         private void UC_Payment_Load(object sender, EventArgs e)
         {
-            ConfigureDataGridView();
+            dgvPaymentMethod.AutoGenerateColumns = true;
             LoadDataToGridView();
         }
 
-        // Config datagridview
-        private void ConfigureDataGridView()
-        {
-            dgvPaymentMethod.AutoGenerateColumns = false;
-
-            IdCol.DataPropertyName = nameof(PaymentMethodDto.PaymentMethodId);
-            NameCol.DataPropertyName = nameof(PaymentMethodDto.PaymentMethodName);
-            DescriptionCol.DataPropertyName = nameof(PaymentMethodDto.Description);
-            IsCashCol.DataPropertyName = nameof(PaymentMethodDto.IsCash);
-            StatusCol.DataPropertyName = nameof(PaymentMethodDto.StatusDisplay);
-        }
-
-        // Load datagridview
+        // Load data to datagridview
         public void LoadDataToGridView()
         {
             var result = _bll.GetAll();
-
-            if (result.IsSuccess)
+            if (result.IsSuccess && result.Data != null)
             {
-                dgvPaymentMethod.DataSource = result.Data;
+                _fullList = result.Data;
+                dgvPaymentMethod.DataSource = _fullList;
+                AddActionImageColumns();
             }
             else
             {
                 MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Add edit, delete image columns
+        private void AddActionImageColumns()
+        {
+            if (!dgvPaymentMethod.Columns.Contains("EditCol"))
+            {
+                var imgEdit = new DataGridViewImageColumn
+                {
+                    Name = "EditCol",
+                    HeaderText = "Sửa",
+                    Image = SystemIcons.Information.ToBitmap(),
+                    Width = 50,
+                    ImageLayout = DataGridViewImageCellLayout.Zoom
+                };
+                dgvPaymentMethod.Columns.Add(imgEdit);
+            }
+
+            if (!dgvPaymentMethod.Columns.Contains("DeleteCol"))
+            {
+                var imgDelete = new DataGridViewImageColumn
+                {
+                    Name = "DeleteCol",
+                    HeaderText = "Xóa",
+                    Image = SystemIcons.Error.ToBitmap(),
+                    Width = 50,
+                    ImageLayout = DataGridViewImageCellLayout.Zoom
+                };
+                dgvPaymentMethod.Columns.Add(imgDelete);
             }
         }
 
@@ -53,14 +73,11 @@ namespace DentalClinic.App
         {
             using (var dialog = new Dialog_PaymentMethod())
             {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    LoadDataToGridView();
-                }
+                if (dialog.ShowDialog() == DialogResult.OK) LoadDataToGridView();
             }
         }
 
-        // Datagridview cell content click (Edit/Delete column)
+        // Cellcontentclick (Edite/Delete)
         private void dgvPaymentMethod_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -70,34 +87,22 @@ namespace DentalClinic.App
 
             string colName = dgvPaymentMethod.Columns[e.ColumnIndex].Name;
 
-            // Edit click
             if (colName == "EditCol")
             {
                 using (var dialog = new Dialog_PaymentMethod(selectedDto))
                 {
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        LoadDataToGridView();
-                    }
+                    if (dialog.ShowDialog() == DialogResult.OK) LoadDataToGridView();
                 }
             }
-            // Delete click
             else if (colName == "DeleteCol")
             {
-                var confirm = MessageBox.Show(
-                    $"Bạn có chắc chắn muốn xóa phương thức '{selectedDto.PaymentMethodName}' không?",
-                    "Xác nhận xóa",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
+                var confirm = MessageBox.Show($"Bạn có chắc muốn xóa phương thức '{selectedDto.PaymentMethodName}'?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirm == DialogResult.Yes)
                 {
                     var result = _bll.Delete(selectedDto.PaymentMethodId);
-
                     if (result.IsSuccess)
                     {
-                        MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadDataToGridView();
                     }
                     else
@@ -105,6 +110,21 @@ namespace DentalClinic.App
                         MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+            }
+        }
+
+        // Search
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string keyword = txtSearch.Text.Trim().ToLower();
+            if (string.IsNullOrEmpty(keyword))
+            {
+                dgvPaymentMethod.DataSource = _fullList;
+            }
+            else
+            {
+                dgvPaymentMethod.DataSource = _fullList.Where(pm => pm.PaymentMethodName.ToLower().Contains(keyword)
+                                                                 || (pm.Description != null && pm.Description.ToLower().Contains(keyword))).ToList();
             }
         }
     }

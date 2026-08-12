@@ -118,7 +118,7 @@
             cbStatus.Location = new Point(168, 232);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(348, 36);
-            cbStatus.TabIndex = 60;
+            cbStatus.TabIndex = 12;
             // 
             // txtPassword
             // 
@@ -126,8 +126,9 @@
             txtPassword.Font = new Font("Segoe UI", 12F);
             txtPassword.Location = new Point(168, 129);
             txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '•';
             txtPassword.Size = new Size(348, 34);
-            txtPassword.TabIndex = 59;
+            txtPassword.TabIndex = 10;
             // 
             // cbRole
             // 
@@ -137,7 +138,7 @@
             cbRole.Location = new Point(168, 180);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(348, 36);
-            cbRole.TabIndex = 49;
+            cbRole.TabIndex = 11;
             // 
             // label10
             // 
@@ -212,7 +213,7 @@
             txtUserName.Location = new Point(168, 75);
             txtUserName.Name = "txtUserName";
             txtUserName.Size = new Size(348, 34);
-            txtUserName.TabIndex = 55;
+            txtUserName.TabIndex = 9;
             // 
             // label16
             // 
@@ -256,7 +257,7 @@
             txtAddress.Location = new Point(163, 339);
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(351, 34);
-            txtAddress.TabIndex = 51;
+            txtAddress.TabIndex = 6;
             // 
             // label14
             // 
@@ -276,7 +277,7 @@
             txtEmail.Location = new Point(163, 284);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(351, 34);
-            txtEmail.TabIndex = 49;
+            txtEmail.TabIndex = 5;
             // 
             // txtNote
             // 
@@ -287,7 +288,7 @@
             txtNote.Name = "txtNote";
             txtNote.ScrollBars = ScrollBars.Vertical;
             txtNote.Size = new Size(351, 128);
-            txtNote.TabIndex = 33;
+            txtNote.TabIndex = 7;
             // 
             // label1
             // 
@@ -302,11 +303,14 @@
             // 
             // dtpDateOfBirth
             // 
+            dtpDateOfBirth.AllowDrop = true;
+            dtpDateOfBirth.CustomFormat = "dd/MM/yyyy";
             dtpDateOfBirth.Font = new Font("Segoe UI", 12F);
+            dtpDateOfBirth.Format = DateTimePickerFormat.Custom;
             dtpDateOfBirth.Location = new Point(163, 182);
             dtpDateOfBirth.Name = "dtpDateOfBirth";
             dtpDateOfBirth.Size = new Size(351, 34);
-            dtpDateOfBirth.TabIndex = 48;
+            dtpDateOfBirth.TabIndex = 3;
             // 
             // label2
             // 
@@ -326,7 +330,7 @@
             cbGender.Location = new Point(163, 126);
             cbGender.Name = "cbGender";
             cbGender.Size = new Size(351, 36);
-            cbGender.TabIndex = 47;
+            cbGender.TabIndex = 2;
             // 
             // label3
             // 
@@ -346,7 +350,7 @@
             txtPhone.Location = new Point(163, 232);
             txtPhone.Name = "txtPhone";
             txtPhone.Size = new Size(351, 34);
-            txtPhone.TabIndex = 46;
+            txtPhone.TabIndex = 4;
             // 
             // label4
             // 
@@ -399,7 +403,7 @@
             txtFullName.Location = new Point(163, 75);
             txtFullName.Name = "txtFullName";
             txtFullName.Size = new Size(351, 34);
-            txtFullName.TabIndex = 42;
+            txtFullName.TabIndex = 1;
             // 
             // label7
             // 
@@ -433,7 +437,7 @@
             btCancel.Location = new Point(878, 601);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 54;
+            btCancel.TabIndex = 13;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
@@ -448,7 +452,7 @@
             btSave.Location = new Point(985, 601);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
-            btSave.TabIndex = 53;
+            btSave.TabIndex = 14;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
@@ -471,16 +475,18 @@
             chkCreateAccount.Location = new Point(569, 475);
             chkCreateAccount.Name = "chkCreateAccount";
             chkCreateAccount.Size = new Size(152, 32);
-            chkCreateAccount.TabIndex = 60;
+            chkCreateAccount.TabIndex = 8;
             chkCreateAccount.Text = "Tạo tài khoản";
             chkCreateAccount.UseVisualStyleBackColor = true;
             chkCreateAccount.CheckedChanged += chkCreateAccount_CheckedChanged;
             // 
             // Dialog_Patient
             // 
+            AcceptButton = btSave;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btCancel;
             ClientSize = new Size(1124, 672);
             ControlBox = false;
             Controls.Add(chkCreateAccount);
@@ -495,7 +501,8 @@
             Name = "Dialog_Patient";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dialog_Patient";
+            Text = "Bệnh nhân";
+            Load += Dialog_Patient_Load;
             pnAccount.ResumeLayout(false);
             pnAccount.PerformLayout();
             panel1.ResumeLayout(false);

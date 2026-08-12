@@ -13,43 +13,38 @@ namespace DentalClinic.BLL
     {
         private readonly PaymentMethod_DAL _dal = new PaymentMethod_DAL();
 
-        // 1. Get all
+        // GetAll
         public Result<List<PaymentMethodDto>> GetAll()
         {
             try
             {
-                var entities = _dal.GetAll();
-                var dtoList = entities.Select(p => new PaymentMethodDto
+                var list = _dal.GetAll();
+                var dtoList = list.Select(pm => new PaymentMethodDto
                 {
-                    PaymentMethodId = p.PaymentMethodId,
-                    PaymentMethodName = p.PaymentMethodName,
-                    Description = p.Description,
-                    IsCash = p.IsCash,
-                    Status = p.Status
+                    PaymentMethodId = pm.PaymentMethodId,
+                    PaymentMethodName = pm.PaymentMethodName,
+                    Description = pm.Description,
+                    IsCash = pm.IsCash,
+                    Status = pm.Status
                 }).ToList();
 
                 return Result<List<PaymentMethodDto>>.Success(dtoList);
             }
             catch (Exception ex)
             {
-                return Result<List<PaymentMethodDto>>.Failure($"Lỗi khi lấy dữ liệu: {ex.Message}");
+                return Result<List<PaymentMethodDto>>.Failure("Lỗi tải danh sách phương thức thanh toán: " + ex.Message);
             }
         }
 
-        // 2. Add
+        // Add
         public Result Add(CreatePaymentMethodDto dto)
         {
-            var validateResult = ValidateDto(dto);
-            if (!validateResult.IsSuccess) return validateResult;
+            // Sử dụng ValidationHelper extension method
+            var validationError = dto.Validate();
+            if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
 
-            // Check duplicate payment method name
-            bool isDuplicate = _dal.GetAll().Any(p => p.PaymentMethodName.Trim()
-                .Equals(dto.PaymentMethodName.Trim(), StringComparison.OrdinalIgnoreCase));
-
-            if (isDuplicate)
-            {
+            if (_dal.IsNameExists(dto.PaymentMethodName.Trim()))
                 return Result.Failure("Tên phương thức thanh toán đã tồn tại.");
-            }
 
             try
             {
@@ -61,28 +56,23 @@ namespace DentalClinic.BLL
                     Status = dto.Status
                 };
 
-                _dal.Add(entity);
-                return Result.Success("Thêm phương thức thanh toán thành công.");
+                bool success = _dal.Add(entity);
+                return success ? Result.Success("Thêm mới phương thức thanh toán thành công!") : Result.Failure("Thêm mới thất bại.");
             }
             catch (Exception ex)
             {
-                return Result.Failure($"Lỗi hệ thống khi thêm: {ex.Message}");
+                return Result.Failure("Lỗi hệ thống: " + ex.Message);
             }
         }
 
-        // 3. Update
+        // Update
         public Result Update(UpdatePaymentMethodDto dto)
         {
-            var validateResult = ValidateDto(dto);
-            if (!validateResult.IsSuccess) return validateResult;
+            var validationError = dto.Validate();
+            if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
 
-            // Check duplicate payment method name
-            bool isDuplicate = _dal.GetAll().Any(p => p.PaymentMethodId != dto.PaymentMethodId &&
-                                                      p.PaymentMethodName.Trim().Equals(dto.PaymentMethodName.Trim(), StringComparison.OrdinalIgnoreCase));
-            if (isDuplicate)
-            {
-                return Result.Failure("Tên phương thức thanh toán đã trùng với một phương thức khác.");
-            }
+            if (_dal.IsNameExists(dto.PaymentMethodName.Trim(), dto.PaymentMethodId))
+                return Result.Failure("Tên phương thức thanh toán đã trùng với phương thức khác.");
 
             try
             {
@@ -95,51 +85,29 @@ namespace DentalClinic.BLL
                     Status = dto.Status
                 };
 
-                bool isUpdated = _dal.Update(entity);
-                if (!isUpdated) return Result.Failure("Không tìm thấy phương thức thanh toán để cập nhật.");
-
-                return Result.Success("Cập nhật phương thức thanh toán thành công.");
+                bool success = _dal.Update(entity);
+                return success ? Result.Success("Cập nhật phương thức thanh toán thành công!") : Result.Failure("Cập nhật thất bại.");
             }
             catch (Exception ex)
             {
-                return Result.Failure($"Lỗi hệ thống khi cập nhật: {ex.Message}");
+                return Result.Failure("Lỗi hệ thống: " + ex.Message);
             }
         }
 
-        // 4. Delete
-        public Result Delete(int paymentMethodId)
+        // Delete
+        public Result Delete(int id)
         {
+            if (id <= 0) return Result.Failure("Mã phương thức thanh toán không hợp lệ.");
+
             try
             {
-                // Check invoice constraints
-                if (_dal.HasAssociatedInvoices(paymentMethodId))
-                {
-                    return Result.Failure("Không thể xóa phương thức này vì đã có hóa đơn liên kết.");
-                }
-
-                bool isDeleted = _dal.Delete(paymentMethodId);
-                if (!isDeleted) return Result.Failure("Phương thức thanh toán không tồn tại hoặc đã bị xóa.");
-
-                return Result.Success("Xóa phương thức thanh toán thành công.");
+                bool success = _dal.Delete(id);
+                return success ? Result.Success("Xóa phương thức thanh toán thành công!") : Result.Failure("Không tìm thấy dữ liệu.");
             }
-            catch (Exception ex)
+            catch
             {
-                return Result.Failure($"Lỗi hệ thống khi xóa: {ex.Message}");
+                return Result.Failure("Không thể xóa phương thức thanh toán này do đã có hóa đơn liên kết.");
             }
-        }
-
-        // Function for validating DataAnnotations (in DTOs)
-        private Result ValidateDto(object dto)
-        {
-            var context = new ValidationContext(dto);
-            var results = new List<ValidationResult>();
-
-            if (!Validator.TryValidateObject(dto, context, results, true))
-            {
-                var errorMessage = results.FirstOrDefault()?.ErrorMessage ?? "Dữ liệu không hợp lệ.";
-                return Result.Failure(errorMessage);
-            }
-            return Result.Success("Hợp lệ.");
         }
     }
 }

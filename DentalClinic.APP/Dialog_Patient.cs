@@ -117,8 +117,8 @@ namespace DentalClinic.APP
                     Address = txtAddress.Text.Trim(),
                     Note = txtNote.Text.Trim(),
                     CreateAccount = chkCreateAccount.Checked,
-                    UserName = txtUserName.Text.Trim(),
-                    Password = txtPassword.Text.Trim(),
+                    UserName = string.IsNullOrWhiteSpace(txtUserName.Text) ? null : txtUserName.Text.Trim(),
+                    Password = string.IsNullOrWhiteSpace(txtPassword.Text) ? null : txtPassword.Text.Trim(),
                     Status = selectedStatus
                 };
 
@@ -146,7 +146,8 @@ namespace DentalClinic.APP
                     Email = txtEmail.Text.Trim(),
                     Address = txtAddress.Text.Trim(),
                     Note = txtNote.Text.Trim(),
-                    UserName = txtUserName.Text.Trim(),
+                    CreateAccount = chkCreateAccount.Checked,
+                    UserName = string.IsNullOrWhiteSpace(txtUserName.Text) ? null : txtUserName.Text.Trim(),
                     Password = string.IsNullOrWhiteSpace(txtPassword.Text) ? null : txtPassword.Text.Trim(),
                     Status = selectedStatus
                 };
@@ -162,6 +163,11 @@ namespace DentalClinic.APP
 
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void Dialog_Patient_Load(object sender, EventArgs e)
+        {
+            txtFullName.Focus();
         }
     }
 }

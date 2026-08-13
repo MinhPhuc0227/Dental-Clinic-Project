@@ -19,6 +19,7 @@ namespace DentalClinic.APP
         public Dialog_Account(AccountDto data)
         {
             InitializeComponent();
+            txtPassword.UseSystemPasswordChar = true;
             this.Text = "Chỉnh sửa tài khoản";
             AccountData = data;
 

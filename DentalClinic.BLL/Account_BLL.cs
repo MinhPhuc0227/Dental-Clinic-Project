@@ -106,5 +106,34 @@ namespace DentalClinic.BLL
                 return Result.Failure("Không thể xóa do tài khoản này đang liên kết với hồ sơ Nhân viên / Bệnh nhân.");
             }
         }
+
+        // Login
+        public Result<AccountDto> Login(LoginRequestDto dto)
+        {
+            var validationError = dto.Validate();
+            if (!string.IsNullOrEmpty(validationError))
+                return Result<AccountDto>.Failure(validationError);
+
+            var account = _dal.GetByUserName(dto.UserName.Trim());
+            if (account == null || account.Password != dto.Password.Trim())
+            {
+                return Result<AccountDto>.Failure("Tên đăng nhập hoặc mật khẩu không chính xác.");
+            }
+
+            if (account.Status == AccountStatus.Locked)
+            {
+                return Result<AccountDto>.Failure("Tài khoản này hiện đang bị khóa.");
+            }
+
+            var accountDto = new AccountDto
+            {
+                AccountId = account.AccountId,
+                UserName = account.UserName,
+                Role = account.Role,
+                Status = account.Status
+            };
+
+            return Result<AccountDto>.Success(accountDto, "Đăng nhập thành công!");
+        }
     }
 }

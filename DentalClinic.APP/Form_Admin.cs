@@ -19,7 +19,7 @@ namespace DentalClinic.App
         private UC_Service serviceUC = new UC_Service();
         private UC_Medicine medicineUC = new UC_Medicine();
         private UC_PaymentMethod paymentUC = new UC_PaymentMethod();
-       
+
         public Form_Admin()
         {
             InitializeComponent();
@@ -78,6 +78,11 @@ namespace DentalClinic.App
         private void rbPatient_CheckedChanged(object sender, EventArgs e)
         {
             ShowUC(patientUC);
+        }
+
+        private void btLogout_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

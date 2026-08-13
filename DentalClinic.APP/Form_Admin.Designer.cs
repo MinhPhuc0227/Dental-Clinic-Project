@@ -40,6 +40,8 @@
             rbAccount = new RadioButton();
             rbDashBoard = new RadioButton();
             pnContent = new Panel();
+            btLogout = new Button();
+            panel2.SuspendLayout();
             panel3.SuspendLayout();
             SuspendLayout();
             // 
@@ -55,6 +57,7 @@
             // panel2
             // 
             panel2.BackColor = Color.DarkCyan;
+            panel2.Controls.Add(btLogout);
             panel2.Dock = DockStyle.Bottom;
             panel2.Location = new Point(0, 545);
             panel2.Name = "panel2";
@@ -241,6 +244,18 @@
             pnContent.Size = new Size(819, 489);
             pnContent.TabIndex = 3;
             // 
+            // btLogout
+            // 
+            btLogout.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btLogout.Font = new Font("Segoe UI", 12F);
+            btLogout.Location = new Point(887, 10);
+            btLogout.Name = "btLogout";
+            btLogout.Size = new Size(120, 41);
+            btLogout.TabIndex = 0;
+            btLogout.Text = "Đăng xuất";
+            btLogout.UseVisualStyleBackColor = true;
+            btLogout.Click += btLogout_Click;
+            // 
             // Form_Admin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -254,6 +269,7 @@
             Text = "Dental Clinic Management System - Admin";
             WindowState = FormWindowState.Maximized;
             Load += Admin_Form_Load;
+            panel2.ResumeLayout(false);
             panel3.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -272,5 +288,6 @@
         private RadioButton rbDoctor;
         private RadioButton rbReceptionist;
         private RadioButton rbPatient;
+        private Button btLogout;
     }
 }

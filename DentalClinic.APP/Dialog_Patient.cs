@@ -20,6 +20,7 @@ namespace DentalClinic.APP
         public Dialog_Patient()
         {
             InitializeComponent();
+            txtPassword.UseSystemPasswordChar = true;
             this.Text = "Thêm mới bệnh nhân";
             _isEdit = false;
 
@@ -32,6 +33,7 @@ namespace DentalClinic.APP
         public Dialog_Patient(PatientDto data) : this()
         {
             this.Text = "Chỉnh sửa thông tin bệnh nhân";
+            txtPassword.UseSystemPasswordChar = true;
             _isEdit = true;
             PatientData = data;
 

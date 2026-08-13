@@ -68,5 +68,14 @@ namespace DentalClinic.DAL
                 return context.SaveChanges() > 0;
             }
         }
+
+        // GetByUserName (for Login)
+        public Account? GetByUserName(string userName)
+        {
+            using (var context = new AppDbContext())
+            {
+                return context.Accounts.FirstOrDefault(a => a.UserName == userName);
+            }
+        }
     }
 }

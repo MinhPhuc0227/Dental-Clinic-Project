@@ -1,4 +1,5 @@
-﻿using DentalClinic.BLL;
+﻿using DentalClinic.APP.Properties;
+using DentalClinic.BLL;
 using DentalClinic.DTO.Account;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace DentalClinic.APP
                 {
                     Name = "EditCol",
                     HeaderText = "Sửa / Đổi MK",
-                    Image = SystemIcons.Information.ToBitmap(),
+                    Image = Resources.edit,
                     Width = 80,
                     ImageLayout = DataGridViewImageCellLayout.Zoom
                 };
@@ -71,7 +72,7 @@ namespace DentalClinic.APP
                 {
                     Name = "DeleteCol",
                     HeaderText = "Xóa",
-                    Image = SystemIcons.Error.ToBitmap(),
+                    Image = Resources.delete,
                     Width = 50,
                     ImageLayout = DataGridViewImageCellLayout.Zoom
                 };

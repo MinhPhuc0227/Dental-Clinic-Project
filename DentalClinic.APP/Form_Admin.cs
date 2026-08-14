@@ -42,42 +42,74 @@ namespace DentalClinic.App
 
         private void rbDashBoard_CheckedChanged(object sender, EventArgs e)
         {
-            ShowUC(dashboardUC);
+            if (rbDashBoard.Checked)
+            {
+                ShowUC(dashboardUC);
+                // dashboardUC.LoadDataToGridView(); // Gọi nếu Dashboard có hàm load dữ liệu
+            }
         }
 
         private void rbAccount_CheckedChanged(object sender, EventArgs e)
         {
-            ShowUC(accountUC);
+            if (rbAccount.Checked)
+            {
+                ShowUC(accountUC);
+                accountUC.LoadDataToGridView(); 
+            }
         }
 
         private void rbService_CheckedChanged(object sender, EventArgs e)
         {
-            ShowUC(serviceUC);
+            if (rbService.Checked)
+            {
+                ShowUC(serviceUC);
+                serviceUC.LoadDataToGridView();
+            }
         }
 
         private void rbMedicine_CheckedChanged(object sender, EventArgs e)
         {
-            ShowUC(medicineUC);
+            if (rbMedicine.Checked)
+            {
+                ShowUC(medicineUC);
+                medicineUC.LoadDataToGridView();
+            }
         }
 
         private void rbPayment_CheckedChanged(object sender, EventArgs e)
         {
-            ShowUC(paymentUC);
+            if (rbPayment.Checked)
+            {
+                ShowUC(paymentUC);
+                paymentUC.LoadDataToGridView();
+            }
         }
 
         private void rbDoctor_CheckedChanged(object sender, EventArgs e)
         {
-            ShowUC(doctorUC);
+            if (rbDoctor.Checked)
+            {
+                ShowUC(doctorUC);
+                doctorUC.LoadDataToGridView();
+            }
         }
 
         private void rbReceptionist_CheckedChanged(object sender, EventArgs e)
         {
-            ShowUC(receptionistUC);
+            if (rbReceptionist.Checked)
+            {
+                ShowUC(receptionistUC);
+                receptionistUC.LoadDataToGridView();
+            }
         }
 
         private void rbPatient_CheckedChanged(object sender, EventArgs e)
         {
-            ShowUC(patientUC);
+            if (rbPatient.Checked)
+            {
+                ShowUC(patientUC);
+                patientUC.LoadDataToGridView();
+            }
         }
 
         private void btLogout_Click(object sender, EventArgs e)

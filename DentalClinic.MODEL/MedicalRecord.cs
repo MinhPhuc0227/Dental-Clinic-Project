@@ -12,13 +12,11 @@ namespace DentalClinic.MODEL
         public string Conclusion { get; set; } = string.Empty;
 
         // Foreign Key
-        public int AppointmentId { get; set; }
-        public Appointment Appointment { get; set; } = null!;
+        public int VisitId { get; set; }
+        public Visit Visit { get; set; } = null!;
 
-        // Navigation Property (MedicalRecord 1-1 Prescription) 
+        // Navigation Property 
         public Prescription? Prescription { get; set; }
-
-        // Navigation Property (MedicalRecord 1-N MedicalRecordService)
         public ICollection<MedicalRecordService> MedicalRecordServices { get; set; } = new List<MedicalRecordService>();
     }
 }

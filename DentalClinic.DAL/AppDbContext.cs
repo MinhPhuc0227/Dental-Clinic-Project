@@ -38,6 +38,7 @@ namespace DentalClinic.DAL
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<Visit> Visits { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -81,7 +82,55 @@ namespace DentalClinic.DAL
                       .HasDefaultValueSql("GETDATE()");
             });
 
-            // 2. Doctor
+            // 2. Appointment
+            modelBuilder.Entity<Appointment>(entity =>
+            {
+                entity.ToTable("Appointment");
+
+                // AppointmentId
+                entity.HasKey(a => a.AppointmentId);
+
+                // AppointmentDateTime
+                entity.Property(a => a.AppointmentDateTime)
+                      .IsRequired();
+
+                // Status
+                entity.Property(a => a.Status)
+                      .IsRequired()
+                      .HasConversion<string>()
+                      .HasMaxLength(20)
+                      .HasDefaultValue(AppointmentStatus.Pending);
+
+                // Note
+                entity.Property(a => a.Note)
+                      .IsRequired(false)
+                      .HasMaxLength(1000);
+
+                // CreatedDate
+                entity.Property(a => a.CreatedDate)
+                      .IsRequired()
+                      .HasDefaultValueSql("GETDATE()");
+
+                // Relationship 1: Patient 
+                entity.HasOne(a => a.Patient)
+                      .WithMany()
+                      .HasForeignKey(a => a.PatientId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 2: Doctor 
+                entity.HasOne(a => a.Doctor)
+                      .WithMany()
+                      .HasForeignKey(a => a.DoctorId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 3: Receptionist
+                entity.HasOne(a => a.Receptionist)
+                      .WithMany()
+                      .HasForeignKey(a => a.ReceptionistId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // 3. Doctor
             modelBuilder.Entity<Doctor>(entity =>
             {
                 entity.ToTable("Doctor");
@@ -125,60 +174,237 @@ namespace DentalClinic.DAL
                       .IsRequired(false)
                       .HasMaxLength(255);
 
-                // Relationship: Account (1-1)
+                // Relationship: Account 
                 entity.HasOne(d => d.Account)
                       .WithOne()
                       .HasForeignKey<Doctor>(d => d.AccountId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // 3. Receptionist
-            modelBuilder.Entity<Receptionist>(entity =>
+            // 4. Invoice
+            modelBuilder.Entity<Invoice>(entity =>
             {
-                entity.ToTable("Receptionist");
+                entity.ToTable("Invoice");
 
-                // ReceptionistId
-                entity.HasKey(r => r.ReceptionistId);
+                // InvoiceId
+                entity.HasKey(i => i.InvoiceId);
 
-                // FullName
-                entity.Property(r => r.FullName)
+                // InvoiceDateTime
+                entity.Property(i => i.InvoiceDateTime)
                       .IsRequired()
-                      .HasMaxLength(100);
+                      .HasDefaultValueSql("GETDATE()");
 
-                // Gender
-                entity.Property(r => r.Gender)
-                      .IsRequired()
+                // TotalAmount
+                entity.Property(i => i.TotalAmount)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                // PaymentStatus
+                entity.Property(i => i.Status)
                       .HasConversion<string>()
-                      .HasMaxLength(10);
-
-                // DateOfBirth
-                entity.Property(r => r.DateOfBirth)
+                      .HasMaxLength(50)
                       .IsRequired()
-                      .HasColumnType("date");
+                      .HasDefaultValue(InvoiceStatus.Pending);
 
-                // Phone
-                entity.Property(r => r.Phone)
+                // Relationship 1: PaymentMethod
+                entity.HasOne(i => i.PaymentMethod)
+                      .WithMany()
+                      .HasForeignKey(i => i.PaymentMethodId)
                       .IsRequired()
-                      .HasMaxLength(15);
+                      .OnDelete(DeleteBehavior.Restrict);
 
-                // Email
-                entity.Property(r => r.Email)
+                // Relationship 2: Visit
+                entity.HasOne(i => i.Visit)
+                      .WithOne(v => v.Invoice)
+                      .HasForeignKey<Invoice>(i => i.VisitId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 3: Receptionist
+                entity.HasOne(i => i.Receptionist)
+                      .WithMany()
+                      .HasForeignKey(i => i.ReceptionistId)
                       .IsRequired()
-                      .HasMaxLength(100);
-
-                // Description
-                entity.Property(r => r.Description)
-                      .IsRequired(false)
-                      .HasMaxLength(1000); 
-
-                // Relationship: Account (1-1)
-                entity.HasOne(r => r.Account)
-                      .WithOne()
-                      .HasForeignKey<Receptionist>(r => r.AccountId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // 4. Patient
+            // 5. InvoiceDetail
+            modelBuilder.Entity<InvoiceDetail>(entity =>
+            {
+                entity.ToTable("InvoiceDetail", table =>
+                {
+                    table.HasCheckConstraint(
+                        "CK_InvoiceDetail_ExactlyOneItem",
+                        "(MedicalRecordServiceId IS NOT NULL AND PrescriptionDetailId IS NULL) OR " +
+                        "(MedicalRecordServiceId IS NULL AND PrescriptionDetailId IS NOT NULL)"
+                    );
+                });
+
+                // InvoiceDetailId
+                entity.HasKey(id => id.InvoiceDetailId);
+
+                // ItemName
+                entity.Property(id => id.ItemName)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                // Quantity
+                entity.Property(id => id.Quantity)
+                      .IsRequired();
+
+                // UnitPrice
+                entity.Property(id => id.UnitPrice)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                // TotalAmount:
+                entity.Property(id => id.TotalAmount)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                // Relationship 1: Invoice 
+                entity.HasOne(id => id.Invoice)
+                      .WithMany(i => i.InvoiceDetails)
+                      .HasForeignKey(id => id.InvoiceId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                // Relationship 2: MedicalRecordService (Nullable)
+                entity.HasOne(id => id.MedicalRecordService)
+                      .WithMany()
+                      .HasForeignKey(id => id.MedicalRecordServiceId)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 3: PrescriptionDetail (Nullable)
+                entity.HasOne(id => id.PrescriptionDetail)
+                      .WithMany()
+                      .HasForeignKey(id => id.PrescriptionDetailId)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // 6. MedicalRecord
+            modelBuilder.Entity<MedicalRecord>(entity =>
+            {
+                entity.ToTable("MedicalRecord");
+
+                // MedicalRecordId
+                entity.HasKey(m => m.MedicalRecordId);
+
+                // ExaminationDateTime
+                entity.Property(m => m.ExaminationDateTime)
+                      .IsRequired()
+                      .HasDefaultValueSql("GETDATE()");
+
+                // Diagnosis
+                entity.Property(m => m.Diagnosis)
+                      .IsRequired()
+                      .HasMaxLength(1000);
+
+                // Conclusion
+                entity.Property(m => m.Conclusion)
+                      .IsRequired()
+                      .HasMaxLength(1000);
+
+                // Relationship: Visit
+                entity.HasOne(m => m.Visit)
+                      .WithOne(v => v.MedicalRecord)
+                      .HasForeignKey<MedicalRecord>(m => m.VisitId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // 7. MedicalRecordService
+            modelBuilder.Entity<MedicalRecordService>(entity =>
+            {
+                entity.ToTable("MedicalRecordService");
+
+                // MedicalRecordServiceId
+                entity.HasKey(mrs => mrs.MedicalRecordServiceId);
+
+                // Quantity
+                entity.Property(mrs => mrs.Quantity)
+                      .IsRequired();
+
+                // UnitPrice
+                entity.Property(mrs => mrs.UnitPrice)
+                      .IsRequired()
+                      .HasColumnType("decimal(18,2)");
+
+                // TotalAmount
+                entity.Property(mrs => mrs.TotalAmount)
+                      .IsRequired()
+                      .HasColumnType("decimal(18,2)");
+
+                // Status
+                entity.Property(mrs => mrs.Status)
+                      .IsRequired()
+                      .HasConversion<string>()
+                      .HasMaxLength(20)
+                      .HasDefaultValue(MedicalRecordServiceStatus.Pending);
+
+                // Note
+                entity.Property(mrs => mrs.Note)
+                      .IsRequired(false)
+                      .HasMaxLength(1000);
+
+                // Relationship 1: MedicalRecord 
+                entity.HasOne(mrs => mrs.MedicalRecord)
+                       .WithMany(mr => mr.MedicalRecordServices)
+                       .HasForeignKey(mrs => mrs.MedicalRecordId)
+                       .IsRequired()
+                       .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 2: Service 
+                entity.HasOne(mrs => mrs.Service)
+                      .WithMany()
+                      .HasForeignKey(mrs => mrs.ServiceId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // 8. Medicine
+            modelBuilder.Entity<Medicine>(entity =>
+            {
+                entity.ToTable("Medicine");
+
+                // MedicineId
+                entity.HasKey(m => m.MedicineId);
+
+                // MedicineName
+                entity.Property(m => m.MedicineName)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                // Unit
+                entity.Property(m => m.Unit)
+                      .IsRequired()
+                      .HasMaxLength(20);
+
+                // UnitPrice
+                entity.Property(m => m.UnitPrice)
+                      .IsRequired()
+                      .HasColumnType("decimal(18, 2)");
+
+                // QuantityInStock
+                entity.Property(m => m.QuantityInStock)
+                      .IsRequired()
+                      .HasDefaultValue(0);
+
+                // Description
+                entity.Property(m => m.Description)
+                      .IsRequired(false)
+                      .HasMaxLength(1000);
+
+                // Status
+                entity.Property(m => m.Status)
+                      .IsRequired()
+                      .HasConversion<string>()
+                      .HasMaxLength(20)
+                      .HasDefaultValue(MedicineStatus.Active);
+            });
+
+            // 9. Patient
             modelBuilder.Entity<Patient>(entity =>
             {
                 entity.ToTable("Patient");
@@ -222,7 +448,7 @@ namespace DentalClinic.DAL
                       .IsRequired(false)
                       .HasMaxLength(1000);
 
-                // Relationship: Account (1-1), nullable
+                // Relationship: Account, nullable
                 entity.HasOne(p => p.Account)
                       .WithOne()
                       .HasForeignKey<Patient>(p => p.AccountId)
@@ -230,208 +456,37 @@ namespace DentalClinic.DAL
                       .OnDelete(DeleteBehavior.SetNull);
             });
 
-            // 5. Service
-            modelBuilder.Entity<Service>(entity =>
+            // 10. PaymentMethod
+            modelBuilder.Entity<PaymentMethod>(entity =>
             {
-                entity.ToTable("Service");
+                entity.ToTable("PaymentMethod");
 
-                // ServiceId 
-                entity.HasKey(s => s.ServiceId);
+                // PaymentMethodId
+                entity.HasKey(pm => pm.PaymentMethodId);
 
-                // ServiceName
-                entity.Property(s => s.ServiceName)
+                // PaymentMethodName
+                entity.Property(pm => pm.PaymentMethodName)
                       .IsRequired()
-                      .HasMaxLength(200);
+                      .HasMaxLength(50);
 
                 // Description
-                entity.Property(s => s.Description)
+                entity.Property(pm => pm.Description)
                       .IsRequired(false)
-                      .HasMaxLength(1000);
+                      .HasMaxLength(250);
 
-                // UnitPrice
-                entity.Property(s => s.UnitPrice)
-                      .IsRequired()
-                      .HasColumnType("decimal(18, 2)");
-
-                // Status
-                entity.Property(s => s.Status)
-                      .IsRequired()
-                      .HasConversion<string>()
-                      .HasMaxLength(20)
-                      .HasDefaultValue(ServiceStatus.Active);
-            });
-
-            // 6. Medicine
-            modelBuilder.Entity<Medicine>(entity =>
-            {
-                entity.ToTable("Medicine");
-
-                // MedicineId
-                entity.HasKey(m => m.MedicineId);
-
-                // MedicineName
-                entity.Property(m => m.MedicineName)
-                      .IsRequired()
-                      .HasMaxLength(200);
-
-                // Unit
-                entity.Property(m => m.Unit)
-                      .IsRequired()
-                      .HasMaxLength(20);
-
-                // UnitPrice
-                entity.Property(m => m.UnitPrice)
-                      .IsRequired()
-                      .HasColumnType("decimal(18, 2)");
-
-                // QuantityInStock
-                entity.Property(m => m.QuantityInStock)
-                      .IsRequired()
-                      .HasDefaultValue(0);
-
-                // Description
-                entity.Property(m => m.Description)
-                      .IsRequired(false)
-                      .HasMaxLength(1000);
-
-                // Status
-                entity.Property(m => m.Status)
-                      .IsRequired()
-                      .HasConversion<string>()
-                      .HasMaxLength(20)
-                      .HasDefaultValue(MedicineStatus.Active);
-            });
-
-            // 7. Appointment
-            modelBuilder.Entity<Appointment>(entity =>
-            {
-                entity.ToTable("Appointment");
-
-                // AppointmentId
-                entity.HasKey(a => a.AppointmentId);
-
-                // AppointmentDateTime
-                entity.Property(a => a.AppointmentDateTime)
+                // IsCash
+                entity.Property(pm => pm.IsCash)
                       .IsRequired();
 
                 // Status
-                entity.Property(a => a.Status)
-                      .IsRequired()
+                entity.Property(pm => pm.Status)
                       .HasConversion<string>()
-                      .HasMaxLength(20)
-                      .HasDefaultValue(AppointmentStatus.Pending);
-
-                // Note
-                entity.Property(a => a.Note)
-                      .IsRequired(false)
-                      .HasMaxLength(1000);
-
-                // CreatedDate
-                entity.Property(a => a.CreatedDate)
+                      .HasMaxLength(50)
                       .IsRequired()
-                      .HasDefaultValueSql("GETDATE()");
-
-                // Relationship 1: Patient (N - 1)
-                entity.HasOne(a => a.Patient)
-                      .WithMany()
-                      .HasForeignKey(a => a.PatientId)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                // Relationship 2: Doctor (N - 1)
-                entity.HasOne(a => a.Doctor)
-                      .WithMany()
-                      .HasForeignKey(a => a.DoctorId)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                // Relationship 3: Receptionist (N - 1), nullable
-                entity.HasOne(a => a.Receptionist)
-                      .WithMany()
-                      .HasForeignKey(a => a.ReceptionistId)
-                      .IsRequired(false)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .HasDefaultValue(PaymentMethodStatus.Active);
             });
 
-            // 8. MedicalRecord
-            modelBuilder.Entity<MedicalRecord>(entity =>
-            {
-                entity.ToTable("MedicalRecord");
-
-                // MedicalRecordId
-                entity.HasKey(m => m.MedicalRecordId);
-
-                // ExaminationDateTime
-                entity.Property(m => m.ExaminationDateTime)
-                      .IsRequired()
-                      .HasDefaultValueSql("GETDATE()");
-
-                // Diagnosis
-                entity.Property(m => m.Diagnosis)
-                      .IsRequired()
-                      .HasMaxLength(1000);
-
-                // Conclusion
-                entity.Property(m => m.Conclusion)
-                      .IsRequired()
-                      .HasMaxLength(1000);
-
-                // Relationship: Appointment 
-                entity.HasOne(m => m.Appointment)
-                      .WithOne(a => a.MedicalRecord) // Allows navigation from Appointment to its MedicalRecord (can be null if unexamined)
-                      .HasForeignKey<MedicalRecord>(m => m.AppointmentId)
-                      .IsRequired()
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            // 9. MedicalRecordService
-            modelBuilder.Entity<MedicalRecordService>(entity =>
-            {
-                entity.ToTable("MedicalRecordService");
-
-                // MedicalRecordServiceId
-                entity.HasKey(mrs => mrs.MedicalRecordServiceId);
-
-                // Quantity
-                entity.Property(mrs => mrs.Quantity)
-                      .IsRequired();
-
-                // UnitPrice
-                entity.Property(mrs => mrs.UnitPrice)
-                      .IsRequired()
-                      .HasColumnType("decimal(18,2)");
-
-                // TotalAmount
-                entity.Property(mrs => mrs.TotalAmount)
-                      .IsRequired()
-                      .HasColumnType("decimal(18,2)");
-
-                // Status
-                entity.Property(mrs => mrs.Status)
-                      .IsRequired()
-                      .HasConversion<string>()
-                      .HasMaxLength(20)
-                      .HasDefaultValue(MedicalRecordServiceStatus.Pending);
-
-                // Note
-                entity.Property(mrs => mrs.Note)
-                      .IsRequired(false)
-                      .HasMaxLength(1000);
-
-                // Relationship 1: MedicalRecord (N - 1)
-                entity.HasOne(mrs => mrs.MedicalRecord)
-                       .WithMany(mr => mr.MedicalRecordServices)
-                       .HasForeignKey(mrs => mrs.MedicalRecordId)
-                       .IsRequired()
-                       .OnDelete(DeleteBehavior.Restrict);
-
-                // Relationship 2: Service (N - 1)
-                entity.HasOne(mrs => mrs.Service)
-                      .WithMany()
-                      .HasForeignKey(mrs => mrs.ServiceId)
-                      .IsRequired()
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            // 10. Prescription
+            // 11. Prescription
             modelBuilder.Entity<Prescription>(entity =>
             {
                 entity.ToTable("Prescription");
@@ -447,7 +502,7 @@ namespace DentalClinic.DAL
                 entity.Property(p => p.Note)
                       .HasMaxLength(1000);
 
-                // Relationship: MedicalRecord (1 - 1)
+                // Relationship: MedicalRecord 
                 entity.HasOne(p => p.MedicalRecord)
                       .WithOne(m => m.Prescription)
                       .HasForeignKey<Prescription>(p => p.MedicalRecordId)
@@ -455,7 +510,7 @@ namespace DentalClinic.DAL
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // 11. PrescriptionDetail
+            // 12. PrescriptionDetail
             modelBuilder.Entity<PrescriptionDetail>(entity =>
             {
                 entity.ToTable("PrescriptionDetail");
@@ -487,7 +542,7 @@ namespace DentalClinic.DAL
                       .WithMany(p => p.PrescriptionDetails)
                       .HasForeignKey(pd => pd.PrescriptionId)
                       .IsRequired()
-                      .OnDelete(DeleteBehavior.Cascade); // Delete details when prescription is deleted
+                      .OnDelete(DeleteBehavior.Cascade); 
 
                 // Relationship 2: Medicine
                 entity.HasOne(pd => pd.Medicine)
@@ -497,130 +552,129 @@ namespace DentalClinic.DAL
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // 12. Invoice
-            modelBuilder.Entity<Invoice>(entity =>
+            // 13. Receptionist
+            modelBuilder.Entity<Receptionist>(entity =>
             {
-                entity.ToTable("Invoice");
+                entity.ToTable("Receptionist");
 
-                // InvoiceId
-                entity.HasKey(i => i.InvoiceId);
+                // ReceptionistId
+                entity.HasKey(r => r.ReceptionistId);
 
-                // InvoiceDateTime
-                entity.Property(i => i.InvoiceDateTime)
+                // FullName
+                entity.Property(r => r.FullName)
                       .IsRequired()
-                      .HasDefaultValueSql("GETDATE()");
+                      .HasMaxLength(100);
 
-                // TotalAmount
-                entity.Property(i => i.TotalAmount)
-                      .HasColumnType("decimal(18,2)")
-                      .IsRequired();
-
-                // PaymentStatus
-                entity.Property(i => i.Status)
+                // Gender
+                entity.Property(r => r.Gender)
+                      .IsRequired()
                       .HasConversion<string>()
-                      .HasMaxLength(50)
-                      .IsRequired()
-                      .HasDefaultValue(InvoiceStatus.Pending);
+                      .HasMaxLength(10);
 
-                // Relationship 1: 1-N with PaymentMethod
-                entity.HasOne(i => i.PaymentMethod)
-                      .WithMany()
-                      .HasForeignKey(i => i.PaymentMethodId)
+                // DateOfBirth
+                entity.Property(r => r.DateOfBirth)
                       .IsRequired()
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .HasColumnType("date");
 
-                // Relationship 2: 1-N or 1-1 with Appointment
-                entity.HasOne(i => i.Appointment)
-                      .WithOne(a => a.Invoice)
-                      .HasForeignKey<Invoice>(i => i.AppointmentId)
+                // Phone
+                entity.Property(r => r.Phone)
                       .IsRequired()
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .HasMaxLength(15);
 
-                // Relationship 3: 1-N with Receptionist
-                entity.HasOne(i => i.Receptionist)
-                      .WithMany()
-                      .HasForeignKey(i => i.ReceptionistId)
+                // Email
+                entity.Property(r => r.Email)
                       .IsRequired()
+                      .HasMaxLength(100);
+
+                // Description
+                entity.Property(r => r.Description)
+                      .IsRequired(false)
+                      .HasMaxLength(1000); 
+
+                // Relationship: Account 
+                entity.HasOne(r => r.Account)
+                      .WithOne()
+                      .HasForeignKey<Receptionist>(r => r.AccountId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // 13. InvoiceDetail
-            modelBuilder.Entity<InvoiceDetail>(entity =>
+            // 14. Service
+            modelBuilder.Entity<Service>(entity =>
             {
-                entity.ToTable("InvoiceDetail");
+                entity.ToTable("Service");
 
-                // InvoiceDetailId
-                entity.HasKey(id => id.InvoiceDetailId);
+                // ServiceId 
+                entity.HasKey(s => s.ServiceId);
 
-                // ItemName
-                entity.Property(id => id.ItemName)
+                // ServiceName
+                entity.Property(s => s.ServiceName)
                       .IsRequired()
                       .HasMaxLength(200);
 
-                // Quantity
-                entity.Property(id => id.Quantity)
-                      .IsRequired();
+                // Description
+                entity.Property(s => s.Description)
+                      .IsRequired(false)
+                      .HasMaxLength(1000);
 
                 // UnitPrice
-                entity.Property(id => id.UnitPrice)
-                      .HasColumnType("decimal(18,2)")
-                      .IsRequired();
-
-                // TotalAmount:
-                entity.Property(id => id.TotalAmount)
-                      .HasColumnType("decimal(18,2)")
-                      .IsRequired();
-
-                // Relationship 1: 1-N with Invoice 
-                entity.HasOne(id => id.Invoice)
-                      .WithMany(i => i.InvoiceDetails)
-                      .HasForeignKey(id => id.InvoiceId)
+                entity.Property(s => s.UnitPrice)
                       .IsRequired()
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                // Relationship 2: 1-N with MedicalRecordService (Nullable)
-                entity.HasOne(id => id.MedicalRecordService)
-                      .WithMany()
-                      .HasForeignKey(id => id.MedicalRecordServiceId)
-                      .IsRequired(false)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                // Relationship 3: 1-N with PrescriptionDetail (Nullable)
-                entity.HasOne(id => id.PrescriptionDetail)
-                      .WithMany()
-                      .HasForeignKey(id => id.PrescriptionDetailId)
-                      .IsRequired(false)
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            // 14. PaymentMethod
-            modelBuilder.Entity<PaymentMethod>(entity =>
-            {
-                entity.ToTable("PaymentMethod");
-
-                // PaymentMethodId
-                entity.HasKey(pm => pm.PaymentMethodId);
-
-                // PaymentMethodName
-                entity.Property(pm => pm.PaymentMethodName)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                // Description
-                entity.Property(pm => pm.Description)
-                      .IsRequired(false)
-                      .HasMaxLength(250);
-
-                // IsCash
-                entity.Property(pm => pm.IsCash)
-                      .IsRequired();
+                      .HasColumnType("decimal(18, 2)");
 
                 // Status
-                entity.Property(pm => pm.Status)
-                      .HasConversion<string>()
-                      .HasMaxLength(50)
+                entity.Property(s => s.Status)
                       .IsRequired()
-                      .HasDefaultValue(PaymentMethodStatus.Active);
+                      .HasConversion<string>()
+                      .HasMaxLength(20)
+                      .HasDefaultValue(ServiceStatus.Active);
+            });
+
+            // 15. Visit
+            modelBuilder.Entity<Visit>(entity =>
+            {
+                entity.ToTable("Visit");
+
+                entity.HasKey(v => v.VisitId);
+
+                // CheckInDateTime
+                entity.Property(v => v.CheckInDateTime)
+                      .IsRequired()
+                      .HasDefaultValueSql("GETDATE()");
+
+                // ReasonForVisit
+                entity.Property(v => v.ReasonForVisit)
+                      .IsRequired()
+                      .HasMaxLength(1000);
+
+                // Status
+                entity.Property(v => v.Status)
+                      .IsRequired()
+                      .HasConversion<string>()
+                      .HasMaxLength(30)
+                      .HasDefaultValue(VisitStatus.Waiting);
+
+                // QueueNumber
+                entity.Property(v => v.QueueNumber)
+                      .IsRequired();
+
+                // Relationship 1: Patient
+                entity.HasOne(v => v.Patient)
+                      .WithMany()
+                      .HasForeignKey(v => v.PatientId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 2: Appointment, nullable
+                entity.HasOne(v => v.Appointment)
+                      .WithOne(a => a.Visit)
+                      .HasForeignKey<Visit>(v => v.AppointmentId)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 3: Doctor
+                entity.HasOne(v => v.Doctor)
+                      .WithMany()
+                      .HasForeignKey(v => v.DoctorId)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

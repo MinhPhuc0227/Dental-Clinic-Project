@@ -21,8 +21,8 @@ namespace DentalClinic.MODEL
         public int PaymentMethodId { get; set; }
         public PaymentMethod PaymentMethod { get; set; } = null!;
 
-        public int AppointmentId { get; set; }
-        public Appointment Appointment { get; set; } = null!;
+        public int VisitId { get; set; }
+        public Visit Visit { get; set; } = null!;
 
         public int ReceptionistId { get; set; }
         public Receptionist Receptionist { get; set; } = null!;

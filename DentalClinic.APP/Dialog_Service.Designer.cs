@@ -100,7 +100,7 @@
             cbStatus.FormattingEnabled = true;
             cbStatus.Location = new Point(140, 180);
             cbStatus.Name = "cbStatus";
-            cbStatus.Size = new Size(270, 36);
+            cbStatus.Size = new Size(378, 36);
             cbStatus.TabIndex = 3;
             // 
             // txtDescription

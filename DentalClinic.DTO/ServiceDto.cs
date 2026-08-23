@@ -51,4 +51,13 @@ namespace DentalClinic.DTO
         [Range(1, int.MaxValue, ErrorMessage = "Mã dịch vụ phải lớn hơn 0.")]
         public int ServiceId { get; set; }
     }
+
+    public class SelectedServiceDto
+    {
+        public int ServiceId { get; set; }
+        public string ServiceName { get; set; } = string.Empty;
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal TotalPrice => Quantity * UnitPrice;
+    }
 }

@@ -13,7 +13,7 @@ namespace DentalClinic.APP
 {
     public partial class UC_Receptionist_WaitingQueue : UserControl
     {
-        private readonly Visit_BLL _visitBLL; // Đảm bảo bạn đã truyền BLL này từ Form_Receptionist vào
+        private readonly Visit_BLL _visitBLL; 
 
         public UC_Receptionist_WaitingQueue(Visit_BLL visitBLL)
         {
@@ -33,7 +33,7 @@ namespace DentalClinic.APP
             dtpDate.Value = DateTime.Today;
 
             // 1. Nạp danh sách bác sĩ
-            var doctorRes = _visitBLL.GetDoctorsLookup(); // Giả sử bạn có hàm này
+            var doctorRes = _visitBLL.GetDoctorsLookup(); 
             if (doctorRes.IsSuccess && doctorRes.Data != null)
             {
                 var doctors = new List<LookupItemDto> { new LookupItemDto { Id = 0, Name = "-- Tất cả Bác sĩ --" } };

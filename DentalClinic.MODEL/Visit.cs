@@ -6,10 +6,10 @@ namespace DentalClinic.MODEL
 {
     public enum VisitStatus
     {
-        Waiting,
-        InExamination,
-        Completed,
-        Cancelled
+        Waiting, // Chờ khám
+        InExamination, // Đang khám
+        Completed, // Đã hoàn thành
+        Cancelled // Đã hủy
     }
 
     public class Visit

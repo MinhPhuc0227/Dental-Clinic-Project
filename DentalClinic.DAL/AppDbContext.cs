@@ -24,20 +24,35 @@ namespace DentalClinic.DAL
             }
         }
 
+        // 1
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Receptionist> Receptionists { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Service> Services { get; set; }
-        public DbSet<Medicine> Medicines { get; set; }
+        // 2
         public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<MedicalRecord> MedicalRecords { get; set; }
-        public DbSet<MedicalRecordService> MedicalRecordServices { get; set; }
-        public DbSet<Prescription> Prescriptions { get; set; }
-        public DbSet<PrescriptionDetail> PrescriptionDetails { get; set; }
+        // 3
+        public DbSet<Doctor> Doctors { get; set; }
+        // 4
         public DbSet<Invoice> Invoices { get; set; }
+        // 5
         public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
+        // 6
+        public DbSet<MedicalRecord> MedicalRecords { get; set; }
+        // 7
+        public DbSet<MedicalRecordService> MedicalRecordServices { get; set; }
+        // 8
+        public DbSet<Medicine> Medicines { get; set; }
+        // 9
+        public DbSet<Patient> Patients { get; set; }
+        // 10
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        // 11
+        public DbSet<Prescription> Prescriptions { get; set; }
+        // 12
+        public DbSet<PrescriptionDetail> PrescriptionDetails { get; set; }
+        // 13
+        public DbSet<Receptionist> Receptionists { get; set; }
+        // 14
+        public DbSet<Service> Services { get; set; }
+        // 15
         public DbSet<Visit> Visits { get; set; }
 
 
@@ -518,24 +533,22 @@ namespace DentalClinic.DAL
                 // PrescriptionDetailId
                 entity.HasKey(pd => pd.PrescriptionDetailId);
 
-                // Dosage
-                entity.Property(pd => pd.Dosage)
-                      .IsRequired()
-                      .HasMaxLength(50);
+                // Dosage (morning, noon, afteroon, evening)
+                entity.Property(pd => pd.Morning).IsRequired();
+                entity.Property(pd => pd.Noon).IsRequired();
+                entity.Property(pd => pd.Afternoon).IsRequired();
+                entity.Property(pd => pd.Evening).IsRequired();
 
-                // Frequency
-                entity.Property(pd => pd.Frequency)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                // Duration
-                entity.Property(pd => pd.Duration)
-                      .IsRequired()
-                      .HasMaxLength(50);
+                // Days
+                entity.Property(pd => pd.Days).IsRequired();
 
                 // Quantity
-                entity.Property(pd => pd.Quantity)
-                      .IsRequired();
+                entity.Property(pd => pd.Quantity).IsRequired();
+
+                // Instruction
+                entity.Property(pd => pd.Instruction)
+                      .HasMaxLength(200) 
+                      .IsRequired(false); 
 
                 // Relationship 1: Prescription
                 entity.HasOne(pd => pd.Prescription)

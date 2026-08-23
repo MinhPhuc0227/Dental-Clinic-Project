@@ -100,9 +100,7 @@ namespace DentalClinic.APP
                 UseColumnTextForButtonValue = true,
                 Width = 80
             };
-            // Đổi màu nền nút (tùy chọn)
-            checkInCol.DefaultCellStyle.BackColor = Color.Teal;
-            checkInCol.DefaultCellStyle.ForeColor = Color.White;
+
             dgvAppointment.Columns.Add(checkInCol);
 
             // Cột nút Edit
@@ -157,7 +155,7 @@ namespace DentalClinic.APP
                 var columnName = dgvAppointment.Columns[e.ColumnIndex].Name;
                 if (dgvAppointment.Rows[e.RowIndex].DataBoundItem is AppointmentListDto dto)
                 {
-                    // XỬ LÝ KHI BẤM NÚT "TIẾP NHẬN" TRÊN LƯỚI
+                    // Xử lý khi nhấn Tiếp nhận
                     if (columnName == "colCheckIn")
                     {
                         // Chỉ cho phép tiếp nhận nếu đang ở trạng thái Chờ hoặc Đã xác nhận
@@ -173,7 +171,7 @@ namespace DentalClinic.APP
                              if (res.IsSuccess) { LoadData(); }
                         }
                     }
-                    // XỬ LÝ KHI BẤM NÚT "SỬA" (Giữ nguyên code cũ của bạn)
+                    // Xử lý khi nhấn Sửa
                     else if (columnName == "colEdit")
                     {
                         using (var dialog = new Dialog_Appointment(_appointmentBLL, _currentReceptionistId, _currentReceptionistName, dto.AppointmentId))

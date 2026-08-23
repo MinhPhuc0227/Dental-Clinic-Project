@@ -65,4 +65,19 @@ namespace DentalClinic.DTO
         [Range(1, int.MaxValue)]
         public int MedicineId { get; set; }
     }
+
+    public class SelectedMedicineDto
+    {
+        public int MedicineId { get; set; }
+        public string MedicineName { get; set; } = string.Empty;
+        public int Morning { get; set; }
+        public int Noon { get; set; }
+        public int Afternoon { get; set; }
+        public int Evening { get; set; }
+        public int Days { get; set; }
+        public string Instruction { get; set; } = string.Empty;
+        public int Quantity => (Morning + Noon + Afternoon + Evening) * Days;
+        public decimal UnitPrice { get; set; }
+        public decimal TotalPrice => Quantity * UnitPrice;
+    }
 }

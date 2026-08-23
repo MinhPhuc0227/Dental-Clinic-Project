@@ -7,10 +7,13 @@ namespace DentalClinic.MODEL
     public class PrescriptionDetail
     {
         public int PrescriptionDetailId { get; set; }
-        public string Dosage { get; set; } = string.Empty;
-        public string Frequency { get; set; } = string.Empty;
-        public string Duration { get; set; } = string.Empty;
-        public int Quantity { get; set; }
+        public int Morning { get; set; }  
+        public int Noon { get; set; }      
+        public int Afternoon { get; set; } 
+        public int Evening { get; set; }  
+        public int Days { get; set; }    
+        public int Quantity { get; set; }  
+        public string Instruction { get; set; } = string.Empty;
 
         // Foreign Key
         public int PrescriptionId { get; set; }

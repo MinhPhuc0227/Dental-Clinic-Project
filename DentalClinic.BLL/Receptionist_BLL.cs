@@ -42,6 +42,11 @@ namespace DentalClinic.BLL
             }
         }
 
+        public Receptionist? GetReceptionistByAccountId(int accountId)
+        {
+            return _dal.GetReceptionistByAccountId(accountId);
+        }
+
         // Add
         public Result Add(CreateReceptionistDto dto)
         {

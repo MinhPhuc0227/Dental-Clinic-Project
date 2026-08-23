@@ -26,6 +26,14 @@ namespace DentalClinic.DAL
             }
         }
 
+        public Receptionist? GetReceptionistByAccountId(int accountId)
+        {
+            using (var context = new AppDbContext())
+            {
+                return context.Receptionists.FirstOrDefault(d => d.AccountId == accountId);
+            }
+        }
+
         // Check if username exists (excludeAccountId) - for Updating
         public bool IsUserNameExists(string userName, int excludeAccountId = 0)
         {

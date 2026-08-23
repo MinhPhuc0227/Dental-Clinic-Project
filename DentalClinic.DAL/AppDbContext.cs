@@ -176,7 +176,7 @@ namespace DentalClinic.DAL
 
                 // Relationship: Account 
                 entity.HasOne(d => d.Account)
-                      .WithOne()
+                      .WithOne(a => a.Doctor)
                       .HasForeignKey<Doctor>(d => d.AccountId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
@@ -593,7 +593,7 @@ namespace DentalClinic.DAL
 
                 // Relationship: Account 
                 entity.HasOne(r => r.Account)
-                      .WithOne()
+                      .WithOne(a => a.Receptionist)
                       .HasForeignKey<Receptionist>(r => r.AccountId)
                       .OnDelete(DeleteBehavior.Restrict);
             });

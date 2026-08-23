@@ -43,6 +43,11 @@ namespace DentalClinic.BLL
             }
         }
 
+        public Doctor? GetDoctorByAccountId(int accountId)
+        {
+            return _dal.GetDoctorByAccountId(accountId);
+        }
+
         // ADD
         public Result Add(CreateDoctorDto dto)
         {

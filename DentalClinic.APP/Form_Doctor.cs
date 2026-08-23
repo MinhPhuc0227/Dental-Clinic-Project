@@ -1,6 +1,7 @@
 ﻿using DentalClinic.BLL;
 using DentalClinic.DAL;
 using DentalClinic.MODEL;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace DentalClinic.APP
 {
@@ -19,25 +21,36 @@ namespace DentalClinic.APP
 
         private readonly Appointment_BLL _appointmentBLL = new Appointment_BLL(new Appointment_DAL(new AppDbContext()));
         private readonly Visit_BLL _visitBLL = new Visit_BLL(new Visit_DAL(new AppDbContext()));
+        private readonly Doctor_BLL _doctorBll = new Doctor_BLL();
         //private readonly MedicalRecord_BLL _medicalRecordBLL = new MedicalRecord_BLL(new MedicalRecord_DAL(new AppDbContext()));
 
         private readonly int _currentDoctorId;
         private readonly string _currentDoctorName;
 
-        public Form_Doctor(int doctorId, string doctorName)
+        public Form_Doctor(int accountId, string userName)
         {
             InitializeComponent();
 
-            _currentDoctorId = doctorId;
-            _currentDoctorName = doctorName;
+            // Tìm thông tin Bác sĩ từ AccountId
+            var doctor = _doctorBll.GetDoctorByAccountId(accountId);
+            if (doctor != null)
+            {
+                _currentDoctorId = doctor.DoctorId;
+                _currentDoctorName = doctor.FullName;
+            }
+            else
+            {
+                _currentDoctorId = 0;
+                _currentDoctorName = userName; // Dùng tạm tên đăng nhập nếu chưa có hồ sơ
+            }
 
-            // Khởi tạo UC và truyền tham số đúng chuẩn
+            // Đổi tiêu đề Form
+            this.Text = $"Bác sĩ: {_currentDoctorName}";
+
+            // Truyền đúng _currentDoctorId vào các UserControl
             ExaminationUC = new UC_Doctor_Examination(_visitBLL, _currentDoctorId);
             DoctorAppointmentUC = new UC_Doctor_Appointment(_appointmentBLL, _currentDoctorId);
             MedicalRecordUC = new UC_Doctor_MedicalRecord();
-
-            // (Tuỳ chọn) Đổi tiêu đề Form để biết ai đang đăng nhập
-            this.Text = $"Bác sĩ: {_currentDoctorName}";
         }
 
         private void ShowUC(UserControl uc)

@@ -24,6 +24,7 @@ namespace DentalClinic.DAL
             var query = _context.Visits
                 .Include(v => v.Patient)
                 .Include(v => v.Doctor)
+                .Include(v => v.Appointment)
                 .AsNoTracking()
                 .Where(v => v.CheckInDateTime.Date == date.Date); // Luôn lọc theo ngày
 
@@ -58,7 +59,9 @@ namespace DentalClinic.DAL
                     DoctorName = v.Doctor != null ? v.Doctor.FullName : "",
                     CheckInDateTime = v.CheckInDateTime,
                     ReasonForVisit = v.ReasonForVisit,
-                    Status = v.Status
+                    Status = v.Status,
+                    PatientNote = v.Patient.Note,
+                    AppointmentNote = v.Appointment != null ? v.Appointment.Note : null
                 }).ToList();
         }
 

@@ -154,7 +154,7 @@ namespace DentalClinic.DAL
                         ReasonForVisit = app.ReasonForVisit,
                         CheckInDateTime = DateTime.Now,
                         Status = VisitStatus.Waiting, // Quan trọng: Đánh dấu là đang chờ khám
-                        //ReceptionistId = receptionistId
+                        ReceptionistId = receptionistId,
                         QueueNumber = currentQueueCount + 1 // Cấp số thứ tự tiếp theo
                     };
 

@@ -146,6 +146,7 @@
             Name = "Form_Doctor";
             Padding = new Padding(10);
             Text = "Form_Doctor";
+            WindowState = FormWindowState.Maximized;
             panel2.ResumeLayout(false);
             ResumeLayout(false);
         }

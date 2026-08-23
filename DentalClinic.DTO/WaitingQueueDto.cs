@@ -25,5 +25,8 @@ namespace DentalClinic.DTO
             VisitStatus.Cancelled => "Đã hủy",
             _ => "Khác"
         };
+
+        public string? PatientNote { get; set; } 
+        public string? AppointmentNote { get; set; }
     }
 }

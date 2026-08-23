@@ -155,11 +155,11 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 10F);
+            label2.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
             label2.ForeColor = Color.DarkCyan;
             label2.Location = new Point(13, 63);
             label2.Name = "label2";
-            label2.Size = new Size(267, 23);
+            label2.Size = new Size(257, 23);
             label2.TabIndex = 16;
             label2.Text = "Quản lý lịch khám của bệnh nhân";
             // 

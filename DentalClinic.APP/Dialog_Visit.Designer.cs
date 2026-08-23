@@ -28,72 +28,62 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lbCreatedDate = new Label();
+            lbCheckInDateTime = new Label();
             lbStatus = new Label();
-            dtpAppointmentDate = new DateTimePicker();
-            btAddPatient = new Button();
+            btCreatePatient = new Button();
             cbPatient = new ComboBox();
             label11 = new Label();
-            lbAppoinmentId = new Label();
+            lbPatientId = new Label();
             label7 = new Label();
             label4 = new Label();
-            txtDescription = new TextBox();
+            txtReasonForVisit = new TextBox();
             btCancel = new Button();
             label3 = new Label();
             label2 = new Label();
             btSave = new Button();
             label1 = new Label();
-            lbReceptionist = new Label();
-            label5 = new Label();
-            label6 = new Label();
+            lbAppointmentId = new Label();
+            lbVisitId = new Label();
+            lbQueueNumber = new Label();
             label8 = new Label();
-            comboBox1 = new ComboBox();
+            cbDoctor = new ComboBox();
             label9 = new Label();
+            txtPhone = new TextBox();
             SuspendLayout();
             // 
-            // lbCreatedDate
+            // lbCheckInDateTime
             // 
-            lbCreatedDate.AutoSize = true;
-            lbCreatedDate.Font = new Font("Segoe UI Semibold", 12F);
-            lbCreatedDate.ForeColor = Color.DarkCyan;
-            lbCreatedDate.Location = new Point(230, 402);
-            lbCreatedDate.Name = "lbCreatedDate";
-            lbCreatedDate.Size = new Size(186, 28);
-            lbCreatedDate.TabIndex = 95;
-            lbCreatedDate.Text = "thời gian tiếp nhận";
+            lbCheckInDateTime.AutoSize = true;
+            lbCheckInDateTime.Font = new Font("Segoe UI Semibold", 12F);
+            lbCheckInDateTime.ForeColor = Color.DarkCyan;
+            lbCheckInDateTime.Location = new Point(230, 402);
+            lbCheckInDateTime.Name = "lbCheckInDateTime";
+            lbCheckInDateTime.Size = new Size(186, 28);
+            lbCheckInDateTime.TabIndex = 95;
+            lbCheckInDateTime.Text = "thời gian tiếp nhận";
             // 
             // lbStatus
             // 
             lbStatus.AutoSize = true;
             lbStatus.Font = new Font("Segoe UI Semibold", 12F);
             lbStatus.ForeColor = Color.DarkCyan;
-            lbStatus.Location = new Point(197, 444);
+            lbStatus.Location = new Point(230, 444);
             lbStatus.Name = "lbStatus";
             lbStatus.Size = new Size(193, 28);
             lbStatus.TabIndex = 94;
             lbStatus.Text = "trạng thái tiếp nhận";
             // 
-            // dtpAppointmentDate
+            // btCreatePatient
             // 
-            dtpAppointmentDate.CustomFormat = "dd/MM/yyyy";
-            dtpAppointmentDate.Font = new Font("Segoe UI", 10F);
-            dtpAppointmentDate.Format = DateTimePickerFormat.Custom;
-            dtpAppointmentDate.Location = new Point(194, 105);
-            dtpAppointmentDate.Name = "dtpAppointmentDate";
-            dtpAppointmentDate.Size = new Size(355, 30);
-            dtpAppointmentDate.TabIndex = 91;
-            // 
-            // btAddPatient
-            // 
-            btAddPatient.FlatAppearance.BorderSize = 0;
-            btAddPatient.FlatStyle = FlatStyle.Flat;
-            btAddPatient.Image = Properties.Resources.add;
-            btAddPatient.Location = new Point(491, 55);
-            btAddPatient.Name = "btAddPatient";
-            btAddPatient.Size = new Size(48, 41);
-            btAddPatient.TabIndex = 89;
-            btAddPatient.TextAlign = ContentAlignment.MiddleRight;
-            btAddPatient.UseVisualStyleBackColor = true;
+            btCreatePatient.FlatAppearance.BorderSize = 0;
+            btCreatePatient.FlatStyle = FlatStyle.Flat;
+            btCreatePatient.Image = Properties.Resources.add;
+            btCreatePatient.Location = new Point(491, 55);
+            btCreatePatient.Name = "btCreatePatient";
+            btCreatePatient.Size = new Size(48, 41);
+            btCreatePatient.TabIndex = 89;
+            btCreatePatient.TextAlign = ContentAlignment.MiddleRight;
+            btCreatePatient.UseVisualStyleBackColor = true;
             // 
             // cbPatient
             // 
@@ -116,16 +106,16 @@
             label11.TabIndex = 87;
             label11.Text = "Họ tên";
             // 
-            // lbAppoinmentId
+            // lbPatientId
             // 
-            lbAppoinmentId.AutoSize = true;
-            lbAppoinmentId.Font = new Font("Segoe UI Semibold", 12F);
-            lbAppoinmentId.ForeColor = Color.DarkCyan;
-            lbAppoinmentId.Location = new Point(194, 18);
-            lbAppoinmentId.Name = "lbAppoinmentId";
-            lbAppoinmentId.Size = new Size(85, 28);
-            lbAppoinmentId.TabIndex = 84;
-            lbAppoinmentId.Text = "tự động";
+            lbPatientId.AutoSize = true;
+            lbPatientId.Font = new Font("Segoe UI Semibold", 12F);
+            lbPatientId.ForeColor = Color.DarkCyan;
+            lbPatientId.Location = new Point(194, 18);
+            lbPatientId.Name = "lbPatientId";
+            lbPatientId.Size = new Size(85, 28);
+            lbPatientId.TabIndex = 84;
+            lbPatientId.Text = "tự động";
             // 
             // label7
             // 
@@ -143,22 +133,22 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 12F);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(34, 402);
+            label4.Location = new Point(32, 402);
             label4.Name = "label4";
             label4.Size = new Size(190, 28);
             label4.TabIndex = 82;
             label4.Text = "Thời gian tiếp nhận";
             // 
-            // txtDescription
+            // txtReasonForVisit
             // 
-            txtDescription.BorderStyle = BorderStyle.FixedSingle;
-            txtDescription.Font = new Font("Segoe UI", 10F);
-            txtDescription.Location = new Point(194, 155);
-            txtDescription.Multiline = true;
-            txtDescription.Name = "txtDescription";
-            txtDescription.ScrollBars = ScrollBars.Vertical;
-            txtDescription.Size = new Size(355, 119);
-            txtDescription.TabIndex = 76;
+            txtReasonForVisit.BorderStyle = BorderStyle.FixedSingle;
+            txtReasonForVisit.Font = new Font("Segoe UI", 10F);
+            txtReasonForVisit.Location = new Point(194, 155);
+            txtReasonForVisit.Multiline = true;
+            txtReasonForVisit.Name = "txtReasonForVisit";
+            txtReasonForVisit.ScrollBars = ScrollBars.Vertical;
+            txtReasonForVisit.Size = new Size(355, 119);
+            txtReasonForVisit.TabIndex = 76;
             // 
             // btCancel
             // 
@@ -167,19 +157,20 @@
             btCancel.FlatStyle = FlatStyle.Flat;
             btCancel.Font = new Font("Segoe UI Semibold", 12F);
             btCancel.ForeColor = Color.White;
-            btCancel.Location = new Point(354, 500);
+            btCancel.Location = new Point(335, 566);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
             btCancel.TabIndex = 77;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
+            btCancel.Click += btCancel_Click;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(31, 155);
+            label3.Location = new Point(32, 155);
             label3.Name = "label3";
             label3.Size = new Size(118, 28);
             label3.TabIndex = 81;
@@ -190,7 +181,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(34, 444);
+            label2.Location = new Point(32, 444);
             label2.Name = "label2";
             label2.Size = new Size(102, 28);
             label2.TabIndex = 80;
@@ -203,12 +194,13 @@
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
-            btSave.Location = new Point(461, 500);
+            btSave.Location = new Point(442, 566);
             btSave.Name = "btSave";
             btSave.Size = new Size(107, 40);
             btSave.TabIndex = 78;
             btSave.Text = "Xác nhận";
             btSave.UseVisualStyleBackColor = false;
+            btSave.Click += btSave_Click;
             // 
             // label1
             // 
@@ -221,59 +213,59 @@
             label1.TabIndex = 79;
             label1.Text = "SĐT";
             // 
-            // lbReceptionist
+            // lbAppointmentId
             // 
-            lbReceptionist.AutoSize = true;
-            lbReceptionist.Font = new Font("Segoe UI Semibold", 12F);
-            lbReceptionist.ForeColor = Color.DarkCyan;
-            lbReceptionist.Location = new Point(197, 360);
-            lbReceptionist.Name = "lbReceptionist";
-            lbReceptionist.Size = new Size(84, 28);
-            lbReceptionist.TabIndex = 96;
-            lbReceptionist.Text = "lịch hẹn";
+            lbAppointmentId.AutoSize = true;
+            lbAppointmentId.Font = new Font("Segoe UI Semibold", 12F);
+            lbAppointmentId.ForeColor = Color.DarkCyan;
+            lbAppointmentId.Location = new Point(230, 360);
+            lbAppointmentId.Name = "lbAppointmentId";
+            lbAppointmentId.Size = new Size(84, 28);
+            lbAppointmentId.TabIndex = 96;
+            lbAppointmentId.Text = "lịch hẹn";
             // 
-            // label5
+            // lbVisitId
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI Semibold", 12F);
-            label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(34, 360);
-            label5.Name = "label5";
-            label5.Size = new Size(89, 28);
-            label5.TabIndex = 85;
-            label5.Text = "Lịch hẹn";
+            lbVisitId.AutoSize = true;
+            lbVisitId.Font = new Font("Segoe UI Semibold", 12F);
+            lbVisitId.ForeColor = Color.DarkCyan;
+            lbVisitId.Location = new Point(32, 360);
+            lbVisitId.Name = "lbVisitId";
+            lbVisitId.Size = new Size(139, 28);
+            lbVisitId.TabIndex = 85;
+            lbVisitId.Text = "Mã lượt khám";
             // 
-            // label6
+            // lbQueueNumber
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Semibold", 12F);
-            label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(197, 505);
-            label6.Name = "label6";
-            label6.Size = new Size(95, 28);
-            label6.TabIndex = 98;
-            label6.Text = "số thứ tự";
+            lbQueueNumber.AutoSize = true;
+            lbQueueNumber.Font = new Font("Segoe UI Semibold", 12F);
+            lbQueueNumber.ForeColor = Color.DarkCyan;
+            lbQueueNumber.Location = new Point(230, 505);
+            lbQueueNumber.Name = "lbQueueNumber";
+            lbQueueNumber.Size = new Size(95, 28);
+            lbQueueNumber.TabIndex = 98;
+            lbQueueNumber.Text = "số thứ tự";
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 12F);
             label8.ForeColor = Color.DarkCyan;
-            label8.Location = new Point(34, 505);
+            label8.Location = new Point(32, 505);
             label8.Name = "label8";
             label8.Size = new Size(97, 28);
             label8.TabIndex = 97;
             label8.Text = "Số thứ tự";
             // 
-            // comboBox1
+            // cbDoctor
             // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.Font = new Font("Segoe UI", 10F);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(194, 295);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(291, 31);
-            comboBox1.TabIndex = 100;
+            cbDoctor.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbDoctor.Font = new Font("Segoe UI", 10F);
+            cbDoctor.FormattingEnabled = true;
+            cbDoctor.Location = new Point(194, 295);
+            cbDoctor.Name = "cbDoctor";
+            cbDoctor.Size = new Size(355, 31);
+            cbDoctor.TabIndex = 100;
             // 
             // label9
             // 
@@ -286,28 +278,36 @@
             label9.TabIndex = 99;
             label9.Text = "Bác sĩ";
             // 
+            // txtPhone
+            // 
+            txtPhone.Font = new Font("Segoe UI", 10F);
+            txtPhone.Location = new Point(195, 114);
+            txtPhone.Name = "txtPhone";
+            txtPhone.Size = new Size(354, 30);
+            txtPhone.TabIndex = 101;
+            // 
             // Dialog_Visit
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(631, 590);
-            Controls.Add(comboBox1);
+            ClientSize = new Size(585, 618);
+            Controls.Add(txtPhone);
+            Controls.Add(cbDoctor);
             Controls.Add(label9);
-            Controls.Add(label6);
+            Controls.Add(lbQueueNumber);
             Controls.Add(label8);
-            Controls.Add(lbReceptionist);
-            Controls.Add(lbCreatedDate);
+            Controls.Add(lbAppointmentId);
+            Controls.Add(lbCheckInDateTime);
             Controls.Add(lbStatus);
-            Controls.Add(dtpAppointmentDate);
-            Controls.Add(btAddPatient);
+            Controls.Add(btCreatePatient);
             Controls.Add(cbPatient);
             Controls.Add(label11);
-            Controls.Add(label5);
-            Controls.Add(lbAppoinmentId);
+            Controls.Add(lbVisitId);
+            Controls.Add(lbPatientId);
             Controls.Add(label7);
             Controls.Add(label4);
-            Controls.Add(txtDescription);
+            Controls.Add(txtReasonForVisit);
             Controls.Add(btCancel);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -315,32 +315,33 @@
             Controls.Add(label1);
             Name = "Dialog_Visit";
             Text = "Thông tin tiếp nhận";
+            Load += Dialog_Visit_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label lbCreatedDate;
+        private Label lbCheckInDateTime;
         private Label lbStatus;
-        private DateTimePicker dtpAppointmentDate;
-        private Button btAddPatient;
+        private Button btCreatePatient;
         private ComboBox cbPatient;
         private Label label11;
-        private Label lbAppoinmentId;
+        private Label lbPatientId;
         private Label label7;
         private Label label4;
-        private TextBox txtDescription;
+        private TextBox txtReasonForVisit;
         private Button btCancel;
         private Label label3;
         private Label label2;
         private Button btSave;
         private Label label1;
-        private Label lbReceptionist;
-        private Label label5;
-        private Label label6;
+        private Label lbAppointmentId;
+        private Label lbVisitId;
+        private Label lbQueueNumber;
         private Label label8;
-        private ComboBox comboBox1;
+        private ComboBox cbDoctor;
         private Label label9;
+        private TextBox txtPhone;
     }
 }

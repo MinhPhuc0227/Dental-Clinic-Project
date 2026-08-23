@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DentalClinic.BLL;
+using DentalClinic.DAL;
+using DentalClinic.MODEL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,9 +13,80 @@ namespace DentalClinic.APP
 {
     public partial class Form_Receptionist : Form
     {
-        public Form_Receptionist()
+        // 1. Khai báo biến lưu thông tin Lễ tân đang đăng nhập
+        private readonly int _currentReceptionistId;
+        private readonly string _currentReceptionistName;
+
+        // 2. Khai báo các User Control
+        private UC_Receptionist_Visit VisitUC;
+        private UC_Receptionist_Appointment AppointmentUC;
+        private UC_Receptionist_WaitingQueue WaitingQueueUC;
+        private UC_Receptionist_Invoice InvoiceUC = new UC_Receptionist_Invoice();
+
+        private readonly Appointment_BLL _appointmentBLL = new Appointment_BLL(new Appointment_DAL(new AppDbContext()));
+        private readonly Visit_BLL _visitBLL = new Visit_BLL(new Visit_DAL(new AppDbContext()));
+
+        public Form_Receptionist(int receptionistId, string receptionistName)
         {
             InitializeComponent();
+
+            _currentReceptionistId = receptionistId;
+            _currentReceptionistName = receptionistName;
+
+            // 4. Khởi tạo UC và truyền chính xác ID, Tên động vào
+            AppointmentUC = new UC_Receptionist_Appointment(_appointmentBLL, _currentReceptionistId, _currentReceptionistName);
+            WaitingQueueUC = new UC_Receptionist_WaitingQueue(_visitBLL);
+            VisitUC = new UC_Receptionist_Visit(_visitBLL, _currentReceptionistId); // Truyền luôn ID lễ tân vào đây nếu cần lưu vết ai tiếp nhận
+
+            // (Tuỳ chọn) Đổi tiêu đề Form hiển thị tên lễ tân
+            this.Text = $"Lễ tân: {_currentReceptionistName}";
+        }
+
+        private void ShowUC(UserControl uc)
+        {
+            if (!pnContent.Controls.Contains(uc))
+            {
+                uc.Dock = DockStyle.Fill;
+                pnContent.Controls.Add(uc);
+            }
+
+            uc.BringToFront();
+        }
+
+        private void rbVisit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbVisit.Checked)
+            {
+                ShowUC(VisitUC);
+                VisitUC.LoadData();
+            }
+        }
+
+        private void rbAppointment_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbAppointment.Checked)
+            {
+                ShowUC(AppointmentUC);
+                AppointmentUC.LoadData();
+            }
+        }
+
+        private void rbWaitingQueue_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbWaitingQueue.Checked)
+            {
+                ShowUC(WaitingQueueUC);
+                WaitingQueueUC.LoadData();
+            }
+        }
+
+        private void rbInvoice_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbInvoice.Checked)
+            {
+                ShowUC(InvoiceUC);
+                //InvoiceUC.LoadDataToGridView();
+            }
         }
 
         private void btLogout_Click(object sender, EventArgs e)

@@ -1,7 +1,7 @@
 ﻿using DentalClinic.APP;
 using DentalClinic.APP.Properties;
 using DentalClinic.BLL;
-using DentalClinic.DTO.PaymentMethod;
+using DentalClinic.DTO;
 using System;
 using System.Windows.Forms;
 

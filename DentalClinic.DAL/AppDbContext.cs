@@ -675,6 +675,12 @@ namespace DentalClinic.DAL
                       .WithMany()
                       .HasForeignKey(v => v.DoctorId)
                       .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 4: Receptionist
+                entity.HasOne(v => v.Receptionist)
+                      .WithMany()
+                      .HasForeignKey(v => v.ReceptionistId)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

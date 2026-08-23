@@ -1,6 +1,6 @@
 ﻿using DentalClinic.App;
 using DentalClinic.BLL;
-using DentalClinic.DTO.Account;
+using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
@@ -52,7 +52,7 @@ namespace DentalClinic.APP
             }
 
             this.Hide();
-            OpenMainFormByRole(result.Data);
+            OpenMainFormByRole(result.Data); // Truyền result.Data vào đây
         }
 
         // Open form by role
@@ -60,18 +60,21 @@ namespace DentalClinic.APP
         {
             Form? mainForm = null;
 
+            // Lúc này userSession.Role là AccountRole enum nên switch case sẽ không bị lỗi nữa
             switch (userSession.Role)
             {
                 case AccountRole.Admin:
-                    mainForm = new Form_Admin(); 
+                    mainForm = new Form_Admin();
                     break;
 
                 case AccountRole.Doctor:
-                    mainForm = new Form_Doctor();
+                    // Dùng AccountId và UserName có sẵn trong AccountDto truyền sang
+                    mainForm = new Form_Doctor(userSession.AccountId, userSession.UserName);
                     break;
 
                 case AccountRole.Receptionist:
-                    mainForm = new Form_Receptionist();
+                    // Dùng AccountId và UserName có sẵn trong AccountDto truyền sang
+                    mainForm = new Form_Receptionist(userSession.AccountId, userSession.UserName);
                     break;
 
                 default:

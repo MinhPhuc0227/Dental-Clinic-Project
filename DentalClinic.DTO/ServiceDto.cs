@@ -1,11 +1,33 @@
 ﻿using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace DentalClinic.DTO.Service
+namespace DentalClinic.DTO
 {
+    public class ServiceDto
+    {
+        [DisplayName("Mã dịch vụ")]
+        public int ServiceId { get; set; }
+
+        [DisplayName("Tên dịch vụ")]
+        public string ServiceName { get; set; } = string.Empty;
+
+        [DisplayName("Đơn giá")]
+        public decimal UnitPrice { get; set; }
+
+        [DisplayName("Mô tả")]
+        public string? Description { get; set; }
+
+        [Browsable(false)]
+        public ServiceStatus Status { get; set; } = ServiceStatus.Active;
+
+        [DisplayName("Trạng thái")]
+        public string StatusDisplay => Status == ServiceStatus.Active ? "Kinh doanh" : "Ngừng kinh doanh";
+    }
+
     public class CreateServiceDto
     {
         [Required(ErrorMessage = "Tên dịch vụ không được để trống.")]
@@ -21,5 +43,12 @@ namespace DentalClinic.DTO.Service
 
         [EnumDataType(typeof(ServiceStatus), ErrorMessage = "Trạng thái không hợp lệ.")]
         public ServiceStatus Status { get; set; } = ServiceStatus.Active;
+    }
+
+    public class UpdateServiceDto : CreateServiceDto
+    {
+        [Required(ErrorMessage = "Mã dịch vụ không hợp lệ.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Mã dịch vụ phải lớn hơn 0.")]
+        public int ServiceId { get; set; }
     }
 }

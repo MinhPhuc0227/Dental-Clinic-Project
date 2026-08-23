@@ -17,6 +17,7 @@ namespace DentalClinic.MODEL
         public DateTime AppointmentDateTime { get; set; }
 
         public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
+        public string ReasonForVisit { get; set; } = string.Empty;
         public string? Note { get; set; }
         public DateTime CreatedDate { get; set; }
 

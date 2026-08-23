@@ -1,6 +1,6 @@
 ﻿using DentalClinic.APP.Properties;
 using DentalClinic.BLL;
-using DentalClinic.DTO.Account;
+using DentalClinic.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

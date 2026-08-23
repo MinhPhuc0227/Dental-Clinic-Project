@@ -1,4 +1,6 @@
-﻿using DentalClinic.MODEL;
+﻿using DentalClinic.DTO;
+using DentalClinic.MODEL;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -75,6 +77,50 @@ namespace DentalClinic.DAL
             using (var context = new AppDbContext())
             {
                 return context.Accounts.FirstOrDefault(a => a.UserName == userName);
+            }
+        }
+
+        public LoginResponseDto CheckLogin(string username, string password)
+        {
+            using (var context = new AppDbContext())
+            {
+                // Tìm tài khoản khớp Username và Password
+                // Dùng Include để lấy luôn thông tin Bác sĩ/Lễ tân gắn với tài khoản này
+                var account = context.Accounts
+                    .Include(a => a.Doctor)
+                    .Include(a => a.Receptionist)
+                    .FirstOrDefault(a => a.UserName == username && a.Password == password);
+
+                if (account == null)
+                {
+                    return new LoginResponseDto { IsSuccess = false, Message = "Sai tài khoản hoặc mật khẩu!" };
+                }
+
+                // Nếu là Bác sĩ
+                if (account.Role == AccountRole.Doctor && account.Doctor != null)
+                {
+                    return new LoginResponseDto
+                    {
+                        IsSuccess = true,
+                        Role = "Doctor",
+                        UserId = account.Doctor.DoctorId,
+                        FullName = account.Doctor.FullName
+                    };
+                }
+
+                // Nếu là Lễ tân
+                if (account.Role == AccountRole.Receptionist && account.Receptionist != null)
+                {
+                    return new LoginResponseDto
+                    {
+                        IsSuccess = true,
+                        Role = "Receptionist",
+                        UserId = account.Receptionist.ReceptionistId,
+                        FullName = account.Receptionist.FullName
+                    };
+                }
+
+                return new LoginResponseDto { IsSuccess = false, Message = "Tài khoản chưa được phân quyền hợp lệ!" };
             }
         }
     }

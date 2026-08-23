@@ -26,5 +26,9 @@ namespace DentalClinic.MODEL
         public AccountRole Role { get; set; }
         public AccountStatus Status { get; set; } = AccountStatus.Active;
         public DateTime CreatedDate { get; set; }
+
+        // Navigation property
+        public virtual Doctor? Doctor { get; set; }
+        public virtual Receptionist? Receptionist { get; set; }
     }
 }

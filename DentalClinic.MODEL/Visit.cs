@@ -30,6 +30,9 @@ namespace DentalClinic.MODEL
         public int DoctorId { get; set; }
         public Doctor Doctor { get; set; } = null!;
 
+        public int ReceptionistId { get; set; }
+        public Receptionist Receptionist { get; set; } = null!;
+
         // Navigation Property
         public MedicalRecord? MedicalRecord { get; set; }
         public Invoice? Invoice { get; set; }

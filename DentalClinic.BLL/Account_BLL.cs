@@ -1,5 +1,5 @@
 ﻿using DentalClinic.DAL;
-using DentalClinic.DTO.Account;
+using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
 using System;

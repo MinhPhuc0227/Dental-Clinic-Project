@@ -1,5 +1,5 @@
 ﻿using DentalClinic.BLL;
-using DentalClinic.DTO.Patient;
+using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
@@ -16,6 +16,7 @@ namespace DentalClinic.APP
         private readonly Patient_BLL _bll = new Patient_BLL();
         public PatientDto? PatientData { get; private set; }
         private readonly bool _isEdit = false;
+        public int CreatedPatientId { get; private set; }
 
         public Dialog_Patient()
         {
@@ -130,6 +131,9 @@ namespace DentalClinic.APP
                     MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
+                CreatedPatientId = result.Data;
+
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             // UPDATE
@@ -160,6 +164,9 @@ namespace DentalClinic.APP
                     MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
+                CreatedPatientId = PatientData.PatientId;
+
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 

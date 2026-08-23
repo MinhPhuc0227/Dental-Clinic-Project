@@ -31,8 +31,8 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btCreateInvoice = new Button();
             label1 = new Label();
-            button1 = new Button();
             dgvInvoice = new DataGridView();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvInvoice).BeginInit();
@@ -40,13 +40,22 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(button1);
+            panel1.Controls.Add(btCreateInvoice);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
+            panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(959, 92);
+            panel1.Size = new Size(939, 92);
             panel1.TabIndex = 0;
+            // 
+            // btCreateInvoice
+            // 
+            btCreateInvoice.Location = new Point(352, 27);
+            btCreateInvoice.Name = "btCreateInvoice";
+            btCreateInvoice.Size = new Size(165, 42);
+            btCreateInvoice.TabIndex = 14;
+            btCreateInvoice.Text = "Lập hóa đơn";
+            btCreateInvoice.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -58,15 +67,6 @@
             label1.Size = new Size(244, 32);
             label1.TabIndex = 13;
             label1.Text = "Thanh toán hóa đơn";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(352, 27);
-            button1.Name = "button1";
-            button1.Size = new Size(165, 42);
-            button1.TabIndex = 14;
-            button1.Text = "Lập hóa đơn";
-            button1.UseVisualStyleBackColor = true;
             // 
             // dgvInvoice
             // 
@@ -98,7 +98,7 @@
             dgvInvoice.Dock = DockStyle.Fill;
             dgvInvoice.EnableHeadersVisualStyles = false;
             dgvInvoice.GridColor = Color.DarkCyan;
-            dgvInvoice.Location = new Point(0, 92);
+            dgvInvoice.Location = new Point(10, 102);
             dgvInvoice.MultiSelect = false;
             dgvInvoice.Name = "dgvInvoice";
             dgvInvoice.ReadOnly = true;
@@ -106,7 +106,7 @@
             dgvInvoice.RowHeadersWidth = 51;
             dgvInvoice.RowTemplate.Height = 38;
             dgvInvoice.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInvoice.Size = new Size(959, 412);
+            dgvInvoice.Size = new Size(939, 392);
             dgvInvoice.TabIndex = 6;
             // 
             // UC_Receptionist_Invoice
@@ -117,8 +117,9 @@
             Controls.Add(dgvInvoice);
             Controls.Add(panel1);
             Font = new Font("Segoe UI", 12F);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "UC_Receptionist_Invoice";
+            Padding = new Padding(10);
             Size = new Size(959, 504);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -129,7 +130,7 @@
         #endregion
 
         private Panel panel1;
-        private Button button1;
+        private Button btCreateInvoice;
         private Label label1;
         private DataGridView dgvInvoice;
     }

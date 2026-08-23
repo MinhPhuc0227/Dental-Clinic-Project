@@ -1,6 +1,6 @@
 ﻿using DentalClinic.DAL;
 using DentalClinic.DTO.Common;
-using DentalClinic.DTO.Patient;
+using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ namespace DentalClinic.BLL
         }
 
         // Add
-        public Result Add(CreatePatientDto dto)
+        public Result<int> Add(CreatePatientDto dto)
         {
             // When no need account for patient (avoid dto error message)
             if (!dto.CreateAccount)
@@ -53,10 +53,10 @@ namespace DentalClinic.BLL
             }
 
             var validationError = dto.Validate();
-            if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
+            if (!string.IsNullOrEmpty(validationError)) return Result<int>.Failure(validationError);
 
             if (_dal.IsPhoneExists(dto.Phone.Trim()))
-                return Result.Failure("Số điện thoại này đang trùng với bệnh nhân khác.");
+                return Result<int>.Failure("Số điện thoại này đang trùng với bệnh nhân khác.");
 
             Account? account = null;
 
@@ -64,7 +64,7 @@ namespace DentalClinic.BLL
             {
                 string userName = string.IsNullOrWhiteSpace(dto.UserName) ? dto.Phone.Trim() : dto.UserName.Trim();
                 if (_dal.IsUserNameExists(userName))
-                    return Result.Failure("Tên đăng nhập đã tồn tại trong hệ thống.");
+                    return Result<int>.Failure("Tên đăng nhập đã tồn tại trong hệ thống.");
 
                 string password = string.IsNullOrWhiteSpace(dto.Password) ? "123456" : dto.Password.Trim();
 
@@ -92,11 +92,14 @@ namespace DentalClinic.BLL
                 };
 
                 bool success = _dal.AddWithAccount(account, patient);
-                return success ? Result.Success("Thêm mới bệnh nhân thành công!") : Result.Failure("Thêm mới thất bại.");
+
+                return success
+                    ? Result<int>.Success(patient.PatientId, "Thêm mới bệnh nhân thành công!")
+                    : Result<int>.Failure("Thêm mới thất bại.");
             }
             catch (Exception ex)
             {
-                return Result.Failure("Lỗi hệ thống: " + ex.Message);
+                return Result<int>.Failure("Lỗi hệ thống: " + ex.Message);
             }
         }
 

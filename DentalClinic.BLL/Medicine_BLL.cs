@@ -1,6 +1,6 @@
 ﻿using DentalClinic.DAL;
 using DentalClinic.DTO.Common;
-using DentalClinic.DTO.Medicine;
+using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;

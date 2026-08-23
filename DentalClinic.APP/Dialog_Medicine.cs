@@ -1,5 +1,5 @@
 ﻿using DentalClinic.BLL;
-using DentalClinic.DTO.Medicine;
+using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
 using System.Windows.Forms;

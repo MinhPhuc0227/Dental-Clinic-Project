@@ -88,6 +88,10 @@ namespace DentalClinic.DAL.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ReasonForVisit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ReceptionistId")
                         .HasColumnType("int");
 
@@ -118,6 +122,9 @@ namespace DentalClinic.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorId"));
 
                     b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AccountId1")
                         .HasColumnType("int");
 
                     b.Property<DateOnly>("DateOfBirth")
@@ -155,6 +162,10 @@ namespace DentalClinic.DAL.Migrations
 
                     b.HasIndex("AccountId")
                         .IsUnique();
+
+                    b.HasIndex("AccountId1")
+                        .IsUnique()
+                        .HasFilter("[AccountId1] IS NOT NULL");
 
                     b.ToTable("Doctor", (string)null);
                 });
@@ -529,6 +540,9 @@ namespace DentalClinic.DAL.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("AccountId1")
+                        .HasColumnType("int");
+
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
 
@@ -560,6 +574,10 @@ namespace DentalClinic.DAL.Migrations
 
                     b.HasIndex("AccountId")
                         .IsUnique();
+
+                    b.HasIndex("AccountId1")
+                        .IsUnique()
+                        .HasFilter("[AccountId1] IS NOT NULL");
 
                     b.ToTable("Receptionist", (string)null);
                 });
@@ -626,6 +644,9 @@ namespace DentalClinic.DAL.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<int>("ReceptionistId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -642,6 +663,8 @@ namespace DentalClinic.DAL.Migrations
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
+
+                    b.HasIndex("ReceptionistId");
 
                     b.ToTable("Visit", (string)null);
                 });
@@ -680,6 +703,10 @@ namespace DentalClinic.DAL.Migrations
                         .HasForeignKey("DentalClinic.MODEL.Doctor", "AccountId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("DentalClinic.MODEL.Account", null)
+                        .WithOne("Doctor")
+                        .HasForeignKey("DentalClinic.MODEL.Doctor", "AccountId1");
 
                     b.Navigation("Account");
                 });
@@ -814,6 +841,10 @@ namespace DentalClinic.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("DentalClinic.MODEL.Account", null)
+                        .WithOne("Receptionist")
+                        .HasForeignKey("DentalClinic.MODEL.Receptionist", "AccountId1");
+
                     b.Navigation("Account");
                 });
 
@@ -836,11 +867,26 @@ namespace DentalClinic.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("DentalClinic.MODEL.Receptionist", "Receptionist")
+                        .WithMany()
+                        .HasForeignKey("ReceptionistId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Appointment");
 
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+
+                    b.Navigation("Receptionist");
+                });
+
+            modelBuilder.Entity("DentalClinic.MODEL.Account", b =>
+                {
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Receptionist");
                 });
 
             modelBuilder.Entity("DentalClinic.MODEL.Appointment", b =>

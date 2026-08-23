@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             label4 = new Label();
-            txtDescription = new TextBox();
-            btCancel = new Button();
+            txtNote = new TextBox();
+            btClose = new Button();
             label3 = new Label();
             label2 = new Label();
             btSave = new Button();
@@ -39,17 +39,20 @@
             label8 = new Label();
             label11 = new Label();
             cbPatient = new ComboBox();
-            btAddPatient = new Button();
-            lbAppoinmentId = new Label();
+            btCreatePatient = new Button();
+            lbAppointmentId = new Label();
             label7 = new Label();
             label9 = new Label();
             dtpAppointmentDate = new DateTimePicker();
-            numericUpDownAppointmentTime = new NumericUpDown();
             cbDoctor = new ComboBox();
             lbStatus = new Label();
             lbCreatedDate = new Label();
             lbReceptionist = new Label();
-            ((System.ComponentModel.ISupportInitialize)numericUpDownAppointmentTime).BeginInit();
+            txtReasonForVisit = new TextBox();
+            label6 = new Label();
+            btCancel = new Button();
+            btCheckIn = new Button();
+            dtpAppointmentTime = new DateTimePicker();
             SuspendLayout();
             // 
             // label4
@@ -63,37 +66,38 @@
             label4.TabIndex = 54;
             label4.Text = "Ngày tạo lịch";
             // 
-            // txtDescription
+            // txtNote
             // 
-            txtDescription.BorderStyle = BorderStyle.FixedSingle;
-            txtDescription.Font = new Font("Segoe UI", 10F);
-            txtDescription.Location = new Point(181, 255);
-            txtDescription.Multiline = true;
-            txtDescription.Name = "txtDescription";
-            txtDescription.ScrollBars = ScrollBars.Vertical;
-            txtDescription.Size = new Size(355, 142);
-            txtDescription.TabIndex = 48;
+            txtNote.BorderStyle = BorderStyle.FixedSingle;
+            txtNote.Font = new Font("Segoe UI", 10F);
+            txtNote.Location = new Point(181, 312);
+            txtNote.Multiline = true;
+            txtNote.Name = "txtNote";
+            txtNote.ScrollBars = ScrollBars.Vertical;
+            txtNote.Size = new Size(355, 62);
+            txtNote.TabIndex = 48;
             // 
-            // btCancel
+            // btClose
             // 
-            btCancel.AutoSize = true;
-            btCancel.BackColor = Color.Red;
-            btCancel.FlatStyle = FlatStyle.Flat;
-            btCancel.Font = new Font("Segoe UI Semibold", 12F);
-            btCancel.ForeColor = Color.White;
-            btCancel.Location = new Point(328, 555);
-            btCancel.Name = "btCancel";
-            btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 49;
-            btCancel.Text = "Hủy";
-            btCancel.UseVisualStyleBackColor = false;
+            btClose.AutoSize = true;
+            btClose.BackColor = Color.Red;
+            btClose.FlatStyle = FlatStyle.Flat;
+            btClose.Font = new Font("Segoe UI Semibold", 12F);
+            btClose.ForeColor = Color.White;
+            btClose.Location = new Point(328, 555);
+            btClose.Name = "btClose";
+            btClose.Size = new Size(101, 40);
+            btClose.TabIndex = 49;
+            btClose.Text = "Hủy";
+            btClose.UseVisualStyleBackColor = false;
+            btClose.Click += btClose_Click;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(18, 255);
+            label3.Location = new Point(18, 312);
             label3.Name = "label3";
             label3.Size = new Size(99, 28);
             label3.TabIndex = 53;
@@ -123,6 +127,7 @@
             btSave.TabIndex = 50;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
+            btSave.Click += btSave_Click;
             // 
             // label1
             // 
@@ -178,28 +183,29 @@
             cbPatient.Size = new Size(291, 31);
             cbPatient.TabIndex = 67;
             // 
-            // btAddPatient
+            // btCreatePatient
             // 
-            btAddPatient.FlatAppearance.BorderSize = 0;
-            btAddPatient.FlatStyle = FlatStyle.Flat;
-            btAddPatient.Image = Properties.Resources.add;
-            btAddPatient.Location = new Point(478, 72);
-            btAddPatient.Name = "btAddPatient";
-            btAddPatient.Size = new Size(48, 41);
-            btAddPatient.TabIndex = 68;
-            btAddPatient.TextAlign = ContentAlignment.MiddleRight;
-            btAddPatient.UseVisualStyleBackColor = true;
+            btCreatePatient.FlatAppearance.BorderSize = 0;
+            btCreatePatient.FlatStyle = FlatStyle.Flat;
+            btCreatePatient.Image = Properties.Resources.add;
+            btCreatePatient.Location = new Point(478, 72);
+            btCreatePatient.Name = "btCreatePatient";
+            btCreatePatient.Size = new Size(48, 41);
+            btCreatePatient.TabIndex = 68;
+            btCreatePatient.TextAlign = ContentAlignment.MiddleRight;
+            btCreatePatient.UseVisualStyleBackColor = true;
+            btCreatePatient.Click += btCreatePatient_Click;
             // 
-            // lbAppoinmentId
+            // lbAppointmentId
             // 
-            lbAppoinmentId.AutoSize = true;
-            lbAppoinmentId.Font = new Font("Segoe UI Semibold", 12F);
-            lbAppoinmentId.ForeColor = Color.DarkCyan;
-            lbAppoinmentId.Location = new Point(181, 35);
-            lbAppoinmentId.Name = "lbAppoinmentId";
-            lbAppoinmentId.Size = new Size(85, 28);
-            lbAppoinmentId.TabIndex = 56;
-            lbAppoinmentId.Text = "tự động";
+            lbAppointmentId.AutoSize = true;
+            lbAppointmentId.Font = new Font("Segoe UI Semibold", 12F);
+            lbAppointmentId.ForeColor = Color.DarkCyan;
+            lbAppointmentId.Location = new Point(181, 35);
+            lbAppointmentId.Name = "lbAppointmentId";
+            lbAppointmentId.Size = new Size(85, 28);
+            lbAppointmentId.TabIndex = 56;
+            lbAppointmentId.Text = "tự động";
             // 
             // label7
             // 
@@ -232,14 +238,6 @@
             dtpAppointmentDate.Name = "dtpAppointmentDate";
             dtpAppointmentDate.Size = new Size(355, 30);
             dtpAppointmentDate.TabIndex = 70;
-            // 
-            // numericUpDownAppointmentTime
-            // 
-            numericUpDownAppointmentTime.Font = new Font("Segoe UI", 10F);
-            numericUpDownAppointmentTime.Location = new Point(181, 166);
-            numericUpDownAppointmentTime.Name = "numericUpDownAppointmentTime";
-            numericUpDownAppointmentTime.Size = new Size(355, 30);
-            numericUpDownAppointmentTime.TabIndex = 71;
             // 
             // cbDoctor
             // 
@@ -284,29 +282,95 @@
             lbReceptionist.TabIndex = 75;
             lbReceptionist.Text = "lễ tân tạo lịch";
             // 
+            // txtReasonForVisit
+            // 
+            txtReasonForVisit.BorderStyle = BorderStyle.FixedSingle;
+            txtReasonForVisit.Font = new Font("Segoe UI", 10F);
+            txtReasonForVisit.Location = new Point(181, 263);
+            txtReasonForVisit.Name = "txtReasonForVisit";
+            txtReasonForVisit.Size = new Size(355, 30);
+            txtReasonForVisit.TabIndex = 76;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI Semibold", 12F);
+            label6.ForeColor = Color.DarkCyan;
+            label6.Location = new Point(19, 263);
+            label6.Name = "label6";
+            label6.Size = new Size(118, 28);
+            label6.TabIndex = 77;
+            label6.Text = "Lý do khám";
+            // 
+            // btCancel
+            // 
+            btCancel.AutoSize = true;
+            btCancel.BackColor = Color.Red;
+            btCancel.FlatStyle = FlatStyle.Flat;
+            btCancel.Font = new Font("Segoe UI Semibold", 12F);
+            btCancel.ForeColor = Color.White;
+            btCancel.Location = new Point(307, 12);
+            btCancel.Name = "btCancel";
+            btCancel.Size = new Size(101, 40);
+            btCancel.TabIndex = 78;
+            btCancel.Text = "Hủy lịch";
+            btCancel.UseVisualStyleBackColor = false;
+            btCancel.Click += btCancel_Click;
+            // 
+            // btCheckIn
+            // 
+            btCheckIn.AutoSize = true;
+            btCheckIn.BackColor = Color.DarkCyan;
+            btCheckIn.FlatStyle = FlatStyle.Flat;
+            btCheckIn.Font = new Font("Segoe UI Semibold", 12F);
+            btCheckIn.ForeColor = Color.White;
+            btCheckIn.Location = new Point(435, 12);
+            btCheckIn.Name = "btCheckIn";
+            btCheckIn.Size = new Size(115, 40);
+            btCheckIn.TabIndex = 79;
+            btCheckIn.Text = "Tiếp nhận";
+            btCheckIn.UseVisualStyleBackColor = false;
+            btCheckIn.Click += btCheckIn_Click;
+            // 
+            // dtpAppointmentTime
+            // 
+            dtpAppointmentTime.CustomFormat = "HH:mm";
+            dtpAppointmentTime.Font = new Font("Segoe UI", 10F);
+            dtpAppointmentTime.Format = DateTimePickerFormat.Custom;
+            dtpAppointmentTime.Location = new Point(181, 167);
+            dtpAppointmentTime.Name = "dtpAppointmentTime";
+            dtpAppointmentTime.ShowUpDown = true;
+            dtpAppointmentTime.Size = new Size(355, 30);
+            dtpAppointmentTime.TabIndex = 80;
+            // 
             // Dialog_Appointment
             // 
+            AcceptButton = btSave;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(565, 615);
+            Controls.Add(dtpAppointmentTime);
+            Controls.Add(btCheckIn);
+            Controls.Add(btCancel);
+            Controls.Add(label6);
+            Controls.Add(txtReasonForVisit);
             Controls.Add(lbReceptionist);
             Controls.Add(lbCreatedDate);
             Controls.Add(lbStatus);
             Controls.Add(cbDoctor);
-            Controls.Add(numericUpDownAppointmentTime);
             Controls.Add(dtpAppointmentDate);
             Controls.Add(label9);
-            Controls.Add(btAddPatient);
+            Controls.Add(btCreatePatient);
             Controls.Add(cbPatient);
             Controls.Add(label11);
             Controls.Add(label8);
             Controls.Add(label5);
-            Controls.Add(lbAppoinmentId);
+            Controls.Add(lbAppointmentId);
             Controls.Add(label7);
             Controls.Add(label4);
-            Controls.Add(txtDescription);
-            Controls.Add(btCancel);
+            Controls.Add(txtNote);
+            Controls.Add(btClose);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(btSave);
@@ -316,15 +380,15 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Lịch hẹn";
-            ((System.ComponentModel.ISupportInitialize)numericUpDownAppointmentTime).EndInit();
+            Load += Dialog_Appointment_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
         private Label label4;
-        private TextBox txtDescription;
-        private Button btCancel;
+        private TextBox txtNote;
+        private Button btClose;
         private Label label3;
         private Label label2;
         private Button btSave;
@@ -333,15 +397,19 @@
         private Label label8;
         private Label label11;
         private ComboBox cbPatient;
-        private Button btAddPatient;
-        private Label lbAppoinmentId;
+        private Button btCreatePatient;
+        private Label lbAppointmentId;
         private Label label7;
         private Label label9;
         private DateTimePicker dtpAppointmentDate;
-        private NumericUpDown numericUpDownAppointmentTime;
         private ComboBox cbDoctor;
         private Label lbStatus;
         private Label lbCreatedDate;
         private Label lbReceptionist;
+        private TextBox txtReasonForVisit;
+        private Label label6;
+        private Button btCancel;
+        private Button btCheckIn;
+        private DateTimePicker dtpAppointmentTime;
     }
 }

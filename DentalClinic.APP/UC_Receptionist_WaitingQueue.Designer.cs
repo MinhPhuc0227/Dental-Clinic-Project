@@ -31,12 +31,14 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
-            label1 = new Label();
-            dtpStart = new DateTimePicker();
+            label3 = new Label();
+            txtSearch = new TextBox();
             cbStatus = new ComboBox();
             label7 = new Label();
             label6 = new Label();
             cbDoctor = new ComboBox();
+            dtpDate = new DateTimePicker();
+            label1 = new Label();
             dgvWaitingQueue = new DataGridView();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvWaitingQueue).BeginInit();
@@ -44,38 +46,40 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(txtSearch);
             panel1.Controls.Add(cbStatus);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(cbDoctor);
-            panel1.Controls.Add(dtpStart);
+            panel1.Controls.Add(dtpDate);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
+            panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1018, 153);
+            panel1.Size = new Size(998, 153);
             panel1.TabIndex = 0;
             // 
-            // label1
+            // label3
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(33, 23);
-            label1.Name = "label1";
-            label1.Size = new Size(192, 32);
-            label1.TabIndex = 13;
-            label1.Text = "Hàng chờ khám";
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F);
+            label3.ForeColor = Color.DarkCyan;
+            label3.Location = new Point(286, 24);
+            label3.Name = "label3";
+            label3.Size = new Size(91, 28);
+            label3.TabIndex = 30;
+            label3.Text = "Tìm kiếm";
             // 
-            // dtpStart
+            // txtSearch
             // 
-            dtpStart.CustomFormat = "dd/MM/yyyy";
-            dtpStart.Font = new Font("Segoe UI", 10F);
-            dtpStart.Format = DateTimePickerFormat.Custom;
-            dtpStart.Location = new Point(52, 88);
-            dtpStart.Name = "dtpStart";
-            dtpStart.Size = new Size(138, 30);
-            dtpStart.TabIndex = 20;
+            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearch.Font = new Font("Segoe UI", 12F);
+            txtSearch.Location = new Point(383, 21);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(268, 34);
+            txtSearch.TabIndex = 29;
             // 
             // cbStatus
             // 
@@ -117,6 +121,27 @@
             cbDoctor.Size = new Size(190, 31);
             cbDoctor.TabIndex = 25;
             // 
+            // dtpDate
+            // 
+            dtpDate.CustomFormat = "dd/MM/yyyy";
+            dtpDate.Font = new Font("Segoe UI", 10F);
+            dtpDate.Format = DateTimePickerFormat.Custom;
+            dtpDate.Location = new Point(52, 88);
+            dtpDate.Name = "dtpDate";
+            dtpDate.Size = new Size(138, 30);
+            dtpDate.TabIndex = 20;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label1.ForeColor = Color.DarkCyan;
+            label1.Location = new Point(33, 23);
+            label1.Name = "label1";
+            label1.Size = new Size(192, 32);
+            label1.TabIndex = 13;
+            label1.Text = "Hàng chờ khám";
+            // 
             // dgvWaitingQueue
             // 
             dgvWaitingQueue.AllowUserToAddRows = false;
@@ -147,7 +172,7 @@
             dgvWaitingQueue.Dock = DockStyle.Fill;
             dgvWaitingQueue.EnableHeadersVisualStyles = false;
             dgvWaitingQueue.GridColor = Color.DarkCyan;
-            dgvWaitingQueue.Location = new Point(0, 153);
+            dgvWaitingQueue.Location = new Point(10, 163);
             dgvWaitingQueue.MultiSelect = false;
             dgvWaitingQueue.Name = "dgvWaitingQueue";
             dgvWaitingQueue.ReadOnly = true;
@@ -155,7 +180,7 @@
             dgvWaitingQueue.RowHeadersWidth = 51;
             dgvWaitingQueue.RowTemplate.Height = 38;
             dgvWaitingQueue.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvWaitingQueue.Size = new Size(1018, 406);
+            dgvWaitingQueue.Size = new Size(998, 386);
             dgvWaitingQueue.TabIndex = 6;
             // 
             // UC_Receptionist_WaitingQueue
@@ -166,9 +191,11 @@
             Controls.Add(dgvWaitingQueue);
             Controls.Add(panel1);
             Font = new Font("Segoe UI", 12F);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "UC_Receptionist_WaitingQueue";
+            Padding = new Padding(10);
             Size = new Size(1018, 559);
+            Load += UC_Receptionist_WaitingQueue_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvWaitingQueue).EndInit();
@@ -179,11 +206,13 @@
 
         private Panel panel1;
         private Label label1;
-        private DateTimePicker dtpStart;
+        private DateTimePicker dtpDate;
         private ComboBox cbStatus;
         private Label label7;
         private Label label6;
         private ComboBox cbDoctor;
         private DataGridView dgvWaitingQueue;
+        private Label label3;
+        private TextBox txtSearch;
     }
 }

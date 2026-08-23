@@ -31,11 +31,11 @@
             btLogout = new Button();
             panel1 = new Panel();
             panel2 = new Panel();
+            rbInvoice = new RadioButton();
             rbVisit = new RadioButton();
             rbWaitingQueue = new RadioButton();
             rbAppointment = new RadioButton();
             pnContent = new Panel();
-            rbInvoice = new RadioButton();
             panel2.SuspendLayout();
             SuspendLayout();
             // 
@@ -74,6 +74,24 @@
             panel2.Size = new Size(200, 545);
             panel2.TabIndex = 3;
             // 
+            // rbInvoice
+            // 
+            rbInvoice.Appearance = Appearance.Button;
+            rbInvoice.FlatAppearance.BorderSize = 0;
+            rbInvoice.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
+            rbInvoice.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
+            rbInvoice.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
+            rbInvoice.FlatStyle = FlatStyle.Flat;
+            rbInvoice.Font = new Font("Segoe UI Semibold", 12F);
+            rbInvoice.ForeColor = Color.White;
+            rbInvoice.Location = new Point(0, 180);
+            rbInvoice.Name = "rbInvoice";
+            rbInvoice.Size = new Size(200, 60);
+            rbInvoice.TabIndex = 9;
+            rbInvoice.Text = "Hóa Đơn";
+            rbInvoice.UseVisualStyleBackColor = true;
+            rbInvoice.CheckedChanged += rbInvoice_CheckedChanged;
+            // 
             // rbVisit
             // 
             rbVisit.Appearance = Appearance.Button;
@@ -90,6 +108,7 @@
             rbVisit.TabIndex = 8;
             rbVisit.Text = "Tiếp Nhận";
             rbVisit.UseVisualStyleBackColor = true;
+            rbVisit.CheckedChanged += rbVisit_CheckedChanged;
             // 
             // rbWaitingQueue
             // 
@@ -107,6 +126,7 @@
             rbWaitingQueue.TabIndex = 5;
             rbWaitingQueue.Text = "Hàng Chờ";
             rbWaitingQueue.UseVisualStyleBackColor = true;
+            rbWaitingQueue.CheckedChanged += rbWaitingQueue_CheckedChanged;
             // 
             // rbAppointment
             // 
@@ -124,6 +144,7 @@
             rbAppointment.TabIndex = 4;
             rbAppointment.Text = "Lịch Hẹn";
             rbAppointment.UseVisualStyleBackColor = true;
+            rbAppointment.CheckedChanged += rbAppointment_CheckedChanged;
             // 
             // pnContent
             // 
@@ -132,23 +153,6 @@
             pnContent.Name = "pnContent";
             pnContent.Size = new Size(862, 545);
             pnContent.TabIndex = 4;
-            // 
-            // rbInvoice
-            // 
-            rbInvoice.Appearance = Appearance.Button;
-            rbInvoice.FlatAppearance.BorderSize = 0;
-            rbInvoice.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
-            rbInvoice.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
-            rbInvoice.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
-            rbInvoice.FlatStyle = FlatStyle.Flat;
-            rbInvoice.Font = new Font("Segoe UI Semibold", 12F);
-            rbInvoice.ForeColor = Color.White;
-            rbInvoice.Location = new Point(0, 180);
-            rbInvoice.Name = "rbInvoice";
-            rbInvoice.Size = new Size(200, 60);
-            rbInvoice.TabIndex = 9;
-            rbInvoice.Text = "Hóa Đơn";
-            rbInvoice.UseVisualStyleBackColor = true;
             // 
             // Form_Receptionist
             // 

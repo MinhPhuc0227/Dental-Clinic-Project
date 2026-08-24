@@ -10,7 +10,12 @@ namespace DentalClinic.BLL
 {
     public class MedicalRecord_BLL
     {
-        private readonly MedicalRecord_DAL _dal = new MedicalRecord_DAL();
+        private readonly MedicalRecord_DAL _dal;
+
+        public MedicalRecord_BLL(MedicalRecord_DAL dal)
+        {
+            _dal = dal;
+        }
 
         public Result SaveRecord(SaveMedicalRecordDto dto)
         {
@@ -54,6 +59,41 @@ namespace DentalClinic.BLL
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+        public List<MedicalHistoryDto> GetPatientHistory(int visitId)
+        {
+            try
+            {
+                return _dal.GetPatientHistoryByVisit(visitId);
+            }
+            catch { return new List<MedicalHistoryDto>(); }
+        }
+
+        // Lấy danh sách các ca đã khám của Bác sĩ (pnLeft trong UC_Doctor_MedicalRecord)
+        public List<ExaminedRecordDto> GetExaminedRecords(int doctorId, DateTime fromDate, DateTime toDate, string keyword)
+        {
+            try
+            {
+                return _dal.GetExaminedRecords(doctorId, fromDate, toDate, keyword);
+            }
+            catch (Exception)
+            {
+                return new List<ExaminedRecordDto>();
+            }
+        }
+
+        // Lấy chi tiết 1 ca khám để hiển thị (pnRight trong UC_Doctor_MedicalRecord)
+        public (string Diagnosis, string Conclusion, List<ExaminedServiceDto> Services, List<ExaminedMedicineDto> Medicines) GetRecordDetails(int visitId)
+        {
+            try
+            {
+                return _dal.GetRecordDetails(visitId);
+            }
+            catch (Exception)
+            {
+                return (string.Empty, string.Empty, new List<ExaminedServiceDto>(), new List<ExaminedMedicineDto>());
             }
         }
     }

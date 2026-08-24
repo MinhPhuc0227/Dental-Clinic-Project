@@ -31,6 +31,7 @@
             btLogout = new Button();
             panel1 = new Panel();
             panel2 = new Panel();
+            rbInvoiceList = new RadioButton();
             rbInvoice = new RadioButton();
             rbVisit = new RadioButton();
             rbWaitingQueue = new RadioButton();
@@ -63,6 +64,7 @@
             // panel2
             // 
             panel2.BackColor = Color.DarkCyan;
+            panel2.Controls.Add(rbInvoiceList);
             panel2.Controls.Add(rbInvoice);
             panel2.Controls.Add(rbVisit);
             panel2.Controls.Add(btLogout);
@@ -73,6 +75,24 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(200, 545);
             panel2.TabIndex = 3;
+            // 
+            // rbInvoiceList
+            // 
+            rbInvoiceList.Appearance = Appearance.Button;
+            rbInvoiceList.FlatAppearance.BorderSize = 0;
+            rbInvoiceList.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
+            rbInvoiceList.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
+            rbInvoiceList.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
+            rbInvoiceList.FlatStyle = FlatStyle.Flat;
+            rbInvoiceList.Font = new Font("Segoe UI Semibold", 12F);
+            rbInvoiceList.ForeColor = Color.White;
+            rbInvoiceList.Location = new Point(0, 242);
+            rbInvoiceList.Name = "rbInvoiceList";
+            rbInvoiceList.Size = new Size(200, 60);
+            rbInvoiceList.TabIndex = 10;
+            rbInvoiceList.Text = "Hóa Đơn";
+            rbInvoiceList.UseVisualStyleBackColor = true;
+            rbInvoiceList.CheckedChanged += rbInvoiceList_CheckedChanged;
             // 
             // rbInvoice
             // 
@@ -88,13 +108,14 @@
             rbInvoice.Name = "rbInvoice";
             rbInvoice.Size = new Size(200, 60);
             rbInvoice.TabIndex = 9;
-            rbInvoice.Text = "Hóa Đơn";
+            rbInvoice.Text = "Thanh Toán";
             rbInvoice.UseVisualStyleBackColor = true;
             rbInvoice.CheckedChanged += rbInvoice_CheckedChanged;
             // 
             // rbVisit
             // 
             rbVisit.Appearance = Appearance.Button;
+            rbVisit.Checked = true;
             rbVisit.FlatAppearance.BorderSize = 0;
             rbVisit.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
             rbVisit.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
@@ -106,6 +127,7 @@
             rbVisit.Name = "rbVisit";
             rbVisit.Size = new Size(200, 60);
             rbVisit.TabIndex = 8;
+            rbVisit.TabStop = true;
             rbVisit.Text = "Tiếp Nhận";
             rbVisit.UseVisualStyleBackColor = true;
             rbVisit.CheckedChanged += rbVisit_CheckedChanged;
@@ -183,5 +205,6 @@
         private Panel pnContent;
         private RadioButton rbVisit;
         private RadioButton rbInvoice;
+        private RadioButton rbInvoiceList;
     }
 }

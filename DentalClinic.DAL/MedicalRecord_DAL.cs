@@ -8,7 +8,13 @@ namespace DentalClinic.DAL
 {
     public class MedicalRecord_DAL
     {
-        private readonly AppDbContext _context = new AppDbContext();
+
+        private readonly AppDbContext _context;
+
+        public MedicalRecord_DAL(AppDbContext context)
+        {
+            _context = context;
+        }
 
         public bool SaveRecordTransaction(SaveMedicalRecordDto dto)
         {
@@ -104,6 +110,8 @@ namespace DentalClinic.DAL
                             visit.Status = VisitStatus.Completed;
                             _context.Visits.Update(visit);
                         }
+
+                        record.ExaminationDateTime = DateTime.Now;
                     }
 
                     // 6. Lưu vào dtb, kết thúc transaction
@@ -168,6 +176,94 @@ namespace DentalClinic.DAL
             }
 
             return dto;
+        }
+
+        public List<MedicalHistoryDto> GetPatientHistory(int patientId)
+        {
+            return _context.MedicalRecords
+                .Where(m => m.Visit.PatientId == patientId && m.Visit.Status == VisitStatus.Completed)
+                .OrderByDescending(m => m.ExaminationDateTime)
+                .Select(m => new MedicalHistoryDto
+                {
+                    ExaminationDate = m.ExaminationDateTime,
+                    DoctorName = m.Visit.Doctor.FullName,
+                    Diagnosis = m.Diagnosis,
+                    Conclusion = m.Conclusion
+                }).ToList();
+        }
+
+        public List<MedicalHistoryDto> GetPatientHistoryByVisit(int currentVisitId)
+        {
+            // 1. Tìm bệnh nhân hiện tại
+            var currentVisit = _context.Visits.Find(currentVisitId);
+            if (currentVisit == null) return new List<MedicalHistoryDto>();
+
+            // 2. Lấy các hồ sơ đã hoàn thành của bệnh nhân này
+            return _context.MedicalRecords
+                .Where(m => m.Visit.PatientId == currentVisit.PatientId && m.Visit.Status == VisitStatus.Completed)
+                .OrderByDescending(m => m.ExaminationDateTime)
+                .Select(m => new MedicalHistoryDto
+                {
+                    ExaminationDate = m.ExaminationDateTime,
+                    DoctorName = m.Visit.Doctor.FullName,
+                    Diagnosis = m.Diagnosis,
+                    Conclusion = m.Conclusion
+                }).ToList();
+        }
+
+        // Lấy danh sách các ca đã khám của Bác sĩ (pnLeft trong UC_Doctor_MedicalRecord)
+        public List<ExaminedRecordDto> GetExaminedRecords(int doctorId, DateTime fromDate, DateTime toDate, string keyword)
+        {
+            var query = _context.MedicalRecords
+                .Where(m => m.Visit.DoctorId == doctorId && m.Visit.Status == VisitStatus.Completed)
+                .Where(m => m.ExaminationDateTime.Date >= fromDate.Date && m.ExaminationDateTime.Date <= toDate.Date);
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(m => m.Visit.Patient.FullName.Contains(keyword));
+            }
+
+            return query.Select(m => new ExaminedRecordDto
+            {
+                VisitId = m.VisitId,
+                MedicalRecordId = m.MedicalRecordId,
+                ExaminationTime = m.ExaminationDateTime,
+                PatientName = m.Visit.Patient.FullName,
+                Diagnosis = m.Diagnosis
+            })
+            .OrderByDescending(m => m.ExaminationTime)
+            .ToList();
+        }
+
+        // Lấy chi tiết 1 ca khám để hiển thị (pnRight trong UC_Doctor_MedicalRecord)
+        public (string Diagnosis, string Conclusion, List<ExaminedServiceDto> Services, List<ExaminedMedicineDto> Medicines) GetRecordDetails(int visitId)
+        {
+            var record = _context.MedicalRecords.FirstOrDefault(m => m.VisitId == visitId);
+            if (record == null) return (string.Empty, string.Empty, new List<ExaminedServiceDto>(), new List<ExaminedMedicineDto>());
+
+            var services = _context.MedicalRecordServices
+                .Where(s => s.MedicalRecordId == record.MedicalRecordId)
+                .Select(s => new ExaminedServiceDto
+                {
+                    ServiceName = s.Service.ServiceName,
+                    Quantity = s.Quantity
+                }).ToList();
+
+            var medicines = new List<ExaminedMedicineDto>();
+            var prescription = _context.Prescriptions.FirstOrDefault(p => p.MedicalRecordId == record.MedicalRecordId);
+            if (prescription != null)
+            {
+                medicines = _context.PrescriptionDetails
+                    .Where(pd => pd.PrescriptionId == prescription.PrescriptionId)
+                    .Select(pd => new ExaminedMedicineDto
+                    {
+                        MedicineName = pd.Medicine.MedicineName,
+                        Quantity = pd.Quantity,
+                        Instruction = pd.Instruction
+                    }).ToList();
+            }
+
+            return (record.Diagnosis, record.Conclusion, services, medicines);
         }
     }
 }

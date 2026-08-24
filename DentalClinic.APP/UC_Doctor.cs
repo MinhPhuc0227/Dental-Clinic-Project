@@ -1,5 +1,6 @@
 ﻿using DentalClinic.APP.Properties;
 using DentalClinic.BLL;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace DentalClinic.APP
 {
     public partial class UC_Doctor : UserControl
     {
-        private readonly Doctor_BLL _bll = new Doctor_BLL();
+        private readonly Doctor_BLL _bll = new Doctor_BLL(new Doctor_DAL(new AppDbContext()));
         private List<DoctorDto> _fullList = new List<DoctorDto>();
 
         public UC_Doctor()

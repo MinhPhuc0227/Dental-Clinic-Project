@@ -103,7 +103,7 @@
             rbMedicalRecord.Name = "rbMedicalRecord";
             rbMedicalRecord.Size = new Size(200, 60);
             rbMedicalRecord.TabIndex = 5;
-            rbMedicalRecord.Text = "Hồ Sơ Bệnh Án";
+            rbMedicalRecord.Text = "Bệnh Án";
             rbMedicalRecord.UseVisualStyleBackColor = true;
             rbMedicalRecord.CheckedChanged += rbMedicalRecord_CheckedChanged;
             // 

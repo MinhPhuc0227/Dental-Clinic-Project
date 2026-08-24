@@ -9,9 +9,8 @@ namespace DentalClinic.DTO
         public bool IsSuccess { get; set; }
         public string Message { get; set; } = string.Empty;
 
-        public string Role { get; set; } = string.Empty; // "Doctor" hoặc "Receptionist"
+        public string Role { get; set; } = string.Empty; 
 
-        // Chứa ID và Tên của người dùng (Bác sĩ hoặc Lễ tân)
         public int UserId { get; set; }
         public string FullName { get; set; } = string.Empty;
     }

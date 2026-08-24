@@ -8,6 +8,13 @@ namespace DentalClinic.DAL
 {
     public class Doctor_DAL
     {
+        private readonly AppDbContext _context;
+
+        public Doctor_DAL(AppDbContext context)
+        {
+            _context = context;
+        }
+
         // GetAll
         public List<Doctor> GetAll()
         {

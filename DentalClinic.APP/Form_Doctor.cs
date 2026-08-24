@@ -21,8 +21,8 @@ namespace DentalClinic.APP
 
         private readonly Appointment_BLL _appointmentBLL = new Appointment_BLL(new Appointment_DAL(new AppDbContext()));
         private readonly Visit_BLL _visitBLL = new Visit_BLL(new Visit_DAL(new AppDbContext()));
-        private readonly Doctor_BLL _doctorBll = new Doctor_BLL();
-        //private readonly MedicalRecord_BLL _medicalRecordBLL = new MedicalRecord_BLL(new MedicalRecord_DAL(new AppDbContext()));
+        private readonly Doctor_BLL _doctorBll = new Doctor_BLL(new Doctor_DAL(new AppDbContext()));
+        private readonly MedicalRecord_BLL _medicalRecordBLL = new MedicalRecord_BLL(new MedicalRecord_DAL(new AppDbContext()));
 
         private readonly int _currentDoctorId;
         private readonly string _currentDoctorName;
@@ -41,7 +41,7 @@ namespace DentalClinic.APP
             else
             {
                 _currentDoctorId = 0;
-                _currentDoctorName = userName; // Dùng tạm tên đăng nhập nếu chưa có hồ sơ
+                _currentDoctorName = userName; // Dùng tên đăng nhập nếu chưa có hồ sơ
             }
 
             // Đổi tiêu đề Form
@@ -50,11 +50,13 @@ namespace DentalClinic.APP
             // Truyền đúng _currentDoctorId vào các UserControl
             ExaminationUC = new UC_Doctor_Examination(_visitBLL, _currentDoctorId);
             DoctorAppointmentUC = new UC_Doctor_Appointment(_appointmentBLL, _currentDoctorId);
-            MedicalRecordUC = new UC_Doctor_MedicalRecord();
+            MedicalRecordUC = new UC_Doctor_MedicalRecord(_medicalRecordBLL ,_currentDoctorId);
         }
 
         private void ShowUC(UserControl uc)
         {
+            if (uc == null) return;
+
             if (!pnContent.Controls.Contains(uc))
             {
                 uc.Dock = DockStyle.Fill;

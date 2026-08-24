@@ -214,6 +214,16 @@ namespace DentalClinic.DAL
                       .HasColumnType("decimal(18,2)")
                       .IsRequired();
 
+                // AmountGiven
+                entity.Property(i => i.AmountGiven)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                // ChangeAmount
+                entity.Property(i => i.ChangeAmount)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
                 // PaymentStatus
                 entity.Property(i => i.Status)
                       .HasConversion<string>()

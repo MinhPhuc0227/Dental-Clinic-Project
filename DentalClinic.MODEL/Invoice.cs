@@ -15,6 +15,8 @@ namespace DentalClinic.MODEL
         public int InvoiceId { get; set; }
         public DateTime InvoiceDateTime { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal AmountGiven { get; set; }
+        public decimal ChangeAmount { get; set; }
         public InvoiceStatus Status { get; set; } = InvoiceStatus.Pending;
 
         // Foreign Key

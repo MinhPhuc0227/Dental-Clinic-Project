@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
@@ -16,7 +17,7 @@ namespace DentalClinic.APP
         private readonly Visit_BLL _visitBLL;
         private readonly Service_BLL _serviceBLL = new Service_BLL();
         private readonly Medicine_BLL _medicineBLL = new Medicine_BLL();
-        private readonly MedicalRecord_BLL _medicalRecordBLL = new MedicalRecord_BLL();
+        private readonly MedicalRecord_BLL _medicalRecordBLL = new MedicalRecord_BLL(new MedicalRecord_DAL(new AppDbContext()));
         private readonly int _doctorId;
         private int _currentVisitId = 0;
 
@@ -167,7 +168,7 @@ namespace DentalClinic.APP
                     // 2. Đổ dữ liệu lưu nháp lên giao diện (nếu có): chẩn đoán, kết luận, dịch vụ, thuốc
                     var draftRecord = _medicalRecordBLL.GetDraftRecord(_currentVisitId);
 
-                    if (draftRecord != null) 
+                    if (draftRecord != null)
                     {
                         lbMedicalRecordId.Text = draftRecord.MedicalRecordId.ToString();
                         txtDiagnosis.Text = draftRecord.Diagnosis;
@@ -478,7 +479,7 @@ namespace DentalClinic.APP
                 Conclusion = txtConclusion.Text.Trim(),
                 Services = _selectedServices.ToList(),
                 Medicines = _selectedMedicines.ToList(),
-                IsDraft = isDraft 
+                IsDraft = isDraft
             };
 
             try
@@ -517,6 +518,12 @@ namespace DentalClinic.APP
             {
                 MessageBox.Show("Có lỗi xảy ra trong quá trình xử lý: " + ex.Message, "Lỗi Hệ Thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btViewMedicalHistory_Click(object sender, EventArgs e)
+        {
+            Dialog_PatientHistory diaglog = new Dialog_PatientHistory(_currentVisitId, lbFullName.Text);
+            diaglog.ShowDialog();
         }
     }
 }

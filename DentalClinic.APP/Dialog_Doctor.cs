@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
@@ -13,7 +14,7 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Doctor : Form
     {
-        private readonly Doctor_BLL _bll = new Doctor_BLL();
+        private readonly Doctor_BLL _bll = new Doctor_BLL(new Doctor_DAL(new AppDbContext()));
         public DoctorDto? DoctorData { get; private set; }
         private readonly bool _isEdit = false;
 

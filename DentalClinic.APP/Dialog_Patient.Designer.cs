@@ -28,20 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label9 = new Label();
-            pnAccount = new Panel();
-            lbCreatedDate = new Label();
-            cbStatus = new ComboBox();
-            txtPassword = new TextBox();
-            cbRole = new ComboBox();
-            label10 = new Label();
-            label11 = new Label();
-            label12 = new Label();
-            label13 = new Label();
-            lbAccountId = new Label();
-            label15 = new Label();
-            txtUserName = new TextBox();
-            label16 = new Label();
             panel1 = new Panel();
             txtAddress = new TextBox();
             label14 = new Label();
@@ -62,168 +48,8 @@
             label8 = new Label();
             btCancel = new Button();
             btSave = new Button();
-            label17 = new Label();
-            chkCreateAccount = new CheckBox();
-            pnAccount.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI Semibold", 20F);
-            label9.ForeColor = Color.FromArgb(0, 69, 139);
-            label9.Location = new Point(569, 32);
-            label9.Name = "label9";
-            label9.Size = new Size(343, 46);
-            label9.TabIndex = 58;
-            label9.Text = "Tài khoản đăng nhập";
-            // 
-            // pnAccount
-            // 
-            pnAccount.BorderStyle = BorderStyle.FixedSingle;
-            pnAccount.Controls.Add(lbCreatedDate);
-            pnAccount.Controls.Add(cbStatus);
-            pnAccount.Controls.Add(txtPassword);
-            pnAccount.Controls.Add(cbRole);
-            pnAccount.Controls.Add(label10);
-            pnAccount.Controls.Add(label11);
-            pnAccount.Controls.Add(label12);
-            pnAccount.Controls.Add(label13);
-            pnAccount.Controls.Add(lbAccountId);
-            pnAccount.Controls.Add(label15);
-            pnAccount.Controls.Add(txtUserName);
-            pnAccount.Controls.Add(label16);
-            pnAccount.Enabled = false;
-            pnAccount.Location = new Point(569, 98);
-            pnAccount.Name = "pnAccount";
-            pnAccount.Size = new Size(541, 349);
-            pnAccount.TabIndex = 57;
-            // 
-            // lbCreatedDate
-            // 
-            lbCreatedDate.AutoSize = true;
-            lbCreatedDate.Font = new Font("Segoe UI Semibold", 12F);
-            lbCreatedDate.ForeColor = Color.DarkCyan;
-            lbCreatedDate.Location = new Point(168, 284);
-            lbCreatedDate.Name = "lbCreatedDate";
-            lbCreatedDate.Size = new Size(89, 28);
-            lbCreatedDate.TabIndex = 61;
-            lbCreatedDate.Text = "Tự động";
-            // 
-            // cbStatus
-            // 
-            cbStatus.Font = new Font("Segoe UI", 12F);
-            cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(168, 232);
-            cbStatus.Name = "cbStatus";
-            cbStatus.Size = new Size(348, 36);
-            cbStatus.TabIndex = 12;
-            // 
-            // txtPassword
-            // 
-            txtPassword.BorderStyle = BorderStyle.FixedSingle;
-            txtPassword.Font = new Font("Segoe UI", 12F);
-            txtPassword.Location = new Point(168, 129);
-            txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(348, 34);
-            txtPassword.TabIndex = 10;
-            // 
-            // cbRole
-            // 
-            cbRole.Enabled = false;
-            cbRole.Font = new Font("Segoe UI", 12F);
-            cbRole.FormattingEnabled = true;
-            cbRole.Location = new Point(168, 180);
-            cbRole.Name = "cbRole";
-            cbRole.Size = new Size(348, 36);
-            cbRole.TabIndex = 11;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI Semibold", 12F);
-            label10.ForeColor = Color.DarkCyan;
-            label10.Location = new Point(14, 78);
-            label10.Name = "label10";
-            label10.Size = new Size(148, 28);
-            label10.TabIndex = 49;
-            label10.Text = "Tên đăng nhập";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI Semibold", 12F);
-            label11.ForeColor = Color.DarkCyan;
-            label11.Location = new Point(14, 232);
-            label11.Name = "label11";
-            label11.Size = new Size(102, 28);
-            label11.TabIndex = 50;
-            label11.Text = "Trạng thái";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI Semibold", 12F);
-            label12.ForeColor = Color.DarkCyan;
-            label12.Location = new Point(14, 180);
-            label12.Name = "label12";
-            label12.Size = new Size(71, 28);
-            label12.TabIndex = 51;
-            label12.Text = "Vai trò";
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI Semibold", 12F);
-            label13.ForeColor = Color.DarkCyan;
-            label13.Location = new Point(14, 129);
-            label13.Name = "label13";
-            label13.Size = new Size(98, 28);
-            label13.TabIndex = 52;
-            label13.Text = "Mật khẩu";
-            // 
-            // lbAccountId
-            // 
-            lbAccountId.AutoSize = true;
-            lbAccountId.Font = new Font("Segoe UI Semibold", 12F);
-            lbAccountId.ForeColor = Color.DarkCyan;
-            lbAccountId.Location = new Point(168, 27);
-            lbAccountId.Name = "lbAccountId";
-            lbAccountId.Size = new Size(89, 28);
-            lbAccountId.TabIndex = 56;
-            lbAccountId.Text = "Tự động";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Font = new Font("Segoe UI Semibold", 12F);
-            label15.ForeColor = Color.DarkCyan;
-            label15.Location = new Point(14, 284);
-            label15.Name = "label15";
-            label15.Size = new Size(132, 28);
-            label15.TabIndex = 53;
-            label15.Text = "Thời gian tạo";
-            // 
-            // txtUserName
-            // 
-            txtUserName.BorderStyle = BorderStyle.FixedSingle;
-            txtUserName.Font = new Font("Segoe UI", 12F);
-            txtUserName.Location = new Point(168, 75);
-            txtUserName.Name = "txtUserName";
-            txtUserName.Size = new Size(348, 34);
-            txtUserName.TabIndex = 9;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI Semibold", 12F);
-            label16.ForeColor = Color.DarkCyan;
-            label16.Location = new Point(14, 27);
-            label16.Name = "label16";
-            label16.Size = new Size(131, 28);
-            label16.TabIndex = 54;
-            label16.Text = "Mã tài khoản";
             // 
             // panel1
             // 
@@ -244,7 +70,7 @@
             panel1.Controls.Add(label6);
             panel1.Controls.Add(txtFullName);
             panel1.Controls.Add(label7);
-            panel1.Location = new Point(15, 98);
+            panel1.Location = new Point(15, 79);
             panel1.Name = "panel1";
             panel1.Size = new Size(528, 543);
             panel1.TabIndex = 56;
@@ -420,11 +246,11 @@
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 20F);
             label8.ForeColor = Color.FromArgb(0, 69, 139);
-            label8.Location = new Point(15, 32);
+            label8.Location = new Point(131, 19);
             label8.Name = "label8";
-            label8.Size = new Size(473, 46);
+            label8.Size = new Size(287, 46);
             label8.TabIndex = 55;
-            label8.Text = "Thông tin cá nhân bệnh nhân";
+            label8.Text = "HỒ SƠ CÁ NHÂN";
             // 
             // btCancel
             // 
@@ -433,7 +259,7 @@
             btCancel.FlatStyle = FlatStyle.Flat;
             btCancel.Font = new Font("Segoe UI Semibold", 12F);
             btCancel.ForeColor = Color.White;
-            btCancel.Location = new Point(878, 601);
+            btCancel.Location = new Point(335, 657);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
             btCancel.TabIndex = 13;
@@ -448,36 +274,13 @@
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
-            btSave.Location = new Point(985, 601);
+            btSave.Location = new Point(442, 657);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
             btSave.TabIndex = 14;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Segoe UI Semilight", 10F, FontStyle.Italic);
-            label17.ForeColor = Color.FromArgb(0, 69, 139);
-            label17.Location = new Point(906, 50);
-            label17.Name = "label17";
-            label17.Size = new Size(129, 23);
-            label17.TabIndex = 59;
-            label17.Text = "(nếu có nhu cầu)";
-            // 
-            // chkCreateAccount
-            // 
-            chkCreateAccount.AutoSize = true;
-            chkCreateAccount.Font = new Font("Segoe UI", 12F);
-            chkCreateAccount.Location = new Point(569, 475);
-            chkCreateAccount.Name = "chkCreateAccount";
-            chkCreateAccount.Size = new Size(152, 32);
-            chkCreateAccount.TabIndex = 8;
-            chkCreateAccount.Text = "Tạo tài khoản";
-            chkCreateAccount.UseVisualStyleBackColor = true;
-            chkCreateAccount.CheckedChanged += chkCreateAccount_CheckedChanged;
             // 
             // Dialog_Patient
             // 
@@ -486,12 +289,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             CancelButton = btCancel;
-            ClientSize = new Size(1124, 672);
+            ClientSize = new Size(560, 715);
             ControlBox = false;
-            Controls.Add(chkCreateAccount);
-            Controls.Add(label17);
-            Controls.Add(label9);
-            Controls.Add(pnAccount);
             Controls.Add(panel1);
             Controls.Add(label8);
             Controls.Add(btCancel);
@@ -502,8 +301,6 @@
             StartPosition = FormStartPosition.CenterParent;
             Text = "Bệnh nhân";
             Load += Dialog_Patient_Load;
-            pnAccount.ResumeLayout(false);
-            pnAccount.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -511,21 +308,6 @@
         }
 
         #endregion
-
-        private Label label9;
-        private Panel pnAccount;
-        private Label lbCreatedDate;
-        private ComboBox cbStatus;
-        private TextBox txtPassword;
-        private ComboBox cbRole;
-        private Label label10;
-        private Label label11;
-        private Label label12;
-        private Label label13;
-        private Label lbAccountId;
-        private Label label15;
-        private TextBox txtUserName;
-        private Label label16;
         private Panel panel1;
         private TextBox txtEmail;
         private TextBox txtNote;
@@ -546,7 +328,5 @@
         private Button btSave;
         private TextBox txtAddress;
         private Label label14;
-        private Label label17;
-        private CheckBox chkCreateAccount;
     }
 }

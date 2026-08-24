@@ -14,9 +14,5 @@ namespace DentalClinic.MODEL
         public string? Email { get; set; }
         public string? Address { get; set; }
         public string? Note { get; set; }
-
-        // AccountId: Foreign Key (nullable)
-        public int? AccountId { get; set; }
-        public Account? Account { get; set; }
     }
 }

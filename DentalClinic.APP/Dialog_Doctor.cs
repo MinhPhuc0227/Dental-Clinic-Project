@@ -35,6 +35,7 @@ namespace DentalClinic.APP
         public Dialog_Doctor(DoctorDto data) : this()
         {
             this.Text = "Chỉnh sửa thông tin bác sĩ";
+            pnAccount.Enabled = false;
             txtPassword.UseSystemPasswordChar = true;
             _isEdit = true;
             DoctorData = data;
@@ -161,6 +162,11 @@ namespace DentalClinic.APP
         private void Dialog_Doctor_Load(object sender, EventArgs e)
         {
             txtFullName.Focus();
+        }
+
+        private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = !chkShowPassword.Checked;
         }
     }
 }

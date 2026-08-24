@@ -57,7 +57,7 @@ namespace DentalClinic.BLL
                 return Result.Failure("Mật khẩu không được để trống khi tạo mới tài khoản.");
 
             if (_dal.IsPhoneExists(dto.Phone.Trim()))
-                return Result.Failure("Số điện thoại này đang được dùng bởi lễ tân khác đang hoạt động.");
+                return Result.Failure("Số điện thoại này đã được đăng ký trong hệ thống.");
 
             if (_dal.IsUserNameExists(dto.UserName.Trim()))
                 return Result.Failure("Tên đăng nhập đã tồn tại trong hệ thống.");
@@ -99,7 +99,7 @@ namespace DentalClinic.BLL
             if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
 
             if (_dal.IsPhoneExists(dto.Phone.Trim(), dto.ReceptionistId))
-                return Result.Failure("Số điện thoại trùng với lễ tân khác đang hoạt động.");
+                return Result.Failure("Số điện thoại này đã được đăng ký trong hệ thống.");
 
             if (_dal.IsUserNameExists(dto.UserName.Trim(), dto.AccountId))
                 return Result.Failure("Tên đăng nhập bị trùng với tài khoản khác.");

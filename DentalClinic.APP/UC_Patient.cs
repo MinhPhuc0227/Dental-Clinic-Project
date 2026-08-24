@@ -129,8 +129,7 @@ namespace DentalClinic.APP
             else
             {
                 dgvPatient.DataSource = _fullList.Where(p => p.FullName.ToLower().Contains(keyword)
-                                                          || p.Phone.Contains(keyword)
-                                                          || p.UserName.ToLower().Contains(keyword)).ToList();
+                                                          || p.Phone.Contains(keyword)).ToList();
             }
         }
     }

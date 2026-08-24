@@ -34,6 +34,7 @@ namespace DentalClinic.APP
         public Dialog_Receptionist(ReceptionistDto data) : this()
         {
             this.Text = "Chỉnh sửa thông tin lễ tân";
+            pnAccount.Enabled = false;
             txtPassword.UseSystemPasswordChar = true;
             _isEdit = true;
             ReceptionistData = data;
@@ -157,6 +158,11 @@ namespace DentalClinic.APP
         private void Dialog_Receptionist_Load(object sender, EventArgs e)
         {
             txtFullName.Focus();
+        }
+
+        private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = !chkShowPassword.Checked;
         }
     }
 }

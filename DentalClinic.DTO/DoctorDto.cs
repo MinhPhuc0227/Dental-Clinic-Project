@@ -55,9 +55,8 @@ namespace DentalClinic.DTO
         public DateTime CreatedAt { get; set; }
     }
 
-    public class CreateDoctorDto
+    public class BaseDoctorDto
     {
-        // Doctor information
         [Required(ErrorMessage = "Họ tên bác sĩ không được để trống.")]
         [StringLength(100, ErrorMessage = "Họ tên không được vượt quá 100 ký tự.")]
         public string FullName { get; set; } = string.Empty;
@@ -80,35 +79,32 @@ namespace DentalClinic.DTO
         [StringLength(500, ErrorMessage = "Mô tả không được vượt quá 500 ký tự.")]
         public string? Description { get; set; }
 
-
-        // Account information
         [Required(ErrorMessage = "Tên đăng nhập không được để trống.")]
         [StringLength(50, MinimumLength = 4, ErrorMessage = "Tên đăng nhập phải từ 4 đến 50 ký tự.")]
         public string UserName { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Mật khẩu không được để trống khi tạo tài khoản.")]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu phải từ 6 đến 100 ký tự.")]
-        public string Password { get; set; } = string.Empty;
 
         [EnumDataType(typeof(AccountStatus), ErrorMessage = "Trạng thái không hợp lệ.")]
         public AccountStatus Status { get; set; } = AccountStatus.Active;
     }
 
-    public class UpdateDoctorDto : CreateDoctorDto
+    public class CreateDoctorDto : BaseDoctorDto
     {
-        // Doctor information
+        [Required(ErrorMessage = "Mật khẩu không được để trống khi tạo tài khoản.")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu phải từ 6 đến 100 ký tự.")]
+        public string Password { get; set; } = string.Empty;
+    }
+
+    public class UpdateDoctorDto : BaseDoctorDto
+    {
         [Required(ErrorMessage = "Mã bác sĩ không hợp lệ.")]
         [Range(1, int.MaxValue, ErrorMessage = "Mã bác sĩ phải lớn hơn 0.")]
         public int DoctorId { get; set; }
 
-
-        // Account information
         [Required(ErrorMessage = "Mã tài khoản không hợp lệ.")]
         [Range(1, int.MaxValue, ErrorMessage = "Mã tài khoản phải lớn hơn 0.")]
         public int AccountId { get; set; }
 
-        // Password nullable (update or not)
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu mới phải từ 6 đến 100 ký tự.")]
-        public new string? Password { get; set; }
+        public string? Password { get; set; }
     }
 }

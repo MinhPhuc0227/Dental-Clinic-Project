@@ -106,5 +106,10 @@ namespace DentalClinic.APP
         {
             txtUserName.Focus();
         }
+
+        private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = !chkShowPassword.Checked;
+        }
     }
 }

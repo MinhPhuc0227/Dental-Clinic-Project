@@ -69,7 +69,7 @@ namespace DentalClinic.BLL
 
             if (_dal.IsPhoneExists(dto.Phone.Trim()))
             {
-                return Result.Failure("Số điện thoại này đã được đăng ký bởi bác sĩ khác.");
+                return Result.Failure("Số điện thoại này đã được đăng ký trong hệ thống.");
             }
 
             if (_dal.IsUserNameExists(dto.UserName.Trim()))
@@ -120,7 +120,7 @@ namespace DentalClinic.BLL
 
             if (_dal.IsPhoneExists(dto.Phone.Trim(), dto.DoctorId))
             {
-                return Result.Failure("Số điện thoại bị trùng với bác sĩ khác.");
+                return Result.Failure("Số điện thoại này đã được đăng ký trong hệ thống.");
             }
 
             if (_dal.IsUserNameExists(dto.UserName.Trim(), dto.AccountId))

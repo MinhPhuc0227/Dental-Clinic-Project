@@ -48,9 +48,9 @@ namespace DentalClinic.DAL
         {
             using (var context = new AppDbContext())
             {
-                return context.Receptionists.Any(r => r.Phone == phone
-                                                   && r.ReceptionistId != excludeReceptionistId
-                                                   && r.Account.Status == AccountStatus.Active);
+                bool isReceptionistPhoneExist = context.Receptionists.Any(d => d.Phone == phone && d.ReceptionistId != excludeReceptionistId);
+                bool isDoctorPhoneExist = context.Doctors.Any(r => r.Phone == phone);
+                return isReceptionistPhoneExist || isDoctorPhoneExist;
             }
         }
 

@@ -9,8 +9,6 @@ namespace DentalClinic.DTO
 {
     public class PatientDto
     {
-        // Patient information
-
         [DisplayName("Mã BN")]
         public int PatientId { get; set; }
 
@@ -37,27 +35,10 @@ namespace DentalClinic.DTO
 
         [DisplayName("Ghi chú")]
         public string? Note { get; set; }
-
-
-        // Account information
-
-        [DisplayName("Mã TK")]
-        public int? AccountId { get; set; }
-
-        [DisplayName("Tên đăng nhập")]
-        public string UserName { get; set; } = string.Empty;
-
-        [Browsable(false)]
-        public AccountStatus Status { get; set; }
-
-        [DisplayName("Trạng thái TK")]
-        public string StatusDisplay => AccountId == null ? "Không dùng TK" : (Status == AccountStatus.Active ? "Hoạt động" : "Khóa");
     }
 
     public class CreatePatientDto
     {
-        // Patient information
-
         [Required(ErrorMessage = "Họ tên bệnh nhân không được để trống.")]
         [StringLength(100, ErrorMessage = "Họ tên không được vượt quá 100 ký tự.")]
         public string FullName { get; set; } = string.Empty;
@@ -88,33 +69,12 @@ namespace DentalClinic.DTO
 
         [StringLength(500, ErrorMessage = "Ghi chú không vượt quá 500 ký tự.")]
         public string? Note { get; set; }
-
-
-        // Account information (optional)
-        public bool CreateAccount { get; set; } = true;
-
-        [StringLength(50, MinimumLength = 4, ErrorMessage = "Tên đăng nhập phải từ 4 đến 50 ký tự.")]
-        public string? UserName { get; set; }
-
-        [Required(ErrorMessage = "Mật khẩu không được để trống khi tạo tài khoản.")]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu phải từ 6 đến 100 ký tự.")]
-        public string Password { get; set; } = string.Empty;
-
-        public AccountStatus Status { get; set; } = AccountStatus.Active;
     }
 
     public class UpdatePatientDto : CreatePatientDto
     {
-        // Patient information
         [Required(ErrorMessage = "Mã bệnh nhân không hợp lệ.")]
         [Range(1, int.MaxValue, ErrorMessage = "Mã bệnh nhân phải lớn hơn 0.")]
         public int PatientId { get; set; }
-
-        // Account information (optional)
-        public int? AccountId { get; set; }
-
-        // Password nullable (update or not)
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu mới phải từ 6 đến 100 ký tự.")]
-        public new string? Password { get; set; }
     }
 }

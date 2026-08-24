@@ -30,6 +30,7 @@
         {
             label9 = new Label();
             panel2 = new Panel();
+            chkShowPassword = new CheckBox();
             label1 = new Label();
             lbCreatedDate = new Label();
             cbStatus = new ComboBox();
@@ -61,6 +62,7 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(chkShowPassword);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(lbCreatedDate);
             panel2.Controls.Add(cbStatus);
@@ -76,8 +78,21 @@
             panel2.Controls.Add(label16);
             panel2.Location = new Point(12, 75);
             panel2.Name = "panel2";
-            panel2.Size = new Size(541, 385);
+            panel2.Size = new Size(541, 370);
             panel2.TabIndex = 53;
+            // 
+            // chkShowPassword
+            // 
+            chkShowPassword.AutoSize = true;
+            chkShowPassword.Font = new Font("Segoe UI", 10F);
+            chkShowPassword.ForeColor = Color.DarkCyan;
+            chkShowPassword.Location = new Point(18, 166);
+            chkShowPassword.Name = "chkShowPassword";
+            chkShowPassword.Size = new Size(144, 27);
+            chkShowPassword.TabIndex = 63;
+            chkShowPassword.Text = "Hiện mật khẩu";
+            chkShowPassword.UseVisualStyleBackColor = true;
+            chkShowPassword.CheckedChanged += chkShowPassword_CheckedChanged;
             // 
             // label1
             // 
@@ -96,7 +111,7 @@
             lbCreatedDate.AutoSize = true;
             lbCreatedDate.Font = new Font("Segoe UI Semibold", 12F);
             lbCreatedDate.ForeColor = Color.DarkCyan;
-            lbCreatedDate.Location = new Point(168, 305);
+            lbCreatedDate.Location = new Point(168, 313);
             lbCreatedDate.Name = "lbCreatedDate";
             lbCreatedDate.Size = new Size(89, 28);
             lbCreatedDate.TabIndex = 61;
@@ -106,7 +121,7 @@
             // 
             cbStatus.Font = new Font("Segoe UI", 12F);
             cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(168, 253);
+            cbStatus.Location = new Point(168, 261);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(348, 36);
             cbStatus.TabIndex = 4;
@@ -122,9 +137,10 @@
             // 
             // cbRole
             // 
+            cbRole.Enabled = false;
             cbRole.Font = new Font("Segoe UI", 12F);
             cbRole.FormattingEnabled = true;
-            cbRole.Location = new Point(168, 201);
+            cbRole.Location = new Point(168, 209);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(348, 36);
             cbRole.TabIndex = 3;
@@ -145,7 +161,7 @@
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI Semibold", 12F);
             label11.ForeColor = Color.DarkCyan;
-            label11.Location = new Point(14, 253);
+            label11.Location = new Point(14, 261);
             label11.Name = "label11";
             label11.Size = new Size(102, 28);
             label11.TabIndex = 50;
@@ -156,7 +172,7 @@
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI Semibold", 12F);
             label12.ForeColor = Color.DarkCyan;
-            label12.Location = new Point(14, 201);
+            label12.Location = new Point(14, 209);
             label12.Name = "label12";
             label12.Size = new Size(71, 28);
             label12.TabIndex = 51;
@@ -189,7 +205,7 @@
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI Semibold", 12F);
             label15.ForeColor = Color.DarkCyan;
-            label15.Location = new Point(14, 305);
+            label15.Location = new Point(14, 313);
             label15.Name = "label15";
             label15.Size = new Size(132, 28);
             label15.TabIndex = 53;
@@ -198,6 +214,7 @@
             // txtUserName
             // 
             txtUserName.BorderStyle = BorderStyle.FixedSingle;
+            txtUserName.Enabled = false;
             txtUserName.Font = new Font("Segoe UI", 12F);
             txtUserName.Location = new Point(168, 75);
             txtUserName.Name = "txtUserName";
@@ -222,7 +239,7 @@
             btCancel.FlatStyle = FlatStyle.Flat;
             btCancel.Font = new Font("Segoe UI Semibold", 12F);
             btCancel.ForeColor = Color.White;
-            btCancel.Location = new Point(345, 502);
+            btCancel.Location = new Point(345, 467);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
             btCancel.TabIndex = 5;
@@ -237,7 +254,7 @@
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
-            btSave.Location = new Point(452, 502);
+            btSave.Location = new Point(452, 467);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
             btSave.TabIndex = 6;
@@ -251,7 +268,7 @@
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
             CancelButton = btCancel;
-            ClientSize = new Size(572, 554);
+            ClientSize = new Size(572, 527);
             ControlBox = false;
             Controls.Add(btCancel);
             Controls.Add(btSave);
@@ -290,5 +307,6 @@
         private Button btCancel;
         private Button btSave;
         private Label label1;
+        private CheckBox chkShowPassword;
     }
 }

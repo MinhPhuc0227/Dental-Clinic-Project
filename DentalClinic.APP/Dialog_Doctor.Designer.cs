@@ -46,7 +46,8 @@
             label8 = new Label();
             panel1 = new Panel();
             txtEmail = new TextBox();
-            panel2 = new Panel();
+            pnAccount = new Panel();
+            chkShowPassword = new CheckBox();
             lbCreatedDate = new Label();
             cbStatus = new ComboBox();
             txtPassword = new TextBox();
@@ -61,7 +62,7 @@
             label16 = new Label();
             label9 = new Label();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
+            pnAccount.SuspendLayout();
             SuspendLayout();
             // 
             // lbDoctorId
@@ -272,32 +273,46 @@
             txtEmail.Size = new Size(378, 34);
             txtEmail.TabIndex = 5;
             // 
-            // panel2
+            // pnAccount
             // 
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(lbCreatedDate);
-            panel2.Controls.Add(cbStatus);
-            panel2.Controls.Add(txtPassword);
-            panel2.Controls.Add(cbRole);
-            panel2.Controls.Add(label10);
-            panel2.Controls.Add(label11);
-            panel2.Controls.Add(label12);
-            panel2.Controls.Add(label13);
-            panel2.Controls.Add(lbAccountId);
-            panel2.Controls.Add(label15);
-            panel2.Controls.Add(txtUserName);
-            panel2.Controls.Add(label16);
-            panel2.Location = new Point(571, 91);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(541, 349);
-            panel2.TabIndex = 51;
+            pnAccount.BorderStyle = BorderStyle.FixedSingle;
+            pnAccount.Controls.Add(chkShowPassword);
+            pnAccount.Controls.Add(lbCreatedDate);
+            pnAccount.Controls.Add(cbStatus);
+            pnAccount.Controls.Add(txtPassword);
+            pnAccount.Controls.Add(cbRole);
+            pnAccount.Controls.Add(label10);
+            pnAccount.Controls.Add(label11);
+            pnAccount.Controls.Add(label12);
+            pnAccount.Controls.Add(label13);
+            pnAccount.Controls.Add(lbAccountId);
+            pnAccount.Controls.Add(label15);
+            pnAccount.Controls.Add(txtUserName);
+            pnAccount.Controls.Add(label16);
+            pnAccount.Location = new Point(571, 91);
+            pnAccount.Name = "pnAccount";
+            pnAccount.Size = new Size(541, 377);
+            pnAccount.TabIndex = 51;
+            // 
+            // chkShowPassword
+            // 
+            chkShowPassword.AutoSize = true;
+            chkShowPassword.Font = new Font("Segoe UI", 10F);
+            chkShowPassword.ForeColor = Color.DarkCyan;
+            chkShowPassword.Location = new Point(168, 180);
+            chkShowPassword.Name = "chkShowPassword";
+            chkShowPassword.Size = new Size(144, 27);
+            chkShowPassword.TabIndex = 64;
+            chkShowPassword.Text = "Hiện mật khẩu";
+            chkShowPassword.UseVisualStyleBackColor = true;
+            chkShowPassword.CheckedChanged += chkShowPassword_CheckedChanged;
             // 
             // lbCreatedDate
             // 
             lbCreatedDate.AutoSize = true;
             lbCreatedDate.Font = new Font("Segoe UI Semibold", 12F);
             lbCreatedDate.ForeColor = Color.DarkCyan;
-            lbCreatedDate.Location = new Point(168, 284);
+            lbCreatedDate.Location = new Point(168, 328);
             lbCreatedDate.Name = "lbCreatedDate";
             lbCreatedDate.Size = new Size(89, 28);
             lbCreatedDate.TabIndex = 61;
@@ -305,9 +320,10 @@
             // 
             // cbStatus
             // 
+            cbStatus.Enabled = false;
             cbStatus.Font = new Font("Segoe UI", 12F);
             cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(168, 232);
+            cbStatus.Location = new Point(168, 276);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(348, 36);
             cbStatus.TabIndex = 10;
@@ -326,7 +342,7 @@
             cbRole.Enabled = false;
             cbRole.Font = new Font("Segoe UI", 12F);
             cbRole.FormattingEnabled = true;
-            cbRole.Location = new Point(168, 180);
+            cbRole.Location = new Point(168, 224);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(348, 36);
             cbRole.TabIndex = 9;
@@ -347,7 +363,7 @@
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI Semibold", 12F);
             label11.ForeColor = Color.DarkCyan;
-            label11.Location = new Point(14, 232);
+            label11.Location = new Point(14, 276);
             label11.Name = "label11";
             label11.Size = new Size(102, 28);
             label11.TabIndex = 50;
@@ -358,7 +374,7 @@
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI Semibold", 12F);
             label12.ForeColor = Color.DarkCyan;
-            label12.Location = new Point(14, 180);
+            label12.Location = new Point(14, 224);
             label12.Name = "label12";
             label12.Size = new Size(71, 28);
             label12.TabIndex = 51;
@@ -391,7 +407,7 @@
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI Semibold", 12F);
             label15.ForeColor = Color.DarkCyan;
-            label15.Location = new Point(14, 284);
+            label15.Location = new Point(14, 328);
             label15.Name = "label15";
             label15.Size = new Size(132, 28);
             label15.TabIndex = 53;
@@ -438,7 +454,7 @@
             ClientSize = new Size(1124, 672);
             ControlBox = false;
             Controls.Add(label9);
-            Controls.Add(panel2);
+            Controls.Add(pnAccount);
             Controls.Add(panel1);
             Controls.Add(label8);
             Controls.Add(btCancel);
@@ -451,8 +467,8 @@
             Load += Dialog_Doctor_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            pnAccount.ResumeLayout(false);
+            pnAccount.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -476,7 +492,7 @@
         private DateTimePicker dtpDateOfBirth;
         private Label label8;
         private Panel panel1;
-        private Panel panel2;
+        private Panel pnAccount;
         private Label label9;
         private Label label10;
         private Label label11;
@@ -491,5 +507,6 @@
         private TextBox txtPassword;
         private ComboBox cbRole;
         private TextBox txtEmail;
+        private CheckBox chkShowPassword;
     }
 }

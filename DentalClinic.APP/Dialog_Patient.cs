@@ -21,12 +21,10 @@ namespace DentalClinic.APP
         public Dialog_Patient()
         {
             InitializeComponent();
-            txtPassword.UseSystemPasswordChar = true;
             this.Text = "Thêm mới bệnh nhân";
             _isEdit = false;
 
             lbPatientId.Text = "Tự động";
-            lbAccountId.Text = "Tự động";
 
             LoadComboBoxes();
         }
@@ -34,7 +32,6 @@ namespace DentalClinic.APP
         public Dialog_Patient(PatientDto data) : this()
         {
             this.Text = "Chỉnh sửa thông tin bệnh nhân";
-            txtPassword.UseSystemPasswordChar = true;
             _isEdit = true;
             PatientData = data;
 
@@ -46,19 +43,6 @@ namespace DentalClinic.APP
             txtEmail.Text = data.Email;
             txtAddress.Text = data.Address;
             txtNote.Text = data.Note;
-
-            if (data.AccountId.HasValue)
-            {
-                lbAccountId.Text = data.AccountId.Value.ToString();
-                txtUserName.Text = data.UserName;
-                txtPassword.Text = string.Empty;
-                cbStatus.SelectedValue = data.Status;
-            }
-            else
-            {
-                chkCreateAccount.Checked = false;
-                pnAccount.Enabled = false;
-            }
         }
 
         // Load gender, role, status combo box
@@ -72,25 +56,6 @@ namespace DentalClinic.APP
             };
             cbGender.DisplayMember = "Display";
             cbGender.ValueMember = "Value";
-
-            cbRole.DataSource = new[] { new { Value = AccountRole.Patient, Display = "Bệnh nhân" } };
-            cbRole.DisplayMember = "Display";
-            cbRole.ValueMember = "Value";
-            cbRole.Enabled = false;
-
-            cbStatus.DataSource = new[]
-            {
-                new { Value = AccountStatus.Active, Display = "Hoạt động" },
-                new { Value = AccountStatus.Locked, Display = "Khóa" }
-            };
-            cbStatus.DisplayMember = "Display";
-            cbStatus.ValueMember = "Value";
-        }
-
-        // Checkbox event
-        private void chkCreateAccount_CheckedChanged(object sender, EventArgs e)
-        {
-            pnAccount.Enabled = chkCreateAccount.Checked;
         }
 
         // Cancel button
@@ -104,7 +69,6 @@ namespace DentalClinic.APP
         private void btSave_Click(object sender, EventArgs e)
         {
             var selectedGender = cbGender.SelectedValue != null ? (Gender)cbGender.SelectedValue : Gender.Male;
-            var selectedStatus = cbStatus.SelectedValue != null ? (AccountStatus)cbStatus.SelectedValue : AccountStatus.Active;
             var dateOfBirth = DateOnly.FromDateTime(dtpDateOfBirth.Value);
 
             // ADD
@@ -119,10 +83,6 @@ namespace DentalClinic.APP
                     Email = txtEmail.Text.Trim(),
                     Address = txtAddress.Text.Trim(),
                     Note = txtNote.Text.Trim(),
-                    CreateAccount = chkCreateAccount.Checked,
-                    UserName = string.IsNullOrWhiteSpace(txtUserName.Text) ? null : txtUserName.Text.Trim(),
-                    Password = string.IsNullOrWhiteSpace(txtPassword.Text) ? null : txtPassword.Text.Trim(),
-                    Status = selectedStatus
                 };
 
                 var result = _bll.Add(createDto);
@@ -144,7 +104,6 @@ namespace DentalClinic.APP
                 var updateDto = new UpdatePatientDto
                 {
                     PatientId = PatientData.PatientId,
-                    AccountId = PatientData.AccountId,
                     FullName = txtFullName.Text.Trim(),
                     Gender = selectedGender,
                     DateOfBirth = dateOfBirth,
@@ -152,10 +111,6 @@ namespace DentalClinic.APP
                     Email = txtEmail.Text.Trim(),
                     Address = txtAddress.Text.Trim(),
                     Note = txtNote.Text.Trim(),
-                    CreateAccount = chkCreateAccount.Checked,
-                    UserName = string.IsNullOrWhiteSpace(txtUserName.Text) ? null : txtUserName.Text.Trim(),
-                    Password = string.IsNullOrWhiteSpace(txtPassword.Text) ? null : txtPassword.Text.Trim(),
-                    Status = selectedStatus
                 };
 
                 var result = _bll.Update(updateDto);

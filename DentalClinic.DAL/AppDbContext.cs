@@ -472,13 +472,6 @@ namespace DentalClinic.DAL
                 entity.Property(p => p.Note)
                       .IsRequired(false)
                       .HasMaxLength(1000);
-
-                // Relationship: Account, nullable
-                entity.HasOne(p => p.Account)
-                      .WithOne()
-                      .HasForeignKey<Patient>(p => p.AccountId)
-                      .IsRequired(false)
-                      .OnDelete(DeleteBehavior.SetNull);
             });
 
             // 10. PaymentMethod

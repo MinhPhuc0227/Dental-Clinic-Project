@@ -28,10 +28,7 @@ namespace DentalClinic.BLL
                     Phone = p.Phone,
                     Email = p.Email,
                     Address = p.Address,
-                    Note = p.Note,
-                    AccountId = p.AccountId,
-                    UserName = p.Account?.UserName ?? string.Empty,
-                    Status = p.Account?.Status ?? AccountStatus.Active
+                    Note = p.Note
                 }).ToList();
 
                 return Result<List<PatientDto>>.Success(dtoList);
@@ -45,38 +42,11 @@ namespace DentalClinic.BLL
         // Add
         public Result<int> Add(CreatePatientDto dto)
         {
-            // When no need account for patient (avoid dto error message)
-            if (!dto.CreateAccount)
-            {
-                dto.UserName = null;
-                dto.Password = null;
-            }
-
             var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError)) return Result<int>.Failure(validationError);
 
             if (_dal.IsPhoneExists(dto.Phone.Trim()))
                 return Result<int>.Failure("Số điện thoại này đang trùng với bệnh nhân khác.");
-
-            Account? account = null;
-
-            if (dto.CreateAccount)
-            {
-                string userName = string.IsNullOrWhiteSpace(dto.UserName) ? dto.Phone.Trim() : dto.UserName.Trim();
-                if (_dal.IsUserNameExists(userName))
-                    return Result<int>.Failure("Tên đăng nhập đã tồn tại trong hệ thống.");
-
-                string password = string.IsNullOrWhiteSpace(dto.Password) ? "123456" : dto.Password.Trim();
-
-                account = new Account
-                {
-                    UserName = userName,
-                    Password = password,
-                    Role = AccountRole.Patient,
-                    Status = dto.Status,
-                    CreatedDate = DateTime.Now
-                };
-            }
 
             try
             {
@@ -91,7 +61,7 @@ namespace DentalClinic.BLL
                     Note = dto.Note?.Trim()
                 };
 
-                bool success = _dal.AddWithAccount(account, patient);
+                bool success = _dal.Add(patient);
 
                 return success
                     ? Result<int>.Success(patient.PatientId, "Thêm mới bệnh nhân thành công!")
@@ -106,55 +76,11 @@ namespace DentalClinic.BLL
         // Update
         public Result Update(UpdatePatientDto dto)
         {
-            if (!dto.AccountId.HasValue && !dto.CreateAccount)
-            {
-                dto.UserName = null;
-                dto.Password = null;
-            }
-
             var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
 
             if (_dal.IsPhoneExists(dto.Phone.Trim(), dto.PatientId))
                 return Result.Failure("Số điện thoại trùng với bệnh nhân khác.");
-
-            Account? account = null;
-            bool hasNewPassword = false;
-
-            // Case 1: no account yet and tick "Create account" checkbox
-            if (!dto.AccountId.HasValue && dto.CreateAccount)
-            {
-                string userName = string.IsNullOrWhiteSpace(dto.UserName) ? dto.Phone.Trim() : dto.UserName.Trim();
-                if (_dal.IsUserNameExists(userName))
-                    return Result.Failure("Tên đăng nhập đã tồn tại trong hệ thống.");
-
-                string password = string.IsNullOrWhiteSpace(dto.Password) ? "123456" : dto.Password.Trim();
-
-                account = new Account
-                {
-                    UserName = userName,
-                    Password = password,
-                    Role = AccountRole.Patient,
-                    Status = dto.Status,
-                    CreatedDate = DateTime.Now
-                };
-            }
-            // Case 2: already hava an account -> update existing account
-            else if (dto.AccountId.HasValue)
-            {
-                if (!string.IsNullOrWhiteSpace(dto.UserName) && _dal.IsUserNameExists(dto.UserName.Trim(), dto.AccountId.Value))
-                    return Result.Failure("Tên đăng nhập trùng với tài khoản khác.");
-
-                hasNewPassword = !string.IsNullOrWhiteSpace(dto.Password);
-
-                account = new Account
-                {
-                    AccountId = dto.AccountId.Value,
-                    UserName = dto.UserName?.Trim() ?? string.Empty,
-                    Password = dto.Password?.Trim() ?? string.Empty,
-                    Status = dto.Status
-                };
-            }
 
             try
             {
@@ -167,11 +93,10 @@ namespace DentalClinic.BLL
                     Phone = dto.Phone.Trim(),
                     Email = dto.Email?.Trim(),
                     Address = dto.Address?.Trim(),
-                    Note = dto.Note?.Trim(),
-                    AccountId = dto.AccountId
+                    Note = dto.Note?.Trim()
                 };
 
-                bool success = _dal.UpdateWithAccount(patient, account, hasNewPassword);
+                bool success = _dal.Update(patient);
                 return success ? Result.Success("Cập nhật thông tin bệnh nhân thành công!") : Result.Failure("Cập nhật thất bại.");
             }
             catch (Exception ex)
@@ -187,7 +112,7 @@ namespace DentalClinic.BLL
 
             try
             {
-                bool success = _dal.DeleteWithAccount(patientId);
+                bool success = _dal.Delete(patientId);
                 return success ? Result.Success("Xóa bệnh nhân thành công!") : Result.Failure("Không tìm thấy bệnh nhân.");
             }
             catch

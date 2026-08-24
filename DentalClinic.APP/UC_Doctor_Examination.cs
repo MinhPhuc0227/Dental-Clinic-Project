@@ -138,6 +138,7 @@ namespace DentalClinic.APP
             {
                 if (dgvWaitingQueue.Rows[e.RowIndex].DataBoundItem is WaitingQueueDto selectedVisit)
                 {
+                    // LOAD DỮ LIỆU PATIENT LÊN PANEL LEFT (thông tin cá nhân, lịch hẹn, tiếp nhận)
                     _currentVisitId = selectedVisit.VisitId;
                     lbFullName.Text = selectedVisit.PatientName;
                     lbPhone.Text = selectedVisit.PatientPhone;
@@ -153,21 +154,40 @@ namespace DentalClinic.APP
 
                     lbExaminationDateTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 
-                    if (!string.IsNullOrWhiteSpace(selectedVisit.PatientNote))
+                    // RESET VÀ LOAD DỮ LIỆU PATIENT LÊN PANEL RIGHT (nếu có lưu tạm)
+
+                    // 1. Reset giao diện right panel 
+                    lbMedicalRecordId.Text = "...";
+                    txtDiagnosis.Clear();
+                    txtConclusion.Clear();
+                    _selectedServices.Clear();
+                    _selectedMedicines.Clear();
+                    CalculateTotal();
+
+                    // 2. Đổ dữ liệu lưu nháp lên giao diện (nếu có): chẩn đoán, kết luận, dịch vụ, thuốc
+                    var draftRecord = _medicalRecordBLL.GetDraftRecord(_currentVisitId);
+
+                    if (draftRecord != null) 
                     {
-                        lbPatientNote.ForeColor = Color.Red;
-                    }
-                    else
-                    {
-                        lbPatientNote.ForeColor = Color.Black;
+                        lbMedicalRecordId.Text = draftRecord.MedicalRecordId.ToString();
+                        txtDiagnosis.Text = draftRecord.Diagnosis;
+                        txtConclusion.Text = draftRecord.Conclusion;
+
+                        foreach (var s in draftRecord.Services)
+                        {
+                            _selectedServices.Add(s);
+                        }
+
+                        foreach (var m in draftRecord.Medicines)
+                        {
+                            _selectedMedicines.Add(m);
+                        }
+
+                        CalculateTotal();
                     }
                 }
             }
         }
-
-        // ==========================================
-        // PHẦN LOGIC MỚI: DỊCH VỤ, THUỐC VÀ TÍNH TIỀN
-        // ==========================================
 
         private void InitPrescriptionAndServiceFeatures()
         {
@@ -470,6 +490,7 @@ namespace DentalClinic.APP
                 {
                     if (isDraft)
                     {
+                        lbMedicalRecordId.Text = recordData.MedicalRecordId.ToString();
                         MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else

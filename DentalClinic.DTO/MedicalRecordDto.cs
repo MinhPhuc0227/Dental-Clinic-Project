@@ -6,6 +6,7 @@ namespace DentalClinic.DTO
 {
     public class SaveMedicalRecordDto
     {
+        public int MedicalRecordId { get; set; }
         public int VisitId { get; set; }
         public int DoctorId { get; set; }
         public string Diagnosis { get; set; } = string.Empty;

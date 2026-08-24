@@ -89,7 +89,7 @@
             lbServiceAmount = new Label();
             label2 = new Label();
             pnMedicalRecordInfo = new Panel();
-            label17 = new Label();
+            lbMedicalRecordId = new Label();
             label14 = new Label();
             txtConclusion = new TextBox();
             txtDiagnosis = new TextBox();
@@ -830,7 +830,7 @@
             // pnMedicalRecordInfo
             // 
             pnMedicalRecordInfo.BackColor = Color.White;
-            pnMedicalRecordInfo.Controls.Add(label17);
+            pnMedicalRecordInfo.Controls.Add(lbMedicalRecordId);
             pnMedicalRecordInfo.Controls.Add(label14);
             pnMedicalRecordInfo.Controls.Add(txtConclusion);
             pnMedicalRecordInfo.Controls.Add(txtDiagnosis);
@@ -845,16 +845,16 @@
             pnMedicalRecordInfo.Size = new Size(930, 212);
             pnMedicalRecordInfo.TabIndex = 0;
             // 
-            // label17
+            // lbMedicalRecordId
             // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Segoe UI", 12F);
-            label17.ForeColor = Color.Black;
-            label17.Location = new Point(146, 73);
-            label17.Name = "label17";
-            label17.Size = new Size(176, 28);
-            label17.TabIndex = 49;
-            label17.Text = "lbMedicalRecordId";
+            lbMedicalRecordId.AutoSize = true;
+            lbMedicalRecordId.Font = new Font("Segoe UI", 12F);
+            lbMedicalRecordId.ForeColor = Color.Black;
+            lbMedicalRecordId.Location = new Point(146, 73);
+            lbMedicalRecordId.Name = "lbMedicalRecordId";
+            lbMedicalRecordId.Size = new Size(176, 28);
+            lbMedicalRecordId.TabIndex = 49;
+            lbMedicalRecordId.Text = "lbMedicalRecordId";
             // 
             // label14
             // 
@@ -1029,7 +1029,7 @@
         private ComboBox cbMedicine;
         private DataGridView dgvService;
         private DataGridView dgvMedicine;
-        private Label label17;
+        private Label lbMedicalRecordId;
         private Label label14;
         private Label label20;
         private Label label19;

@@ -44,5 +44,17 @@ namespace DentalClinic.BLL
                 return Result.Failure("Lỗi hệ thống: " + ex.Message);
             }
         }
+
+        public SaveMedicalRecordDto GetDraftRecord(int visitId)
+        {
+            try
+            {
+                return _dal.GetDraftRecordByVisitId(visitId);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace DentalClinic.DAL
                             ExaminationDateTime = DateTime.Now
                         };
                         _context.MedicalRecords.Add(record);
+
+                        dto.MedicalRecordId = record.MedicalRecordId;
                     }
 
                     // Cập nhật dữ liệu 
@@ -115,6 +117,57 @@ namespace DentalClinic.DAL
                     throw; 
                 }
             }
+        }
+
+
+        public SaveMedicalRecordDto GetDraftRecordByVisitId(int visitId)
+        {
+            // 1. Tìm hồ sơ khám
+            var record = _context.MedicalRecords.FirstOrDefault(m => m.VisitId == visitId);
+            if (record == null) return null;
+
+            // 2. Tạo DTO trả về
+            var dto = new SaveMedicalRecordDto
+            {
+                MedicalRecordId = record.MedicalRecordId,
+                VisitId = visitId,
+                Diagnosis = record.Diagnosis,
+                Conclusion = record.Conclusion,
+                IsDraft = true
+            };
+
+            // 3. Lấy danh sách dịch vụ
+            dto.Services = _context.MedicalRecordServices
+                .Where(s => s.MedicalRecordId == record.MedicalRecordId)
+                .Select(s => new SelectedServiceDto
+                {
+                    ServiceId = s.ServiceId,
+                    ServiceName = s.Service.ServiceName, 
+                    Quantity = s.Quantity,
+                    UnitPrice = s.UnitPrice
+                }).ToList();
+
+            // 4. Lấy danh sách thuốc
+            var prescription = _context.Prescriptions.FirstOrDefault(p => p.MedicalRecordId == record.MedicalRecordId);
+            if (prescription != null)
+            {
+                dto.Medicines = _context.PrescriptionDetails
+                    .Where(pd => pd.PrescriptionId == prescription.PrescriptionId)
+                    .Select(pd => new SelectedMedicineDto
+                    {
+                        MedicineId = pd.MedicineId,
+                        MedicineName = pd.Medicine.MedicineName,
+                        Morning = pd.Morning,
+                        Noon = pd.Noon,
+                        Afternoon = pd.Afternoon,
+                        Evening = pd.Evening,
+                        Days = pd.Days,
+                        Instruction = pd.Instruction,
+                        UnitPrice = pd.Medicine.UnitPrice
+                    }).ToList();
+            }
+
+            return dto;
         }
     }
 }

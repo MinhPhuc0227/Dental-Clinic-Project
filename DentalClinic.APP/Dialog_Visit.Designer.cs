@@ -84,6 +84,7 @@
             btCreatePatient.TabIndex = 89;
             btCreatePatient.TextAlign = ContentAlignment.MiddleRight;
             btCreatePatient.UseVisualStyleBackColor = true;
+            btCreatePatient.Click += btCreatePatient_Click;
             // 
             // cbPatient
             // 
@@ -313,7 +314,9 @@
             Controls.Add(label2);
             Controls.Add(btSave);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Dialog_Visit";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Thông tin tiếp nhận";
             Load += Dialog_Visit_Load;
             ResumeLayout(false);

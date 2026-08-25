@@ -49,11 +49,10 @@ namespace DentalClinic.APP
 
         private void SetupDataGridView()
         {
-            // BẮT BUỘC: Tắt tự động sinh cột để không bị rác giao diện
             dgvWaitingQueue.AutoGenerateColumns = false;
             dgvWaitingQueue.Columns.Clear();
 
-            // 1. Cột ẨN (Rất quan trọng): Lưu mã VisitId để khi click vào ta biết đang chọn ca khám nào
+            // Cột ẩn : Lưu mã VisitId để khi click vào biết đang chọn ca khám nào
             dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "VisitId",
@@ -61,7 +60,7 @@ namespace DentalClinic.APP
                 Visible = false
             });
 
-            // 2. Cột STT (Queue Number) - Cho chiều rộng nhỏ lại
+            // Cột STT (Queue Number) 
             dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "QueueNumber",
@@ -70,6 +69,7 @@ namespace DentalClinic.APP
                 DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 9, FontStyle.Bold) }
             });
 
+            // Cột giờ nhận 
             dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "CheckInDateTime",
@@ -78,7 +78,7 @@ namespace DentalClinic.APP
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm", Alignment = DataGridViewContentAlignment.MiddleCenter }
             });
 
-            // 3. Cột Tên Bệnh Nhân
+            // Cột tên bệnh nhân
             dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "PatientName",
@@ -86,7 +86,15 @@ namespace DentalClinic.APP
                 Width = 140
             });
 
-            // 4. Cột Lý do khám - Cho cột này "Fill"
+            // Cột loại bệnh nhân
+            dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "AppointmentBadge",
+                HeaderText = "Loại",
+                Width = 140
+            });
+
+            // Cột Lý do khám
             dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "ReasonForVisit",

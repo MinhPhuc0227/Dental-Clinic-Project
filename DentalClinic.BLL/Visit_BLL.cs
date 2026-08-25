@@ -1,4 +1,5 @@
-﻿using DentalClinic.DAL;
+﻿using DentalClinic.BLL.Common;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
@@ -86,6 +87,16 @@ namespace DentalClinic.BLL
 
         public Result<List<LookupItemDto>> GetDoctorsLookup() => Result<List<LookupItemDto>>.Success(_visitDAL.GetDoctorsLookup());
         public Result<List<LookupItemDto>> GetPatientsLookup() => Result<List<LookupItemDto>>.Success(_visitDAL.GetPatientsLookup());
+
+        public bool IsDoctorOverloaded(int doctorId)
+        {
+            // Lấy tổng số ca khám trong ngày của bác sĩ
+            int currentCount = _visitDAL.CountVisitsToday(doctorId);
+
+            // So sánh với ngưỡng hằng số MaxDailyVisitsPerDoctor 
+            return currentCount >= SystemConstants.MaxDailyVisitsPerDoctor;
+        }
+
     }
 }
 

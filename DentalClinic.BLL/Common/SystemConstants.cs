@@ -12,6 +12,10 @@ namespace DentalClinic.BLL.Common
         // Số ngày đặt trước tối đa
         public const int MaxAdvanceBookingDays = 30;
 
+        // QUẢN LÝ TIẾP NHẬN / KHÁM BỆNH
+        // Ngưỡng số lượng bệnh nhân tối đa cho phép của một bác sĩ trong ngày trước khi cảnh báo quá tải
+        public const int MaxDailyVisitsPerDoctor = 20;
+
         // GIỜ LÀM VIỆC CỦA PHÒNG KHÁM
         public static readonly TimeSpan MorningStartTime = new TimeSpan(8, 0, 0);
         public static readonly TimeSpan MorningEndTime = new TimeSpan(11, 30, 0);

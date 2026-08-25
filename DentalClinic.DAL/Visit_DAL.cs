@@ -173,5 +173,11 @@ namespace DentalClinic.DAL
             _context.Visits.Add(visit);
             return _context.SaveChanges() > 0;
         }
+
+        public int CountVisitsToday(int doctorId)
+        {
+            return _context.Visits
+                .Count(v => v.DoctorId == doctorId && v.CheckInDateTime.Date == DateTime.Today);
+        }
     }
 }

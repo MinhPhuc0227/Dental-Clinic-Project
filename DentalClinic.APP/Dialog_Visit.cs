@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.BLL.Common;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
@@ -56,7 +57,6 @@ namespace DentalClinic.APP
 
         private void btSave_Click(object sender, EventArgs e)
         {
-            // Lấy dữ liệu gán vào DTO
             var createDto = new VisitCreateDto
             {
                 PatientId = cbPatient.SelectedValue is int pId ? pId : 0,
@@ -65,13 +65,37 @@ namespace DentalClinic.APP
                 ReceptionistId = _receptionistId
             };
 
-            // Gọi BLL để validate và lưu
+            if (createDto.DoctorId <= 0)
+            {
+                MessageBox.Show("Vui lòng chọn bác sĩ phụ trách.", "Cảnh báo dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kiểm tra quá tải lượt khám (1 bác sĩ)
+            if (_visitBLL.IsDoctorOverloaded(createDto.DoctorId))
+            {
+                var confirmResult = MessageBox.Show(
+                    $"Bác sĩ này hôm nay đã có từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên (cả hẹn và vãng lai).\n\nBạn có chắc chắn muốn tiếp tục tiếp nhận bệnh nhân này vào hàng chờ không?",
+                    "Cảnh báo quá tải",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                // Chọn "No" 
+                if (confirmResult == DialogResult.No)
+                {
+                    return;
+                }
+                // Chọn "Yes" thì tiếp tục
+            }
+
+            // Gọi BLL và lưu
             Result result = _visitBLL.CreateWalkInVisit(createDto);
 
             if (result.IsSuccess)
             {
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK; 
+                this.DialogResult = DialogResult.OK;
                 //this.Close();
             }
             else
@@ -83,6 +107,34 @@ namespace DentalClinic.APP
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void LoadPatients()
+        {
+            var res = _visitBLL.GetPatientsLookup();
+            if (res.IsSuccess && res.Data != null)
+            {
+                cbPatient.DataSource = res.Data;
+                cbPatient.DisplayMember = "Name";
+                cbPatient.ValueMember = "Id";
+                cbPatient.AutoCompleteSource = AutoCompleteSource.ListItems;
+                cbPatient.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbPatient.SelectedIndex = -1;
+            }
+        }
+
+
+        private void btCreatePatient_Click(object sender, EventArgs e)
+        {
+            using (var dialogPatient = new Dialog_Patient())
+            {
+                if (dialogPatient.ShowDialog() == DialogResult.OK)
+                {
+                    int newlyAddedPatientId = dialogPatient.CreatedPatientId;
+                    LoadPatients(); // Nạp lại danh sách bệnh nhân
+                    cbPatient.SelectedValue = newlyAddedPatientId; // Tự động chọn bệnh nhân vừa tạo
+                }
+            }
         }
     }
 }

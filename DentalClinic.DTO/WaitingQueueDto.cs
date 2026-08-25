@@ -30,5 +30,7 @@ namespace DentalClinic.DTO
         public string? AppointmentNote { get; set; }
 
         public bool IsAppointment { get; set; } // True nếu có AppointmentId hợp lệ
+        public string VisitType => IsAppointment ? "Có hẹn trước" : "Khách vãng lai";
+        public string AppointmentBadge => IsAppointment ? "⭐ Có hẹn trước" : "Vãng lai";
     }
 }

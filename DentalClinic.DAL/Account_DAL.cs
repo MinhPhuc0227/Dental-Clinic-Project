@@ -80,48 +80,50 @@ namespace DentalClinic.DAL
             }
         }
 
-        public LoginResponseDto CheckLogin(string username, string password)
-        {
-            using (var context = new AppDbContext())
-            {
-                // Tìm tài khoản khớp Username và Password
-                // Dùng Include để lấy luôn thông tin Bác sĩ/Lễ tân gắn với tài khoản này
-                var account = context.Accounts
-                    .Include(a => a.Doctor)
-                    .Include(a => a.Receptionist)
-                    .FirstOrDefault(a => a.UserName == username && a.Password == password);
+        // HÀM CŨ KHI CHƯA DÙNG BCRYPT BĂM PASSWORD
 
-                if (account == null)
-                {
-                    return new LoginResponseDto { IsSuccess = false, Message = "Sai tài khoản hoặc mật khẩu!" };
-                }
+        //public LoginResponseDto CheckLogin(string username, string password)
+        //{
+        //    using (var context = new AppDbContext())
+        //    {
+        //        // Tìm tài khoản khớp Username và Password
+        //        // Dùng Include để lấy luôn thông tin Bác sĩ/Lễ tân gắn với tài khoản này
+        //        var account = context.Accounts
+        //            .Include(a => a.Doctor)
+        //            .Include(a => a.Receptionist)
+        //            .FirstOrDefault(a => a.UserName == username && a.Password == password);
 
-                // Nếu là Bác sĩ
-                if (account.Role == AccountRole.Doctor && account.Doctor != null)
-                {
-                    return new LoginResponseDto
-                    {
-                        IsSuccess = true,
-                        Role = "Doctor",
-                        UserId = account.Doctor.DoctorId,
-                        FullName = account.Doctor.FullName
-                    };
-                }
+        //        if (account == null)
+        //        {
+        //            return new LoginResponseDto { IsSuccess = false, Message = "Sai tài khoản hoặc mật khẩu!" };
+        //        }
 
-                // Nếu là Lễ tân
-                if (account.Role == AccountRole.Receptionist && account.Receptionist != null)
-                {
-                    return new LoginResponseDto
-                    {
-                        IsSuccess = true,
-                        Role = "Receptionist",
-                        UserId = account.Receptionist.ReceptionistId,
-                        FullName = account.Receptionist.FullName
-                    };
-                }
+        //        // Nếu là Bác sĩ
+        //        if (account.Role == AccountRole.Doctor && account.Doctor != null)
+        //        {
+        //            return new LoginResponseDto
+        //            {
+        //                IsSuccess = true,
+        //                Role = "Doctor",
+        //                UserId = account.Doctor.DoctorId,
+        //                FullName = account.Doctor.FullName
+        //            };
+        //        }
 
-                return new LoginResponseDto { IsSuccess = false, Message = "Tài khoản chưa được phân quyền hợp lệ!" };
-            }
-        }
+        //        // Nếu là Lễ tân
+        //        if (account.Role == AccountRole.Receptionist && account.Receptionist != null)
+        //        {
+        //            return new LoginResponseDto
+        //            {
+        //                IsSuccess = true,
+        //                Role = "Receptionist",
+        //                UserId = account.Receptionist.ReceptionistId,
+        //                FullName = account.Receptionist.FullName
+        //            };
+        //        }
+
+        //        return new LoginResponseDto { IsSuccess = false, Message = "Tài khoản chưa được phân quyền hợp lệ!" };
+        //    }
+        //}
     }
 }

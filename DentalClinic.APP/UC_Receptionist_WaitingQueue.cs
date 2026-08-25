@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
 using System;
@@ -13,7 +14,7 @@ namespace DentalClinic.APP
 {
     public partial class UC_Receptionist_WaitingQueue : UserControl
     {
-        private readonly Visit_BLL _visitBLL; 
+        private readonly Visit_BLL _visitBLL;
 
         public UC_Receptionist_WaitingQueue(Visit_BLL visitBLL)
         {
@@ -33,7 +34,7 @@ namespace DentalClinic.APP
             dtpDate.Value = DateTime.Today;
 
             // 1. Nạp danh sách bác sĩ
-            var doctorRes = _visitBLL.GetDoctorsLookup(); 
+            var doctorRes = _visitBLL.GetDoctorsLookup();
             if (doctorRes.IsSuccess && doctorRes.Data != null)
             {
                 var doctors = new List<LookupItemDto> { new LookupItemDto { Id = 0, Name = "-- Tất cả Bác sĩ --" } };
@@ -94,6 +95,17 @@ namespace DentalClinic.APP
             else
             {
                 MessageBox.Show(result.Message, "Lỗi tải dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvWaitingQueue_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvWaitingQueue.Rows[e.RowIndex].DataBoundItem is WaitingQueueDto item)
+            {
+                if (item.IsAppointment)
+                {
+                    dgvWaitingQueue.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 245, 230);
+                }
             }
         }
     }

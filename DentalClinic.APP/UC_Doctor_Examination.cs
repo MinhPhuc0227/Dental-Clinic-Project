@@ -525,5 +525,16 @@ namespace DentalClinic.APP
             Dialog_PatientHistory diaglog = new Dialog_PatientHistory(_currentVisitId, lbFullName.Text);
             diaglog.ShowDialog();
         }
+
+        private void dgvWaitingQueue_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvWaitingQueue.Rows[e.RowIndex].DataBoundItem is WaitingQueueDto item)
+            {
+                if (item.IsAppointment)
+                {
+                    dgvWaitingQueue.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 245, 230);
+                }
+            }
+        }
     }
 }

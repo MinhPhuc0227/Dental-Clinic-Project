@@ -69,7 +69,8 @@ namespace DentalClinic.BLL
                     ReasonForVisit = dto.ReasonForVisit,
                     CheckInDateTime = DateTime.Now,
                     Status = VisitStatus.Waiting, // Mới tới thì vào Hàng chờ
-                    AppointmentId = null // Khách vãng lai
+                    AppointmentId = null, // Khách vãng lai
+                    ReceptionistId = dto.ReceptionistId,
                 };
 
                 bool success = _visitDAL.AddWalkInVisit(visit);

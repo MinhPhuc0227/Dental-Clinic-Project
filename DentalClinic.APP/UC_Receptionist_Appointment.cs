@@ -54,7 +54,7 @@ namespace DentalClinic.APP
             {
                 new { Value = (AppointmentStatus?)null, Text = "-- Tất cả Trạng thái --" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Pending, Text = "Chờ khám" },
-                new { Value = (AppointmentStatus?)AppointmentStatus.Confirmed, Text = "Đã xác nhận" },
+                //new { Value = (AppointmentStatus?)AppointmentStatus.Confirmed, Text = "Đã xác nhận" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Completed, Text = "Đã hoàn thành" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Cancelled, Text = "Đã hủy" }
             };

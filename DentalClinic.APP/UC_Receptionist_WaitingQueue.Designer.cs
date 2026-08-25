@@ -182,6 +182,7 @@
             dgvWaitingQueue.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvWaitingQueue.Size = new Size(998, 386);
             dgvWaitingQueue.TabIndex = 6;
+            dgvWaitingQueue.CellFormatting += dgvWaitingQueue_CellFormatting;
             // 
             // UC_Receptionist_WaitingQueue
             // 

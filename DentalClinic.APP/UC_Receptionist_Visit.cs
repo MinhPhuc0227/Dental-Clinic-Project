@@ -61,7 +61,6 @@ namespace DentalClinic.APP
 
         private void btCreateVisit_Click(object sender, EventArgs e)
         {
-            // Truyền _currentReceptionistId vào Dialog_Visit để lưu xuống dtb
             using (var dialog = new Dialog_Visit(_visitBLL, _currentReceptionistId))
             {
                 if (dialog.ShowDialog() == DialogResult.OK)

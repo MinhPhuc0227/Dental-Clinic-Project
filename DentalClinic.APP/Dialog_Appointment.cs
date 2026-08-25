@@ -45,8 +45,8 @@ namespace DentalClinic.APP
                 // Ẩn/Hiện nút Tiếp nhận dựa trên trạng thái hiện tại
                 if (_currentStatus == AppointmentStatus.Completed || _currentStatus == AppointmentStatus.Cancelled)
                 {
-                    btCheckIn.Visible = false; // Đã xong hoặc hủy thì không tiếp nhận nữa
-                    btSave.Enabled = false;    // Tùy chọn: Khóa luôn nút Lưu
+                    btCheckIn.Visible = false; 
+                    //btSave.Enabled = false;    
                 }
                 else
                 {

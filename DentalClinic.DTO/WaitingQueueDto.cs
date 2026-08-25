@@ -28,5 +28,7 @@ namespace DentalClinic.DTO
 
         public string? PatientNote { get; set; } 
         public string? AppointmentNote { get; set; }
+
+        public bool IsAppointment { get; set; } // True nếu có AppointmentId hợp lệ
     }
 }

@@ -62,7 +62,7 @@ namespace DentalClinic.APP
                 PatientId = cbPatient.SelectedValue is int pId ? pId : 0,
                 DoctorId = cbDoctor.SelectedValue is int dId ? dId : 0,
                 ReasonForVisit = txtReasonForVisit.Text.Trim(),
-                //ReceptionistId = _receptionistId
+                ReceptionistId = _receptionistId
             };
 
             // Gọi BLL để validate và lưu
@@ -71,7 +71,7 @@ namespace DentalClinic.APP
             if (result.IsSuccess)
             {
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK; // Đóng Form và kích hoạt LoadData bên ngoài
+                this.DialogResult = DialogResult.OK; 
                 //this.Close();
             }
             else

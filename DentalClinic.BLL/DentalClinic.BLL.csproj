@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DentalClinic.DAL\DentalClinic.DAL.csproj" />
     <ProjectReference Include="..\DentalClinic.DTO\DentalClinic.DTO.csproj" />
     <ProjectReference Include="..\DentalClinic.MODEL\DentalClinic.MODEL.csproj" />

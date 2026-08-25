@@ -20,7 +20,7 @@ namespace DentalClinic.DAL
                     var adminAccount = new Account
                     {
                         UserName = "admin",
-                        Password = "123456", 
+                        Password = BCrypt.Net.BCrypt.HashPassword("123456"),
                         Role = AccountRole.Admin,
                         Status = AccountStatus.Active,
                         CreatedDate = DateTime.Now

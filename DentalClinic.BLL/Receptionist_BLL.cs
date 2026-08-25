@@ -1,6 +1,7 @@
-﻿using DentalClinic.DAL;
-using DentalClinic.DTO.Common;
+﻿using DentalClinic.BLL.Common;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
+using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ namespace DentalClinic.BLL
                 var account = new Account
                 {
                     UserName = dto.UserName.Trim(),
-                    Password = dto.Password.Trim(),
+                    Password = PasswordHelper.HashPassword(dto.Password.Trim()),
                     Role = AccountRole.Receptionist,
                     Status = dto.Status,
                     CreatedDate = DateTime.Now
@@ -112,9 +113,14 @@ namespace DentalClinic.BLL
                 {
                     AccountId = dto.AccountId,
                     UserName = dto.UserName.Trim(),
-                    Password = dto.Password?.Trim() ?? string.Empty,
+                    Password = string.Empty,
                     Status = dto.Status
                 };
+
+                if (hasNewPassword)
+                {
+                    account.Password = PasswordHelper.HashPassword(dto.Password.Trim());
+                }
 
                 var receptionist = new Receptionist
                 {

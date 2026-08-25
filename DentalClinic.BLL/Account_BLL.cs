@@ -1,4 +1,5 @@
-﻿using DentalClinic.DAL;
+﻿using DentalClinic.BLL.Common;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
@@ -70,10 +71,15 @@ namespace DentalClinic.BLL
                 {
                     AccountId = dto.AccountId,
                     UserName = dto.UserName.Trim(),
-                    Password = dto.Password?.Trim() ?? string.Empty,
+                    Password = string.Empty,
                     Role = dto.Role,
                     Status = dto.Status
                 };
+
+                if (updatePassword)
+                {
+                    entity.Password = PasswordHelper.HashPassword(dto.Password.Trim());
+                }
 
                 bool success = _dal.Update(entity, updatePassword);
                 return success
@@ -115,7 +121,7 @@ namespace DentalClinic.BLL
                 return Result<AccountDto>.Failure(validationError);
 
             var account = _dal.GetByUserName(dto.UserName.Trim());
-            if (account == null || account.Password != dto.Password.Trim())
+            if (account == null || !PasswordHelper.VerifyPassword(dto.Password.Trim(), account.Password))
             {
                 return Result<AccountDto>.Failure("Tên đăng nhập hoặc mật khẩu không chính xác.");
             }

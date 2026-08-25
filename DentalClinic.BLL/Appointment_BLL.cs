@@ -1,4 +1,5 @@
-﻿using DentalClinic.DAL;
+﻿using DentalClinic.BLL.Common;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
@@ -62,21 +63,42 @@ namespace DentalClinic.BLL
             }
         }
 
+        // CREATE
         public Result Create(AppointmentCreateDto dto)
         {
-            // Xác thực dữ liệu đầu vào bằng Extension Method ValidateDto
             string? validationError = dto.Validate();
-            if (!string.IsNullOrEmpty(validationError))
-            {
-                return Result.Failure(validationError);
-            }
+            if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
+
+            DateTime fullDateTime = dto.AppointmentDate.Date.Add(dto.AppointmentTime);
+
+            // 1. Chặn đặt lịch ở quá khứ
+            if (fullDateTime < DateTime.Now)
+                return Result.Failure("Không thể đặt lịch cho một thời điểm trong quá khứ.");
+
+            // 2. Giới hạn ngày đặt trước
+            if (fullDateTime > DateTime.Now.AddDays(SystemConstants.MaxAdvanceBookingDays))
+                return Result.Failure($"Chỉ được phép đặt lịch trước tối đa {SystemConstants.MaxAdvanceBookingDays} ngày.");
+
+            // 3. Kiểm tra giờ làm việc hợp lệ
+            TimeSpan time = dto.AppointmentTime;
+            bool isMorning = time >= SystemConstants.MorningStartTime && time < SystemConstants.MorningEndTime;
+            bool isAfternoon = time >= SystemConstants.AfternoonStartTime && time < SystemConstants.AfternoonEndTime;
+
+            if (!isMorning && !isAfternoon)
+                return Result.Failure("Giờ hẹn phải nằm trong khung giờ làm việc: Sáng (08:00-11:30) hoặc Chiều (13:30-17:00).");
+
+            // 4. Kiểm tra trùng lịch Bác sĩ
+            if (_appointmentDAL.HasDoctorConflict(dto.DoctorId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes))
+                return Result.Failure("Bác sĩ này đã có lịch hẹn hoặc ca khám trong khung giờ này. Vui lòng chọn giờ khác.");
+
+            // 5. Kiểm tra trùng lịch Bệnh nhân
+            if (_appointmentDAL.HasPatientConflict(dto.PatientId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes))
+                return Result.Failure("Bệnh nhân này đang có một lịch hẹn khác trùng vào khung giờ này.");
 
             using (var transaction = _appointmentDAL.BeginTransaction())
             {
                 try
                 {
-                    DateTime fullDateTime = dto.AppointmentDate.Date.Add(dto.AppointmentTime);
-
                     var entity = new Appointment
                     {
                         PatientId = dto.PatientId,
@@ -102,7 +124,6 @@ namespace DentalClinic.BLL
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    //return Result.Failure("Lỗi hệ thống khi tạo lịch hẹn: " + ex.Message);
                     string innerMsg = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                     return Result.Failure("Lỗi hệ thống khi tạo lịch hẹn: " + innerMsg);
                 }
@@ -111,26 +132,50 @@ namespace DentalClinic.BLL
 
         public Result Update(AppointmentUpdateDto dto)
         {
-            // Xác thực dữ liệu đầu vào bằng Extension Method ValidateDto
             string? validationError = dto.Validate();
-            if (!string.IsNullOrEmpty(validationError))
+            if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
+
+            var entity = _appointmentDAL.GetById(dto.AppointmentId);
+            if (entity == null)
             {
-                return Result.Failure(validationError);
+                return Result.Failure("Không tìm thấy dữ liệu lịch hẹn để cập nhật.");
             }
+
+            if (entity.Status == AppointmentStatus.Completed || entity.Status == AppointmentStatus.Cancelled)
+            {
+                return Result.Failure("Không thể chỉnh sửa lịch hẹn đã hoàn thành hoặc đã hủy.");
+            }
+
+            DateTime fullDateTime = dto.AppointmentDate.Date.Add(dto.AppointmentTime);
+
+            // 1. (Bỏ chặn quá khứ ở Update vì lễ tân có quyền sửa thông tin lịch cũ)
+
+            // 2. Giới hạn ngày đặt trước
+            if (fullDateTime > DateTime.Now.AddDays(SystemConstants.MaxAdvanceBookingDays))
+                return Result.Failure($"Chỉ được phép đặt lịch trước tối đa {SystemConstants.MaxAdvanceBookingDays} ngày.");
+
+            // 3. Kiểm tra giờ làm việc hợp lệ
+            TimeSpan time = dto.AppointmentTime;
+            bool isMorning = time >= SystemConstants.MorningStartTime && time < SystemConstants.MorningEndTime;
+            bool isAfternoon = time >= SystemConstants.AfternoonStartTime && time < SystemConstants.AfternoonEndTime;
+            if (!isMorning && !isAfternoon)
+                return Result.Failure("Giờ hẹn phải nằm trong khung giờ làm việc: Sáng (08:00-11:30) hoặc Chiều (13:30-17:00).");
+            
+            // 4. Kiểm tra trùng lịch Bác sĩ
+            if (_appointmentDAL.HasDoctorConflict(dto.DoctorId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes, dto.AppointmentId))
+                return Result.Failure("Bác sĩ này đã có lịch hẹn hoặc ca khám trong khung giờ này. Vui lòng chọn giờ khác.");
+
+            // 5. Kiểm tra trùng lịch Bệnh nhân
+            if (_appointmentDAL.HasPatientConflict(dto.PatientId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes, dto.AppointmentId))
+                return Result.Failure("Bệnh nhân này đang có một lịch hẹn khác trùng vào khung giờ này.");
 
             using (var transaction = _appointmentDAL.BeginTransaction())
             {
                 try
                 {
-                    var entity = _appointmentDAL.GetById(dto.AppointmentId);
-                    if (entity == null)
-                    {
-                        return Result.Failure("Không tìm thấy dữ liệu lịch hẹn để cập nhật.");
-                    }
-
                     entity.PatientId = dto.PatientId;
                     entity.DoctorId = dto.DoctorId;
-                    entity.AppointmentDateTime = dto.AppointmentDate.Date.Add(dto.AppointmentTime);
+                    entity.AppointmentDateTime = fullDateTime;
                     entity.ReasonForVisit = dto.ReasonForVisit;
                     entity.Note = dto.Note;
                     entity.Status = dto.Status;

@@ -132,12 +132,12 @@ namespace DentalClinic.DAL
             {
                 try
                 {
-                    // Bước A: Lấy lịch hẹn lên và kiểm tra
+                    // 1. Lấy lịch hẹn lên và kiểm tra
                     var app = _context.Appointments.Find(appointmentId);
                     if (app == null || app.Status == AppointmentStatus.Cancelled)
                         return false; // Trả về false nếu lịch không hợp lệ
 
-                    // Bước B: Đổi trạng thái lịch hẹn -> Completed (Đã tới phòng khám)
+                    // 2. Đổi trạng thái lịch hẹn -> Completed (Đã tới phòng khám)
                     app.Status = AppointmentStatus.Completed;
                     _context.Appointments.Update(app);
 
@@ -145,7 +145,7 @@ namespace DentalClinic.DAL
                     int currentQueueCount = _context.Visits
                         .Count(v => v.DoctorId == app.DoctorId && v.CheckInDateTime.Date == DateTime.Today);
 
-                    // Bước C: Tạo dòng mới trong bảng Visit (Đồng thời là thêm vào hàng chờ)
+                    // 3. Tạo dòng mới trong bảng Visit (Đồng thời là thêm vào hàng chờ)
                     var newVisit = new Visit
                     {
                         AppointmentId = app.AppointmentId,
@@ -153,9 +153,9 @@ namespace DentalClinic.DAL
                         DoctorId = app.DoctorId,
                         ReasonForVisit = app.ReasonForVisit,
                         CheckInDateTime = DateTime.Now,
-                        Status = VisitStatus.Waiting, // Quan trọng: Đánh dấu là đang chờ khám
+                        Status = VisitStatus.Waiting, 
                         ReceptionistId = receptionistId,
-                        QueueNumber = currentQueueCount + 1 // Cấp số thứ tự tiếp theo
+                        QueueNumber = currentQueueCount + 1 
                     };
 
                     _context.Visits.Add(newVisit);
@@ -169,9 +169,37 @@ namespace DentalClinic.DAL
                 catch (Exception)
                 {
                     transaction.Rollback();
-                    throw; // Ném lỗi văng lên tầng BLL để bắt và lấy Message
+                    throw; 
                 }
             }
+        }
+
+        // Kiểm tra trùng lịch Bác sĩ
+        public bool HasDoctorConflict(int doctorId, DateTime startTime, int durationMinutes, int? excludeAppId = null)
+        {
+            DateTime endTime = startTime.AddMinutes(durationMinutes);
+
+            return _context.Appointments.Any(a =>
+                a.DoctorId == doctorId &&
+                (a.Status == AppointmentStatus.Pending || a.Status == AppointmentStatus.Confirmed) &&
+                (!excludeAppId.HasValue || a.AppointmentId != excludeAppId.Value) &&
+                a.AppointmentDateTime < endTime &&
+                a.AppointmentDateTime.AddMinutes(durationMinutes) > startTime
+            );
+        }
+
+        // Kiểm tra trùng lịch Bệnh nhân (1 người không thể khám 2 phòng cùng lúc)
+        public bool HasPatientConflict(int patientId, DateTime startTime, int durationMinutes, int? excludeAppId = null)
+        {
+            DateTime endTime = startTime.AddMinutes(durationMinutes);
+
+            return _context.Appointments.Any(a =>
+                a.PatientId == patientId &&
+                (a.Status == AppointmentStatus.Pending || a.Status == AppointmentStatus.Confirmed) &&
+                (!excludeAppId.HasValue || a.AppointmentId != excludeAppId.Value) &&
+                a.AppointmentDateTime < endTime &&
+                a.AppointmentDateTime.AddMinutes(durationMinutes) > startTime
+            );
         }
     }
 }

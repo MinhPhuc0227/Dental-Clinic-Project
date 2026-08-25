@@ -337,6 +337,7 @@
             dgvWaitingQueue.Size = new Size(619, 268);
             dgvWaitingQueue.TabIndex = 6;
             dgvWaitingQueue.CellClick += dgvWaitingQueue_CellClick;
+            dgvWaitingQueue.CellFormatting += dgvWaitingQueue_CellFormatting;
             // 
             // pnRight
             // 

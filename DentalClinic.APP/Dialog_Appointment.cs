@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.BLL.Common;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
@@ -142,14 +143,39 @@ namespace DentalClinic.APP
 
         private void btSave_Click(object? sender, EventArgs e)
         {
-            Result result;
-
             int selectedPatientId = cbPatient.SelectedValue is int pId ? pId : 0;
             int selectedDoctorId = cbDoctor.SelectedValue is int dId ? dId : 0;
+            DateTime fullDateTime = dtpAppointmentDate.Value.Date.Add(dtpAppointmentTime.Value.TimeOfDay);
+
+            // LOGIC CẢNH BÁO YES/NO 
+            int? excludeId = (_appointmentId.HasValue && _appointmentId.Value > 0) ? _appointmentId.Value : (int?)null;
+
+            // Lấy danh sách các cảnh báo từ BLL
+            var warnings = _appointmentBLL.GetBookingWarnings(selectedDoctorId, fullDateTime, excludeId);
+
+            if (warnings.Count > 0)
+            {
+                string msg = "Hệ thống phát hiện các vấn đề sau đối với lịch hẹn này:\n\n";
+                foreach (var w in warnings)
+                {
+                    msg += $"• {w}\n";
+                }
+                msg += "\nBạn có chắc chắn muốn BỎ QUA CẢNH BÁO và TIẾP TỤC lưu lịch hẹn không?";
+
+                var confirm = MessageBox.Show(msg, "Cảnh báo đặt lịch linh động", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                // Nếu Lễ tân bấm No -> Hủy lưu, quay lại form
+                if (confirm == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            Result result;
 
             if (!_appointmentId.HasValue || _appointmentId.Value == 0)
             {
-                // TẠO MỚI -> Dùng AppointmentCreateDto
+                // TẠO MỚI 
                 var createDto = new AppointmentCreateDto
                 {
                     PatientId = selectedPatientId,
@@ -165,7 +191,7 @@ namespace DentalClinic.APP
             }
             else
             {
-                // CẬP NHẬT -> Dùng AppointmentUpdateDto (Kế thừa AppointmentCreateDto)
+                // CẬP NHẬT 
                 var updateDto = new AppointmentUpdateDto
                 {
                     AppointmentId = _appointmentId.Value,
@@ -182,6 +208,7 @@ namespace DentalClinic.APP
                 result = _appointmentBLL.Update(updateDto);
             }
 
+            // Xử lý kết quả trả về
             if (result.IsSuccess)
             {
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -190,7 +217,7 @@ namespace DentalClinic.APP
             }
             else
             {
-                MessageBox.Show(result.Message, "Cảnh báo dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(result.Message, "Cảnh báo lỗi nghiêm trọng", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -272,15 +299,35 @@ namespace DentalClinic.APP
                 return;
             }
 
-            // 2. Hỏi xác nhận
-            var confirm = MessageBox.Show(
-                "Xác nhận tiếp nhận bệnh nhân này và đưa vào hàng chờ khám?",
-                "Xác nhận",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
+            // 2. Lấy DoctorId hiện tại đang được chọn trên giao diện
+            int selectedDoctorId = cbDoctor.SelectedValue is int dId ? dId : 0;
 
-            if (confirm != DialogResult.Yes) return;
+            // 3. Khởi tạo nhanh Visit_BLL để gọi hàm kiểm tra quá tải
+            var visitBLL = new Visit_BLL();
+
+            // 4. Kiểm tra và hiển thị MessageBox phù hợp
+            if (selectedDoctorId > 0 && visitBLL.IsDoctorOverloaded(selectedDoctorId))
+            {
+                var confirmOverload = MessageBox.Show(
+                    $"Bác sĩ này hôm nay đã có từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên (cả hẹn và vãng lai).\n\nBạn có chắc chắn muốn đưa bệnh nhân này vào hàng chờ không?",
+                    "Cảnh báo quá tải bác sĩ",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (confirmOverload != DialogResult.Yes) return;
+            }
+            else
+            {
+                var confirm = MessageBox.Show(
+                    "Xác nhận tiếp nhận bệnh nhân này và đưa vào hàng chờ khám?",
+                    "Xác nhận",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirm != DialogResult.Yes) return;
+            }
 
             // 3. Gọi hàm BLL vừa viết
             Result result = _appointmentBLL.CreateVisitFromAppointment(_appointmentId.Value, _receptionistId);

@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.BLL.Common;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
@@ -165,10 +166,33 @@ namespace DentalClinic.APP
                             return;
                         }
 
-                        if (MessageBox.Show($"Xác nhận tiếp nhận bệnh nhân {dto.PatientName}?", "Tiếp nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        // KHỞI TẠO LOGIC QUÁ TẢI
+                        var visitBLL = new Visit_BLL();
+
+                        // Nếu bác sĩ quá tải 
+                        if (visitBLL.IsDoctorOverloaded(dto.DoctorId))
                         {
-                             Result res = _appointmentBLL.CreateVisitFromAppointment(dto.AppointmentId, _currentReceptionistId);
-                             if (res.IsSuccess) { LoadData(); }
+                            var confirm = MessageBox.Show(
+                                $"Bác sĩ này hôm nay đã có từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên.\n\nXác nhận đưa bệnh nhân {dto.PatientName} vào hàng chờ?",
+                                "Cảnh báo quá tải bác sĩ",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Warning
+                            );
+
+                            if (confirm == DialogResult.Yes)
+                            {
+                                Result res = _appointmentBLL.CreateVisitFromAppointment(dto.AppointmentId, _currentReceptionistId);
+                                if (res.IsSuccess) { LoadData(); }
+                            }
+                        }
+                        // Nếu bình thường
+                        else
+                        {
+                            if (MessageBox.Show($"Xác nhận tiếp nhận bệnh nhân {dto.PatientName}?", "Tiếp nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            {
+                                Result res = _appointmentBLL.CreateVisitFromAppointment(dto.AppointmentId, _currentReceptionistId);
+                                if (res.IsSuccess) { LoadData(); }
+                            }
                         }
                     }
                     // Xử lý khi nhấn Sửa

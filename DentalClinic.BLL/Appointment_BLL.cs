@@ -71,27 +71,11 @@ namespace DentalClinic.BLL
 
             DateTime fullDateTime = dto.AppointmentDate.Date.Add(dto.AppointmentTime);
 
-            // 1. Chặn đặt lịch ở quá khứ
+            // Chặn đặt lịch ở quá khứ
             if (fullDateTime < DateTime.Now)
                 return Result.Failure("Không thể đặt lịch cho một thời điểm trong quá khứ.");
 
-            // 2. Giới hạn ngày đặt trước
-            if (fullDateTime > DateTime.Now.AddDays(SystemConstants.MaxAdvanceBookingDays))
-                return Result.Failure($"Chỉ được phép đặt lịch trước tối đa {SystemConstants.MaxAdvanceBookingDays} ngày.");
-
-            // 3. Kiểm tra giờ làm việc hợp lệ
-            TimeSpan time = dto.AppointmentTime;
-            bool isMorning = time >= SystemConstants.MorningStartTime && time < SystemConstants.MorningEndTime;
-            bool isAfternoon = time >= SystemConstants.AfternoonStartTime && time < SystemConstants.AfternoonEndTime;
-
-            if (!isMorning && !isAfternoon)
-                return Result.Failure("Giờ hẹn phải nằm trong khung giờ làm việc: Sáng (08:00-11:30) hoặc Chiều (13:30-17:00).");
-
-            // 4. Kiểm tra trùng lịch Bác sĩ
-            if (_appointmentDAL.HasDoctorConflict(dto.DoctorId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes))
-                return Result.Failure("Bác sĩ này đã có lịch hẹn hoặc ca khám trong khung giờ này. Vui lòng chọn giờ khác.");
-
-            // 5. Kiểm tra trùng lịch Bệnh nhân
+            // Kiểm tra trùng lịch Bệnh nhân
             if (_appointmentDAL.HasPatientConflict(dto.PatientId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes))
                 return Result.Failure("Bệnh nhân này đang có một lịch hẹn khác trùng vào khung giờ này.");
 
@@ -148,24 +132,7 @@ namespace DentalClinic.BLL
 
             DateTime fullDateTime = dto.AppointmentDate.Date.Add(dto.AppointmentTime);
 
-            // 1. (Bỏ chặn quá khứ ở Update vì lễ tân có quyền sửa thông tin lịch cũ)
-
-            // 2. Giới hạn ngày đặt trước
-            if (fullDateTime > DateTime.Now.AddDays(SystemConstants.MaxAdvanceBookingDays))
-                return Result.Failure($"Chỉ được phép đặt lịch trước tối đa {SystemConstants.MaxAdvanceBookingDays} ngày.");
-
-            // 3. Kiểm tra giờ làm việc hợp lệ
-            TimeSpan time = dto.AppointmentTime;
-            bool isMorning = time >= SystemConstants.MorningStartTime && time < SystemConstants.MorningEndTime;
-            bool isAfternoon = time >= SystemConstants.AfternoonStartTime && time < SystemConstants.AfternoonEndTime;
-            if (!isMorning && !isAfternoon)
-                return Result.Failure("Giờ hẹn phải nằm trong khung giờ làm việc: Sáng (08:00-11:30) hoặc Chiều (13:30-17:00).");
-            
-            // 4. Kiểm tra trùng lịch Bác sĩ
-            if (_appointmentDAL.HasDoctorConflict(dto.DoctorId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes, dto.AppointmentId))
-                return Result.Failure("Bác sĩ này đã có lịch hẹn hoặc ca khám trong khung giờ này. Vui lòng chọn giờ khác.");
-
-            // 5. Kiểm tra trùng lịch Bệnh nhân
+            // Kiểm tra trùng lịch Bệnh nhân
             if (_appointmentDAL.HasPatientConflict(dto.PatientId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes, dto.AppointmentId))
                 return Result.Failure("Bệnh nhân này đang có một lịch hẹn khác trùng vào khung giờ này.");
 
@@ -198,6 +165,33 @@ namespace DentalClinic.BLL
             }
         }
 
+        public List<string> GetBookingWarnings(int doctorId, DateTime fullDateTime, int? excludeAppId = null)
+        {
+            var warnings = new List<string>();
+
+            // 1: Vượt số ngày đặt trước
+            if (fullDateTime > DateTime.Now.AddDays(SystemConstants.MaxAdvanceBookingDays))
+                warnings.Add($"Lịch hẹn vượt quá số ngày đặt trước tối đa ({SystemConstants.MaxAdvanceBookingDays} ngày).");
+
+            // 2: Ngoài giờ làm việc
+            TimeSpan time = fullDateTime.TimeOfDay;
+            bool isMorning = time >= SystemConstants.MorningStartTime && time < SystemConstants.MorningEndTime;
+            bool isAfternoon = time >= SystemConstants.AfternoonStartTime && time < SystemConstants.AfternoonEndTime;
+            if (!isMorning && !isAfternoon)
+            {
+                string mStart = SystemConstants.MorningStartTime.ToString(@"hh\:mm");
+                string mEnd = SystemConstants.MorningEndTime.ToString(@"hh\:mm");
+                string aStart = SystemConstants.AfternoonStartTime.ToString(@"hh\:mm");
+                string aEnd = SystemConstants.AfternoonEndTime.ToString(@"hh\:mm");
+                warnings.Add($"Giờ hẹn đang nằm ngoài khung giờ làm việc tiêu chuẩn ({mStart}-{mEnd}, {aStart}-{aEnd}).");
+            }
+
+            // 3: Trùng lịch Bác sĩ
+            if (_appointmentDAL.HasDoctorConflict(doctorId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes, excludeAppId))
+                warnings.Add("Bác sĩ này đã có lịch hẹn/ca khám trùng vào khung giờ này.");
+
+            return warnings;
+        }
         public Result<List<LookupItemDto>> GetPatientsLookup()
         {
             try

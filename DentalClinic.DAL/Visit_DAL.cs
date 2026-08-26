@@ -179,5 +179,14 @@ namespace DentalClinic.DAL
             return _context.Visits
                 .Count(v => v.DoctorId == doctorId && v.CheckInDateTime.Date == DateTime.Today);
         }
+
+        public bool HasActiveVisitToday(int patientId)
+        {
+            return _context.Visits.Any(v =>
+                v.PatientId == patientId &&
+                v.CheckInDateTime.Date == DateTime.Today &&
+                (v.Status == VisitStatus.Waiting || v.Status == VisitStatus.InExamination));
+        }
+
     }
 }

@@ -29,6 +29,6 @@ namespace DentalClinic.BLL.Common
         //public const int ExpiryWarningDays = 30;
 
         // KHÁC
-        public const decimal VATRate = 0.08m; // VAT 8%
+        //public const decimal VATRate = 0.08m; // VAT 8%
     }
 }

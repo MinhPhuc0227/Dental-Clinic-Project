@@ -53,24 +53,28 @@ namespace DentalClinic.BLL
 
         public Result CreateWalkInVisit(VisitCreateDto dto)
         {
-            // 1. Kiểm tra Validate từ Data Annotations
             string? validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
             }
 
+            // LOGIC CẤM TUYỆT ĐỐI
+            if (_visitDAL.HasActiveVisitToday(dto.PatientId))
+            {
+                return Result.Failure("Bệnh nhân này hiện đang ở trong hàng chờ hoặc đang được khám. Không thể tạo thêm phiếu tiếp nhận!");
+            }
+
             try
             {
-                // 2. Map DTO sang Entity Model
                 var visit = new Visit
                 {
                     PatientId = dto.PatientId,
                     DoctorId = dto.DoctorId,
                     ReasonForVisit = dto.ReasonForVisit,
                     CheckInDateTime = DateTime.Now,
-                    Status = VisitStatus.Waiting, // Mới tới thì vào Hàng chờ
-                    AppointmentId = null, // Khách vãng lai
+                    Status = VisitStatus.Waiting,
+                    AppointmentId = null,
                     ReceptionistId = dto.ReceptionistId,
                 };
 
@@ -87,6 +91,32 @@ namespace DentalClinic.BLL
 
         public Result<List<LookupItemDto>> GetDoctorsLookup() => Result<List<LookupItemDto>>.Success(_visitDAL.GetDoctorsLookup());
         public Result<List<LookupItemDto>> GetPatientsLookup() => Result<List<LookupItemDto>>.Success(_visitDAL.GetPatientsLookup());
+
+        public List<string> GetWalkInWarnings(int doctorId)
+        {
+            var warnings = new List<string>();
+            TimeSpan time = DateTime.Now.TimeOfDay;
+
+            // 1. Cảnh báo ngoài giờ làm việc
+            bool isMorning = time >= SystemConstants.MorningStartTime && time < SystemConstants.MorningEndTime;
+            bool isAfternoon = time >= SystemConstants.AfternoonStartTime && time < SystemConstants.AfternoonEndTime;
+            if (!isMorning && !isAfternoon)
+            {
+                string mStart = SystemConstants.MorningStartTime.ToString(@"hh\:mm");
+                string mEnd = SystemConstants.MorningEndTime.ToString(@"hh\:mm");
+                string aStart = SystemConstants.AfternoonStartTime.ToString(@"hh\:mm");
+                string aEnd = SystemConstants.AfternoonEndTime.ToString(@"hh\:mm");
+                warnings.Add($"Hiện tại đang là ngoài khung giờ làm việc tiêu chuẩn ({mStart}-{mEnd}, {aStart}-{aEnd}).");
+            }
+
+            // 2. Cảnh báo quá tải bác sĩ
+            if (IsDoctorOverloaded(doctorId))
+            {
+                warnings.Add($"Bác sĩ này hôm nay đã tiếp nhận từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên.");
+            }
+
+            return warnings;
+        }
 
         public bool IsDoctorOverloaded(int doctorId)
         {

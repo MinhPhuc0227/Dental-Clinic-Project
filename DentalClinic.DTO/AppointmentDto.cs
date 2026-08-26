@@ -22,6 +22,7 @@ namespace DentalClinic.DTO
         public int AppointmentId { get; set; }
         public string PatientName { get; set; } = string.Empty;
         public string PatientPhone { get; set; } = string.Empty;
+        public int DoctorId { get; set; }
         public string DoctorName { get; set; } = string.Empty;
         public DateTime AppointmentDateTime { get; set; }
         public AppointmentStatus Status { get; set; }

@@ -65,31 +65,33 @@ namespace DentalClinic.APP
                 ReceptionistId = _receptionistId
             };
 
-            if (createDto.DoctorId <= 0)
+            if (createDto.DoctorId <= 0 || createDto.PatientId <= 0)
             {
-                MessageBox.Show("Vui lòng chọn bác sĩ phụ trách.", "Cảnh báo dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn đầy đủ Bệnh nhân và Bác sĩ phụ trách.", "Cảnh báo dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Kiểm tra quá tải lượt khám (1 bác sĩ)
-            if (_visitBLL.IsDoctorOverloaded(createDto.DoctorId))
-            {
-                var confirmResult = MessageBox.Show(
-                    $"Bác sĩ này hôm nay đã có từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên (cả hẹn và vãng lai).\n\nBạn có chắc chắn muốn tiếp tục tiếp nhận bệnh nhân này vào hàng chờ không?",
-                    "Cảnh báo quá tải",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning
-                );
+            // --- LOGIC CẢNH BÁO YES/NO ---
+            var warnings = _visitBLL.GetWalkInWarnings(createDto.DoctorId);
 
-                // Chọn "No" 
+            if (warnings.Count > 0)
+            {
+                string msg = "Hệ thống phát hiện các vấn đề sau đối với ca tiếp nhận vãng lai này:\n\n";
+                foreach (var w in warnings)
+                {
+                    msg += $"• {w}\n";
+                }
+                msg += "\nBạn có chắc chắn muốn BỎ QUA CẢNH BÁO và đưa bệnh nhân vào hàng chờ không?";
+
+                var confirmResult = MessageBox.Show(msg, "Cảnh báo linh động", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
                 if (confirmResult == DialogResult.No)
                 {
-                    return;
+                    return; // Lễ tân bấm No -> Hủy lưu
                 }
-                // Chọn "Yes" thì tiếp tục
             }
 
-            // Gọi BLL và lưu
+            // Gọi BLL và lưu (Lỗi cứng như trùng bệnh nhân sẽ bị chặn ở trong BLL)
             Result result = _visitBLL.CreateWalkInVisit(createDto);
 
             if (result.IsSuccess)
@@ -100,7 +102,7 @@ namespace DentalClinic.APP
             }
             else
             {
-                MessageBox.Show(result.Message, "Cảnh báo dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(result.Message, "Lỗi từ chối tiếp nhận", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

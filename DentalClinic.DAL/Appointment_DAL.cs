@@ -76,7 +76,8 @@ namespace DentalClinic.DAL
                     ReasonForVisit = a.ReasonForVisit,
                     Note = a.Note,
                     ReceptionistName = a.Receptionist.FullName,
-                    CreatedDate = a.CreatedDate
+                    CreatedDate = a.CreatedDate,
+                    DoctorId = a.DoctorId
                 })
                 .ToList();
         }

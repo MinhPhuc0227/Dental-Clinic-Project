@@ -292,54 +292,52 @@ namespace DentalClinic.APP
 
         private void btCheckIn_Click(object sender, EventArgs e)
         {
-            // 1. Kiểm tra xem lịch hẹn đã được tạo chưa (có ID chưa)
             if (!_appointmentId.HasValue || _appointmentId.Value <= 0)
             {
                 MessageBox.Show("Vui lòng Lưu lịch hẹn mới trước khi thực hiện Tiếp nhận!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Lấy DoctorId hiện tại đang được chọn trên giao diện
-            int selectedDoctorId = cbDoctor.SelectedValue is int dId ? dId : 0;
+            DateTime appTime = dtpAppointmentDate.Value.Date.Add(dtpAppointmentTime.Value.TimeOfDay);
+            bool keepPriority = true;
 
-            // 3. Khởi tạo nhanh Visit_BLL để gọi hàm kiểm tra quá tải
+            // --- 1. KIỂM TRA GIỜ GIẤC ĐẾN SỚM/TRỄ ---
+            var timeWarnings = _appointmentBLL.GetCheckInWarnings(appTime);
+            if (timeWarnings.Count > 0)
+            {
+                string msg = timeWarnings[0] + "\n\nNếu tiếp nhận ngay lúc này, bệnh nhân sẽ bị MẤT QUYỀN ƯU TIÊN và chuyển thành khách vãng lai.\n\nBạn có muốn tiếp tục tiếp nhận không?";
+                var confirmTime = MessageBox.Show(msg, "Cảnh báo giờ giấc", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (confirmTime == DialogResult.No) return;
+
+                keepPriority = false; // Tước quyền ưu tiên nếu chọn Yes
+            }
+
+            // --- 2. KIỂM TRA BÁC SĨ QUÁ TẢI ---
+            int selectedDoctorId = cbDoctor.SelectedValue is int dId ? dId : 0;
             var visitBLL = new Visit_BLL();
 
-            // 4. Kiểm tra và hiển thị MessageBox phù hợp
             if (selectedDoctorId > 0 && visitBLL.IsDoctorOverloaded(selectedDoctorId))
             {
                 var confirmOverload = MessageBox.Show(
-                    $"Bác sĩ này hôm nay đã có từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên (cả hẹn và vãng lai).\n\nBạn có chắc chắn muốn đưa bệnh nhân này vào hàng chờ không?",
-                    "Cảnh báo quá tải bác sĩ",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning
-                );
+                    $"Bác sĩ này hôm nay đã có từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên.\n\nBạn có chắc chắn muốn đưa bệnh nhân này vào hàng chờ không?",
+                    "Cảnh báo quá tải bác sĩ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (confirmOverload != DialogResult.Yes) return;
             }
-            else
+            else if (timeWarnings.Count == 0) // Chỉ hỏi câu cơ bản nếu không bị dính cảnh báo nào ở trên
             {
-                var confirm = MessageBox.Show(
-                    "Xác nhận tiếp nhận bệnh nhân này và đưa vào hàng chờ khám?",
-                    "Xác nhận",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
+                var confirm = MessageBox.Show("Xác nhận tiếp nhận bệnh nhân này và đưa vào hàng chờ khám?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirm != DialogResult.Yes) return;
             }
 
-            // 3. Gọi hàm BLL vừa viết
-            Result result = _appointmentBLL.CreateVisitFromAppointment(_appointmentId.Value, _receptionistId);
+            // --- 3. GỌI LỆNH TIẾP NHẬN ---
+            Result result = _appointmentBLL.CreateVisitFromAppointment(_appointmentId.Value, _receptionistId, keepPriority);
 
-            // 4. Xử lý kết quả trả về
             if (result.IsSuccess)
             {
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Đặt DialogResult = OK để UserControl bên ngoài biết mà load lại danh sách DataGridView
                 this.DialogResult = DialogResult.OK;
-                //this.Close(); // Đóng form Dialog
             }
             else
             {

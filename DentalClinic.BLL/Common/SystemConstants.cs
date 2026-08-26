@@ -22,6 +22,10 @@ namespace DentalClinic.BLL.Common
         public static readonly TimeSpan AfternoonStartTime = new TimeSpan(13, 30, 0);
         public static readonly TimeSpan AfternoonEndTime = new TimeSpan(17, 0, 0);
 
+        // Giới hạn thời gian Check-in
+        public const int AllowedEarlyCheckInMinutes = 30; 
+        public const int AllowedLateCheckInMinutes = 30;
+
         // KHO THUỐC
         // Ngưỡng cảnh báo sắp hết hàng
         //public const int LowStockThreshold = 10;

@@ -127,7 +127,22 @@ namespace DentalClinic.DAL
                 .ToList();
         }
 
-        public bool CreateVisitFromAppointmentTransaction(int appointmentId, int receptionistId)
+
+        public bool HasActiveVisitToday(int patientId)
+        {
+            DateTime today = DateTime.Today;
+            DateTime tomorrow = today.AddDays(1);
+
+            return _context.Visits.Any(v =>
+                v.PatientId == patientId &&
+                v.CheckInDateTime >= today &&
+                v.CheckInDateTime < tomorrow &&
+                v.Status != VisitStatus.Completed &&
+                v.Status != VisitStatus.Cancelled
+            );
+        }
+
+        public bool CreateVisitFromAppointmentTransaction(int appointmentId, int receptionistId, bool keepPriority = true)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -149,7 +164,7 @@ namespace DentalClinic.DAL
                     // 3. Tạo dòng mới trong bảng Visit (Đồng thời là thêm vào hàng chờ)
                     var newVisit = new Visit
                     {
-                        AppointmentId = app.AppointmentId,
+                        AppointmentId = keepPriority ? app.AppointmentId : (int?)null,
                         PatientId = app.PatientId,
                         DoctorId = app.DoctorId,
                         ReasonForVisit = app.ReasonForVisit,
@@ -202,5 +217,7 @@ namespace DentalClinic.DAL
                 a.AppointmentDateTime.AddMinutes(durationMinutes) > startTime
             );
         }
+
+
     }
 }

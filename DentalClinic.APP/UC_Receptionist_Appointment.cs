@@ -159,40 +159,54 @@ namespace DentalClinic.APP
                     // Xử lý khi nhấn Tiếp nhận
                     if (columnName == "colCheckIn")
                     {
-                        // Chỉ cho phép tiếp nhận nếu đang ở trạng thái Chờ hoặc Đã xác nhận
                         if (dto.Status == AppointmentStatus.Cancelled || dto.Status == AppointmentStatus.Completed)
                         {
                             MessageBox.Show("Lịch hẹn đã hủy hoặc hoàn thành, không thể tiếp nhận!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
 
-                        // KHỞI TẠO LOGIC QUÁ TẢI
-                        var visitBLL = new Visit_BLL();
+                        bool keepPriority = true;
 
-                        // Nếu bác sĩ quá tải 
+                        // --- 1. KIỂM TRA GIỜ GIẤC ---
+                        var timeWarnings = _appointmentBLL.GetCheckInWarnings(dto.AppointmentDateTime);
+                        if (timeWarnings.Count > 0)
+                        {
+                            string msg = timeWarnings[0] + "\n\nNếu tiếp nhận ngay lúc này, bệnh nhân sẽ bị MẤT QUYỀN ƯU TIÊN và chuyển thành khách vãng lai.\n\nBạn có muốn tiếp tục tiếp nhận không?";
+                            var confirmTime = MessageBox.Show(msg, "Cảnh báo giờ giấc", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                            if (confirmTime == DialogResult.No) return;
+
+                            keepPriority = false;
+                        }
+
+                        // --- 2. KIỂM TRA QUÁ TẢI ---
+                        var visitBLL = new Visit_BLL();
                         if (visitBLL.IsDoctorOverloaded(dto.DoctorId))
                         {
-                            var confirm = MessageBox.Show(
+                            var confirmOverload = MessageBox.Show(
                                 $"Bác sĩ này hôm nay đã có từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên.\n\nXác nhận đưa bệnh nhân {dto.PatientName} vào hàng chờ?",
-                                "Cảnh báo quá tải bác sĩ",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Warning
-                            );
+                                "Cảnh báo quá tải bác sĩ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                            if (confirm == DialogResult.Yes)
+                            if (confirmOverload != DialogResult.Yes) return;
+                        }
+                        else if (timeWarnings.Count == 0) // Chỉ hiện câu xác nhận thường nếu không có cảnh báo
+                        {
+                            if (MessageBox.Show($"Xác nhận tiếp nhận bệnh nhân {dto.PatientName}?", "Tiếp nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                             {
-                                Result res = _appointmentBLL.CreateVisitFromAppointment(dto.AppointmentId, _currentReceptionistId);
-                                if (res.IsSuccess) { LoadData(); }
+                                return;
                             }
                         }
-                        // Nếu bình thường
+
+                        // --- 3. TIẾP NHẬN ---
+                        Result res = _appointmentBLL.CreateVisitFromAppointment(dto.AppointmentId, _currentReceptionistId, keepPriority);
+                        if (res.IsSuccess)
+                        {
+                            MessageBox.Show(res.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadData();
+                        }
                         else
                         {
-                            if (MessageBox.Show($"Xác nhận tiếp nhận bệnh nhân {dto.PatientName}?", "Tiếp nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                            {
-                                Result res = _appointmentBLL.CreateVisitFromAppointment(dto.AppointmentId, _currentReceptionistId);
-                                if (res.IsSuccess) { LoadData(); }
-                            }
+                            MessageBox.Show(res.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                     // Xử lý khi nhấn Sửa

@@ -137,8 +137,13 @@ namespace DentalClinic.DAL
                 v.PatientId == patientId &&
                 v.CheckInDateTime >= today &&
                 v.CheckInDateTime < tomorrow &&
-                v.Status != VisitStatus.Completed &&
-                v.Status != VisitStatus.Cancelled
+                (
+                    v.Status == VisitStatus.Waiting
+                // Nếu hệ thống của bạn có trạng thái đang khám,
+                // thêm vào đây, ví dụ:
+                 //|| v.Status == VisitStatus.InProgress
+                 //|| v.Status == VisitStatus.Examining
+                )
             );
         }
 
@@ -148,20 +153,33 @@ namespace DentalClinic.DAL
             {
                 try
                 {
-                    // 1. Lấy lịch hẹn lên và kiểm tra
+                    // 1. Lấy lịch hẹn
                     var app = _context.Appointments.Find(appointmentId);
-                    if (app == null || app.Status == AppointmentStatus.Cancelled)
-                        return false; // Trả về false nếu lịch không hợp lệ
 
-                    // 2. Đổi trạng thái lịch hẹn -> Completed (Đã tới phòng khám)
+                    if (app == null || app.Status == AppointmentStatus.Cancelled)
+                        return false;
+
+                    // 2. CHẶN CỨNG: Bệnh nhân đã có Visit đang hoạt động hôm nay
+                    if (HasActiveVisitToday(app.PatientId))
+                    {
+                        throw new InvalidOperationException(
+                            "Bệnh nhân này hiện đang có mặt trong hàng chờ hoặc đang được khám. " +
+                            "Không thể tạo thêm phiếu tiếp nhận!"
+                        );
+                    }
+
+                    // 3. Đổi trạng thái lịch hẹn -> Completed
                     app.Status = AppointmentStatus.Completed;
                     _context.Appointments.Update(app);
 
-                    // Đếm số lượng bệnh nhân của Bác sĩ này trong NGÀY HÔM NAY
+                    // 4. Đếm số bệnh nhân của bác sĩ hôm nay
                     int currentQueueCount = _context.Visits
-                        .Count(v => v.DoctorId == app.DoctorId && v.CheckInDateTime.Date == DateTime.Today);
+                        .Count(v =>
+                            v.DoctorId == app.DoctorId &&
+                            v.CheckInDateTime >= DateTime.Today &&
+                            v.CheckInDateTime < DateTime.Today.AddDays(1));
 
-                    // 3. Tạo dòng mới trong bảng Visit (Đồng thời là thêm vào hàng chờ)
+                    // 5. Tạo Visit mới
                     var newVisit = new Visit
                     {
                         AppointmentId = keepPriority ? app.AppointmentId : (int?)null,
@@ -169,14 +187,14 @@ namespace DentalClinic.DAL
                         DoctorId = app.DoctorId,
                         ReasonForVisit = app.ReasonForVisit,
                         CheckInDateTime = DateTime.Now,
-                        Status = VisitStatus.Waiting, 
+                        Status = VisitStatus.Waiting,
                         ReceptionistId = receptionistId,
-                        QueueNumber = currentQueueCount + 1 
+                        QueueNumber = currentQueueCount + 1
                     };
 
                     _context.Visits.Add(newVisit);
 
-                    // Hoàn tất Transaction
+                    // 6. Lưu
                     _context.SaveChanges();
                     transaction.Commit();
 
@@ -185,10 +203,58 @@ namespace DentalClinic.DAL
                 catch (Exception)
                 {
                     transaction.Rollback();
-                    throw; 
+                    throw;
                 }
             }
         }
+
+        //public bool CreateVisitFromAppointmentTransaction(int appointmentId, int receptionistId, bool keepPriority = true)
+        //{
+        //    using (var transaction = _context.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            // 1. Lấy lịch hẹn lên và kiểm tra
+        //            var app = _context.Appointments.Find(appointmentId);
+        //            if (app == null || app.Status == AppointmentStatus.Cancelled)
+        //                return false; // Trả về false nếu lịch không hợp lệ
+
+        //            // 2. Đổi trạng thái lịch hẹn -> Completed (Đã tới phòng khám)
+        //            app.Status = AppointmentStatus.Completed;
+        //            _context.Appointments.Update(app);
+
+        //            // Đếm số lượng bệnh nhân của Bác sĩ này trong NGÀY HÔM NAY
+        //            int currentQueueCount = _context.Visits
+        //                .Count(v => v.DoctorId == app.DoctorId && v.CheckInDateTime.Date == DateTime.Today);
+
+        //            // 3. Tạo dòng mới trong bảng Visit (Đồng thời là thêm vào hàng chờ)
+        //            var newVisit = new Visit
+        //            {
+        //                AppointmentId = keepPriority ? app.AppointmentId : (int?)null,
+        //                PatientId = app.PatientId,
+        //                DoctorId = app.DoctorId,
+        //                ReasonForVisit = app.ReasonForVisit,
+        //                CheckInDateTime = DateTime.Now,
+        //                Status = VisitStatus.Waiting, 
+        //                ReceptionistId = receptionistId,
+        //                QueueNumber = currentQueueCount + 1 
+        //            };
+
+        //            _context.Visits.Add(newVisit);
+
+        //            // Hoàn tất Transaction
+        //            _context.SaveChanges();
+        //            transaction.Commit();
+
+        //            return true;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            transaction.Rollback();
+        //            throw; 
+        //        }
+        //    }
+        //}
 
         // Kiểm tra trùng lịch Bác sĩ
         public bool HasDoctorConflict(int doctorId, DateTime startTime, int durationMinutes, int? excludeAppId = null)

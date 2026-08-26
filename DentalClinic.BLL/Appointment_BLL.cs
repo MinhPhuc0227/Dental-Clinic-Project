@@ -217,29 +217,39 @@ namespace DentalClinic.BLL
         }
 
         public Result CreateVisitFromAppointment(int appointmentId, int receptionistId, bool keepPriority = true)
-{
-    try
-    {
-        bool isSuccess = _appointmentDAL.CreateVisitFromAppointmentTransaction(appointmentId, receptionistId, keepPriority);
+        {
+            try
+            {
+                bool isSuccess =
+                    _appointmentDAL.CreateVisitFromAppointmentTransaction(
+                        appointmentId,
+                        receptionistId,
+                        keepPriority);
 
-        if (isSuccess)
-        {
-            // Trả về câu thông báo khác nhau dựa trên việc có giữ được ưu tiên hay không
-            string msg = keepPriority 
-                ? "Tiếp nhận thành công! Bệnh nhân đã được chuyển lên đầu hàng chờ."
-                : "Tiếp nhận thành công! (Bệnh nhân bị mất quyền ưu tiên do sai giờ và đã xếp hàng như khách vãng lai).";
-            return Result.Success(msg);
+                if (isSuccess)
+                {
+                    string msg = keepPriority
+                        ? "Tiếp nhận thành công! Bệnh nhân đã được chuyển lên đầu hàng chờ."
+                        : "Tiếp nhận thành công! (Bệnh nhân bị mất quyền ưu tiên do sai giờ và đã xếp hàng như khách vãng lai).";
+
+                    return Result.Success(msg);
+                }
+
+                return Result.Failure(
+                    "Lịch hẹn không tồn tại hoặc đã bị hủy từ trước!");
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Lỗi nghiệp vụ -> hiển thị trực tiếp
+                return Result.Failure(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(
+                    "Lỗi hệ thống khi tiếp nhận: " +
+                    (ex.InnerException?.Message ?? ex.Message));
+            }
         }
-        else
-        {
-            return Result.Failure("Lịch hẹn không tồn tại hoặc đã bị hủy từ trước!");
-        }
-    }
-    catch (Exception ex)
-    {
-        return Result.Failure("Lỗi hệ thống khi tiếp nhận: " + (ex.InnerException?.Message ?? ex.Message));
-    }
-}
 
         public List<string> GetCheckInWarnings(DateTime appointmentDateTime)
         {

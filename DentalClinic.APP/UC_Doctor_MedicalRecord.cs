@@ -37,15 +37,21 @@ namespace DentalClinic.APP
 
         private void LoadExaminedList()
         {
-            // Gọi hàm BLL đã viết ở bước trước, truyền ID bác sĩ hiện tại vào
+            VisitStatus? selectedStatus = null;
+
+            if (cbStatus.SelectedIndex > 0)
+            {
+                selectedStatus = (VisitStatus?)cbStatus.SelectedValue;
+            }
+
             dgvExaminedList.DataSource = _bll.GetExaminedRecords(
                 _currentDoctorId,
                 dtpStart.Value,
                 dtpEnd.Value,
-                txtSearch.Text.Trim()
+                txtSearch.Text.Trim(),
+                selectedStatus
             );
 
-            // Tải xong danh sách thì xóa trắng phần chi tiết bên phải
             ClearDetails();
         }
 
@@ -125,6 +131,11 @@ namespace DentalClinic.APP
         private void dtpEnd_ValueChanged(object sender, EventArgs e)
         {
             LoadExaminedList();
+        }
+
+        private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -19,7 +19,7 @@ namespace DentalClinic.APP
         private readonly int _receptionistId;
         private readonly string _receptionistName;
         private readonly int? _appointmentId;
-        private AppointmentStatus _currentStatus = AppointmentStatus.Pending;
+        private AppointmentStatus _currentStatus = AppointmentStatus.Scheduled;
 
         public Dialog_Appointment(Appointment_BLL appointmentBLL, int receptionistId, string receptionistName, int? appointmentId = null)
         {
@@ -44,7 +44,7 @@ namespace DentalClinic.APP
                 LoadAppointmentDetail(_appointmentId.Value);
 
                 // Ẩn/Hiện nút Tiếp nhận dựa trên trạng thái hiện tại
-                if (_currentStatus == AppointmentStatus.Completed || _currentStatus == AppointmentStatus.Cancelled)
+                if (_currentStatus == AppointmentStatus.CheckedIn || _currentStatus == AppointmentStatus.Cancelled)
                 {
                     btCheckIn.Visible = false; 
                     //btSave.Enabled = false;    
@@ -62,7 +62,7 @@ namespace DentalClinic.APP
                 dtpAppointmentDate.Value = DateTime.Today;
                 dtpAppointmentTime.Value = DateTime.Now;
                 lbCreatedDate.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-                _currentStatus = AppointmentStatus.Pending;
+                _currentStatus = AppointmentStatus.Scheduled;
                 lbStatus.Text = "Chờ khám (Pending)";
             }
         }
@@ -121,10 +121,9 @@ namespace DentalClinic.APP
 
         private string GetStatusDisplayText(AppointmentStatus status) => status switch
         {
-            AppointmentStatus.Pending => "Chờ khám (Pending)",
-            AppointmentStatus.Confirmed => "Đã xác nhận (Confirmed)",
-            AppointmentStatus.Completed => "Đã hoàn thành (Completed)",
-            AppointmentStatus.Cancelled => "Đã hủy (Cancelled)",
+            AppointmentStatus.Scheduled => "Đã đặt lịch",
+            AppointmentStatus.CheckedIn => "Đã tiếp nhận",
+            AppointmentStatus.Cancelled => "Đã hủy",
             _ => "Khác"
         };
 
@@ -242,7 +241,7 @@ namespace DentalClinic.APP
                 return;
             }
 
-            if (_currentStatus == AppointmentStatus.Completed)
+            if (_currentStatus == AppointmentStatus.CheckedIn)
             {
                 MessageBox.Show("Lịch hẹn đã hoàn thành, không thể hủy!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

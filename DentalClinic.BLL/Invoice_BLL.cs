@@ -4,6 +4,7 @@ using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace DentalClinic.BLL
@@ -20,6 +21,9 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"Message: {ex.Message}");
+                Debug.WriteLine($"Inner: {ex.InnerException?.Message}");
+                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                 return new List<WaitingPaymentDto>();
             }
         }
@@ -32,6 +36,9 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"Message: {ex.Message}");
+                Debug.WriteLine($"Inner: {ex.InnerException?.Message}");
+                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                 return new List<InvoiceDetailDisplayDto>();
             }
         }
@@ -52,6 +59,32 @@ namespace DentalClinic.BLL
             }
         }
 
+        public Result CancelInvoice(int invoiceId)
+        {
+            if (invoiceId <= 0)
+                return Result.Failure("Mã hóa đơn không hợp lệ.");
+
+            try
+            {
+                bool success = _dal.CancelInvoice(invoiceId);
+
+                return success
+                    ? Result.Success("Hủy hóa đơn thành công.")
+                    : Result.Failure("Không thể hủy hóa đơn.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("=== CancelInvoice ERROR ===");
+                Debug.WriteLine($"InvoiceId: {invoiceId}");
+                Debug.WriteLine($"Message: {ex.Message}");
+                Debug.WriteLine($"Inner: {ex.InnerException?.Message}");
+                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
+
+                return Result.Failure(
+                    "Lỗi hủy hóa đơn: " +
+                    (ex.InnerException?.Message ?? ex.Message));
+            }
+        }
         public List<PaymentMethodDto> GetPaymentMethods()
         {
             try

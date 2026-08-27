@@ -91,7 +91,7 @@ namespace DentalClinic.BLL
                         ReasonForVisit = dto.ReasonForVisit,
                         Note = dto.Note,
                         ReceptionistId = dto.ReceptionistId,
-                        Status = AppointmentStatus.Pending,
+                        Status = AppointmentStatus.Scheduled,
                         CreatedDate = DateTime.Now
                     };
 
@@ -125,7 +125,7 @@ namespace DentalClinic.BLL
                 return Result.Failure("Không tìm thấy dữ liệu lịch hẹn để cập nhật.");
             }
 
-            if (entity.Status == AppointmentStatus.Completed || entity.Status == AppointmentStatus.Cancelled)
+            if (entity.Status == AppointmentStatus.CheckedIn || entity.Status == AppointmentStatus.Cancelled)
             {
                 return Result.Failure("Không thể chỉnh sửa lịch hẹn đã hoàn thành hoặc đã hủy.");
             }

@@ -28,7 +28,6 @@ namespace DentalClinic.DTO
             AccountRole.Admin => "Quản trị viên",
             AccountRole.Doctor => "Bác sĩ",
             AccountRole.Receptionist => "Lễ tân",
-            AccountRole.Patient => "Bệnh nhân",
             _ => "Khác"
         };
 

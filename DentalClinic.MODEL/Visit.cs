@@ -8,7 +8,8 @@ namespace DentalClinic.MODEL
     {
         Waiting, // Chờ khám
         InExamination, // Đang khám
-        Completed, // Đã hoàn thành
+        WaitingForPayment, // Đã khám xong, chờ thanh toán
+        Completed, // Đã hoàn thành (đã thanh toán)
         Cancelled // Đã hủy
     }
 
@@ -35,6 +36,6 @@ namespace DentalClinic.MODEL
 
         // Navigation Property
         public MedicalRecord? MedicalRecord { get; set; }
-        public Invoice? Invoice { get; set; }
+        public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
     }
 }

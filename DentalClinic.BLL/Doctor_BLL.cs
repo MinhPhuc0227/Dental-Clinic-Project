@@ -143,7 +143,7 @@ namespace DentalClinic.BLL
 
                 if (hasNewPassword)
                 {
-                    account.Password = PasswordHelper.HashPassword(dto.Password.Trim());
+                    account.Password = PasswordHelper.HashPassword(dto.Password?.Trim() ?? string.Empty);
                 }
 
                 var doctor = new Doctor

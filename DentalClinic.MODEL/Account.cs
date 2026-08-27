@@ -8,15 +8,14 @@ namespace DentalClinic.MODEL
     {
         Admin,
         Doctor,
-        Receptionist,
-        Patient
+        Receptionist
     }
 
     public enum AccountStatus
     {
-        Active,
-        Inactive,
-        Locked
+        Active, // Hoạt động
+        Inactive, // Ngừng hoạt động
+        Locked // Đã khóa
     }
     public class Account
     {

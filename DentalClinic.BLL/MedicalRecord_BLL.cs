@@ -4,6 +4,7 @@ using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace DentalClinic.BLL
@@ -58,6 +59,9 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"Message: {ex.Message}");
+                Debug.WriteLine($"Inner: {ex.InnerException?.Message}");
+                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                 return null;
             }
         }
@@ -72,11 +76,16 @@ namespace DentalClinic.BLL
         }
 
         // Lấy danh sách các ca đã khám của Bác sĩ (pnLeft trong UC_Doctor_MedicalRecord)
-        public List<ExaminedRecordDto> GetExaminedRecords(int doctorId, DateTime fromDate, DateTime toDate, string keyword)
+        public List<ExaminedRecordDto> GetExaminedRecords(int doctorId, DateTime fromDate, DateTime toDate, string keyword, VisitStatus? status)
         {
             try
             {
-                return _dal.GetExaminedRecords(doctorId, fromDate, toDate, keyword);
+                return _dal.GetExaminedRecords(
+                    doctorId,
+                    fromDate,
+                    toDate,
+                    keyword,
+                    status);
             }
             catch (Exception)
             {

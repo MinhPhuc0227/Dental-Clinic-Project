@@ -60,6 +60,7 @@
             label13 = new Label();
             label15 = new Label();
             label18 = new Label();
+            cbStatus = new ComboBox();
             pnLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvExaminedList).BeginInit();
             panel1.SuspendLayout();
@@ -136,6 +137,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(cbStatus);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(txtSearch);
             panel1.Controls.Add(dtpEnd);
@@ -452,6 +454,15 @@
             label18.TabIndex = 50;
             label18.Text = "Chẩn đoán:";
             // 
+            // cbStatus
+            // 
+            cbStatus.FormattingEnabled = true;
+            cbStatus.Location = new Point(298, 13);
+            cbStatus.Name = "cbStatus";
+            cbStatus.Size = new Size(151, 36);
+            cbStatus.TabIndex = 46;
+            cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
+            // 
             // UC_Doctor_MedicalRecord
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
@@ -506,5 +517,6 @@
         private Label label18;
         private Label lbPatientName;
         private Label label6;
+        private ComboBox cbStatus;
     }
 }

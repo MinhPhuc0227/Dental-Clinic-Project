@@ -52,10 +52,16 @@ namespace DentalClinic.APP
             VisitUC = new UC_Receptionist_Visit(_visitBLL, _currentReceptionistId);
             InvoiceUC = new UC_Receptionist_Invoice(_currentReceptionistId);
             InvoiceListUC = new UC_Receptionist_InvoiceList();
+            InvoiceListUC.InvoiceChanged += InvoiceListUC_InvoiceChanged;
 
             this.Text = $"Lễ tân: {_currentReceptionistName}";
 
             ShowUC(VisitUC);
+        }
+
+        private void InvoiceListUC_InvoiceChanged(object? sender, EventArgs e)
+        {
+            InvoiceUC?.LoadWaitingList();
         }
 
         private void ShowUC(UserControl uc)

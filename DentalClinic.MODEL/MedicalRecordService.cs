@@ -11,6 +11,7 @@ namespace DentalClinic.MODEL
         Completed,
         Cancelled
     }
+
     public class MedicalRecordService
     {
         public int MedicalRecordServiceId { get; set; }

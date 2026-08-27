@@ -6,9 +6,8 @@ namespace DentalClinic.MODEL
 {
     public enum InvoiceStatus
     {
-        Pending,
-        Paid,
-        Cancelled
+        Paid, // Đã thanh toán, hoàn tất
+        Cancelled // Đã hủy
     }
     public class Invoice
     {
@@ -17,7 +16,7 @@ namespace DentalClinic.MODEL
         public decimal TotalAmount { get; set; }
         public decimal AmountGiven { get; set; }
         public decimal ChangeAmount { get; set; }
-        public InvoiceStatus Status { get; set; } = InvoiceStatus.Pending;
+        public InvoiceStatus Status { get; set; } 
 
         // Foreign Key
         public int PaymentMethodId { get; set; }

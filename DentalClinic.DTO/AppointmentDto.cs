@@ -28,9 +28,8 @@ namespace DentalClinic.DTO
         public AppointmentStatus Status { get; set; }
         public string StatusText => Status switch
         {
-            AppointmentStatus.Pending => "Chờ khám",
-            AppointmentStatus.Confirmed => "Đã xác nhận",
-            AppointmentStatus.Completed => "Đã hoàn thành",
+            AppointmentStatus.Scheduled => "Đã đặt lịch",
+            AppointmentStatus.CheckedIn => "Đã tiếp nhận",
             AppointmentStatus.Cancelled => "Đã hủy",
             _ => "Khác"
         };
@@ -94,6 +93,6 @@ namespace DentalClinic.DTO
         [Range(1, int.MaxValue, ErrorMessage = "Mã lịch hẹn không hợp lệ.")]
         public int AppointmentId { get; set; }
 
-        public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
+        public AppointmentStatus Status { get; set; }
     }
 }

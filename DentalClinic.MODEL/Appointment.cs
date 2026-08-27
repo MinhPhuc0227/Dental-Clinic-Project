@@ -6,17 +6,17 @@ namespace DentalClinic.MODEL
 {
     public enum AppointmentStatus
     {
-        Pending,
-        Confirmed,
-        Completed,
-        Cancelled
+        Scheduled, // Đã đặt lịch
+        CheckedIn, // Đã tiếp nhận
+        Cancelled  // Đã hủy
     }
+
     public class Appointment
     {
         public int AppointmentId { get; set; }
         public DateTime AppointmentDateTime { get; set; }
 
-        public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
+        public AppointmentStatus Status { get; set; } = AppointmentStatus.Scheduled;
         public string ReasonForVisit { get; set; } = string.Empty;
         public string? Note { get; set; }
         public DateTime CreatedDate { get; set; }

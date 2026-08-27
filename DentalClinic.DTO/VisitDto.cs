@@ -22,8 +22,9 @@ namespace DentalClinic.DTO
 
         public string StatusText => Status switch
         {
-            VisitStatus.Waiting => "Đang chờ khám",
+            VisitStatus.Waiting => "Chờ khám",
             VisitStatus.InExamination => "Đang khám",
+            VisitStatus.WaitingForPayment => "Chờ thanh toán",
             VisitStatus.Completed => "Khám xong",
             VisitStatus.Cancelled => "Đã hủy",
             _ => "Khác"

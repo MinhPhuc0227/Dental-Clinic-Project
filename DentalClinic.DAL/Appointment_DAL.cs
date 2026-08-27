@@ -156,7 +156,7 @@ namespace DentalClinic.DAL
                     // 1. Lấy lịch hẹn
                     var app = _context.Appointments.Find(appointmentId);
 
-                    if (app == null || app.Status == AppointmentStatus.Cancelled)
+                    if (app == null || app.Status != AppointmentStatus.Scheduled)
                         return false;
 
                     // 2. CHẶN CỨNG: Bệnh nhân đã có Visit đang hoạt động hôm nay
@@ -168,8 +168,8 @@ namespace DentalClinic.DAL
                         );
                     }
 
-                    // 3. Đổi trạng thái lịch hẹn -> Completed
-                    app.Status = AppointmentStatus.Completed;
+                    // 3. Đổi trạng thái lịch hẹn 
+                    app.Status = AppointmentStatus.CheckedIn;
                     _context.Appointments.Update(app);
 
                     // 4. Đếm số bệnh nhân của bác sĩ hôm nay
@@ -263,7 +263,7 @@ namespace DentalClinic.DAL
 
             return _context.Appointments.Any(a =>
                 a.DoctorId == doctorId &&
-                (a.Status == AppointmentStatus.Pending || a.Status == AppointmentStatus.Confirmed) &&
+                a.Status == AppointmentStatus.Scheduled &&
                 (!excludeAppId.HasValue || a.AppointmentId != excludeAppId.Value) &&
                 a.AppointmentDateTime < endTime &&
                 a.AppointmentDateTime.AddMinutes(durationMinutes) > startTime
@@ -277,7 +277,7 @@ namespace DentalClinic.DAL
 
             return _context.Appointments.Any(a =>
                 a.PatientId == patientId &&
-                (a.Status == AppointmentStatus.Pending || a.Status == AppointmentStatus.Confirmed) &&
+                a.Status == AppointmentStatus.Scheduled &&
                 (!excludeAppId.HasValue || a.AppointmentId != excludeAppId.Value) &&
                 a.AppointmentDateTime < endTime &&
                 a.AppointmentDateTime.AddMinutes(durationMinutes) > startTime

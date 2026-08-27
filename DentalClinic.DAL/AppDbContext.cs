@@ -114,7 +114,7 @@ namespace DentalClinic.DAL
                       .IsRequired()
                       .HasConversion<string>()
                       .HasMaxLength(20)
-                      .HasDefaultValue(AppointmentStatus.Pending);
+                      .HasDefaultValue(AppointmentStatus.Scheduled);
 
                 // Note
                 entity.Property(a => a.Note)
@@ -228,8 +228,7 @@ namespace DentalClinic.DAL
                 entity.Property(i => i.Status)
                       .HasConversion<string>()
                       .HasMaxLength(50)
-                      .IsRequired()
-                      .HasDefaultValue(InvoiceStatus.Pending);
+                      .IsRequired();
 
                 // Relationship 1: PaymentMethod
                 entity.HasOne(i => i.PaymentMethod)
@@ -240,8 +239,9 @@ namespace DentalClinic.DAL
 
                 // Relationship 2: Visit
                 entity.HasOne(i => i.Visit)
-                      .WithOne(v => v.Invoice)
-                      .HasForeignKey<Invoice>(i => i.VisitId)
+                      .WithMany(v => v.Invoices)
+                      .HasForeignKey(i => i.VisitId)
+                      .IsRequired()
                       .OnDelete(DeleteBehavior.Restrict);
 
                 // Relationship 3: Receptionist

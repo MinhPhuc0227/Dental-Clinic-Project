@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace DentalClinic.APP
     public partial class UC_Receptionist_InvoiceList : UserControl
     {
         private readonly Invoice_BLL _bll = new Invoice_BLL();
+        private int _selectedInvoiceId = 0;
+        public event EventHandler? InvoiceChanged;
 
         public UC_Receptionist_InvoiceList()
         {
@@ -23,7 +26,17 @@ namespace DentalClinic.APP
         {
             SetupGrid();
 
-            dtpStart.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            dgvInvoiceList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvInvoiceList.MultiSelect = false;
+            dgvInvoiceList.ReadOnly = true;
+
+            btCancelInvoice.Visible = false;
+
+            dtpStart.Value = new DateTime(
+                DateTime.Now.Year,
+                DateTime.Now.Month,
+                1);
+
             dtpEnd.Value = DateTime.Now;
 
             LoadStatusComboBox();
@@ -50,25 +63,100 @@ namespace DentalClinic.APP
             {
                 new { Text = "Tất cả", Value = (InvoiceStatus?)null },
                 new { Text = "Đã thanh toán", Value = (InvoiceStatus?)InvoiceStatus.Paid },
-                new { Text = "Chờ thanh toán", Value = (InvoiceStatus?)InvoiceStatus.Pending },
                 new { Text = "Đã hủy", Value = (InvoiceStatus?)InvoiceStatus.Cancelled }
             };
 
             cbStatus.DataSource = statusList;
             cbStatus.DisplayMember = "Text";
             cbStatus.ValueMember = "Value";
-            cbStatus.SelectedIndex = 0; 
+            cbStatus.SelectedIndex = 0;
         }
 
         public void LoadData()
         {
             InvoiceStatus? status = null;
+
             if (cbStatus.SelectedIndex > 0)
             {
-                status = (InvoiceStatus)cbStatus.SelectedItem;
+                status = cbStatus.SelectedIndex == 1 ? InvoiceStatus.Paid : InvoiceStatus.Cancelled;
             }
 
             dgvInvoiceList.DataSource = _bll.GetAllInvoices(dtpStart.Value, dtpEnd.Value, status);
+        }
+
+        private void btCancelInvoice_Click(object sender, EventArgs e)
+        {
+            if (_selectedInvoiceId <= 0)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn hóa đơn cần hủy.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                "Bạn có chắc chắn muốn hủy hóa đơn này không?",
+                "Xác nhận hủy hóa đơn",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            var result = _bll.CancelInvoice(_selectedInvoiceId);
+
+            if (result.IsSuccess)
+            {
+                MessageBox.Show(
+                    result.Message,
+                    "Thành công",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                _selectedInvoiceId = 0;
+                btCancelInvoice.Visible = false;
+
+                LoadData();
+
+                // Báo cho UC_Receptionist_Invoice reload danh sách chờ thanh toán
+                InvoiceChanged?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                MessageBox.Show(
+                    result.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvInvoiceList_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvInvoiceList.SelectedRows.Count == 0)
+            {
+                _selectedInvoiceId = 0;
+                btCancelInvoice.Visible = false;
+                return;
+            }
+
+            var row = dgvInvoiceList.SelectedRows[0];
+
+            if (row.DataBoundItem is InvoiceDisplayDto invoice)
+            {
+                _selectedInvoiceId = invoice.InvoiceId;
+
+                btCancelInvoice.Visible =
+                    invoice.Status == "Đã thanh toán";
+            }
+            else
+            {
+                _selectedInvoiceId = 0;
+                btCancelInvoice.Visible = false;
+            }
         }
     }
 }

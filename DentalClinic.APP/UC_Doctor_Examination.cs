@@ -21,12 +21,12 @@ namespace DentalClinic.APP
         private readonly int _doctorId;
         private int _currentVisitId = 0;
 
-        // Quản lý danh sách dịch vụ và thuốc được chọn tạm thời trên giao diện
-        private BindingList<SelectedServiceDto> _selectedServices = new BindingList<SelectedServiceDto>();
+        // Quản lý danh sách dịch vụ và thuốc được chọn tạm thời trên giao diện
+        private BindingList<SelectedServiceDto> _selectedServices = new BindingList<SelectedServiceDto>();
         private BindingList<SelectedMedicineDto> _selectedMedicines = new BindingList<SelectedMedicineDto>();
 
-        // Lưu giá tiền tạm thời (Sau này có thể thay bằng giá thực tế từ Database)
-        private Dictionary<int, decimal> _servicePrices = new Dictionary<int, decimal>();
+        // Lưu giá tiền tạm thời (Sau này có thể thay bằng giá thực tế từ Database)
+        private Dictionary<int, decimal> _servicePrices = new Dictionary<int, decimal>();
         private Dictionary<int, decimal> _medicinePrices = new Dictionary<int, decimal>();
 
         public UC_Doctor_Examination(Visit_BLL visitBLL, int doctorId)
@@ -38,74 +38,48 @@ namespace DentalClinic.APP
 
         private void UC_Doctor_Examination_Load(object sender, EventArgs e)
         {
-            SetupDataGridView();
+            SetupDataGridView(dgvWaitingQueue, "colKham", "Khám");
+            SetupDataGridView(dgvInExamination, "colTiepTuc", "Tiếp Tục");
+
             LoadWaitingQueue();
+            LoadInExamination();
             ClearPatientInfo();
 
-            // Khởi tạo các tính năng cho Dịch vụ & Thuốc mới thêm
             InitPrescriptionAndServiceFeatures();
             LoadServiceAndMedicineData();
         }
 
-        private void SetupDataGridView()
+        private void SetupDataGridView(DataGridView dgv, string btnColName, string btnText)
         {
-            dgvWaitingQueue.AutoGenerateColumns = false;
-            dgvWaitingQueue.Columns.Clear();
+            dgv.AutoGenerateColumns = false;
+            dgv.Columns.Clear();
 
-            // Cột ẩn : Lưu mã VisitId để khi click vào biết đang chọn ca khám nào
-            dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "VisitId",
-                Name = "VisitId",
-                Visible = false
-            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "VisitId", Name = "VisitId", Visible = false });
 
-            // Cột STT (Queue Number) 
-            dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "QueueNumber",
-                HeaderText = "STT",
-                Width = 40,
-                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 9, FontStyle.Bold) }
-            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "QueueNumber", HeaderText = "STT", Width = 40, DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 9, FontStyle.Bold) } });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "CheckInDateTime", HeaderText = "Giờ", Width = 60, DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm", Alignment = DataGridViewContentAlignment.MiddleCenter } });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientName", HeaderText = "Bệnh Nhân", Width = 140 });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AppointmentBadge", HeaderText = "Loại", Width = 100 });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ReasonForVisit", HeaderText = "Lý Do Khám", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
 
-            // Cột giờ nhận 
-            dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
+            // THÊM CỘT NÚT BẤM VÀO CUỐI
+            DataGridViewButtonColumn btnCol = new DataGridViewButtonColumn
             {
-                DataPropertyName = "CheckInDateTime",
-                HeaderText = "Giờ Nhận",
+                Name = btnColName,
+                HeaderText = "Thao tác",
+                Text = btnText,
+                UseColumnTextForButtonValue = true,
                 Width = 80,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm", Alignment = DataGridViewContentAlignment.MiddleCenter }
-            });
+                FlatStyle = FlatStyle.Flat
+            };
+            btnCol.DefaultCellStyle.BackColor = Color.FromArgb(0, 122, 204);
+            btnCol.DefaultCellStyle.ForeColor = Color.White;
+            dgv.Columns.Add(btnCol);
 
-            // Cột tên bệnh nhân
-            dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "PatientName",
-                HeaderText = "Bệnh Nhân",
-                Width = 140
-            });
-
-            // Cột loại bệnh nhân
-            dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "AppointmentBadge",
-                HeaderText = "Loại",
-                Width = 140
-            });
-
-            // Cột Lý do khám
-            dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "ReasonForVisit",
-                HeaderText = "Lý Do Khám",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-            });
-
-            dgvWaitingQueue.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvWaitingQueue.ReadOnly = true;
-            dgvWaitingQueue.AllowUserToAddRows = false;
-            dgvWaitingQueue.RowHeadersVisible = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.ReadOnly = true;
+            dgv.AllowUserToAddRows = false;
+            dgv.RowHeadersVisible = false;
         }
 
         public void LoadWaitingQueue()
@@ -131,6 +105,29 @@ namespace DentalClinic.APP
             }
         }
 
+        public void LoadInExamination()
+        {
+            try
+            {
+                var result = _visitBLL.GetWaitingQueue(DateTime.Today, "", _doctorId, VisitStatus.InExamination);
+
+                if (result.IsSuccess && result.Data != null)
+                {
+                    dgvInExamination.DataSource = result.Data;
+                    dgvInExamination.ClearSelection();
+                }
+                else
+                {
+                    dgvWaitingQueue.DataSource = null;
+                    ClearPatientInfo();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải danh sách chờ: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void ClearPatientInfo()
         {
             lbFullName.Text = "...";
@@ -141,75 +138,108 @@ namespace DentalClinic.APP
             lbPatientNote.ForeColor = Color.Black;
         }
 
-        private void dgvWaitingQueue_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void LoadPatientToPanel(WaitingQueueDto selectedVisit)
         {
-            if (e.RowIndex >= 0)
+            _currentVisitId = selectedVisit.VisitId;
+            lbFullName.Text = selectedVisit.PatientName;
+            lbPhone.Text = selectedVisit.PatientPhone;
+            lbReasonForVisit.Text = string.IsNullOrWhiteSpace(selectedVisit.ReasonForVisit) ? "Không có" : selectedVisit.ReasonForVisit;
+            lbPatientNote.Text = string.IsNullOrWhiteSpace(selectedVisit.PatientNote) ? "Không có" : selectedVisit.PatientNote;
+            lbAppointmentNote.Text = string.IsNullOrWhiteSpace(selectedVisit.AppointmentNote) ? "Không có hẹn / Không có ghi chú" : selectedVisit.AppointmentNote;
+            lbExaminationDateTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+
+            // Reset giao diện right panel 
+            lbMedicalRecordId.Text = "...";
+            txtDiagnosis.Clear();
+            txtConclusion.Clear();
+            _selectedServices.Clear();
+            _selectedMedicines.Clear();
+            CalculateTotal();
+
+            // Đổ dữ liệu lưu nháp lên giao diện (nếu có)
+            var draftRecord = _medicalRecordBLL.GetDraftRecord(_currentVisitId);
+            if (draftRecord != null)
             {
-                if (dgvWaitingQueue.Rows[e.RowIndex].DataBoundItem is WaitingQueueDto selectedVisit)
-                {
-                    // LOAD DỮ LIỆU PATIENT LÊN PANEL LEFT (thông tin cá nhân, lịch hẹn, tiếp nhận)
-                    _currentVisitId = selectedVisit.VisitId;
-                    lbFullName.Text = selectedVisit.PatientName;
-                    lbPhone.Text = selectedVisit.PatientPhone;
+                lbMedicalRecordId.Text = draftRecord.MedicalRecordId.ToString();
+                txtDiagnosis.Text = draftRecord.Diagnosis;
+                txtConclusion.Text = draftRecord.Conclusion;
 
-                    lbReasonForVisit.Text = string.IsNullOrWhiteSpace(selectedVisit.ReasonForVisit)
-                        ? "Không có" : selectedVisit.ReasonForVisit;
+                foreach (var s in draftRecord.Services) _selectedServices.Add(s);
+                foreach (var m in draftRecord.Medicines) _selectedMedicines.Add(m);
 
-                    lbPatientNote.Text = string.IsNullOrWhiteSpace(selectedVisit.PatientNote)
-                        ? "Không có" : selectedVisit.PatientNote;
-
-                    lbAppointmentNote.Text = string.IsNullOrWhiteSpace(selectedVisit.AppointmentNote)
-                        ? "Không có hẹn / Không có ghi chú" : selectedVisit.AppointmentNote;
-
-                    lbExaminationDateTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-
-                    // RESET VÀ LOAD DỮ LIỆU PATIENT LÊN PANEL RIGHT (nếu có lưu tạm)
-
-                    // 1. Reset giao diện right panel 
-                    lbMedicalRecordId.Text = "...";
-                    txtDiagnosis.Clear();
-                    txtConclusion.Clear();
-                    _selectedServices.Clear();
-                    _selectedMedicines.Clear();
-                    CalculateTotal();
-
-                    // 2. Đổ dữ liệu lưu nháp lên giao diện (nếu có): chẩn đoán, kết luận, dịch vụ, thuốc
-                    var draftRecord = _medicalRecordBLL.GetDraftRecord(_currentVisitId);
-
-                    if (draftRecord != null)
-                    {
-                        lbMedicalRecordId.Text = draftRecord.MedicalRecordId.ToString();
-                        txtDiagnosis.Text = draftRecord.Diagnosis;
-                        txtConclusion.Text = draftRecord.Conclusion;
-
-                        foreach (var s in draftRecord.Services)
-                        {
-                            _selectedServices.Add(s);
-                        }
-
-                        foreach (var m in draftRecord.Medicines)
-                        {
-                            _selectedMedicines.Add(m);
-                        }
-
-                        CalculateTotal();
-                    }
-                }
+                CalculateTotal();
             }
         }
 
+        private void dgvWaitingQueue_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //if (e.RowIndex >= 0)
+            //{
+            //    if (dgvWaitingQueue.Rows[e.RowIndex].DataBoundItem is WaitingQueueDto selectedVisit)
+            //    {
+            //        // LOAD DỮ LIỆU PATIENT LÊN PANEL LEFT (thông tin cá nhân, lịch hẹn, tiếp nhận)
+            //        _currentVisitId = selectedVisit.VisitId;
+            //        lbFullName.Text = selectedVisit.PatientName;
+            //        lbPhone.Text = selectedVisit.PatientPhone;
+
+            //        lbReasonForVisit.Text = string.IsNullOrWhiteSpace(selectedVisit.ReasonForVisit)
+            //            ? "Không có" : selectedVisit.ReasonForVisit;
+
+            //        lbPatientNote.Text = string.IsNullOrWhiteSpace(selectedVisit.PatientNote)
+            //            ? "Không có" : selectedVisit.PatientNote;
+
+            //        lbAppointmentNote.Text = string.IsNullOrWhiteSpace(selectedVisit.AppointmentNote)
+            //            ? "Không có hẹn / Không có ghi chú" : selectedVisit.AppointmentNote;
+
+            //        lbExaminationDateTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+
+            //        // RESET VÀ LOAD DỮ LIỆU PATIENT LÊN PANEL RIGHT (nếu có lưu tạm)
+
+            //        // 1. Reset giao diện right panel 
+            //        lbMedicalRecordId.Text = "...";
+            //        txtDiagnosis.Clear();
+            //        txtConclusion.Clear();
+            //        _selectedServices.Clear();
+            //        _selectedMedicines.Clear();
+            //        CalculateTotal();
+
+            //        // 2. Đổ dữ liệu lưu nháp lên giao diện (nếu có): chẩn đoán, kết luận, dịch vụ, thuốc
+            //        var draftRecord = _medicalRecordBLL.GetDraftRecord(_currentVisitId);
+
+            //        if (draftRecord != null)
+            //        {
+            //            lbMedicalRecordId.Text = draftRecord.MedicalRecordId.ToString();
+            //            txtDiagnosis.Text = draftRecord.Diagnosis;
+            //            txtConclusion.Text = draftRecord.Conclusion;
+
+            //            foreach (var s in draftRecord.Services)
+            //            {
+            //                _selectedServices.Add(s);
+            //            }
+
+            //            foreach (var m in draftRecord.Medicines)
+            //            {
+            //                _selectedMedicines.Add(m);
+            //            }
+
+            //            CalculateTotal();
+            //        }
+            //    }
+            //}
+        }
+
         private void InitPrescriptionAndServiceFeatures()
         {
-            // 1. Cấu hình ComboBox cho phép gõ tìm kiếm (Autocomplete)
-            SetupAutocompleteComboBox(cbService);
+            // 1. Cấu hình ComboBox cho phép gõ tìm kiếm (Autocomplete)
+            SetupAutocompleteComboBox(cbService);
             SetupAutocompleteComboBox(cbMedicine);
 
-            // 2. Setup 2 DataGridView (dgvService và dgvMedicine)
-            SetupServiceDataGridView();
+            // 2. Setup 2 DataGridView (dgvService và dgvMedicine)
+            SetupServiceDataGridView();
             SetupMedicineDataGridView();
 
-            // (Lưu ý: Sau này bạn gọi hàm load danh sách dịch vụ/thuốc từ BLL vào cbService và cbMedicine ở đây)
-        }
+            // (Lưu ý: Sau này bạn gọi hàm load danh sách dịch vụ/thuốc từ BLL vào cbService và cbMedicine ở đây)
+        }
 
         private void SetupAutocompleteComboBox(ComboBox cb)
         {
@@ -226,7 +256,7 @@ namespace DentalClinic.APP
             dgvService.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ServiceId", Visible = false });
             dgvService.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ServiceName", HeaderText = "Tên Dịch Vụ", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             dgvService.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Quantity", HeaderText = "SL", Width = 60 }); // Cho phép sửa SL trực tiếp
-            dgvService.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "UnitPrice", HeaderText = "Đơn Giá", ReadOnly = true, Width = 90, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" } });
+            dgvService.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "UnitPrice", HeaderText = "Đơn Giá", ReadOnly = true, Width = 90, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" } });
             dgvService.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TotalPrice", HeaderText = "Thành Tiền", ReadOnly = true, Width = 100, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" } });
 
             DataGridViewButtonColumn delCol = new DataGridViewButtonColumn { Name = "colDel", HeaderText = "Xóa", Text = "X", UseColumnTextForButtonValue = true, Width = 50 };
@@ -246,8 +276,8 @@ namespace DentalClinic.APP
             dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MedicineId", Visible = false });
             dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MedicineName", HeaderText = "Tên Thuốc", ReadOnly = true, Width = 150 });
 
-            // Các cột số lượng hiển thị gọn gàng
-            dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Morning", HeaderText = "Sáng", Width = 50 });
+            // Các cột số lượng hiển thị gọn gàng
+            dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Morning", HeaderText = "Sáng", Width = 50 });
             dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Noon", HeaderText = "Trưa", Width = 50 });
             dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Afternoon", HeaderText = "Chiều", Width = 55 });
             dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Evening", HeaderText = "Tối", Width = 50 });
@@ -270,38 +300,38 @@ namespace DentalClinic.APP
 
         private void LoadServiceAndMedicineData()
         {
-            // 1. Load Dịch vụ từ Service_BLL
-            var serviceResult = _serviceBLL.GetAll();
+            // 1. Load Dịch vụ từ Service_BLL
+            var serviceResult = _serviceBLL.GetAll();
             if (serviceResult.IsSuccess && serviceResult.Data != null)
             {
                 _servicePrices.Clear();
                 foreach (var s in serviceResult.Data)
                 {
-                    // Lưu đơn giá vào từ điển để tra cứu nhanh khi bác sĩ bấm nút Thêm
-                    _servicePrices[s.ServiceId] = s.UnitPrice;
+                    // Lưu đơn giá vào từ điển để tra cứu nhanh khi bác sĩ bấm nút Thêm
+                    _servicePrices[s.ServiceId] = s.UnitPrice;
                 }
 
                 cbService.DataSource = serviceResult.Data;
                 cbService.DisplayMember = "ServiceName"; // Hiển thị tên dịch vụ lên ComboBox
-                cbService.ValueMember = "ServiceId";     // Giá trị ngầm bên dưới là ID
-                cbService.SelectedIndex = -1;            // Không chọn sẵn dòng nào khi mới mở
-            }
+                cbService.ValueMember = "ServiceId";     // Giá trị ngầm bên dưới là ID
+                cbService.SelectedIndex = -1;            // Không chọn sẵn dòng nào khi mới mở
+            }
 
-            // 2. Load Thuốc từ Medicine_BLL
-            var medicineResult = _medicineBLL.GetAll();
+            // 2. Load Thuốc từ Medicine_BLL
+            var medicineResult = _medicineBLL.GetAll();
             if (medicineResult.IsSuccess && medicineResult.Data != null)
             {
                 _medicinePrices.Clear();
                 foreach (var m in medicineResult.Data)
                 {
-                    // Lưu đơn giá thuốc vào từ điển
-                    _medicinePrices[m.MedicineId] = m.UnitPrice;
+                    // Lưu đơn giá thuốc vào từ điển
+                    _medicinePrices[m.MedicineId] = m.UnitPrice;
                 }
 
                 cbMedicine.DataSource = medicineResult.Data;
                 cbMedicine.DisplayMember = "MedicineName"; // Hiển thị tên thuốc lên ComboBox
-                cbMedicine.ValueMember = "MedicineId";     // Giá trị ngầm là ID
-                cbMedicine.SelectedIndex = -1;
+                cbMedicine.ValueMember = "MedicineId";     // Giá trị ngầm là ID
+                cbMedicine.SelectedIndex = -1;
             }
         }
 
@@ -318,7 +348,7 @@ namespace DentalClinic.APP
             string serviceName = cbService.Text;
             decimal unitPrice = _servicePrices.ContainsKey(serviceId) ? _servicePrices[serviceId] : 200000; // Giá mặc định mẫu
 
-            var existing = _selectedServices.FirstOrDefault(s => s.ServiceId == serviceId);
+            var existing = _selectedServices.FirstOrDefault(s => s.ServiceId == serviceId);
             if (existing != null)
             {
                 existing.Quantity += qty;
@@ -363,13 +393,13 @@ namespace DentalClinic.APP
             string instruction = cbInstruction.Text.Trim();
             decimal unitPrice = _medicinePrices.ContainsKey(medicineId) ? _medicinePrices[medicineId] : 10000;
 
-            // Kiểm tra thuốc đã tồn tại trong dgv chưa
-            var existingMedicine = _selectedMedicines.FirstOrDefault(m => m.MedicineId == medicineId);
+            // Kiểm tra thuốc đã tồn tại trong dgv chưa
+            var existingMedicine = _selectedMedicines.FirstOrDefault(m => m.MedicineId == medicineId);
 
             if (existingMedicine != null)
             {
-                // Nếu đã tồn tại -> Cập nhật dữ liệu mới
-                existingMedicine.Morning = morning;
+                // Nếu đã tồn tại -> Cập nhật dữ liệu mới
+                existingMedicine.Morning = morning;
                 existingMedicine.Noon = noon;
                 existingMedicine.Afternoon = afternoon;
                 existingMedicine.Evening = evening;
@@ -378,8 +408,8 @@ namespace DentalClinic.APP
             }
             else
             {
-                // Nếu không tồn tại -> Thêm dòng mới
-                _selectedMedicines.Add(new SelectedMedicineDto
+                // Nếu không tồn tại -> Thêm dòng mới
+                _selectedMedicines.Add(new SelectedMedicineDto
                 {
                     MedicineId = medicineId,
                     MedicineName = string.IsNullOrEmpty(medName) ? "Thuốc mẫu" : medName,
@@ -393,12 +423,12 @@ namespace DentalClinic.APP
                 });
             }
 
-            // Refresh dgv, tính lại tổng tiền
-            dgvMedicine.Refresh();
+            // Refresh dgv, tính lại tổng tiền
+            dgvMedicine.Refresh();
             CalculateTotal();
 
-            // Reset giao diện để nhập mới
-            nudMorning.Value = 0;
+            // Reset giao diện để nhập mới
+            nudMorning.Value = 0;
             nudNoon.Value = 0;
             nudAfternoon.Value = 0;
             nudEvening.Value = 0;
@@ -463,7 +493,7 @@ namespace DentalClinic.APP
             }
 
             var confirm = MessageBox.Show("Xác nhận hoàn thành ca khám?\nHồ sơ sẽ được chốt và chuyển ra quầy thu ngân.",
-                                          "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                           "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {
                 ProcessSaveMedicalRecord(isDraft: false);
@@ -478,7 +508,6 @@ namespace DentalClinic.APP
                 return;
             }
 
-            // Map dữ liệu trên giao diện vào dto 
             var recordData = new SaveMedicalRecordDto
             {
                 VisitId = _currentVisitId,
@@ -492,7 +521,6 @@ namespace DentalClinic.APP
 
             try
             {
-                // Gọi BLL lưu dữ liệu vào dtb
                 var result = _medicalRecordBLL.SaveRecord(recordData);
 
                 if (result.IsSuccess)
@@ -501,12 +529,16 @@ namespace DentalClinic.APP
                     {
                         lbMedicalRecordId.Text = recordData.MedicalRecordId.ToString();
                         MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Lưu nháp -> Vẫn là InExamination -> Tự động refresh để update
+                        LoadInExamination();
                     }
                     else
                     {
-                        MessageBox.Show("Hoàn thành ca khám! Bệnh nhân đã được chuyển trạng thái sang Chờ thanh toán.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // CHỐT Y LỆNH: Cập nhật Visit sang WaitingForPayment
+                        _visitBLL.UpdateVisitStatus(_currentVisitId, VisitStatus.WaitingForPayment);
 
-                        // Reset giao diện, refresh dgv
+                        MessageBox.Show("Hoàn thành ca khám! Bệnh nhân đã được chuyển ra quầy thanh toán.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                         _currentVisitId = 0;
                         ClearPatientInfo();
                         txtDiagnosis.Clear();
@@ -514,7 +546,9 @@ namespace DentalClinic.APP
                         _selectedServices.Clear();
                         _selectedMedicines.Clear();
                         CalculateTotal();
-                        LoadWaitingQueue();
+
+                        // Refresh lại lưới Đang khám (Tên khách sẽ biến mất vì đã xong)
+                        LoadInExamination();
                     }
                 }
                 else
@@ -524,7 +558,7 @@ namespace DentalClinic.APP
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Có lỗi xảy ra trong quá trình xử lý: " + ex.Message, "Lỗi Hệ Thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi Hệ Thống: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -541,6 +575,43 @@ namespace DentalClinic.APP
                 if (item.IsAppointment)
                 {
                     dgvWaitingQueue.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 245, 230);
+                }
+            }
+        }
+
+        private void dgvWaitingQueue_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvWaitingQueue.Columns[e.ColumnIndex].Name == "colKham")
+            {
+                if (dgvWaitingQueue.Rows[e.RowIndex].DataBoundItem is WaitingQueueDto selectedVisit)
+                {
+                    // 1. Chuyển trạng thái sang InExamination
+                    var updateResult = _visitBLL.UpdateVisitStatus(selectedVisit.VisitId, VisitStatus.InExamination);
+
+                    if (updateResult.IsSuccess)
+                    {
+                        // 2. Load dữ liệu lên khung khám
+                        LoadPatientToPanel(selectedVisit);
+
+                        // 3. Refresh lại cả 2 lưới (Xóa khỏi lưới này, nhảy sang lưới kia)
+                        LoadWaitingQueue();
+                        LoadInExamination();
+                    }
+                    else
+                    {
+                        MessageBox.Show(updateResult.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void dgvInExamination_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvInExamination.Columns[e.ColumnIndex].Name == "colTiepTuc")
+            {
+                if (dgvInExamination.Rows[e.RowIndex].DataBoundItem is WaitingQueueDto selectedVisit)
+                {
+                    LoadPatientToPanel(selectedVisit);
                 }
             }
         }

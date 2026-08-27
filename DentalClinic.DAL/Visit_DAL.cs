@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace DentalClinic.DAL
 {
     public class Visit_DAL
@@ -188,5 +187,24 @@ namespace DentalClinic.DAL
                 (v.Status == VisitStatus.Waiting || v.Status == VisitStatus.InExamination));
         }
 
+        public bool UpdateStatus(int visitId, VisitStatus newStatus)
+        {
+            try
+            {
+                var visit = _context.Visits.FirstOrDefault(v => v.VisitId == visitId);
+                if (visit == null)
+                {
+                    return false; // Không tìm thấy ca khám
+                }
+
+                visit.Status = newStatus;
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                // Có thể ghi log lỗi ở đây nếu cần
+                return false;
+            }
+        }
     }
 }

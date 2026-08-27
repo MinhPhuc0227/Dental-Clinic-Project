@@ -40,9 +40,8 @@ namespace DentalClinic.APP
             var statusList = new List<object>
             {
                 new { Value = (AppointmentStatus?)null, Text = "-- Tất cả Trạng thái --" },
-                new { Value = (AppointmentStatus?)AppointmentStatus.Pending, Text = "Chờ khám" },
-                new { Value = (AppointmentStatus?)AppointmentStatus.Confirmed, Text = "Đã xác nhận" },
-                new { Value = (AppointmentStatus?)AppointmentStatus.Completed, Text = "Đã hoàn thành" },
+                new { Value = (AppointmentStatus?)AppointmentStatus.Scheduled, Text = "Đã đặt lịch" },
+                new { Value = (AppointmentStatus?)AppointmentStatus.CheckedIn, Text = "Đã tiếp nhận" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Cancelled, Text = "Đã hủy" }
             };
             cbAppointmentStatus.DataSource = statusList;

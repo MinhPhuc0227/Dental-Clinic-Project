@@ -45,8 +45,7 @@ namespace DentalClinic.APP
             {
                 new { Value = AccountRole.Admin, Display = "Quản trị viên" },
                 new { Value = AccountRole.Doctor, Display = "Bác sĩ" },
-                new { Value = AccountRole.Receptionist, Display = "Lễ tân" },
-                new { Value = AccountRole.Patient, Display = "Bệnh nhân" }
+                new { Value = AccountRole.Receptionist, Display = "Lễ tân" }
             };
             cbRole.DisplayMember = "Display";
             cbRole.ValueMember = "Value";

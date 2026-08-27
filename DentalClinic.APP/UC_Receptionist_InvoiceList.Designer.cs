@@ -31,6 +31,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btCancelInvoice = new Button();
             label1 = new Label();
             txtSearch = new TextBox();
             cbStatus = new ComboBox();
@@ -47,6 +48,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btCancelInvoice);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(txtSearch);
             panel1.Controls.Add(cbStatus);
@@ -59,8 +61,18 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(913, 148);
+            panel1.Size = new Size(913, 192);
             panel1.TabIndex = 0;
+            // 
+            // btCancelInvoice
+            // 
+            btCancelInvoice.Location = new Point(675, 128);
+            btCancelInvoice.Name = "btCancelInvoice";
+            btCancelInvoice.Size = new Size(120, 46);
+            btCancelInvoice.TabIndex = 43;
+            btCancelInvoice.Text = "Hủy";
+            btCancelInvoice.UseVisualStyleBackColor = true;
+            btCancelInvoice.Click += btCancelInvoice_Click;
             // 
             // label1
             // 
@@ -186,7 +198,7 @@
             dgvInvoiceList.Dock = DockStyle.Fill;
             dgvInvoiceList.EnableHeadersVisualStyles = false;
             dgvInvoiceList.GridColor = Color.DarkCyan;
-            dgvInvoiceList.Location = new Point(10, 158);
+            dgvInvoiceList.Location = new Point(10, 202);
             dgvInvoiceList.MultiSelect = false;
             dgvInvoiceList.Name = "dgvInvoiceList";
             dgvInvoiceList.ReadOnly = true;
@@ -194,8 +206,9 @@
             dgvInvoiceList.RowHeadersWidth = 51;
             dgvInvoiceList.RowTemplate.Height = 38;
             dgvInvoiceList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInvoiceList.Size = new Size(913, 401);
+            dgvInvoiceList.Size = new Size(913, 357);
             dgvInvoiceList.TabIndex = 6;
+            dgvInvoiceList.SelectionChanged += dgvInvoiceList_SelectionChanged;
             // 
             // UC_Receptionist_InvoiceList
             // 
@@ -229,5 +242,6 @@
         private Label label1;
         private TextBox txtSearch;
         private DataGridView dgvInvoiceList;
+        private Button btCancelInvoice;
     }
 }

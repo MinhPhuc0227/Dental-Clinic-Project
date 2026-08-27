@@ -54,9 +54,8 @@ namespace DentalClinic.APP
             var statusList = new List<object>
             {
                 new { Value = (AppointmentStatus?)null, Text = "-- Tất cả Trạng thái --" },
-                new { Value = (AppointmentStatus?)AppointmentStatus.Pending, Text = "Chờ khám" },
-                //new { Value = (AppointmentStatus?)AppointmentStatus.Confirmed, Text = "Đã xác nhận" },
-                new { Value = (AppointmentStatus?)AppointmentStatus.Completed, Text = "Đã hoàn thành" },
+                new { Value = (AppointmentStatus?)AppointmentStatus.Scheduled, Text = "Đã đặt lịch" },
+                new { Value = (AppointmentStatus?)AppointmentStatus.CheckedIn, Text = "Đã tiếp nhận" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Cancelled, Text = "Đã hủy" }
             };
             cbStatus.DataSource = statusList;
@@ -159,9 +158,9 @@ namespace DentalClinic.APP
                     // Xử lý khi nhấn Tiếp nhận
                     if (columnName == "colCheckIn")
                     {
-                        if (dto.Status == AppointmentStatus.Cancelled || dto.Status == AppointmentStatus.Completed)
+                        if (dto.Status == AppointmentStatus.Cancelled || dto.Status == AppointmentStatus.CheckedIn)
                         {
-                            MessageBox.Show("Lịch hẹn đã hủy hoặc hoàn thành, không thể tiếp nhận!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("Lịch hẹn đã hủy hoặc đã được tiếp nhận trước đó!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
 

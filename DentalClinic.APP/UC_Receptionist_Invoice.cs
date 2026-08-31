@@ -18,12 +18,15 @@ namespace DentalClinic.APP
         private int _currentInvoiceId = 0;
         private int _currentVisitId = 0;
         private readonly int _currentReceptionistId;
+        private readonly string _currentReceptionistName;
         private readonly Invoice_BLL _invoiceBLL = new Invoice_BLL();
 
-        public UC_Receptionist_Invoice(int receptionistId)
+        public UC_Receptionist_Invoice(int receptionistId, string receptionistName)
         {
             InitializeComponent();
+
             _currentReceptionistId = receptionistId;
+            _currentReceptionistName = receptionistName;
         }
 
         private void UC_Receptionist_Invoice_Load(object sender, EventArgs e)
@@ -237,12 +240,22 @@ namespace DentalClinic.APP
 
             if (result.IsSuccess)
             {
-                MessageBox.Show(
-                    result.Message,
-                    "Thành công",
-                    MessageBoxButtons.OK,
+                var printConfirm = MessageBox.Show(
+                    "Thanh toán hóa đơn thành công!\n\n" +
+                    "Bạn có muốn in hóa đơn không?",
+                    "Thanh toán thành công",
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Information);
 
+                // Nếu chọn Yes -> mở chi tiết hóa đơn
+                if (printConfirm == DialogResult.Yes)
+                {
+                    using var dialog = new Dialog_InvoiceDetail(_currentInvoiceId, _currentReceptionistId, _currentReceptionistName);
+
+                    dialog.ShowDialog(this);
+                }
+
+                // Reset giao diện sau khi thanh toán
                 ClearPatientInfo();
                 LoadWaitingList();
                 txtSearch.Clear();

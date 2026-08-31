@@ -53,7 +53,7 @@ namespace DentalClinic.APP
             AppointmentUC = new UC_Receptionist_Appointment(_appointmentBLL, _currentReceptionistId, _currentReceptionistName);
             WaitingQueueUC = new UC_Receptionist_WaitingQueue(_visitBLL);
             VisitUC = new UC_Receptionist_Visit(_visitBLL, _currentReceptionistId);
-            InvoiceUC = new UC_Receptionist_Invoice(_currentReceptionistId);
+            InvoiceUC = new UC_Receptionist_Invoice(_currentReceptionistId, _currentReceptionistName);
             InvoiceListUC = new UC_Receptionist_InvoiceList(_currentReceptionistId, _currentReceptionistName);
             InvoiceListUC.InvoiceChanged += InvoiceListUC_InvoiceChanged;
 

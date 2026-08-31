@@ -187,7 +187,9 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 10F);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Dialog_CancelInvoice";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Xác nhận hủy hóa đơn";
             ResumeLayout(false);
             PerformLayout();

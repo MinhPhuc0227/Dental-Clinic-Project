@@ -35,15 +35,9 @@
             panel3 = new Panel();
             lbInvoiceReceptionist = new Label();
             label29 = new Label();
-            lbCancelledBy = new Label();
-            lbCancelledDate = new Label();
-            lbCancellationReason = new Label();
             lbInvoiceStatus = new Label();
             lbInvoiceDate = new Label();
             lbInvoiceId = new Label();
-            label10 = new Label();
-            label9 = new Label();
-            label8 = new Label();
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
@@ -72,6 +66,12 @@
             label46 = new Label();
             label47 = new Label();
             label48 = new Label();
+            lbCancelledBy = new Label();
+            lbCancelledDate = new Label();
+            lbCancellationReason = new Label();
+            label10 = new Label();
+            label9 = new Label();
+            label8 = new Label();
             label14 = new Label();
             label13 = new Label();
             label12 = new Label();
@@ -169,39 +169,6 @@
             label29.TabIndex = 22;
             label29.Text = "Người lập:";
             // 
-            // lbCancelledBy
-            // 
-            lbCancelledBy.AutoSize = true;
-            lbCancelledBy.Font = new Font("Segoe UI", 10F);
-            lbCancelledBy.ForeColor = Color.Black;
-            lbCancelledBy.Location = new Point(619, 95);
-            lbCancelledBy.Name = "lbCancelledBy";
-            lbCancelledBy.Size = new Size(94, 23);
-            lbCancelledBy.TabIndex = 17;
-            lbCancelledBy.Text = "Người hủy:";
-            // 
-            // lbCancelledDate
-            // 
-            lbCancelledDate.AutoSize = true;
-            lbCancelledDate.Font = new Font("Segoe UI", 10F);
-            lbCancelledDate.ForeColor = Color.Black;
-            lbCancelledDate.Location = new Point(619, 60);
-            lbCancelledDate.Name = "lbCancelledDate";
-            lbCancelledDate.Size = new Size(87, 23);
-            lbCancelledDate.TabIndex = 16;
-            lbCancelledDate.Text = "Ngày hủy:";
-            // 
-            // lbCancellationReason
-            // 
-            lbCancellationReason.AutoSize = true;
-            lbCancellationReason.Font = new Font("Segoe UI", 10F);
-            lbCancellationReason.ForeColor = Color.Black;
-            lbCancellationReason.Location = new Point(619, 25);
-            lbCancellationReason.Name = "lbCancellationReason";
-            lbCancellationReason.Size = new Size(87, 23);
-            lbCancellationReason.TabIndex = 15;
-            lbCancellationReason.Text = "Lý do hủy:";
-            // 
             // lbInvoiceStatus
             // 
             lbInvoiceStatus.AutoSize = true;
@@ -234,39 +201,6 @@
             lbInvoiceId.Size = new Size(107, 23);
             lbInvoiceId.TabIndex = 12;
             lbInvoiceId.Text = "Mã hóa đơn:";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI Semibold", 10F);
-            label10.ForeColor = Color.DarkCyan;
-            label10.Location = new Point(516, 95);
-            label10.Name = "label10";
-            label10.Size = new Size(96, 23);
-            label10.TabIndex = 7;
-            label10.Text = "Người hủy:";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI Semibold", 10F);
-            label9.ForeColor = Color.DarkCyan;
-            label9.Location = new Point(516, 60);
-            label9.Name = "label9";
-            label9.Size = new Size(89, 23);
-            label9.TabIndex = 6;
-            label9.Text = "Ngày hủy:";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI Semibold", 10F);
-            label8.ForeColor = Color.DarkCyan;
-            label8.Location = new Point(516, 25);
-            label8.Name = "label8";
-            label8.Size = new Size(89, 23);
-            label8.TabIndex = 5;
-            label8.Text = "Lý do hủy:";
             // 
             // label7
             // 
@@ -588,6 +522,72 @@
             label48.TabIndex = 39;
             label48.Text = "THÔNG TIN KHÁM";
             // 
+            // lbCancelledBy
+            // 
+            lbCancelledBy.AutoSize = true;
+            lbCancelledBy.Font = new Font("Segoe UI", 10F);
+            lbCancelledBy.ForeColor = Color.Black;
+            lbCancelledBy.Location = new Point(619, 95);
+            lbCancelledBy.Name = "lbCancelledBy";
+            lbCancelledBy.Size = new Size(94, 23);
+            lbCancelledBy.TabIndex = 17;
+            lbCancelledBy.Text = "Người hủy:";
+            // 
+            // lbCancelledDate
+            // 
+            lbCancelledDate.AutoSize = true;
+            lbCancelledDate.Font = new Font("Segoe UI", 10F);
+            lbCancelledDate.ForeColor = Color.Black;
+            lbCancelledDate.Location = new Point(619, 60);
+            lbCancelledDate.Name = "lbCancelledDate";
+            lbCancelledDate.Size = new Size(87, 23);
+            lbCancelledDate.TabIndex = 16;
+            lbCancelledDate.Text = "Ngày hủy:";
+            // 
+            // lbCancellationReason
+            // 
+            lbCancellationReason.AutoSize = true;
+            lbCancellationReason.Font = new Font("Segoe UI", 10F);
+            lbCancellationReason.ForeColor = Color.Black;
+            lbCancellationReason.Location = new Point(619, 25);
+            lbCancellationReason.Name = "lbCancellationReason";
+            lbCancellationReason.Size = new Size(87, 23);
+            lbCancellationReason.TabIndex = 15;
+            lbCancellationReason.Text = "Lý do hủy:";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI Semibold", 10F);
+            label10.ForeColor = Color.DarkCyan;
+            label10.Location = new Point(516, 95);
+            label10.Name = "label10";
+            label10.Size = new Size(96, 23);
+            label10.TabIndex = 7;
+            label10.Text = "Người hủy:";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI Semibold", 10F);
+            label9.ForeColor = Color.DarkCyan;
+            label9.Location = new Point(516, 60);
+            label9.Name = "label9";
+            label9.Size = new Size(89, 23);
+            label9.TabIndex = 6;
+            label9.Text = "Ngày hủy:";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI Semibold", 10F);
+            label8.ForeColor = Color.DarkCyan;
+            label8.Location = new Point(516, 25);
+            label8.Name = "label8";
+            label8.Size = new Size(89, 23);
+            label8.TabIndex = 5;
+            label8.Text = "Lý do hủy:";
+            // 
             // label14
             // 
             label14.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -666,6 +666,7 @@
             btnClose.TabIndex = 18;
             btnClose.Text = "Đóng";
             btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
             // 
             // btnPrinInvoice
             // 
@@ -675,6 +676,7 @@
             btnPrinInvoice.TabIndex = 17;
             btnPrinInvoice.Text = "In HĐ";
             btnPrinInvoice.UseVisualStyleBackColor = true;
+            btnPrinInvoice.Click += btnPrinInvoice_Click;
             // 
             // btnCancelInvoice
             // 

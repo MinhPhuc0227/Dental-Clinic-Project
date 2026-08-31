@@ -110,6 +110,14 @@ namespace DentalClinic.DAL
                 .ToList();
         }
 
+        public Invoice? GetUnpaidInvoiceByVisitId(int visitId)
+        {
+            return _context.Invoices
+                .FirstOrDefault(i =>
+                    i.VisitId == visitId &&
+                    i.Status == InvoiceStatus.Unpaid);
+        }
+
         public bool CreateUnpaidInvoice(int visitId)
         {
             using (var trans = _context.Database.BeginTransaction())
@@ -511,6 +519,135 @@ namespace DentalClinic.DAL
                                 : "Khác"
                 })
                 .OrderByDescending(i => i.InvoiceDateTime)
+                .ToList();
+        }
+
+        public InvoiceDetailDto? GetInvoiceDetail(int invoiceId)
+        {
+            var invoice = _context.Invoices
+                .Include(i => i.Visit)
+                    .ThenInclude(v => v.Patient)
+                .Include(i => i.Visit)
+                    .ThenInclude(v => v.Doctor)
+                .Include(i => i.Visit)
+                    .ThenInclude(v => v.MedicalRecord)
+                .Include(i => i.PaymentMethod)
+                .Include(i => i.Receptionist)
+                .Include(i => i.CancelledByReceptionist)
+                .AsNoTracking()
+                .FirstOrDefault(i => i.InvoiceId == invoiceId);
+
+            if (invoice == null)
+                return null;
+
+            return new InvoiceDetailDto
+            {
+                // Invoice
+                InvoiceId = invoice.InvoiceId,
+                InvoiceDateTime = invoice.InvoiceDateTime,
+
+                Status = invoice.Status == InvoiceStatus.Unpaid
+                    ? "Chưa thanh toán"
+                    : invoice.Status == InvoiceStatus.Paid
+                        ? "Đã thanh toán"
+                        : "Đã hủy",
+
+                TotalAmount = invoice.TotalAmount,
+                AmountGiven = invoice.AmountGiven,
+                ChangeAmount = invoice.ChangeAmount,
+
+                PaymentMethodName =
+                    invoice.PaymentMethod?.PaymentMethodName
+                    ?? "Chưa thanh toán",
+
+                ReceptionistName =
+                    invoice.Receptionist?.FullName
+                    ?? "",
+
+                // Cancellation
+                CancellationReason = invoice.CancellationReason,
+                CancelledDate = invoice.CancelledDate,
+
+                CancelledByName =
+                    invoice.CancelledByReceptionist?.FullName,
+
+                // Patient
+                PatientId = invoice.Visit.PatientId,
+                PatientName = invoice.Visit.Patient.FullName,
+                PatientPhone = invoice.Visit.Patient.Phone,
+                PatientDateOfBirth = invoice.Visit.Patient.DateOfBirth,
+                PatientAddress = invoice.Visit.Patient.Address,
+
+                // Visit
+                VisitId = invoice.VisitId,
+                CheckInDateTime = invoice.Visit.CheckInDateTime,
+                ReasonForVisit = invoice.Visit.ReasonForVisit,
+
+                // Doctor
+                DoctorName =
+                    invoice.Visit.Doctor?.FullName
+                    ?? "",
+
+                // MedicalRecord
+                MedicalRecordId =
+                    invoice.Visit.MedicalRecord?.MedicalRecordId,
+
+                ExaminationDateTime =
+                    invoice.Visit.MedicalRecord?.ExaminationDateTime,
+
+                Diagnosis =
+                    invoice.Visit.MedicalRecord?.Diagnosis,
+
+                Conclusion =
+                    invoice.Visit.MedicalRecord?.Conclusion
+            };
+        }
+
+        public List<InvoiceDetailItemDto> GetInvoiceDetailItems(int invoiceId)
+        {
+            return _context.InvoiceDetails
+                .Where(d => d.InvoiceId == invoiceId)
+                .Select(d => new InvoiceDetailItemDto
+                {
+                    InvoiceDetailId = d.InvoiceDetailId,
+
+                    ItemType = d.MedicalRecordServiceId.HasValue
+                        ? "Dịch vụ"
+                        : "Thuốc",
+
+                    ItemName = d.ItemName,
+                    Quantity = d.Quantity,
+                    UnitPrice = d.UnitPrice,
+                    TotalAmount = d.TotalAmount,
+
+                    Morning = d.PrescriptionDetailId.HasValue
+                        ? d.PrescriptionDetail.Morning
+                        : 0,
+
+                    Noon = d.PrescriptionDetailId.HasValue
+                        ? d.PrescriptionDetail.Noon
+                        : 0,
+
+                    Afternoon = d.PrescriptionDetailId.HasValue
+                        ? d.PrescriptionDetail.Afternoon
+                        : 0,
+
+                    Evening = d.PrescriptionDetailId.HasValue
+                        ? d.PrescriptionDetail.Evening
+                        : 0,
+
+                    Days = d.PrescriptionDetailId.HasValue
+                        ? d.PrescriptionDetail.Days
+                        : 0,
+
+                    Instruction = d.PrescriptionDetailId.HasValue
+                        ? d.PrescriptionDetail.Instruction
+                        : "",
+
+                    Note = d.MedicalRecordServiceId.HasValue
+                        ? d.MedicalRecordService.Note
+                        : null
+                })
                 .ToList();
         }
 

@@ -59,22 +59,30 @@ namespace DentalClinic.BLL
         public Result CreateUnpaidInvoice(int visitId)
         {
             if (visitId <= 0)
-                return Result.Failure("Mã ca khám không hợp lệ.");
+                return Result.Failure("Lượt khám không hợp lệ.");
 
             try
             {
-                bool success = _dal.CreateUnpaidInvoice(visitId);
+                var existingInvoice =
+                    _dal.GetUnpaidInvoiceByVisitId(visitId);
+
+                if (existingInvoice != null)
+                {
+                    return Result.Failure(
+                        "Lượt khám này đã có hóa đơn chưa thanh toán.");
+                }
+
+                bool success =
+                    _dal.CreateUnpaidInvoice(visitId);
 
                 return success
-                    ? Result.Success("Tạo hóa đơn chưa thanh toán thành công.")
-                    : Result.Failure("Không thể tạo hóa đơn.");
+                    ? Result.Success(
+                        "Tạo hóa đơn chưa thanh toán thành công!")
+                    : Result.Failure(
+                        "Không thể tạo hóa đơn.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("=== CreateUnpaidInvoice ERROR ===");
-                Debug.WriteLine($"VisitId: {visitId}");
-                Debug.WriteLine($"Message: {ex.Message}");
-
                 return Result.Failure(
                     "Lỗi tạo hóa đơn: " +
                     (ex.InnerException?.Message ?? ex.Message));
@@ -183,6 +191,37 @@ namespace DentalClinic.BLL
                 return _dal.GetAllInvoices(from, to, status);
             }
             catch { return new List<InvoiceDisplayDto>(); }
+        }
+
+        public InvoiceDetailDto? GetInvoiceDetail(int invoiceId)
+        {
+            try
+            {
+                return _dal.GetInvoiceDetail(invoiceId);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        public List<InvoiceDetailItemDto> GetInvoiceDetailItems(int invoiceId)
+        {
+            try
+            {
+                return _dal.GetInvoiceDetailItems(invoiceId);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return new List<InvoiceDetailItemDto>();
+            }
+        }
+
+        public bool HasUnpaidInvoice(int visitId)
+        {
+            return _dal.GetUnpaidInvoiceByVisitId(visitId) != null;
         }
     }
 }

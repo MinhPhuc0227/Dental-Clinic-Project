@@ -101,28 +101,10 @@ namespace DentalClinic.DAL
                         _context.PrescriptionDetails.AddRange(newDetails);
                     }
 
-                    // 5. Cập nhật trạng thái Visit dựa vào việc là Lưu nháp hay Hoàn thành
-                    var visit = _context.Visits.FirstOrDefault(v => v.VisitId == dto.VisitId);
-
-                    if (visit == null)
-                    {
-                        throw new InvalidOperationException("Không tìm thấy ca khám.");
-                    }
-
-                    if (dto.IsDraft)
-                    {
-                        // Nếu là Lưu nháp: Giữ nguyên trạng thái Đang khám để bác sĩ làm tiếp
-                        visit.Status = VisitStatus.InExamination;
-                    }
-                    else
-                    {
-                        // Nếu là Hoàn thành: Chuyển sang trạng thái Chờ thanh toán để ra quầy thu ngân
-                        visit.Status = VisitStatus.WaitingForPayment;
-                    }
-
-                    // 6. Lưu vào dtb, kết thúc transaction
+                    // 5. Lưu vào database
                     _context.SaveChanges();
-                    transaction.Commit(); 
+
+                    transaction.Commit();
                     return true;
                 }
                 catch (Exception)
@@ -200,21 +182,29 @@ namespace DentalClinic.DAL
 
         public List<MedicalHistoryDto> GetPatientHistoryByVisit(int currentVisitId)
         {
-            // 1. Tìm bệnh nhân hiện tại
             var currentVisit = _context.Visits.Find(currentVisitId);
-            if (currentVisit == null) return new List<MedicalHistoryDto>();
 
-            // 2. Lấy các hồ sơ đã hoàn thành của bệnh nhân này
+            if (currentVisit == null)
+                return new List<MedicalHistoryDto>();
+
             return _context.MedicalRecords
-                .Where(m => m.Visit.PatientId == currentVisit.PatientId && m.Visit.Status == VisitStatus.Completed)
+                .Where(m =>
+                    m.Visit.PatientId == currentVisit.PatientId &&
+                    m.Visit.Status == VisitStatus.Completed)
                 .OrderByDescending(m => m.ExaminationDateTime)
                 .Select(m => new MedicalHistoryDto
                 {
+                    VisitId = m.VisitId,
+
                     ExaminationDate = m.ExaminationDateTime,
+
                     DoctorName = m.Visit.Doctor.FullName,
+
                     Diagnosis = m.Diagnosis,
+
                     Conclusion = m.Conclusion
-                }).ToList();
+                })
+                .ToList();
         }
 
         // Lấy danh sách các ca đã khám của Bác sĩ (pnLeft trong UC_Doctor_MedicalRecord)

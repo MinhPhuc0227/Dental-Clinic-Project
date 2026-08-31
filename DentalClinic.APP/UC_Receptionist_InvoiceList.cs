@@ -56,20 +56,18 @@ namespace DentalClinic.APP
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AmountGiven", HeaderText = "Tiền Khách Đưa", Width = 110, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ChangeAmount", HeaderText = "Tiền Thối", Width = 90, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Status", HeaderText = "Trạng Thái", Width = 100 });
-            var cancelColumn = new DataGridViewButtonColumn
+            
+            // Xem
+            var viewColumn = new DataGridViewButtonColumn
             {
-                Name = "colCancel",
-                HeaderText = "Thao tác",
-                Text = "Hủy",
+                Name = "colView",
+                HeaderText = "Xem",
+                Text = "Xem",
                 UseColumnTextForButtonValue = true,
-                Width = 70,
-                FlatStyle = FlatStyle.Flat
+                Width = 65
             };
 
-            cancelColumn.DefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleCenter;
-
-            dgvInvoiceList.Columns.Add(cancelColumn);
+            dgvInvoiceList.Columns.Add(viewColumn);
         }
 
         private void LoadStatusComboBox()
@@ -125,98 +123,38 @@ namespace DentalClinic.APP
                     status);
         }
 
-        private void dgvInvoiceList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvInvoiceList_CellContentClick(
+    object sender,
+    DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
                 return;
 
-            if (dgvInvoiceList.Columns[e.ColumnIndex].Name
-                != "colCancel")
+            string columnName =
+                dgvInvoiceList.Columns[e.ColumnIndex].Name;
+
+            if (columnName != "colView")
                 return;
 
             if (dgvInvoiceList.Rows[e.RowIndex].DataBoundItem
                 is not InvoiceDisplayDto invoice)
-                return;
-
-            // Chỉ cho hủy hóa đơn Paid
-            if (invoice.Status != "Đã thanh toán")
             {
-                MessageBox.Show(
-                    "Chỉ có thể hủy hóa đơn đã thanh toán.",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
                 return;
             }
 
-            // Mở Dialog
-            using var dialog =
-                new Dialog_CancelInvoice(
-                    _currentReceptionistName,
-                    invoice.TotalAmount);
+            using var detailDialog =
+                new Dialog_InvoiceDetail(
+                    invoice.InvoiceId,
+                    _currentReceptionistId,
+                    _currentReceptionistName);
 
-            if (dialog.ShowDialog() != DialogResult.OK)
-                return;
-
-            // Xác nhận lần cuối
-            string confirmMessage;
-
-            if (dialog.RequiresMedicalRecordUpdate)
+            if (detailDialog.ShowDialog(this) == DialogResult.OK)
             {
-                confirmMessage =
-                    $"Hủy hóa đơn #{invoice.InvoiceId}?\n\n" +
-                    $"Số tiền hoàn: {invoice.TotalAmount:N0} VNĐ\n\n" +
-                    "Bệnh nhân sẽ quay lại bác sĩ để " +
-                    "thay đổi thuốc/dịch vụ.\n" +
-                    "Sau khi MedicalRecord được cập nhật, " +
-                    "hóa đơn mới sẽ được tạo.";
-            }
-            else
-            {
-                confirmMessage =
-                    $"Hủy hóa đơn #{invoice.InvoiceId}?\n\n" +
-                    $"Số tiền hoàn: {invoice.TotalAmount:N0} VNĐ\n\n" +
-                    "Hóa đơn sẽ được hủy hoàn toàn " +
-                    "và không tạo hóa đơn mới.";
-            }
-
-            var confirm = MessageBox.Show(
-                confirmMessage,
-                "Xác nhận hủy hóa đơn",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
-
-            if (confirm != DialogResult.Yes)
-                return;
-
-            // Gọi BLL
-            var result = _bll.CancelInvoice(
-                invoice.InvoiceId,
-                _currentReceptionistId,
-                dialog.CancellationReason);
-
-            if (result.IsSuccess)
-            {
-                MessageBox.Show(
-                    result.Message,
-                    "Thành công",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
                 LoadData();
 
                 InvoiceChanged?.Invoke(
                     this,
                     EventArgs.Empty);
-            }
-            else
-            {
-                MessageBox.Show(
-                    result.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
             }
         }
     }

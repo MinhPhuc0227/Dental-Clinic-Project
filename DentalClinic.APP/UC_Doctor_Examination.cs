@@ -119,7 +119,7 @@ namespace DentalClinic.APP
                 }
                 else
                 {
-                    dgvWaitingQueue.DataSource = null;
+                    dgvInExamination.DataSource = null;
                     ClearPatientInfo();
                 }
             }
@@ -552,6 +552,17 @@ namespace DentalClinic.APP
             // Chỉ kiểm tra tồn kho khi hoàn thành khám
             if (!isDraft)
             {
+                if (_invoiceBLL.HasUnpaidInvoice(_currentVisitId))
+                {
+                    MessageBox.Show(
+                        "Ca khám này đã có hóa đơn chưa thanh toán.",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
                 if (!CheckMedicineStock())
                 {
                     return;
@@ -584,22 +595,7 @@ namespace DentalClinic.APP
                     }
                     else
                     {
-                        // 1. Tạo Invoice Unpaid từ MedicalRecord vừa lưu
-                        var invoiceResult = _invoiceBLL.CreateUnpaidInvoice(_currentVisitId);
-
-                        if (!invoiceResult.IsSuccess)
-                        {
-                            MessageBox.Show(
-                                "Không thể hoàn thành ca khám:\n" + invoiceResult.Message,
-                                "Lỗi tạo hóa đơn",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-
-                            return;
-                        }
-
-                        // 2. Invoice đã tạo thành công
-                        // Chuyển Visit sang WaitingForPayment
+                        // 1. Chuyển Visit sang WaitingForPayment
                         var visitResult = _visitBLL.UpdateVisitStatus(
                             _currentVisitId,
                             VisitStatus.WaitingForPayment);
@@ -607,7 +603,7 @@ namespace DentalClinic.APP
                         if (!visitResult.IsSuccess)
                         {
                             MessageBox.Show(
-                                "Hóa đơn đã được tạo nhưng không thể cập nhật trạng thái ca khám.",
+                                "Không thể chuyển ca khám sang trạng thái chờ thanh toán.",
                                 "Lỗi",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
@@ -615,20 +611,43 @@ namespace DentalClinic.APP
                             return;
                         }
 
+                        // 2. Tạo Invoice Unpaid
+                        var invoiceResult =
+                            _invoiceBLL.CreateUnpaidInvoice(_currentVisitId);
+
+                        if (!invoiceResult.IsSuccess)
+                        {
+                            MessageBox.Show(
+                                "Không thể tạo hóa đơn:\n" +
+                                invoiceResult.Message,
+                                "Lỗi tạo hóa đơn",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+
+                            return;
+                        }
+
                         MessageBox.Show(
-                            "Hoàn thành ca khám!\nHóa đơn chưa thanh toán đã được tạo và chuyển ra quầy thanh toán.",
+                            "Hoàn thành ca khám!\n" +
+                            "Hóa đơn chưa thanh toán đã được tạo.",
                             "Thông báo",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
 
                         _currentVisitId = 0;
+
                         ClearPatientInfo();
+
+                        lbMedicalRecordId.Text = "...";
                         txtDiagnosis.Clear();
                         txtConclusion.Clear();
+
                         _selectedServices.Clear();
                         _selectedMedicines.Clear();
+
                         CalculateTotal();
 
+                        LoadWaitingQueue();
                         LoadInExamination();
                     }
                 }

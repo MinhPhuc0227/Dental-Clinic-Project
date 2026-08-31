@@ -18,11 +18,10 @@ namespace DentalClinic.APP
         private UC_Doctor_Examination ExaminationUC;
         private UC_Doctor_Appointment DoctorAppointmentUC;
         private UC_Doctor_MedicalRecord MedicalRecordUC;
-
-        private readonly Appointment_BLL _appointmentBLL = new Appointment_BLL(new Appointment_DAL(new AppDbContext()));
-        private readonly Visit_BLL _visitBLL = new Visit_BLL(new Visit_DAL(new AppDbContext()));
         private readonly Doctor_BLL _doctorBll = new Doctor_BLL(new Doctor_DAL(new AppDbContext()));
         private readonly MedicalRecord_BLL _medicalRecordBLL = new MedicalRecord_BLL(new MedicalRecord_DAL(new AppDbContext()));
+        private readonly Visit_BLL _visitBLL = new Visit_BLL(new Visit_DAL(new AppDbContext()));
+        private readonly Appointment_BLL _appointmentBLL;
 
         private readonly int _currentDoctorId;
         private readonly string _currentDoctorName;
@@ -30,6 +29,10 @@ namespace DentalClinic.APP
         public Form_Doctor(int accountId, string userName)
         {
             InitializeComponent();
+
+            _appointmentBLL = new Appointment_BLL(
+                new Appointment_DAL(new AppDbContext()),
+                _visitBLL);
 
             // Tìm thông tin Bác sĩ từ AccountId
             var doctor = _doctorBll.GetDoctorByAccountId(accountId);

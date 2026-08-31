@@ -139,7 +139,11 @@ namespace DentalClinic.DAL
             return _context.Visits.Any(v =>
                 v.PatientId == patientId &&
                 v.CheckInDateTime.Date == DateTime.Today &&
-                (v.Status == VisitStatus.Waiting || v.Status == VisitStatus.InExamination));
+                (
+                    v.Status == VisitStatus.Waiting ||
+                    v.Status == VisitStatus.InExamination ||
+                    v.Status == VisitStatus.WaitingForPayment
+                ));
         }
 
         public bool UpdateStatus(int visitId, VisitStatus newStatus)

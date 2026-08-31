@@ -116,7 +116,10 @@ namespace DentalClinic.BLL
 
             {
 
-                return Result.Failure("Bệnh nhân này hiện đang ở trong hàng chờ hoặc đang được khám. Không thể tạo thêm phiếu tiếp nhận!");
+                return Result.Failure(
+        "Bệnh nhân này đang có một ca khám chưa hoàn tất trong ngày " +
+        "(chờ khám, đang khám hoặc chờ thanh toán). " +
+        "Vui lòng hoàn tất ca hiện tại trước khi tạo lượt tiếp nhận mới.");
 
             }
 
@@ -258,6 +261,11 @@ namespace DentalClinic.BLL
             {
                 return Result.Failure("Lỗi cập nhật trạng thái: " + ex.Message);
             }
+        }
+
+        public bool HasActiveVisitToday(int patientId)
+        {
+            return _visitDAL.HasActiveVisitToday(patientId);
         }
 
     }

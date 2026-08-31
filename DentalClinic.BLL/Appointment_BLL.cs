@@ -12,10 +12,11 @@ namespace DentalClinic.BLL
     public class Appointment_BLL
     {
         private readonly Appointment_DAL _appointmentDAL;
-
-        public Appointment_BLL(Appointment_DAL appointmentDAL)
+        private readonly Visit_BLL _visitBLL;
+        public Appointment_BLL(Appointment_DAL appointmentDAL, Visit_BLL visitBLL)
         {
             _appointmentDAL = appointmentDAL;
+            _visitBLL = visitBLL;
         }
 
         public Result<List<AppointmentListDto>> GetFiltered(AppointmentFilterDto filter)
@@ -216,10 +217,39 @@ namespace DentalClinic.BLL
             }
         }
 
-        public Result CreateVisitFromAppointment(int appointmentId, int receptionistId, bool keepPriority = true)
+        public Result CreateVisitFromAppointment(
+    int appointmentId,
+    int receptionistId,
+    bool keepPriority = true)
         {
             try
             {
+                // 1. Lấy thông tin lịch hẹn
+                var appointment = _appointmentDAL.GetById(appointmentId);
+
+                if (appointment == null)
+                {
+                    return Result.Failure(
+                        "Không tìm thấy lịch hẹn.");
+                }
+
+                // 2. Kiểm tra trạng thái lịch hẹn
+                if (appointment.Status != AppointmentStatus.Scheduled)
+                {
+                    return Result.Failure(
+                        "Lịch hẹn này không còn ở trạng thái có thể tiếp nhận.");
+                }
+
+                // 3. Kiểm tra bệnh nhân đã có ca khám chưa hoàn tất hôm nay
+                if (_visitBLL.HasActiveVisitToday(appointment.PatientId))
+                {
+                    return Result.Failure(
+                        "Bệnh nhân này đang có một ca khám chưa hoàn tất trong ngày " +
+                        "(chờ khám, đang khám hoặc chờ thanh toán).\n\n" +
+                        "Vui lòng hoàn tất ca hiện tại trước khi tiếp nhận lịch hẹn này.");
+                }
+
+                // 4. Tạo Visit
                 bool isSuccess =
                     _appointmentDAL.CreateVisitFromAppointmentTransaction(
                         appointmentId,
@@ -240,7 +270,6 @@ namespace DentalClinic.BLL
             }
             catch (InvalidOperationException ex)
             {
-                // Lỗi nghiệp vụ -> hiển thị trực tiếp
                 return Result.Failure(ex.Message);
             }
             catch (Exception ex)

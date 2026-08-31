@@ -25,13 +25,16 @@ namespace DentalClinic.APP
         private UC_Receptionist_InvoiceList InvoiceListUC;
 
         // 3. Khai báo BLL
-        private readonly Appointment_BLL _appointmentBLL = new Appointment_BLL(new Appointment_DAL(new AppDbContext()));
-        private readonly Visit_BLL _visitBLL = new Visit_BLL(new Visit_DAL(new AppDbContext()));
         private readonly Receptionist_BLL _receptionistBLL = new Receptionist_BLL();
+        private readonly Visit_BLL _visitBLL = new Visit_BLL(new Visit_DAL(new AppDbContext()));
+
+        private readonly Appointment_BLL _appointmentBLL;
 
         public Form_Receptionist(int accountId, string receptionistName)
         {
             InitializeComponent();
+
+            _appointmentBLL = new Appointment_BLL(new Appointment_DAL(new AppDbContext()), _visitBLL);
 
             var receptionist = _receptionistBLL.GetReceptionistByAccountId(accountId);
 

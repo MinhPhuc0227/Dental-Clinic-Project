@@ -31,7 +31,6 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
-            btCancelInvoice = new Button();
             label1 = new Label();
             txtSearch = new TextBox();
             cbStatus = new ComboBox();
@@ -48,7 +47,6 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(btCancelInvoice);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(txtSearch);
             panel1.Controls.Add(cbStatus);
@@ -63,16 +61,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(913, 192);
             panel1.TabIndex = 0;
-            // 
-            // btCancelInvoice
-            // 
-            btCancelInvoice.Location = new Point(675, 128);
-            btCancelInvoice.Name = "btCancelInvoice";
-            btCancelInvoice.Size = new Size(120, 46);
-            btCancelInvoice.TabIndex = 43;
-            btCancelInvoice.Text = "Hủy";
-            btCancelInvoice.UseVisualStyleBackColor = true;
-            btCancelInvoice.Click += btCancelInvoice_Click;
             // 
             // label1
             // 
@@ -208,7 +196,7 @@
             dgvInvoiceList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvInvoiceList.Size = new Size(913, 357);
             dgvInvoiceList.TabIndex = 6;
-            dgvInvoiceList.SelectionChanged += dgvInvoiceList_SelectionChanged;
+            dgvInvoiceList.CellContentClick += dgvInvoiceList_CellContentClick;
             // 
             // UC_Receptionist_InvoiceList
             // 
@@ -242,6 +230,5 @@
         private Label label1;
         private TextBox txtSearch;
         private DataGridView dgvInvoiceList;
-        private Button btCancelInvoice;
     }
 }

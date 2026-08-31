@@ -38,6 +38,44 @@ namespace DentalClinic.BLL
             }
         }
 
+        public Result<MedicineDto> GetById(int medicineId)
+        {
+            if (medicineId <= 0)
+            {
+                return Result<MedicineDto>.Failure(
+                    "Mã thuốc không hợp lệ.");
+            }
+
+            try
+            {
+                var medicine = _dal.GetById(medicineId);
+
+                if (medicine == null)
+                {
+                    return Result<MedicineDto>.Failure(
+                        "Không tìm thấy thuốc.");
+                }
+
+                var dto = new MedicineDto
+                {
+                    MedicineId = medicine.MedicineId,
+                    MedicineName = medicine.MedicineName,
+                    Unit = medicine.Unit,
+                    UnitPrice = medicine.UnitPrice,
+                    QuantityInStock = medicine.QuantityInStock,
+                    Description = medicine.Description,
+                    Status = medicine.Status
+                };
+
+                return Result<MedicineDto>.Success(dto);
+            }
+            catch (Exception ex)
+            {
+                return Result<MedicineDto>.Failure(
+                    "Lỗi khi lấy thông tin thuốc: " + ex.Message);
+            }
+        }
+
         // 2. Thêm thuốc mới (Dùng Result không tham số data)
         public Result Add(CreateMedicineDto dto)
         {

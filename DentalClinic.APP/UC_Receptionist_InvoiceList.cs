@@ -14,12 +14,15 @@ namespace DentalClinic.APP
     public partial class UC_Receptionist_InvoiceList : UserControl
     {
         private readonly Invoice_BLL _bll = new Invoice_BLL();
-        private int _selectedInvoiceId = 0;
+        private readonly int _currentReceptionistId;
+        private readonly string _currentReceptionistName;
         public event EventHandler? InvoiceChanged;
 
-        public UC_Receptionist_InvoiceList()
+        public UC_Receptionist_InvoiceList(int receptionistId, string receptionistName)
         {
             InitializeComponent();
+            _currentReceptionistId = receptionistId;
+            _currentReceptionistName = receptionistName;
         }
 
         private void UC_Receptionist_InvoiceList_Load(object sender, EventArgs e)
@@ -29,8 +32,6 @@ namespace DentalClinic.APP
             dgvInvoiceList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvInvoiceList.MultiSelect = false;
             dgvInvoiceList.ReadOnly = true;
-
-            btCancelInvoice.Visible = false;
 
             dtpStart.Value = new DateTime(
                 DateTime.Now.Year,
@@ -55,16 +56,50 @@ namespace DentalClinic.APP
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AmountGiven", HeaderText = "Tiền Khách Đưa", Width = 110, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ChangeAmount", HeaderText = "Tiền Thối", Width = 90, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Status", HeaderText = "Trạng Thái", Width = 100 });
+            var cancelColumn = new DataGridViewButtonColumn
+            {
+                Name = "colCancel",
+                HeaderText = "Thao tác",
+                Text = "Hủy",
+                UseColumnTextForButtonValue = true,
+                Width = 70,
+                FlatStyle = FlatStyle.Flat
+            };
+
+            cancelColumn.DefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter;
+
+            dgvInvoiceList.Columns.Add(cancelColumn);
         }
 
         private void LoadStatusComboBox()
         {
             var statusList = new[]
-            {
-                new { Text = "Tất cả", Value = (InvoiceStatus?)null },
-                new { Text = "Đã thanh toán", Value = (InvoiceStatus?)InvoiceStatus.Paid },
-                new { Text = "Đã hủy", Value = (InvoiceStatus?)InvoiceStatus.Cancelled }
-            };
+    {
+        new
+        {
+            Text = "Tất cả",
+            Value = (InvoiceStatus?)null
+        },
+
+        new
+        {
+            Text = "Chưa thanh toán",
+            Value = (InvoiceStatus?)InvoiceStatus.Unpaid
+        },
+
+        new
+        {
+            Text = "Đã thanh toán",
+            Value = (InvoiceStatus?)InvoiceStatus.Paid
+        },
+
+        new
+        {
+            Text = "Đã hủy",
+            Value = (InvoiceStatus?)InvoiceStatus.Cancelled
+        }
+    };
 
             cbStatus.DataSource = statusList;
             cbStatus.DisplayMember = "Text";
@@ -76,20 +111,38 @@ namespace DentalClinic.APP
         {
             InvoiceStatus? status = null;
 
-            if (cbStatus.SelectedIndex > 0)
-            {
-                status = cbStatus.SelectedIndex == 1 ? InvoiceStatus.Paid : InvoiceStatus.Cancelled;
-            }
+            if (cbStatus.SelectedIndex == 1)
+                status = InvoiceStatus.Unpaid;
+            else if (cbStatus.SelectedIndex == 2)
+                status = InvoiceStatus.Paid;
+            else if (cbStatus.SelectedIndex == 3)
+                status = InvoiceStatus.Cancelled;
 
-            dgvInvoiceList.DataSource = _bll.GetAllInvoices(dtpStart.Value, dtpEnd.Value, status);
+            dgvInvoiceList.DataSource =
+                _bll.GetAllInvoices(
+                    dtpStart.Value,
+                    dtpEnd.Value,
+                    status);
         }
 
-        private void btCancelInvoice_Click(object sender, EventArgs e)
+        private void dgvInvoiceList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (_selectedInvoiceId <= 0)
+            if (e.RowIndex < 0)
+                return;
+
+            if (dgvInvoiceList.Columns[e.ColumnIndex].Name
+                != "colCancel")
+                return;
+
+            if (dgvInvoiceList.Rows[e.RowIndex].DataBoundItem
+                is not InvoiceDisplayDto invoice)
+                return;
+
+            // Chỉ cho hủy hóa đơn Paid
+            if (invoice.Status != "Đã thanh toán")
             {
                 MessageBox.Show(
-                    "Vui lòng chọn hóa đơn cần hủy.",
+                    "Chỉ có thể hủy hóa đơn đã thanh toán.",
                     "Thông báo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -97,8 +150,39 @@ namespace DentalClinic.APP
                 return;
             }
 
+            // Mở Dialog
+            using var dialog =
+                new Dialog_CancelInvoice(
+                    _currentReceptionistName,
+                    invoice.TotalAmount);
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            // Xác nhận lần cuối
+            string confirmMessage;
+
+            if (dialog.RequiresMedicalRecordUpdate)
+            {
+                confirmMessage =
+                    $"Hủy hóa đơn #{invoice.InvoiceId}?\n\n" +
+                    $"Số tiền hoàn: {invoice.TotalAmount:N0} VNĐ\n\n" +
+                    "Bệnh nhân sẽ quay lại bác sĩ để " +
+                    "thay đổi thuốc/dịch vụ.\n" +
+                    "Sau khi MedicalRecord được cập nhật, " +
+                    "hóa đơn mới sẽ được tạo.";
+            }
+            else
+            {
+                confirmMessage =
+                    $"Hủy hóa đơn #{invoice.InvoiceId}?\n\n" +
+                    $"Số tiền hoàn: {invoice.TotalAmount:N0} VNĐ\n\n" +
+                    "Hóa đơn sẽ được hủy hoàn toàn " +
+                    "và không tạo hóa đơn mới.";
+            }
+
             var confirm = MessageBox.Show(
-                "Bạn có chắc chắn muốn hủy hóa đơn này không?",
+                confirmMessage,
                 "Xác nhận hủy hóa đơn",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
@@ -106,7 +190,11 @@ namespace DentalClinic.APP
             if (confirm != DialogResult.Yes)
                 return;
 
-            var result = _bll.CancelInvoice(_selectedInvoiceId);
+            // Gọi BLL
+            var result = _bll.CancelInvoice(
+                invoice.InvoiceId,
+                _currentReceptionistId,
+                dialog.CancellationReason);
 
             if (result.IsSuccess)
             {
@@ -116,13 +204,11 @@ namespace DentalClinic.APP
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
-                _selectedInvoiceId = 0;
-                btCancelInvoice.Visible = false;
-
                 LoadData();
 
-                // Báo cho UC_Receptionist_Invoice reload danh sách chờ thanh toán
-                InvoiceChanged?.Invoke(this, EventArgs.Empty);
+                InvoiceChanged?.Invoke(
+                    this,
+                    EventArgs.Empty);
             }
             else
             {
@@ -131,31 +217,6 @@ namespace DentalClinic.APP
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-            }
-        }
-
-        private void dgvInvoiceList_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dgvInvoiceList.SelectedRows.Count == 0)
-            {
-                _selectedInvoiceId = 0;
-                btCancelInvoice.Visible = false;
-                return;
-            }
-
-            var row = dgvInvoiceList.SelectedRows[0];
-
-            if (row.DataBoundItem is InvoiceDisplayDto invoice)
-            {
-                _selectedInvoiceId = invoice.InvoiceId;
-
-                btCancelInvoice.Visible =
-                    invoice.Status == "Đã thanh toán";
-            }
-            else
-            {
-                _selectedInvoiceId = 0;
-                btCancelInvoice.Visible = false;
             }
         }
     }

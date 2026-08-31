@@ -104,6 +104,7 @@
             label15 = new Label();
             label16 = new Label();
             label18 = new Label();
+            btCancelVisit = new Button();
             pnLeft.SuspendLayout();
             pnPatientInfo.SuspendLayout();
             pnWaitingQueue.SuspendLayout();
@@ -146,6 +147,7 @@
             // pnPatientInfo
             // 
             pnPatientInfo.BackColor = Color.White;
+            pnPatientInfo.Controls.Add(btCancelVisit);
             pnPatientInfo.Controls.Add(btViewMedicalHistory);
             pnPatientInfo.Controls.Add(lbAppointmentNote);
             pnPatientInfo.Controls.Add(label10);
@@ -373,10 +375,10 @@
             // tabPage2
             // 
             tabPage2.Controls.Add(dgvInExamination);
-            tabPage2.Location = new Point(4, 37);
+            tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(611, 386);
+            tabPage2.Size = new Size(611, 394);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Đang khám";
             tabPage2.UseVisualStyleBackColor = true;
@@ -419,7 +421,7 @@
             dgvInExamination.RowHeadersWidth = 51;
             dgvInExamination.RowTemplate.Height = 38;
             dgvInExamination.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInExamination.Size = new Size(605, 380);
+            dgvInExamination.Size = new Size(605, 388);
             dgvInExamination.TabIndex = 8;
             dgvInExamination.CellContentClick += dgvInExamination_CellContentClick;
             // 
@@ -1026,6 +1028,18 @@
             label18.TabIndex = 39;
             label18.Text = "Chẩn đoán:";
             // 
+            // btCancelVisit
+            // 
+            btCancelVisit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btCancelVisit.Font = new Font("Segoe UI", 10F);
+            btCancelVisit.Location = new Point(471, 293);
+            btCancelVisit.Name = "btCancelVisit";
+            btCancelVisit.Size = new Size(112, 46);
+            btCancelVisit.TabIndex = 46;
+            btCancelVisit.Text = "Hủy khám";
+            btCancelVisit.UseVisualStyleBackColor = true;
+            btCancelVisit.Click += btCancelVisit_Click;
+            // 
             // UC_Doctor_Examination
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
@@ -1142,5 +1156,6 @@
         private DataGridView dgvWaitingQueue;
         private TabPage tabPage2;
         private DataGridView dgvInExamination;
+        private Button btCancelVisit;
     }
 }

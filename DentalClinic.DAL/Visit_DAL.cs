@@ -15,51 +15,6 @@ namespace DentalClinic.DAL
         {
             _context = context;
         }
-        //public List<WaitingQueueDto> GetWaitingQueue(DateTime date, string keyword, int? doctorId, VisitStatus? status)
-        //{
-        //    var query = _context.Visits
-        //        .Include(v => v.Patient)
-        //        .Include(v => v.Doctor)
-        //        .Include(v => v.Appointment)
-        //        .AsNoTracking()
-        //        .Where(v => v.CheckInDateTime.Date == date.Date);
-
-        //    // Lọc theo trạng thái
-        //    if (status.HasValue)
-        //    {
-        //        query = query.Where(v => v.Status == status.Value);
-        //    }
-
-        //    // Lọc theo bác sĩ
-        //    if (doctorId.HasValue && doctorId.Value > 0)
-        //    {
-        //        query = query.Where(v => v.DoctorId == doctorId.Value);
-        //    }
-
-        //    // Lọc theo từ khóa tìm kiếm (Tên hoặc SĐT)
-        //    if (!string.IsNullOrWhiteSpace(keyword))
-        //    {
-        //        string kw = keyword.Trim().ToLower();
-        //        query = query.Where(v => v.Patient.FullName.ToLower().Contains(kw) ||
-        //                                 v.Patient.Phone.Contains(kw));
-        //    }
-
-        //    // Sắp xếp ai đến trước (Thời gian tiếp nhận sớm hơn) thì lên đầu hàng chờ
-        //    return query.OrderBy(v => v.CheckInDateTime)
-        //        .Select(v => new WaitingQueueDto
-        //        {
-        //            VisitId = v.VisitId,
-        //            QueueNumber = v.QueueNumber,
-        //            PatientName = v.Patient.FullName,
-        //            PatientPhone = v.Patient.Phone,
-        //            DoctorName = v.Doctor != null ? v.Doctor.FullName : "",
-        //            CheckInDateTime = v.CheckInDateTime,
-        //            ReasonForVisit = v.ReasonForVisit,
-        //            Status = v.Status,
-        //            PatientNote = v.Patient.Note,
-        //            AppointmentNote = v.Appointment != null ? v.Appointment.Note : null
-        //        }).ToList();
-        //}
 
         public List<WaitingQueueDto> GetWaitingQueue(DateTime date, string keyword, int? doctorId, VisitStatus? status)
         {

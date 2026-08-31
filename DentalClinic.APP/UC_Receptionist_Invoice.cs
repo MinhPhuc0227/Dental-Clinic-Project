@@ -15,6 +15,7 @@ namespace DentalClinic.APP
     {
         // Danh sách lưu tạm chi tiết hóa đơn đang hiển thị
         private List<InvoiceDetailDisplayDto> _currentInvoiceDetails = new List<InvoiceDetailDisplayDto>();
+        private int _currentInvoiceId = 0;
         private int _currentVisitId = 0;
         private readonly int _currentReceptionistId;
         private readonly Invoice_BLL _invoiceBLL = new Invoice_BLL();
@@ -64,13 +65,25 @@ namespace DentalClinic.APP
             dgvWaitingList.AutoGenerateColumns = false;
             dgvWaitingList.Columns.Clear();
 
+            // Invoice ID
+            dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "InvoiceId",
+                HeaderText = "Mã HĐ",
+                Width = 70,
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    Alignment = DataGridViewContentAlignment.MiddleCenter
+                }
+            });
+
             dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "VisitId", Visible = false });
             dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientName", HeaderText = "Bệnh Nhân", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             //dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "CheckInDateTime", HeaderText = "Giờ", Width = 60, DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm" } });
             dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "CompletedTime",
-                HeaderText = "Giờ ra", // Đổi tên hiển thị cho rõ nghĩa
+                DataPropertyName = "InvoiceDateTime",
+                HeaderText = "Giờ tạo HĐ", 
                 Width = 60,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm" }
             });
@@ -107,6 +120,8 @@ namespace DentalClinic.APP
 
             _currentInvoiceDetails.Clear();
             dgvInvoiceDetail.DataSource = null;
+
+            _currentInvoiceId = 0;
             _currentVisitId = 0;
         }
 
@@ -114,17 +129,19 @@ namespace DentalClinic.APP
         {
             if (e.RowIndex >= 0)
             {
-                if (dgvWaitingList.Rows[e.RowIndex].DataBoundItem is WaitingPaymentDto selectedPatient)
+                if (dgvWaitingList.Rows[e.RowIndex].DataBoundItem is WaitingPaymentDto selectedInvoice)
                 {
-                    _currentVisitId = selectedPatient.VisitId;
+                    _currentInvoiceId = selectedInvoice.InvoiceId;
+                    _currentVisitId = selectedInvoice.VisitId;
 
-                    // Load thông tin lên các Label
-                    lbPatientName.Text = selectedPatient.PatientName;
-                    lbPhone.Text = selectedPatient.Phone;
-                    lbDoctorName.Text = selectedPatient.DoctorName;
+                    lbPatientName.Text = selectedInvoice.PatientName;
+                    lbPhone.Text = selectedInvoice.Phone;
+                    lbDoctorName.Text = selectedInvoice.DoctorName;
 
-                    // Load chi tiết dịch vụ + thuốc
-                    _currentInvoiceDetails = _invoiceBLL.GetInvoiceDetails(_currentVisitId);
+                    // Lấy chi tiết từ chính Invoice Unpaid
+                    _currentInvoiceDetails =
+                        _invoiceBLL.GetInvoiceDetailsByInvoice(
+                            _currentInvoiceId);
 
                     // Load lên dgvInvoiceDetail
                     dgvInvoiceDetail.DataSource = null;
@@ -143,62 +160,100 @@ namespace DentalClinic.APP
 
         private void btPayment_Click(object sender, EventArgs e)
         {
-            if (_currentVisitId == 0 || _currentInvoiceDetails.Count == 0)
+            if (_currentInvoiceId == 0 || _currentInvoiceDetails.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn bệnh nhân cần thanh toán!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Vui lòng chọn hóa đơn cần thanh toán!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 return;
             }
 
             if (cbPaymentMethod.SelectedValue == null)
             {
-                MessageBox.Show("Vui lòng chọn phương thức thanh toán!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Vui lòng chọn phương thức thanh toán!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 return;
             }
 
-            // Kiểm tra số tiền nhập (nếu chọn thanh toán bằng tiền mặt)
+            // Lấy tổng tiền của Invoice
             decimal totalAmount = GetTotalAmountFromLabel();
-            string rawGiven = txtAmountGiven.Text.Replace(",", "");
-            decimal.TryParse(rawGiven, out decimal givenAmount);
 
-            if (givenAmount < totalAmount)
+            // Lấy tiền khách đưa
+            string rawGiven = txtAmountGiven.Text.Replace(",", "");
+
+            if (!decimal.TryParse(rawGiven, out decimal givenAmount))
             {
-                MessageBox.Show("Số tiền khách đưa chưa đủ để thanh toán!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Số tiền khách đưa không hợp lệ!",
+                    "Cảnh báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 txtAmountGiven.Focus();
                 return;
             }
 
-            var confirm = MessageBox.Show($"Xác nhận thanh toán hóa đơn với tổng tiền: {lbTotalAmount.Text} VNĐ?",
-                                          "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (confirm == DialogResult.Yes)
+            // Kiểm tra tiền khách đưa đủ
+            if (givenAmount < totalAmount)
             {
-                int paymentMethodId = (int)cbPaymentMethod.SelectedValue;
-                int currentReceptionistId = _currentReceptionistId;
+                MessageBox.Show(
+                    "Số tiền khách đưa chưa đủ để thanh toán!",
+                    "Cảnh báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
-                // Tính lại tổng tiền 
-                totalAmount = 0;
-                foreach (var item in _currentInvoiceDetails) totalAmount += item.TotalAmount;
+                txtAmountGiven.Focus();
+                return;
+            }
 
-                // Lấy giá trị tiền khách đưa và tiền trả khách từ giao diện
-                decimal amountGiven = string.IsNullOrEmpty(txtAmountGiven.Text) ? 0 : decimal.Parse(txtAmountGiven.Text.Replace(",", ""));
-                decimal changeAmount = string.IsNullOrEmpty(txtChange.Text) ? 0 : decimal.Parse(txtChange.Text.Replace(",", ""));
+            decimal changeAmount = givenAmount - totalAmount;
 
-                // Gọi BLL lưu hóa đơn 
-                var result = _invoiceBLL.Checkout(_currentVisitId, paymentMethodId, currentReceptionistId, totalAmount, amountGiven, changeAmount, _currentInvoiceDetails);
+            var confirm = MessageBox.Show(
+                $"Xác nhận thanh toán hóa đơn #{_currentInvoiceId}\n" +
+                $"Tổng tiền: {totalAmount:N0} VNĐ?",
+                "Xác nhận thanh toán",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
-                if (result.IsSuccess)
-                {
-                    MessageBox.Show(result.Message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (confirm != DialogResult.Yes)
+                return;
 
-                    // Reset giao diện
-                    ClearPatientInfo();
-                    LoadWaitingList();
-                    txtSearch.Clear();
-                }
-                else
-                {
-                    MessageBox.Show(result.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            int paymentMethodId = (int)cbPaymentMethod.SelectedValue;
+
+            // Thanh toán Invoice Unpaid hiện tại
+            var result = _invoiceBLL.Checkout(
+                _currentInvoiceId,
+                paymentMethodId,
+                _currentReceptionistId,
+                givenAmount,
+                changeAmount);
+
+            if (result.IsSuccess)
+            {
+                MessageBox.Show(
+                    result.Message,
+                    "Thành công",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                ClearPatientInfo();
+                LoadWaitingList();
+                txtSearch.Clear();
+            }
+            else
+            {
+                MessageBox.Show(
+                    result.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 

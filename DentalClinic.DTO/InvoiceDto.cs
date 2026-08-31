@@ -7,12 +7,13 @@ namespace DentalClinic.DTO
     // Hiển thị danh sách hàng chờ thanh toán (pnLeft)
     public class WaitingPaymentDto
     {
+        public int InvoiceId { get; set; }
         public int VisitId { get; set; }
         public string PatientName { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string DoctorName { get; set; } = string.Empty;
-        public DateTime CheckInDateTime { get; set; }
-        public DateTime CompletedTime { get; set; }
+        public DateTime InvoiceDateTime { get; set; }
+        //public DateTime CompletedTime { get; set; }
     }
 
     // Hiển thị chi tiết hóa đơn dịch vụ + thuốc (pnRight)

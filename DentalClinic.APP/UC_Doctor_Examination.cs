@@ -18,6 +18,7 @@ namespace DentalClinic.APP
         private readonly Service_BLL _serviceBLL = new Service_BLL();
         private readonly Medicine_BLL _medicineBLL = new Medicine_BLL();
         private readonly MedicalRecord_BLL _medicalRecordBLL = new MedicalRecord_BLL(new MedicalRecord_DAL(new AppDbContext()));
+        private readonly Invoice_BLL _invoiceBLL = new Invoice_BLL();
         private readonly int _doctorId;
         private int _currentVisitId = 0;
 
@@ -437,6 +438,42 @@ namespace DentalClinic.APP
             cbMedicine.Focus();
         }
 
+        private bool CheckMedicineStock()
+        {
+            foreach (var medicine in _selectedMedicines)
+            {
+                var result = _medicineBLL.GetById(medicine.MedicineId);
+
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    MessageBox.Show(
+                        $"Không tìm thấy thuốc: {medicine.MedicineName}.",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return false;
+                }
+
+                int requiredQuantity = medicine.Quantity;
+
+                if (result.Data.QuantityInStock < requiredQuantity)
+                {
+                    MessageBox.Show(
+                        $"Thuốc \"{medicine.MedicineName}\" không đủ tồn kho.\n\n" +
+                        $"Tồn kho hiện tại: {result.Data.QuantityInStock}\n" +
+                        $"Số lượng cần kê: {requiredQuantity}",
+                        "Không đủ tồn kho",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void dgvService_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             dgvService.Refresh();
@@ -504,8 +541,21 @@ namespace DentalClinic.APP
         {
             if (_currentVisitId == 0)
             {
-                MessageBox.Show("Vui lòng chọn một bệnh nhân từ danh sách chờ để thao tác!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Vui lòng chọn một bệnh nhân từ danh sách chờ để thao tác!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
+            }
+
+            // Chỉ kiểm tra tồn kho khi hoàn thành khám
+            if (!isDraft)
+            {
+                if (!CheckMedicineStock())
+                {
+                    return;
+                }
             }
 
             var recordData = new SaveMedicalRecordDto
@@ -534,10 +584,42 @@ namespace DentalClinic.APP
                     }
                     else
                     {
-                        // CHỐT Y LỆNH: Cập nhật Visit sang WaitingForPayment
-                        _visitBLL.UpdateVisitStatus(_currentVisitId, VisitStatus.WaitingForPayment);
+                        // 1. Tạo Invoice Unpaid từ MedicalRecord vừa lưu
+                        var invoiceResult = _invoiceBLL.CreateUnpaidInvoice(_currentVisitId);
 
-                        MessageBox.Show("Hoàn thành ca khám! Bệnh nhân đã được chuyển ra quầy thanh toán.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (!invoiceResult.IsSuccess)
+                        {
+                            MessageBox.Show(
+                                "Không thể hoàn thành ca khám:\n" + invoiceResult.Message,
+                                "Lỗi tạo hóa đơn",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+
+                            return;
+                        }
+
+                        // 2. Invoice đã tạo thành công
+                        // Chuyển Visit sang WaitingForPayment
+                        var visitResult = _visitBLL.UpdateVisitStatus(
+                            _currentVisitId,
+                            VisitStatus.WaitingForPayment);
+
+                        if (!visitResult.IsSuccess)
+                        {
+                            MessageBox.Show(
+                                "Hóa đơn đã được tạo nhưng không thể cập nhật trạng thái ca khám.",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+
+                            return;
+                        }
+
+                        MessageBox.Show(
+                            "Hoàn thành ca khám!\nHóa đơn chưa thanh toán đã được tạo và chuyển ra quầy thanh toán.",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
 
                         _currentVisitId = 0;
                         ClearPatientInfo();
@@ -547,8 +629,7 @@ namespace DentalClinic.APP
                         _selectedMedicines.Clear();
                         CalculateTotal();
 
-                        // Refresh lại lưới Đang khám (Tên khách sẽ biến mất vì đã xong)
-                        LoadInExamination();
+                        LoadInExamination();
                     }
                 }
                 else
@@ -613,6 +694,85 @@ namespace DentalClinic.APP
                 {
                     LoadPatientToPanel(selectedVisit);
                 }
+            }
+        }
+
+        private void btCancelVisit_Click(object sender, EventArgs e)
+        {
+            // Chưa chọn ca khám
+            if (_currentVisitId == 0)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn bệnh nhân cần hủy ca khám!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            // Xác nhận
+            var confirm = MessageBox.Show(
+                "Bạn có chắc chắn muốn hủy ca khám này không?\n\n" +
+                "Ca khám sẽ được kết thúc và không tạo hóa đơn.",
+                "Xác nhận hủy ca khám",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                // Cập nhật Visit -> Cancelled
+                var result = _visitBLL.UpdateVisitStatus(
+                    _currentVisitId,
+                    VisitStatus.Cancelled);
+
+                if (!result.IsSuccess)
+                {
+                    MessageBox.Show(
+                        result.Message,
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                MessageBox.Show(
+                    "Đã hủy ca khám thành công.\nCa khám sẽ không được đưa sang thanh toán.",
+                    "Thành công",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                // Reset Visit hiện tại
+                _currentVisitId = 0;
+
+                // Reset thông tin bệnh nhân
+                ClearPatientInfo();
+
+                // Reset hồ sơ đang nhập
+                lbMedicalRecordId.Text = "...";
+                txtDiagnosis.Clear();
+                txtConclusion.Clear();
+
+                _selectedServices.Clear();
+                _selectedMedicines.Clear();
+
+                CalculateTotal();
+
+                // Refresh danh sách
+                LoadWaitingQueue();
+                LoadInExamination();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Lỗi hệ thống khi hủy ca khám:\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }

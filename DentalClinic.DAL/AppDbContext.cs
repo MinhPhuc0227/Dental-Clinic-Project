@@ -212,16 +212,19 @@ namespace DentalClinic.DAL
                 // TotalAmount
                 entity.Property(i => i.TotalAmount)
                       .HasColumnType("decimal(18,2)")
+                      .HasDefaultValue(0)
                       .IsRequired();
 
                 // AmountGiven
                 entity.Property(i => i.AmountGiven)
                       .HasColumnType("decimal(18,2)")
+                      .HasDefaultValue(0)
                       .IsRequired();
 
                 // ChangeAmount
                 entity.Property(i => i.ChangeAmount)
                       .HasColumnType("decimal(18,2)")
+                      .HasDefaultValue(0)
                       .IsRequired();
 
                 // PaymentStatus
@@ -230,11 +233,20 @@ namespace DentalClinic.DAL
                       .HasMaxLength(50)
                       .IsRequired();
 
+                // CancellationReason
+                entity.Property(i => i.CancellationReason)
+                      .HasMaxLength(500)
+                      .IsRequired(false);
+
+                // CancelledDate
+                entity.Property(i => i.CancelledDate)
+                      .IsRequired(false);
+
                 // Relationship 1: PaymentMethod
                 entity.HasOne(i => i.PaymentMethod)
                       .WithMany()
                       .HasForeignKey(i => i.PaymentMethodId)
-                      .IsRequired()
+                      .IsRequired(false)
                       .OnDelete(DeleteBehavior.Restrict);
 
                 // Relationship 2: Visit
@@ -249,6 +261,13 @@ namespace DentalClinic.DAL
                       .WithMany()
                       .HasForeignKey(i => i.ReceptionistId)
                       .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 4: CancelledByReceptionist
+                entity.HasOne(i => i.CancelledByReceptionist)
+                      .WithMany()
+                      .HasForeignKey(i => i.CancelledBy)
+                      .IsRequired(false)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 

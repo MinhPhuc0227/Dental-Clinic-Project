@@ -43,43 +43,117 @@ namespace DentalClinic.BLL
             }
         }
 
-        public Result Checkout(int visitId, int paymentMethodId, int receptionistId, decimal totalAmount, decimal amountGiven, decimal changeAmount, List<InvoiceDetailDisplayDto> details)
+        public List<InvoiceDetailDisplayDto> GetInvoiceDetailsByInvoice(int invoiceId)
         {
-            if (visitId == 0 || details == null || !details.Any())
-                return Result.Failure("Vui lòng chọn một bệnh nhân có dịch vụ/thuốc để thanh toán.");
-
             try
             {
-                bool success = _dal.CheckoutInvoice(visitId, paymentMethodId, receptionistId, totalAmount, amountGiven, changeAmount, details);
-                return success ? Result.Success("Thanh toán thành công!") : Result.Failure("Lỗi lưu hóa đơn.");
+                return _dal.GetInvoiceDetailsByInvoiceId(invoiceId);
             }
             catch (Exception ex)
             {
-                return Result.Failure("Lỗi hệ thống: " + ex.Message);
+                Debug.WriteLine(ex.Message);
+                return new List<InvoiceDetailDisplayDto>();
             }
         }
 
-        public Result CancelInvoice(int invoiceId)
+        public Result CreateUnpaidInvoice(int visitId)
+        {
+            if (visitId <= 0)
+                return Result.Failure("Mã ca khám không hợp lệ.");
+
+            try
+            {
+                bool success = _dal.CreateUnpaidInvoice(visitId);
+
+                return success
+                    ? Result.Success("Tạo hóa đơn chưa thanh toán thành công.")
+                    : Result.Failure("Không thể tạo hóa đơn.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("=== CreateUnpaidInvoice ERROR ===");
+                Debug.WriteLine($"VisitId: {visitId}");
+                Debug.WriteLine($"Message: {ex.Message}");
+
+                return Result.Failure(
+                    "Lỗi tạo hóa đơn: " +
+                    (ex.InnerException?.Message ?? ex.Message));
+            }
+        }
+
+        public Result Checkout(
+    int invoiceId,
+    int paymentMethodId,
+    int receptionistId,
+    decimal amountGiven,
+    decimal changeAmount)
         {
             if (invoiceId <= 0)
                 return Result.Failure("Mã hóa đơn không hợp lệ.");
 
+            if (paymentMethodId <= 0)
+                return Result.Failure("Phương thức thanh toán không hợp lệ.");
+
+            if (receptionistId <= 0)
+                return Result.Failure("Nhân viên thanh toán không hợp lệ.");
+
             try
             {
-                bool success = _dal.CancelInvoice(invoiceId);
+                bool success = _dal.CheckoutInvoice(
+                    invoiceId,
+                    paymentMethodId,
+                    receptionistId,
+                    amountGiven,
+                    changeAmount);
 
                 return success
-                    ? Result.Success("Hủy hóa đơn thành công.")
-                    : Result.Failure("Không thể hủy hóa đơn.");
+                    ? Result.Success("Thanh toán thành công!")
+                    : Result.Failure("Không thể thanh toán hóa đơn.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("=== CancelInvoice ERROR ===");
+                Debug.WriteLine($"=== Checkout ERROR ===");
                 Debug.WriteLine($"InvoiceId: {invoiceId}");
                 Debug.WriteLine($"Message: {ex.Message}");
-                Debug.WriteLine($"Inner: {ex.InnerException?.Message}");
-                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
 
+                return Result.Failure(
+                    "Lỗi thanh toán: " +
+                    (ex.InnerException?.Message ?? ex.Message));
+            }
+        }
+
+        public Result CancelInvoice(
+    int invoiceId,
+    int cancelledBy,
+    string cancellationReason)
+        {
+            if (invoiceId <= 0)
+                return Result.Failure(
+                    "Mã hóa đơn không hợp lệ.");
+
+            if (cancelledBy <= 0)
+                return Result.Failure(
+                    "Người hủy không hợp lệ.");
+
+            if (string.IsNullOrWhiteSpace(cancellationReason))
+                return Result.Failure(
+                    "Vui lòng nhập lý do hủy.");
+
+            try
+            {
+                bool success = _dal.CancelInvoice(
+                    invoiceId,
+                    cancelledBy,
+                    cancellationReason);
+
+                return success
+                    ? Result.Success(
+                        "Hủy hóa đơn thành công.")
+                    : Result.Failure(
+                        "Không thể hủy hóa đơn.");
+            }
+            catch (Exception ex)
+            {
                 return Result.Failure(
                     "Lỗi hủy hóa đơn: " +
                     (ex.InnerException?.Message ?? ex.Message));

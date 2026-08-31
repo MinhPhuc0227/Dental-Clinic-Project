@@ -51,7 +51,7 @@ namespace DentalClinic.APP
             WaitingQueueUC = new UC_Receptionist_WaitingQueue(_visitBLL);
             VisitUC = new UC_Receptionist_Visit(_visitBLL, _currentReceptionistId);
             InvoiceUC = new UC_Receptionist_Invoice(_currentReceptionistId);
-            InvoiceListUC = new UC_Receptionist_InvoiceList();
+            InvoiceListUC = new UC_Receptionist_InvoiceList(_currentReceptionistId, _currentReceptionistName);
             InvoiceListUC.InvoiceChanged += InvoiceListUC_InvoiceChanged;
 
             this.Text = $"Lễ tân: {_currentReceptionistName}";

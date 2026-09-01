@@ -1,4 +1,5 @@
 ﻿using DentalClinic.APP;
+using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,18 +12,36 @@ namespace DentalClinic.App
 {
     public partial class Form_Admin : Form
     {
-        private UC_DashBoard dashboardUC = new UC_DashBoard();
-        private UC_Account accountUC = new UC_Account();
-        private UC_Doctor doctorUC = new UC_Doctor();
-        private UC_Receptionist receptionistUC = new UC_Receptionist();
-        private UC_Patient patientUC = new UC_Patient();
-        private UC_Service serviceUC = new UC_Service();
-        private UC_Medicine medicineUC = new UC_Medicine();
-        private UC_PaymentMethod paymentUC = new UC_PaymentMethod();
+        private readonly int _currentAccountId;
 
-        public Form_Admin()
+        private UC_DashBoard dashboardUC;
+        private UC_Account accountUC;
+        private UC_Doctor doctorUC;
+        private UC_Receptionist receptionistUC;
+        private UC_Patient patientUC;
+        private UC_Service serviceUC;
+        private UC_Medicine medicineUC;
+        private UC_PaymentMethod paymentUC;
+        private UC_Supplier supplierUC;
+
+        public Form_Admin(int accountId)
         {
             InitializeComponent();
+
+            _currentAccountId = accountId;
+
+            dashboardUC = new UC_DashBoard();
+            accountUC = new UC_Account();
+            doctorUC = new UC_Doctor();
+            receptionistUC = new UC_Receptionist();
+            patientUC = new UC_Patient();
+            serviceUC = new UC_Service();
+
+            // Truyền AccountId của Admin đang đăng nhập
+            medicineUC = new UC_Medicine(_currentAccountId);
+
+            paymentUC = new UC_PaymentMethod();
+            supplierUC = new UC_Supplier();
         }
 
         private void Admin_Form_Load(object sender, EventArgs e)
@@ -54,7 +73,7 @@ namespace DentalClinic.App
             if (rbAccount.Checked)
             {
                 ShowUC(accountUC);
-                accountUC.LoadDataToGridView(); 
+                accountUC.LoadDataToGridView();
             }
         }
 
@@ -115,6 +134,15 @@ namespace DentalClinic.App
         private void btLogout_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void rbSupplier_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbSupplier.Checked)
+            {
+                ShowUC(supplierUC);
+                supplierUC.LoadData();
+            }
         }
     }
 }

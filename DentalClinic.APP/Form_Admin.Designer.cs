@@ -30,6 +30,7 @@
         {
             panel1 = new Panel();
             panel2 = new Panel();
+            btLogout = new Button();
             panel3 = new Panel();
             rbMedicine = new RadioButton();
             rbService = new RadioButton();
@@ -40,7 +41,7 @@
             rbAccount = new RadioButton();
             rbDashBoard = new RadioButton();
             pnContent = new Panel();
-            btLogout = new Button();
+            rbSupplier = new RadioButton();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
             SuspendLayout();
@@ -59,14 +60,26 @@
             panel2.BackColor = Color.DarkCyan;
             panel2.Controls.Add(btLogout);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(0, 545);
+            panel2.Location = new Point(0, 624);
             panel2.Name = "panel2";
             panel2.Size = new Size(1019, 63);
             panel2.TabIndex = 1;
             // 
+            // btLogout
+            // 
+            btLogout.Font = new Font("Segoe UI", 12F);
+            btLogout.Location = new Point(25, 10);
+            btLogout.Name = "btLogout";
+            btLogout.Size = new Size(120, 41);
+            btLogout.TabIndex = 0;
+            btLogout.Text = "Đăng xuất";
+            btLogout.UseVisualStyleBackColor = true;
+            btLogout.Click += btLogout_Click;
+            // 
             // panel3
             // 
             panel3.BackColor = Color.DarkCyan;
+            panel3.Controls.Add(rbSupplier);
             panel3.Controls.Add(rbMedicine);
             panel3.Controls.Add(rbService);
             panel3.Controls.Add(rbDoctor);
@@ -78,7 +91,7 @@
             panel3.Dock = DockStyle.Left;
             panel3.Location = new Point(0, 56);
             panel3.Name = "panel3";
-            panel3.Size = new Size(200, 489);
+            panel3.Size = new Size(200, 568);
             panel3.TabIndex = 2;
             // 
             // rbMedicine
@@ -241,26 +254,33 @@
             pnContent.Dock = DockStyle.Fill;
             pnContent.Location = new Point(200, 56);
             pnContent.Name = "pnContent";
-            pnContent.Size = new Size(819, 489);
+            pnContent.Size = new Size(819, 568);
             pnContent.TabIndex = 3;
             // 
-            // btLogout
+            // rbSupplier
             // 
-            btLogout.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btLogout.Font = new Font("Segoe UI", 12F);
-            btLogout.Location = new Point(887, 10);
-            btLogout.Name = "btLogout";
-            btLogout.Size = new Size(120, 41);
-            btLogout.TabIndex = 0;
-            btLogout.Text = "Đăng xuất";
-            btLogout.UseVisualStyleBackColor = true;
-            btLogout.Click += btLogout_Click;
+            rbSupplier.Appearance = Appearance.Button;
+            rbSupplier.BackColor = Color.DarkCyan;
+            rbSupplier.FlatAppearance.BorderSize = 0;
+            rbSupplier.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
+            rbSupplier.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
+            rbSupplier.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
+            rbSupplier.FlatStyle = FlatStyle.Flat;
+            rbSupplier.Font = new Font("Segoe UI Semibold", 12F);
+            rbSupplier.ForeColor = Color.White;
+            rbSupplier.Location = new Point(0, 450);
+            rbSupplier.Name = "rbSupplier";
+            rbSupplier.Size = new Size(200, 60);
+            rbSupplier.TabIndex = 9;
+            rbSupplier.Text = "Nhà Cung Cấp";
+            rbSupplier.UseVisualStyleBackColor = false;
+            rbSupplier.CheckedChanged += rbSupplier_CheckedChanged;
             // 
             // Form_Admin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1019, 608);
+            ClientSize = new Size(1019, 687);
             Controls.Add(pnContent);
             Controls.Add(panel3);
             Controls.Add(panel2);
@@ -289,5 +309,6 @@
         private RadioButton rbReceptionist;
         private RadioButton rbPatient;
         private Button btLogout;
+        private RadioButton rbSupplier;
     }
 }

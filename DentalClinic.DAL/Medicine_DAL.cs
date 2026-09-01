@@ -7,11 +7,34 @@ namespace DentalClinic.DAL
 {
     public class Medicine_DAL
     {
-        public List<Medicine> GetAll()
+        public List<Medicine> GetAll(
+    string keyword = "",
+    MedicineStatus? status = null)
         {
             using (var context = new AppDbContext())
             {
-                return context.Medicines.ToList();
+                var query = context.Medicines.AsQueryable();
+
+                // Tìm kiếm theo tên thuốc hoặc đơn vị
+                if (!string.IsNullOrWhiteSpace(keyword))
+                {
+                    string kw = keyword.Trim().ToLower();
+
+                    query = query.Where(m =>
+                        m.MedicineName.ToLower().Contains(kw) ||
+                        m.Unit.ToLower().Contains(kw));
+                }
+
+                // Lọc theo trạng thái
+                if (status.HasValue)
+                {
+                    query = query.Where(
+                        m => m.Status == status.Value);
+                }
+
+                return query
+                    .OrderBy(m => m.MedicineName)
+                    .ToList();
             }
         }
 
@@ -42,7 +65,6 @@ namespace DentalClinic.DAL
                 existing.MedicineName = entity.MedicineName;
                 existing.Unit = entity.Unit;
                 existing.UnitPrice = entity.UnitPrice;
-                existing.QuantityInStock = entity.QuantityInStock;
                 existing.Description = entity.Description;
                 existing.Status = entity.Status;
 

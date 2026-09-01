@@ -39,7 +39,6 @@
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            txtQuantityInStock = new TextBox();
             txtUnitPrice = new TextBox();
             txtUnit = new TextBox();
             txtMedicineName = new TextBox();
@@ -175,15 +174,6 @@
             label7.TabIndex = 21;
             label7.Text = "Mã thuốc:";
             // 
-            // txtQuantityInStock
-            // 
-            txtQuantityInStock.BorderStyle = BorderStyle.FixedSingle;
-            txtQuantityInStock.Font = new Font("Segoe UI", 12F);
-            txtQuantityInStock.Location = new Point(372, 282);
-            txtQuantityInStock.Name = "txtQuantityInStock";
-            txtQuantityInStock.Size = new Size(149, 34);
-            txtQuantityInStock.TabIndex = 4;
-            // 
             // txtUnitPrice
             // 
             txtUnitPrice.BorderStyle = BorderStyle.FixedSingle;
@@ -214,24 +204,24 @@
             // lbQuantityInStock
             // 
             lbQuantityInStock.AutoSize = true;
-            lbQuantityInStock.Font = new Font("Segoe UI Semibold", 12F);
-            lbQuantityInStock.ForeColor = Color.DarkCyan;
+            lbQuantityInStock.Font = new Font("Segoe UI", 12F);
+            lbQuantityInStock.ForeColor = Color.Black;
             lbQuantityInStock.Location = new Point(143, 288);
             lbQuantityInStock.Name = "lbQuantityInStock";
-            lbQuantityInStock.Size = new Size(78, 28);
+            lbQuantityInStock.Size = new Size(80, 28);
             lbQuantityInStock.TabIndex = 26;
-            lbQuantityInStock.Text = "lbStock";
+            lbQuantityInStock.Text = "tồn kho";
             // 
             // lbMedicineId
             // 
             lbMedicineId.AutoSize = true;
-            lbMedicineId.Font = new Font("Segoe UI Semibold", 12F);
-            lbMedicineId.ForeColor = Color.DarkCyan;
+            lbMedicineId.Font = new Font("Segoe UI", 12F);
+            lbMedicineId.ForeColor = Color.Black;
             lbMedicineId.Location = new Point(143, 28);
             lbMedicineId.Name = "lbMedicineId";
-            lbMedicineId.Size = new Size(47, 28);
+            lbMedicineId.Size = new Size(94, 28);
             lbMedicineId.TabIndex = 27;
-            lbMedicineId.Text = "lbId";
+            lbMedicineId.Text = "mã thuốc";
             // 
             // Dialog_Medicine
             // 
@@ -247,7 +237,6 @@
             Controls.Add(txtMedicineName);
             Controls.Add(txtUnit);
             Controls.Add(txtUnitPrice);
-            Controls.Add(txtQuantityInStock);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -284,7 +273,6 @@
         private Label label5;
         private Label label6;
         private Label label7;
-        private TextBox txtQuantityInStock;
         private TextBox txtUnitPrice;
         private TextBox txtUnit;
         private TextBox txtMedicineName;

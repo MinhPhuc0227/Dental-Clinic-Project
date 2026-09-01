@@ -48,10 +48,6 @@ namespace DentalClinic.DTO
         [Range(0, 999_999_999, ErrorMessage = "Đơn giá phải lớn hơn hoặc bằng 0.")]
         public decimal UnitPrice { get; set; }
 
-        [Required(ErrorMessage = "Số lượng tồn không được để trống.")]
-        [Range(0, 100_000, ErrorMessage = "Số lượng tồn phải lớn hơn hoặc bằng 0.")]
-        public int QuantityInStock { get; set; } = 0;
-
         [StringLength(250, ErrorMessage = "Mô tả không được vượt quá 250 ký tự.")]
         public string? Description { get; set; }
 

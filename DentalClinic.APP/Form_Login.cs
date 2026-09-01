@@ -64,7 +64,7 @@ namespace DentalClinic.APP
             switch (userSession.Role)
             {
                 case AccountRole.Admin:
-                    mainForm = new Form_Admin();
+                    mainForm = new Form_Admin(userSession.AccountId);
                     break;
 
                 case AccountRole.Doctor:

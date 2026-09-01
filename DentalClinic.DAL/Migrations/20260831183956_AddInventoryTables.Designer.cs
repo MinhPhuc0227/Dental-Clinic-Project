@@ -4,6 +4,7 @@ using DentalClinic.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalClinic.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260831183956_AddInventoryTables")]
+    partial class AddInventoryTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -400,9 +403,6 @@ namespace DentalClinic.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicineImportId"));
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("ImportDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -412,7 +412,7 @@ namespace DentalClinic.DAL.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("PaymentMethodId")
+                    b.Property<int>("ReceptionistId")
                         .HasColumnType("int");
 
                     b.Property<int>("SupplierId")
@@ -425,9 +425,7 @@ namespace DentalClinic.DAL.Migrations
 
                     b.HasKey("MedicineImportId");
 
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("PaymentMethodId");
+                    b.HasIndex("ReceptionistId");
 
                     b.HasIndex("SupplierId");
 
@@ -718,7 +716,6 @@ namespace DentalClinic.DAL.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -915,15 +912,9 @@ namespace DentalClinic.DAL.Migrations
 
             modelBuilder.Entity("DentalClinic.MODEL.MedicineImport", b =>
                 {
-                    b.HasOne("DentalClinic.MODEL.Account", "Account")
+                    b.HasOne("DentalClinic.MODEL.Receptionist", "Receptionist")
                         .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DentalClinic.MODEL.PaymentMethod", "PaymentMethod")
-                        .WithMany()
-                        .HasForeignKey("PaymentMethodId")
+                        .HasForeignKey("ReceptionistId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -933,9 +924,7 @@ namespace DentalClinic.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Account");
-
-                    b.Navigation("PaymentMethod");
+                    b.Navigation("Receptionist");
 
                     b.Navigation("Supplier");
                 });

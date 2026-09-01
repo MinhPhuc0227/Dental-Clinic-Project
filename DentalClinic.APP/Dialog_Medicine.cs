@@ -19,6 +19,7 @@ namespace DentalClinic.APP
             this.Text = "Thêm mới thuốc";
             _isEdit = false;
             lbMedicineId.Text = "Tự động";
+            lbQuantityInStock.Text = "0";
             LoadStatusComboBox();
         }
 
@@ -33,11 +34,8 @@ namespace DentalClinic.APP
             txtMedicineName.Text = data.MedicineName;
             txtUnit.Text = data.Unit;
             txtUnitPrice.Text = data.UnitPrice.ToString("G29");
-
-            var stockControl = Controls.Find("txtQuantityInStock", true);
-            if (stockControl.Length > 0)
-                stockControl[0].Text = data.QuantityInStock.ToString();
-
+            // Hiển thị tồn kho hiện tại
+            lbQuantityInStock.Text = data.QuantityInStock.ToString();
             txtDescription.Text = data.Description;
             cbStatus.SelectedValue = data.Status;
         }
@@ -87,15 +85,6 @@ namespace DentalClinic.APP
                 return;
             }
 
-            int quantityInStock = 0;
-            var stockControl = Controls.Find("txtQuantityInStock", true);
-            if (stockControl.Length > 0 && !int.TryParse(stockControl[0].Text.Trim(), out quantityInStock))
-            {
-                MessageBox.Show("Số lượng tồn kho phải là số nguyên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                stockControl[0].Focus();
-                return;
-            }
-
             var selectedStatus = cbStatus.SelectedValue != null
                 ? (MedicineStatus)cbStatus.SelectedValue
                 : MedicineStatus.Active;
@@ -109,7 +98,6 @@ namespace DentalClinic.APP
                     MedicineName = txtMedicineName.Text.Trim(),
                     Unit = txtUnit.Text.Trim(),
                     UnitPrice = unitPrice,
-                    QuantityInStock = quantityInStock,
                     Description = txtDescription.Text.Trim(),
                     Status = selectedStatus
                 };
@@ -134,7 +122,6 @@ namespace DentalClinic.APP
                     MedicineName = txtMedicineName.Text.Trim(),
                     Unit = txtUnit.Text.Trim(),
                     UnitPrice = unitPrice,
-                    QuantityInStock = quantityInStock,
                     Description = txtDescription.Text.Trim(),
                     Status = selectedStatus
                 };

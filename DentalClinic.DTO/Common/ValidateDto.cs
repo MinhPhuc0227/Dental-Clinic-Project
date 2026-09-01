@@ -7,16 +7,40 @@ namespace DentalClinic.DTO.Common
 {
     public static class ValidateDto
     {
+        //public static string? Validate<T>(this T dto) where T : class
+        //{
+        //    if (dto == null) return "Dữ liệu không được để trống.";
+
+        //    var context = new ValidationContext(dto);
+        //    var results = new List<ValidationResult>();
+
+        //    if (!Validator.TryValidateObject(dto, context, results, validateAllProperties: true))
+        //    {
+        //        return results.FirstOrDefault()?.ErrorMessage;
+        //    }
+
+        //    return null;
+        //}
+
         public static string? Validate<T>(this T dto) where T : class
         {
-            if (dto == null) return "Dữ liệu không được để trống.";
+            if (dto == null)
+                return "Dữ liệu không được để trống.";
 
             var context = new ValidationContext(dto);
             var results = new List<ValidationResult>();
 
-            if (!Validator.TryValidateObject(dto, context, results, validateAllProperties: true))
+            if (!Validator.TryValidateObject(
+                    dto,
+                    context,
+                    results,
+                    validateAllProperties: true))
             {
-                return results.FirstOrDefault()?.ErrorMessage;
+                return string.Join(
+                    "\n",
+                    results
+                        .Select(r => r.ErrorMessage)
+                        .Where(m => !string.IsNullOrWhiteSpace(m)));
             }
 
             return null;

@@ -1,6 +1,7 @@
 ﻿using DentalClinic.APP.Properties;
 using DentalClinic.BLL;
 using DentalClinic.DTO;
+using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,16 +14,49 @@ namespace DentalClinic.APP
     {
         private readonly Medicine_BLL _bll = new Medicine_BLL();
         private List<MedicineDto> _fullList = new List<MedicineDto>();
+        private readonly int _accountId;
 
-        public UC_Medicine()
+        public UC_Medicine(int accountId)
         {
             InitializeComponent();
+
+            _accountId = accountId;
         }
 
         private void UC_Medicine_Load(object sender, EventArgs e)
         {
             ConfigureDataGridView();
+            LoadStatusComboBox();
             LoadDataToGridView();
+        }
+
+        private void LoadStatusComboBox()
+        {
+            var statusList = new[]
+            {
+        new
+        {
+            Value = (MedicineStatus?)null,
+            Text = "Tất cả"
+        },
+
+        new
+        {
+            Value = (MedicineStatus?)MedicineStatus.Active,
+            Text = "Đang kinh doanh"
+        },
+
+        new
+        {
+            Value = (MedicineStatus?)MedicineStatus.Inactive,
+            Text = "Ngừng kinh doanh"
+        }
+    };
+
+            cbStatus.DataSource = statusList;
+            cbStatus.DisplayMember = "Text";
+            cbStatus.ValueMember = "Value";
+            cbStatus.SelectedIndex = 0;
         }
 
         // Cấu hình DataGridView tự động sinh cột
@@ -34,19 +68,39 @@ namespace DentalClinic.APP
         // Tải dữ liệu lên bảng
         public void LoadDataToGridView()
         {
-            var result = _bll.GetAll();
+            MedicineStatus? status = null;
+
+            if (cbStatus.SelectedValue is MedicineStatus selectedStatus)
+            {
+                status = selectedStatus;
+            }
+
+            var result = _bll.GetAll(
+                txtSearch.Text.Trim(),
+                status);
 
             if (result.IsSuccess && result.Data != null)
             {
                 _fullList = result.Data;
+
+                dgvMedicine.DataSource = null;
                 dgvMedicine.DataSource = _fullList;
 
-                // Thêm 2 cột ImageColumn Sửa và Xóa vào cuối bảng
                 AddActionImageColumns();
+
+                dgvMedicine.Columns["EditCol"].DisplayIndex =
+    dgvMedicine.Columns.Count - 2;
+
+                dgvMedicine.Columns["DeleteCol"].DisplayIndex =
+                    dgvMedicine.Columns.Count - 1;
             }
             else
             {
-                MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    result.Message,
+                    "Thông báo lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -64,6 +118,7 @@ namespace DentalClinic.APP
                     Width = 50,
                     ImageLayout = DataGridViewImageCellLayout.Zoom
                 };
+
                 dgvMedicine.Columns.Add(imgEdit);
             }
 
@@ -78,8 +133,16 @@ namespace DentalClinic.APP
                     Width = 50,
                     ImageLayout = DataGridViewImageCellLayout.Zoom
                 };
+
                 dgvMedicine.Columns.Add(imgDelete);
             }
+
+            // Đưa 2 cột xuống cuối
+            dgvMedicine.Columns["EditCol"].DisplayIndex =
+                dgvMedicine.Columns.Count - 2;
+
+            dgvMedicine.Columns["DeleteCol"].DisplayIndex =
+                dgvMedicine.Columns.Count - 1;
         }
 
         // Nút THÊM MỚI (+ Thêm mới)
@@ -145,18 +208,39 @@ namespace DentalClinic.APP
         }
 
         // Xử lý Tìm kiếm real-time
-        private void txtSearch_TextChanged(object sender, EventArgs e)
+        private void txtSearch_TextChanged(
+    object sender,
+    EventArgs e)
         {
-            string keyword = txtSearch.Text.Trim().ToLower();
-            if (string.IsNullOrEmpty(keyword))
+            LoadDataToGridView();
+        }
+
+        private void btImport_Click(object sender, EventArgs e)
+        {
+            using var dialog =
+        new Dialog_MedicineImport(
+            _accountId);
+
+            if (dialog.ShowDialog(this) ==
+                DialogResult.OK)
             {
-                dgvMedicine.DataSource = _fullList;
+                LoadDataToGridView();
             }
-            else
+        }
+
+        private void btImportHistory_Click(object sender, EventArgs e)
+        {
+            using var dialog =
+        new Dialog_MedicineImportHistory();
+
+            dialog.ShowDialog(this);
+        }
+
+        private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (IsHandleCreated)
             {
-                var filtered = _fullList.Where(m => m.MedicineName.ToLower().Contains(keyword)
-                                                 || m.Unit.ToLower().Contains(keyword)).ToList();
-                dgvMedicine.DataSource = filtered;
+                LoadDataToGridView();
             }
         }
     }

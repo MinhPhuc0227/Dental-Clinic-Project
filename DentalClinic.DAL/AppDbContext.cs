@@ -26,33 +26,56 @@ namespace DentalClinic.DAL
 
         // 1
         public DbSet<Account> Accounts { get; set; }
+
         // 2
         public DbSet<Appointment> Appointments { get; set; }
+
         // 3
         public DbSet<Doctor> Doctors { get; set; }
+
         // 4
         public DbSet<Invoice> Invoices { get; set; }
+
         // 5
         public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
+
         // 6
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
+
         // 7
         public DbSet<MedicalRecordService> MedicalRecordServices { get; set; }
+
         // 8
         public DbSet<Medicine> Medicines { get; set; }
+
         // 9
-        public DbSet<Patient> Patients { get; set; }
+        public DbSet<MedicineImport> MedicineImports { get; set; }
+
         // 10
-        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<MedicineImportDetail> MedicineImportDetails { get; set; }
+
         // 11
-        public DbSet<Prescription> Prescriptions { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+
         // 12
-        public DbSet<PrescriptionDetail> PrescriptionDetails { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+
         // 13
-        public DbSet<Receptionist> Receptionists { get; set; }
+        public DbSet<Prescription> Prescriptions { get; set; }
+
         // 14
-        public DbSet<Service> Services { get; set; }
+        public DbSet<PrescriptionDetail> PrescriptionDetails { get; set; }
+
         // 15
+        public DbSet<Receptionist> Receptionists { get; set; }
+
+        // 16
+        public DbSet<Service> Services { get; set; }
+
+        // 17
+        public DbSet<Supplier> Suppliers { get; set; }
+
+        // 18
         public DbSet<Visit> Visits { get; set; }
 
 
@@ -448,7 +471,97 @@ namespace DentalClinic.DAL
                       .HasDefaultValue(MedicineStatus.Active);
             });
 
-            // 9. Patient
+            // 9. MedicineImport
+            modelBuilder.Entity<MedicineImport>(entity =>
+            {
+                entity.ToTable("MedicineImport");
+
+                // MedicineImportId
+                entity.HasKey(i => i.MedicineImportId);
+
+                // ImportDate
+                entity.Property(i => i.ImportDate)
+                      .IsRequired()
+                      .HasDefaultValueSql("GETDATE()");
+
+                // TotalAmount
+                entity.Property(i => i.TotalAmount)
+                      .HasColumnType("decimal(18,2)")
+                      .HasDefaultValue(0)
+                      .IsRequired();
+
+                // Note
+                entity.Property(i => i.Note)
+                      .HasMaxLength(500)
+                      .IsRequired(false);
+
+                // Relationship 1: Supplier
+                entity.HasOne(i => i.Supplier)
+                      .WithMany(s => s.MedicineImports)
+                      .HasForeignKey(i => i.SupplierId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 2: Account
+                entity.HasOne(i => i.Account)
+                      .WithMany()
+                      .HasForeignKey(i => i.AccountId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 3: PaymentMethod
+                entity.HasOne(i => i.PaymentMethod)
+                      .WithMany()
+                      .HasForeignKey(i => i.PaymentMethodId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 4: MedicineImportDetail
+                entity.HasMany(i => i.MedicineImportDetails)
+                      .WithOne(d => d.MedicineImport)
+                      .HasForeignKey(d => d.MedicineImportId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // 10. MedicineImportDetail
+            modelBuilder.Entity<MedicineImportDetail>(entity =>
+            {
+                entity.ToTable("MedicineImportDetail");
+
+                // MedicineImportDetailId
+                entity.HasKey(d => d.MedicineImportDetailId);
+
+                // Quantity
+                entity.Property(d => d.Quantity)
+                      .IsRequired();
+
+                // UnitImportPrice
+                entity.Property(d => d.UnitImportPrice)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                // TotalAmount
+                entity.Property(d => d.TotalAmount)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                // Relationship 1: MedicineImport
+                entity.HasOne(d => d.MedicineImport)
+                      .WithMany(i => i.MedicineImportDetails)
+                      .HasForeignKey(d => d.MedicineImportId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                // Relationship 2: Medicine
+                entity.HasOne(d => d.Medicine)
+                      .WithMany(m => m.MedicineImportDetails)
+                      .HasForeignKey(d => d.MedicineId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // 11. Patient
             modelBuilder.Entity<Patient>(entity =>
             {
                 entity.ToTable("Patient");
@@ -493,7 +606,7 @@ namespace DentalClinic.DAL
                       .HasMaxLength(1000);
             });
 
-            // 10. PaymentMethod
+            // 12. PaymentMethod
             modelBuilder.Entity<PaymentMethod>(entity =>
             {
                 entity.ToTable("PaymentMethod");
@@ -523,7 +636,7 @@ namespace DentalClinic.DAL
                       .HasDefaultValue(PaymentMethodStatus.Active);
             });
 
-            // 11. Prescription
+            // 13. Prescription
             modelBuilder.Entity<Prescription>(entity =>
             {
                 entity.ToTable("Prescription");
@@ -547,7 +660,7 @@ namespace DentalClinic.DAL
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // 12. PrescriptionDetail
+            // 14. PrescriptionDetail
             modelBuilder.Entity<PrescriptionDetail>(entity =>
             {
                 entity.ToTable("PrescriptionDetail");
@@ -587,7 +700,7 @@ namespace DentalClinic.DAL
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // 13. Receptionist
+            // 15. Receptionist
             modelBuilder.Entity<Receptionist>(entity =>
             {
                 entity.ToTable("Receptionist");
@@ -633,7 +746,7 @@ namespace DentalClinic.DAL
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // 14. Service
+            // 16. Service
             modelBuilder.Entity<Service>(entity =>
             {
                 entity.ToTable("Service");
@@ -664,7 +777,7 @@ namespace DentalClinic.DAL
                       .HasDefaultValue(ServiceStatus.Active);
             });
 
-            // 15. Visit
+            // 17. Visit
             modelBuilder.Entity<Visit>(entity =>
             {
                 entity.ToTable("Visit");
@@ -716,6 +829,45 @@ namespace DentalClinic.DAL
                       .WithMany()
                       .HasForeignKey(v => v.ReceptionistId)
                       .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // 18. Supplier
+            modelBuilder.Entity<Supplier>(entity =>
+            {
+                entity.ToTable("Supplier");
+
+                // SupplierId
+                entity.HasKey(s => s.SupplierId);
+
+                // SupplierName
+                entity.Property(s => s.SupplierName)
+                      .HasMaxLength(200)
+                      .IsRequired();
+
+                // Phone
+                entity.Property(s => s.Phone)
+                      .HasMaxLength(20)
+                      .IsRequired();
+
+                // Address
+                entity.Property(s => s.Address)
+                      .HasMaxLength(300)
+                      .IsRequired(false);
+
+                // Email
+                entity.Property(s => s.Email)
+                      .HasMaxLength(150)
+                      .IsRequired(false);
+
+                // Note
+                entity.Property(s => s.Note)
+                      .HasMaxLength(500)
+                      .IsRequired(false);
+
+                // IsActive
+                entity.Property(s => s.IsActive)
+                      .HasDefaultValue(true)
+                      .IsRequired();
             });
         }
     }

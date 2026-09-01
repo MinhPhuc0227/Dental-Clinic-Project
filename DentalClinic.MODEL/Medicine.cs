@@ -18,5 +18,9 @@ namespace DentalClinic.MODEL
         public int QuantityInStock { get; set; } = 0;
         public string? Description { get; set; }
         public MedicineStatus Status { get; set; } = MedicineStatus.Active;
+
+        // Navigation property
+        public ICollection<MedicineImportDetail> MedicineImportDetails { get; set; }
+            = new List<MedicineImportDetail>();
     }
 }

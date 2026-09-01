@@ -4,6 +4,7 @@ using DentalClinic.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalClinic.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260901051549_AddPaymentMethodToMedicineImport")]
+    partial class AddPaymentMethodToMedicineImport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -400,9 +403,6 @@ namespace DentalClinic.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicineImportId"));
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("ImportDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -415,6 +415,9 @@ namespace DentalClinic.DAL.Migrations
                     b.Property<int>("PaymentMethodId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ReceptionistId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SupplierId")
                         .HasColumnType("int");
 
@@ -425,9 +428,9 @@ namespace DentalClinic.DAL.Migrations
 
                     b.HasKey("MedicineImportId");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("ReceptionistId");
 
                     b.HasIndex("SupplierId");
 
@@ -915,15 +918,15 @@ namespace DentalClinic.DAL.Migrations
 
             modelBuilder.Entity("DentalClinic.MODEL.MedicineImport", b =>
                 {
-                    b.HasOne("DentalClinic.MODEL.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("DentalClinic.MODEL.PaymentMethod", "PaymentMethod")
                         .WithMany()
                         .HasForeignKey("PaymentMethodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DentalClinic.MODEL.Receptionist", "Receptionist")
+                        .WithMany()
+                        .HasForeignKey("ReceptionistId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -933,9 +936,9 @@ namespace DentalClinic.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Account");
-
                     b.Navigation("PaymentMethod");
+
+                    b.Navigation("Receptionist");
 
                     b.Navigation("Supplier");
                 });

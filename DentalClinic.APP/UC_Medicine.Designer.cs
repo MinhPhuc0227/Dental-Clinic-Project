@@ -31,6 +31,10 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btImportHistory = new Button();
+            btImport = new Button();
+            cbStatus = new ComboBox();
+            label2 = new Label();
             label3 = new Label();
             txtSearch = new TextBox();
             btAdd = new Button();
@@ -42,6 +46,10 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btImportHistory);
+            panel1.Controls.Add(btImport);
+            panel1.Controls.Add(cbStatus);
+            panel1.Controls.Add(label2);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(txtSearch);
             panel1.Controls.Add(btAdd);
@@ -49,28 +57,72 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(984, 75);
+            panel1.Size = new Size(984, 240);
             panel1.TabIndex = 0;
+            // 
+            // btImportHistory
+            // 
+            btImportHistory.Location = new Point(312, 162);
+            btImportHistory.Name = "btImportHistory";
+            btImportHistory.Size = new Size(161, 49);
+            btImportHistory.TabIndex = 15;
+            btImportHistory.Text = "Lịch sử nhập kho";
+            btImportHistory.UseVisualStyleBackColor = true;
+            btImportHistory.Click += btImportHistory_Click;
+            // 
+            // btImport
+            // 
+            btImport.Location = new Point(163, 162);
+            btImport.Name = "btImport";
+            btImport.Size = new Size(118, 49);
+            btImport.TabIndex = 14;
+            btImport.Text = "Nhập kho";
+            btImport.UseVisualStyleBackColor = true;
+            btImport.Click += btImport_Click;
+            // 
+            // cbStatus
+            // 
+            cbStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cbStatus.Font = new Font("Segoe UI", 10F);
+            cbStatus.FormattingEnabled = true;
+            cbStatus.Location = new Point(727, 103);
+            cbStatus.Name = "cbStatus";
+            cbStatus.Size = new Size(226, 31);
+            cbStatus.TabIndex = 13;
+            cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Semibold", 12F);
+            label2.ForeColor = Color.DarkCyan;
+            label2.Location = new Point(619, 103);
+            label2.Name = "label2";
+            label2.Size = new Size(102, 28);
+            label2.TabIndex = 12;
+            label2.Text = "Trạng thái";
             // 
             // label3
             // 
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F);
+            label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(610, 21);
+            label3.Location = new Point(18, 101);
             label3.Name = "label3";
-            label3.Size = new Size(91, 28);
+            label3.Size = new Size(97, 28);
             label3.TabIndex = 11;
             label3.Text = "Tìm kiếm";
             // 
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(707, 18);
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
+            txtSearch.Font = new Font("Segoe UI", 10F);
+            txtSearch.Location = new Point(121, 101);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(268, 34);
+            txtSearch.Size = new Size(296, 30);
             txtSearch.TabIndex = 10;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
@@ -79,7 +131,7 @@
             btAdd.FlatAppearance.BorderSize = 0;
             btAdd.Image = Properties.Resources.add;
             btAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btAdd.Location = new Point(262, 13);
+            btAdd.Location = new Point(23, 162);
             btAdd.Name = "btAdd";
             btAdd.Size = new Size(118, 49);
             btAdd.TabIndex = 9;
@@ -93,11 +145,11 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(9, 18);
+            label1.Location = new Point(364, 21);
             label1.Name = "label1";
             label1.Size = new Size(207, 32);
             label1.TabIndex = 8;
-            label1.Text = "Danh mục Thuốc";
+            label1.Text = "QUẢN LÝ THUỐC";
             // 
             // dgvMedicine
             // 
@@ -129,7 +181,7 @@
             dgvMedicine.Dock = DockStyle.Fill;
             dgvMedicine.EnableHeadersVisualStyles = false;
             dgvMedicine.GridColor = Color.DarkCyan;
-            dgvMedicine.Location = new Point(10, 85);
+            dgvMedicine.Location = new Point(10, 250);
             dgvMedicine.MultiSelect = false;
             dgvMedicine.Name = "dgvMedicine";
             dgvMedicine.ReadOnly = true;
@@ -137,7 +189,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMedicine.Size = new Size(984, 461);
+            dgvMedicine.Size = new Size(984, 296);
             dgvMedicine.TabIndex = 4;
             dgvMedicine.CellContentClick += dgvMedicine_CellContentClick;
             // 
@@ -166,5 +218,9 @@
         private TextBox txtSearch;
         private Button btAdd;
         private Label label1;
+        private ComboBox cbStatus;
+        private Label label2;
+        private Button btImportHistory;
+        private Button btImport;
     }
 }

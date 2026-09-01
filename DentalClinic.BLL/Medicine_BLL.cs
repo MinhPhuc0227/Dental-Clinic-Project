@@ -14,27 +14,37 @@ namespace DentalClinic.BLL
         private readonly Medicine_DAL _dal = new Medicine_DAL();
 
         // 1. Lấy tất cả thuốc (Dùng Result<T> để trả về danh sách DTO)
-        public Result<List<MedicineDto>> GetAll()
+        public Result<List<MedicineDto>> GetAll(
+    string keyword = "",
+    MedicineStatus? status = null)
         {
             try
             {
-                var list = _dal.GetAll();
-                var dtoList = list.Select(m => new MedicineDto
-                {
-                    MedicineId = m.MedicineId,
-                    MedicineName = m.MedicineName,
-                    Unit = m.Unit,
-                    UnitPrice = m.UnitPrice,
-                    QuantityInStock = m.QuantityInStock,
-                    Description = m.Description,
-                    Status = m.Status
-                }).ToList();
+                var list =
+                    _dal.GetAll(keyword, status);
 
-                return Result<List<MedicineDto>>.Success(dtoList);
+                var dtoList = list
+                    .Select(m => new MedicineDto
+                    {
+                        MedicineId = m.MedicineId,
+                        MedicineName = m.MedicineName,
+                        Unit = m.Unit,
+                        UnitPrice = m.UnitPrice,
+                        QuantityInStock = m.QuantityInStock,
+                        Description = m.Description,
+                        Status = m.Status
+                    })
+                    .ToList();
+
+                return Result<List<MedicineDto>>
+                    .Success(dtoList);
             }
             catch (Exception ex)
             {
-                return Result<List<MedicineDto>>.Failure("Lỗi khi tải danh sách thuốc: " + ex.Message);
+                return Result<List<MedicineDto>>
+                    .Failure(
+                        "Lỗi khi tải danh sách thuốc: " +
+                        ex.Message);
             }
         }
 
@@ -97,7 +107,7 @@ namespace DentalClinic.BLL
                     MedicineName = dto.MedicineName.Trim(),
                     Unit = dto.Unit.Trim(),
                     UnitPrice = dto.UnitPrice,
-                    QuantityInStock = dto.QuantityInStock,
+                    QuantityInStock = 0,
                     Description = dto.Description?.Trim(),
                     Status = dto.Status
                 };
@@ -135,7 +145,6 @@ namespace DentalClinic.BLL
                     MedicineName = dto.MedicineName.Trim(),
                     Unit = dto.Unit.Trim(),
                     UnitPrice = dto.UnitPrice,
-                    QuantityInStock = dto.QuantityInStock,
                     Description = dto.Description?.Trim(),
                     Status = dto.Status
                 };

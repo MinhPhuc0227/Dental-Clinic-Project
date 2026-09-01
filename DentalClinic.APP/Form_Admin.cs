@@ -46,6 +46,8 @@ namespace DentalClinic.App
 
         private void Admin_Form_Load(object sender, EventArgs e)
         {
+            ShowUC(dashboardUC);
+            dashboardUC.LoadDashboard();
         }
 
         private void ShowUC(UserControl uc)
@@ -64,7 +66,8 @@ namespace DentalClinic.App
             if (rbDashBoard.Checked)
             {
                 ShowUC(dashboardUC);
-                // dashboardUC.LoadDataToGridView(); // Gọi nếu Dashboard có hàm load dữ liệu
+
+                dashboardUC.LoadDashboard();
             }
         }
 

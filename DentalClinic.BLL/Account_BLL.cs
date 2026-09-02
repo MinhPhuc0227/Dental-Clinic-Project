@@ -37,6 +37,66 @@ namespace DentalClinic.BLL
             }
         }
 
+        // CREATE ADMIN
+        public Result CreateAdmin(string userName, string password)
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                return Result.Failure(
+                    "Tên đăng nhập không được để trống.");
+            }
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                return Result.Failure(
+                    "Mật khẩu không được để trống.");
+            }
+
+            userName = userName.Trim();
+            password = password.Trim();
+
+            if (userName.Length < 4 || userName.Length > 50)
+            {
+                return Result.Failure(
+                    "Tên đăng nhập phải từ 4 đến 50 ký tự.");
+            }
+
+            if (password.Length < 6)
+            {
+                return Result.Failure(
+                    "Mật khẩu phải có ít nhất 6 ký tự.");
+            }
+
+            if (_dal.IsUserNameExists(userName))
+            {
+                return Result.Failure(
+                    "Tên đăng nhập này đã tồn tại.");
+            }
+
+            try
+            {
+                var account = new Account
+                {
+                    UserName = userName,
+                    Password = PasswordHelper.HashPassword(password),
+                    Role = AccountRole.Admin,
+                    Status = AccountStatus.Active,
+                    CreatedDate = DateTime.Now
+                };
+
+                bool success = _dal.Create(account);
+
+                return success
+                    ? Result.Success("Tạo tài khoản Admin thành công!")
+                    : Result.Failure("Tạo tài khoản Admin thất bại.");
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(
+                    "Lỗi hệ thống: " + ex.Message);
+            }
+        }
+
         // Update
         public Result Update(UpdateAccountDto dto)
         {

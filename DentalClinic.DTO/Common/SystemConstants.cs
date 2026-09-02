@@ -7,7 +7,7 @@ namespace DentalClinic.BLL.Common
     public static class SystemConstants
     {
         // LỊCH HẸN 
-        // Độ dài mặc định 1 ca khám
+        // Độ dài mặc định 1 ca khám 
         public const int DefaultSlotDurationMinutes = 30;
         // Số ngày đặt trước tối đa
         public const int MaxAdvanceBookingDays = 30;
@@ -26,13 +26,8 @@ namespace DentalClinic.BLL.Common
         public const int AllowedEarlyCheckInMinutes = 30; 
         public const int AllowedLateCheckInMinutes = 30;
 
-        // KHO THUỐC
         // Ngưỡng cảnh báo sắp hết hàng
-        //public const int LowStockThreshold = 10;
-        // Ngưỡng cảnh báo cận date
-        //public const int ExpiryWarningDays = 30;
+        public const int LowStockThreshold = 10;
 
-        // KHÁC
-        //public const decimal VATRate = 0.08m; // VAT 8%
     }
 }

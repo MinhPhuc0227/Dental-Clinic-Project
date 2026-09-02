@@ -65,7 +65,6 @@ namespace DentalClinic.APP
 
             cbSupplier.SelectedIndex = -1;
             cbMedicine.SelectedIndex = -1;
-            cbPaymentMethod.SelectedIndex = -1;
 
             txtCurrentStock.Text = "0";
         }
@@ -166,17 +165,22 @@ namespace DentalClinic.APP
             var methods =
                 _invoiceBLL.GetPaymentMethods();
 
-            cbPaymentMethod.DataSource =
-                methods;
+            cbPaymentMethod.DataSource = null;
 
-            cbPaymentMethod.DisplayMember =
-                "PaymentMethodName";
+            cbPaymentMethod.DisplayMember = "PaymentMethodName";
+            cbPaymentMethod.ValueMember = "PaymentMethodId";
+            cbPaymentMethod.DataSource = methods;
 
-            cbPaymentMethod.ValueMember =
-                "PaymentMethodId";
-
-            cbPaymentMethod.SelectedIndex =
-                -1;
+            if (methods.Count > 0)
+            {
+                // Có phương thức → chọn phương thức đầu tiên
+                cbPaymentMethod.SelectedIndex = 0;
+            }
+            else
+            {
+                // Không có phương thức → để trống
+                cbPaymentMethod.SelectedIndex = -1;
+            }
         }
 
         private void cbMedicine_SelectedIndexChanged(

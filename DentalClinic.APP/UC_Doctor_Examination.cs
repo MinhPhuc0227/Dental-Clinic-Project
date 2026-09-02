@@ -48,6 +48,16 @@ namespace DentalClinic.APP
 
             InitPrescriptionAndServiceFeatures();
             LoadServiceAndMedicineData();
+
+            nudServiceQuantity.Value = 1;
+
+            // Chọn toàn bộ số khi NumericUpDown nhận focus
+            nudServiceQuantity.Enter += NumericUpDown_Enter;
+            nudMorning.Enter += NumericUpDown_Enter;
+            nudNoon.Enter += NumericUpDown_Enter;
+            nudAfternoon.Enter += NumericUpDown_Enter;
+            nudEvening.Enter += NumericUpDown_Enter;
+            nudDays.Enter += NumericUpDown_Enter;
         }
 
         private void SetupDataGridView(DataGridView dgv, string btnColName, string btnText)
@@ -367,6 +377,10 @@ namespace DentalClinic.APP
 
             dgvService.Refresh();
             CalculateTotal();
+
+            nudServiceQuantity.Value = 1;
+            cbService.SelectedIndex = -1;
+            cbService.Focus();
         }
 
         private void btAddMedicine_Click(object sender, EventArgs e)
@@ -792,6 +806,24 @@ namespace DentalClinic.APP
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+            }
+        }
+
+        private void NumericUpDown_Enter(object sender, EventArgs e)
+        {
+            if (sender is NumericUpDown nud)
+            {
+                BeginInvoke(new Action(() =>
+                {
+                    var textBox = nud.Controls
+                        .OfType<TextBox>()
+                        .FirstOrDefault();
+
+                    if (textBox != null)
+                    {
+                        textBox.SelectAll();
+                    }
+                }));
             }
         }
     }

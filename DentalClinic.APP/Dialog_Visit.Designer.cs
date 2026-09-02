@@ -41,14 +41,12 @@
             label3 = new Label();
             label2 = new Label();
             btSave = new Button();
-            label1 = new Label();
             lbAppointmentId = new Label();
             lbVisitId = new Label();
             lbQueueNumber = new Label();
             label8 = new Label();
             cbDoctor = new ComboBox();
             label9 = new Label();
-            txtPhone = new TextBox();
             SuspendLayout();
             // 
             // lbCheckInDateTime
@@ -56,7 +54,7 @@
             lbCheckInDateTime.AutoSize = true;
             lbCheckInDateTime.Font = new Font("Segoe UI Semibold", 12F);
             lbCheckInDateTime.ForeColor = Color.DarkCyan;
-            lbCheckInDateTime.Location = new Point(230, 402);
+            lbCheckInDateTime.Location = new Point(230, 358);
             lbCheckInDateTime.Name = "lbCheckInDateTime";
             lbCheckInDateTime.Size = new Size(186, 28);
             lbCheckInDateTime.TabIndex = 95;
@@ -67,7 +65,7 @@
             lbStatus.AutoSize = true;
             lbStatus.Font = new Font("Segoe UI Semibold", 12F);
             lbStatus.ForeColor = Color.DarkCyan;
-            lbStatus.Location = new Point(230, 444);
+            lbStatus.Location = new Point(230, 400);
             lbStatus.Name = "lbStatus";
             lbStatus.Size = new Size(193, 28);
             lbStatus.TabIndex = 94;
@@ -134,7 +132,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 12F);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(32, 402);
+            label4.Location = new Point(32, 358);
             label4.Name = "label4";
             label4.Size = new Size(190, 28);
             label4.TabIndex = 82;
@@ -144,7 +142,7 @@
             // 
             txtReasonForVisit.BorderStyle = BorderStyle.FixedSingle;
             txtReasonForVisit.Font = new Font("Segoe UI", 10F);
-            txtReasonForVisit.Location = new Point(194, 155);
+            txtReasonForVisit.Location = new Point(194, 111);
             txtReasonForVisit.Multiline = true;
             txtReasonForVisit.Name = "txtReasonForVisit";
             txtReasonForVisit.ScrollBars = ScrollBars.Vertical;
@@ -158,7 +156,7 @@
             btCancel.FlatStyle = FlatStyle.Flat;
             btCancel.Font = new Font("Segoe UI Semibold", 12F);
             btCancel.ForeColor = Color.White;
-            btCancel.Location = new Point(335, 566);
+            btCancel.Location = new Point(335, 522);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
             btCancel.TabIndex = 77;
@@ -171,7 +169,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(32, 155);
+            label3.Location = new Point(32, 111);
             label3.Name = "label3";
             label3.Size = new Size(118, 28);
             label3.TabIndex = 81;
@@ -182,7 +180,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(32, 444);
+            label2.Location = new Point(32, 400);
             label2.Name = "label2";
             label2.Size = new Size(102, 28);
             label2.TabIndex = 80;
@@ -195,7 +193,7 @@
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
-            btSave.Location = new Point(442, 566);
+            btSave.Location = new Point(442, 522);
             btSave.Name = "btSave";
             btSave.Size = new Size(107, 40);
             btSave.TabIndex = 78;
@@ -203,23 +201,12 @@
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 12F);
-            label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(32, 106);
-            label1.Name = "label1";
-            label1.Size = new Size(48, 28);
-            label1.TabIndex = 79;
-            label1.Text = "SĐT";
-            // 
             // lbAppointmentId
             // 
             lbAppointmentId.AutoSize = true;
             lbAppointmentId.Font = new Font("Segoe UI Semibold", 12F);
             lbAppointmentId.ForeColor = Color.DarkCyan;
-            lbAppointmentId.Location = new Point(230, 360);
+            lbAppointmentId.Location = new Point(230, 316);
             lbAppointmentId.Name = "lbAppointmentId";
             lbAppointmentId.Size = new Size(84, 28);
             lbAppointmentId.TabIndex = 96;
@@ -230,7 +217,7 @@
             lbVisitId.AutoSize = true;
             lbVisitId.Font = new Font("Segoe UI Semibold", 12F);
             lbVisitId.ForeColor = Color.DarkCyan;
-            lbVisitId.Location = new Point(32, 360);
+            lbVisitId.Location = new Point(32, 316);
             lbVisitId.Name = "lbVisitId";
             lbVisitId.Size = new Size(139, 28);
             lbVisitId.TabIndex = 85;
@@ -241,7 +228,7 @@
             lbQueueNumber.AutoSize = true;
             lbQueueNumber.Font = new Font("Segoe UI Semibold", 12F);
             lbQueueNumber.ForeColor = Color.DarkCyan;
-            lbQueueNumber.Location = new Point(230, 505);
+            lbQueueNumber.Location = new Point(230, 461);
             lbQueueNumber.Name = "lbQueueNumber";
             lbQueueNumber.Size = new Size(95, 28);
             lbQueueNumber.TabIndex = 98;
@@ -252,7 +239,7 @@
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 12F);
             label8.ForeColor = Color.DarkCyan;
-            label8.Location = new Point(32, 505);
+            label8.Location = new Point(32, 461);
             label8.Name = "label8";
             label8.Size = new Size(97, 28);
             label8.TabIndex = 97;
@@ -263,7 +250,7 @@
             cbDoctor.DropDownStyle = ComboBoxStyle.DropDownList;
             cbDoctor.Font = new Font("Segoe UI", 10F);
             cbDoctor.FormattingEnabled = true;
-            cbDoctor.Location = new Point(194, 295);
+            cbDoctor.Location = new Point(194, 251);
             cbDoctor.Name = "cbDoctor";
             cbDoctor.Size = new Size(355, 31);
             cbDoctor.TabIndex = 100;
@@ -273,27 +260,18 @@
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Semibold", 12F);
             label9.ForeColor = Color.DarkCyan;
-            label9.Location = new Point(32, 296);
+            label9.Location = new Point(32, 252);
             label9.Name = "label9";
             label9.Size = new Size(63, 28);
             label9.TabIndex = 99;
             label9.Text = "Bác sĩ";
-            // 
-            // txtPhone
-            // 
-            txtPhone.Font = new Font("Segoe UI", 10F);
-            txtPhone.Location = new Point(195, 114);
-            txtPhone.Name = "txtPhone";
-            txtPhone.Size = new Size(354, 30);
-            txtPhone.TabIndex = 101;
             // 
             // Dialog_Visit
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(585, 618);
-            Controls.Add(txtPhone);
+            ClientSize = new Size(585, 588);
             Controls.Add(cbDoctor);
             Controls.Add(label9);
             Controls.Add(lbQueueNumber);
@@ -313,7 +291,6 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(btSave);
-            Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Dialog_Visit";
             StartPosition = FormStartPosition.CenterParent;
@@ -338,13 +315,11 @@
         private Label label3;
         private Label label2;
         private Button btSave;
-        private Label label1;
         private Label lbAppointmentId;
         private Label lbVisitId;
         private Label lbQueueNumber;
         private Label label8;
         private ComboBox cbDoctor;
         private Label label9;
-        private TextBox txtPhone;
     }
 }

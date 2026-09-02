@@ -35,19 +35,21 @@
             txtSearch = new TextBox();
             label1 = new Label();
             dgvAccount = new DataGridView();
+            btCreateAdmin = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvAccount).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(btCreateAdmin);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(txtSearch);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(984, 75);
+            panel1.Size = new Size(984, 130);
             panel1.TabIndex = 0;
             // 
             // label3
@@ -56,7 +58,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(600, 21);
+            label3.Location = new Point(602, 82);
             label3.Name = "label3";
             label3.Size = new Size(91, 28);
             label3.TabIndex = 11;
@@ -66,7 +68,7 @@
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(697, 18);
+            txtSearch.Location = new Point(699, 79);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(268, 34);
             txtSearch.TabIndex = 10;
@@ -77,7 +79,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(19, 18);
+            label1.Location = new Point(313, 16);
             label1.Name = "label1";
             label1.Size = new Size(324, 32);
             label1.TabIndex = 8;
@@ -113,7 +115,7 @@
             dgvAccount.Dock = DockStyle.Fill;
             dgvAccount.EnableHeadersVisualStyles = false;
             dgvAccount.GridColor = Color.DarkCyan;
-            dgvAccount.Location = new Point(10, 85);
+            dgvAccount.Location = new Point(10, 140);
             dgvAccount.MultiSelect = false;
             dgvAccount.Name = "dgvAccount";
             dgvAccount.ReadOnly = true;
@@ -121,9 +123,20 @@
             dgvAccount.RowHeadersWidth = 51;
             dgvAccount.RowTemplate.Height = 38;
             dgvAccount.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAccount.Size = new Size(984, 461);
+            dgvAccount.Size = new Size(984, 406);
             dgvAccount.TabIndex = 4;
             dgvAccount.CellContentClick += dgvAccount_CellContentClick;
+            // 
+            // btCreateAdmin
+            // 
+            btCreateAdmin.Font = new Font("Segoe UI", 10F);
+            btCreateAdmin.Location = new Point(19, 68);
+            btCreateAdmin.Name = "btCreateAdmin";
+            btCreateAdmin.Size = new Size(182, 45);
+            btCreateAdmin.TabIndex = 12;
+            btCreateAdmin.Text = "Tạo tài khoản Admin";
+            btCreateAdmin.UseVisualStyleBackColor = true;
+            btCreateAdmin.Click += btCreateAdmin_Click;
             // 
             // UC_Account
             // 
@@ -151,5 +164,6 @@
         private Label label3;
         private TextBox txtSearch;
         private Label label1;
+        private Button btCreateAdmin;
     }
 }

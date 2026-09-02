@@ -144,5 +144,16 @@ namespace DentalClinic.APP
                 dgvAccount.DataSource = filtered;
             }
         }
+
+        private void btCreateAdmin_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new Dialog_Admin())
+            {
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    LoadDataToGridView();
+                }
+            }
+        }
     }
 }

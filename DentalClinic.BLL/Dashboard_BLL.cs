@@ -1,4 +1,5 @@
-﻿using DentalClinic.DAL;
+﻿using DentalClinic.BLL.Common;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using System;
@@ -124,7 +125,7 @@ namespace DentalClinic.BLL
 
         public Result<List<DashboardLowStockDto>>
             GetLowStockMedicines(
-                int threshold = 10)
+                int threshold = SystemConstants.LowStockThreshold)
         {
             try
             {

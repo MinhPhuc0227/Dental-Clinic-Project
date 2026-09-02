@@ -38,6 +38,7 @@
             DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             pnLeft = new Panel();
             pnPatientInfo = new Panel();
+            btCancelVisit = new Button();
             btViewMedicalHistory = new Button();
             lbAppointmentNote = new Label();
             label10 = new Label();
@@ -104,7 +105,6 @@
             label15 = new Label();
             label16 = new Label();
             label18 = new Label();
-            btCancelVisit = new Button();
             pnLeft.SuspendLayout();
             pnPatientInfo.SuspendLayout();
             pnWaitingQueue.SuspendLayout();
@@ -165,6 +165,18 @@
             pnPatientInfo.Name = "pnPatientInfo";
             pnPatientInfo.Size = new Size(619, 362);
             pnPatientInfo.TabIndex = 1;
+            // 
+            // btCancelVisit
+            // 
+            btCancelVisit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btCancelVisit.Font = new Font("Segoe UI", 10F);
+            btCancelVisit.Location = new Point(471, 293);
+            btCancelVisit.Name = "btCancelVisit";
+            btCancelVisit.Size = new Size(112, 46);
+            btCancelVisit.TabIndex = 46;
+            btCancelVisit.Text = "Hủy khám";
+            btCancelVisit.UseVisualStyleBackColor = true;
+            btCancelVisit.Click += btCancelVisit_Click;
             // 
             // btViewMedicalHistory
             // 
@@ -584,10 +596,10 @@
             tpMedicine.BackColor = Color.White;
             tpMedicine.Controls.Add(dgvMedicine);
             tpMedicine.Controls.Add(panel8);
-            tpMedicine.Location = new Point(4, 29);
+            tpMedicine.Location = new Point(4, 37);
             tpMedicine.Name = "tpMedicine";
             tpMedicine.Padding = new Padding(3);
-            tpMedicine.Size = new Size(922, 420);
+            tpMedicine.Size = new Size(922, 412);
             tpMedicine.TabIndex = 1;
             tpMedicine.Text = "Thuốc";
             // 
@@ -628,7 +640,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvMedicine.Size = new Size(916, 191);
+            dgvMedicine.Size = new Size(916, 183);
             dgvMedicine.TabIndex = 8;
             dgvMedicine.CellClick += dgvMedicine_CellClick;
             dgvMedicine.CellEndEdit += dgvMedicine_CellEndEdit;
@@ -1027,18 +1039,6 @@
             label18.Size = new Size(115, 28);
             label18.TabIndex = 39;
             label18.Text = "Chẩn đoán:";
-            // 
-            // btCancelVisit
-            // 
-            btCancelVisit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btCancelVisit.Font = new Font("Segoe UI", 10F);
-            btCancelVisit.Location = new Point(471, 293);
-            btCancelVisit.Name = "btCancelVisit";
-            btCancelVisit.Size = new Size(112, 46);
-            btCancelVisit.TabIndex = 46;
-            btCancelVisit.Text = "Hủy khám";
-            btCancelVisit.UseVisualStyleBackColor = true;
-            btCancelVisit.Click += btCancelVisit_Click;
             // 
             // UC_Doctor_Examination
             // 

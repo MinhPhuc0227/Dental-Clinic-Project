@@ -1,4 +1,5 @@
-﻿using DentalClinic.DTO;
+﻿using DentalClinic.BLL.Common;
+using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -249,7 +250,7 @@ namespace DentalClinic.DAL
 
         public List<DashboardLowStockDto>
             GetLowStockMedicines(
-                int threshold = 10)
+                int threshold = SystemConstants.LowStockThreshold)
         {
             return _context.Medicines
                 .AsNoTracking()

@@ -313,17 +313,28 @@ namespace DentalClinic.APP
                 return;
             }
 
-            // 8. Thành công
-            MessageBox.Show(
-                "Thanh toán hóa đơn thành công!",
-                "Thông báo",
-                MessageBoxButtons.OK,
+            // 8. Thanh toán thành công
+            var printConfirm = MessageBox.Show(
+                "Thanh toán hóa đơn thành công!\n\nBạn có muốn in hóa đơn không?",
+                "Thanh toán thành công",
+                MessageBoxButtons.YesNo,
                 MessageBoxIcon.Information);
 
-            // 9. Load lại danh sách
+            // 9. Nếu chọn Yes → mở Dialog_InvoiceDetail
+            if (printConfirm == DialogResult.Yes)
+            {
+                using var detailDialog = new Dialog_InvoiceDetail(
+                    _currentInvoiceId,
+                    _currentReceptionistId,
+                    _currentReceptionistName);
+
+                detailDialog.ShowDialog(this);
+            }
+
+            // 10. Load lại danh sách
             LoadWaitingList(txtSearch.Text.Trim());
 
-            // 10. Reset
+            // 11. Reset giao diện
             ClearPatientInfo();
 
             _selectedPaymentMethodId = 0;

@@ -37,6 +37,16 @@ namespace DentalClinic.DAL
             }
         }
 
+        // CREATE
+        public bool Create(Account entity)
+        {
+            using (var context = new AppDbContext())
+            {
+                context.Accounts.Add(entity);
+                return context.SaveChanges() > 0;
+            }
+        }
+
         // UPDATE
         public bool Update(Account entity, bool updatePassword)
         {

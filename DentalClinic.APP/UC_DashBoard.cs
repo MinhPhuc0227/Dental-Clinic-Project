@@ -434,8 +434,7 @@ namespace DentalClinic.APP
         private void LoadLowStock()
         {
             var result =
-                _dashboardBLL.GetLowStockMedicines(
-                    10);
+    _dashboardBLL.GetLowStockMedicines();
 
             if (!result.IsSuccess)
                 return;

@@ -31,7 +31,7 @@ namespace DentalClinic.App
             _currentAccountId = accountId;
 
             dashboardUC = new UC_DashBoard();
-            accountUC = new UC_Account();
+            accountUC = new UC_Account(_currentAccountId);
             doctorUC = new UC_Doctor();
             receptionistUC = new UC_Receptionist();
             patientUC = new UC_Patient();

@@ -49,6 +49,44 @@ namespace DentalClinic.BLL
             }
         }
 
+        public Result<DoctorDto> GetById(int doctorId)
+        {
+            try
+            {
+                var doctor = _dal.GetById(doctorId);
+
+                if (doctor == null)
+                {
+                    return Result<DoctorDto>.Failure(
+                        "Không tìm thấy hồ sơ bác sĩ.");
+                }
+
+                var dto = new DoctorDto
+                {
+                    DoctorId = doctor.DoctorId,
+                    FullName = doctor.FullName,
+                    Gender = doctor.Gender,
+                    DateOfBirth = doctor.DateOfBirth,
+                    Phone = doctor.Phone,
+                    Email = doctor.Email,
+                    Description = doctor.Description,
+                    ProfileImage = doctor.ProfileImage,
+
+                    AccountId = doctor.AccountId,
+                    UserName = doctor.Account?.UserName ?? string.Empty,
+                    Status = doctor.Account?.Status ?? AccountStatus.Active,
+                    CreatedAt = doctor.Account?.CreatedDate ?? DateTime.Now
+                };
+
+                return Result<DoctorDto>.Success(dto);
+            }
+            catch (Exception ex)
+            {
+                return Result<DoctorDto>.Failure(
+                    "Lỗi tải hồ sơ bác sĩ: " + ex.Message);
+            }
+        }
+
         public Doctor? GetDoctorByAccountId(int accountId)
         {
             return _dal.GetDoctorByAccountId(accountId);

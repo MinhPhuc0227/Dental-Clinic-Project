@@ -12,9 +12,12 @@ namespace DentalClinic.DAL
         // GetAll
         public List<Account> GetAll()
         {
-            using (var context = new AppDbContext()) 
+            using (var context = new AppDbContext())
             {
-                return context.Accounts.ToList();
+                return context.Accounts
+                    .Include(a => a.Doctor)
+                    .Include(a => a.Receptionist)
+                    .ToList();
             }
         }
 

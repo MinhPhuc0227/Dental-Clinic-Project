@@ -43,6 +43,43 @@ namespace DentalClinic.BLL
             }
         }
 
+        public Result<ReceptionistDto> GetById(int receptionistId)
+        {
+            try
+            {
+                var receptionist = _dal.GetById(receptionistId);
+
+                if (receptionist == null)
+                {
+                    return Result<ReceptionistDto>.Failure(
+                        "Không tìm thấy hồ sơ lễ tân.");
+                }
+
+                var dto = new ReceptionistDto
+                {
+                    ReceptionistId = receptionist.ReceptionistId,
+                    FullName = receptionist.FullName,
+                    Gender = receptionist.Gender,
+                    DateOfBirth = receptionist.DateOfBirth,
+                    Phone = receptionist.Phone,
+                    Email = receptionist.Email,
+                    Description = receptionist.Description,
+
+                    AccountId = receptionist.AccountId,
+                    UserName = receptionist.Account?.UserName ?? string.Empty,
+                    Status = receptionist.Account?.Status ?? AccountStatus.Active,
+                    CreatedAt = receptionist.Account?.CreatedDate ?? DateTime.Now
+                };
+
+                return Result<ReceptionistDto>.Success(dto);
+            }
+            catch (Exception ex)
+            {
+                return Result<ReceptionistDto>.Failure(
+                    "Lỗi tải hồ sơ lễ tân: " + ex.Message);
+            }
+        }
+
         public Receptionist? GetReceptionistByAccountId(int accountId)
         {
             return _dal.GetReceptionistByAccountId(accountId);

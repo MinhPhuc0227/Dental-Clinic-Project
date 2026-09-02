@@ -14,11 +14,15 @@ namespace DentalClinic.APP
     public partial class Dialog_Account : Form
     {
         private readonly Account_BLL _bll = new Account_BLL();
+        private readonly int _currentAccountId;
         public AccountDto? AccountData { get; private set; }
 
-        public Dialog_Account(AccountDto data)
+        public Dialog_Account(AccountDto data, int currentAccountId)
         {
             InitializeComponent();
+
+            _currentAccountId = currentAccountId;
+
             txtPassword.UseSystemPasswordChar = true;
             this.Text = "Chỉnh sửa tài khoản";
             AccountData = data;
@@ -89,7 +93,20 @@ namespace DentalClinic.APP
                 Status = selectedStatus
             };
 
-            var result = _bll.Update(updateDto);
+            if (updateDto.AccountId == _currentAccountId &&
+    updateDto.Status != AccountStatus.Active)
+            {
+                MessageBox.Show(
+                    "Bạn không thể khóa hoặc ngừng hoạt động tài khoản đang đăng nhập.",
+                    "Không thể thực hiện",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                cbStatus.SelectedValue = AccountStatus.Active;
+                return;
+            }
+
+            var result = _bll.Update(updateDto, _currentAccountId);
             if (!result.IsSuccess)
             {
                 MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);

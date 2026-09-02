@@ -28,20 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btCreateAdmin = new Button();
             label3 = new Label();
             txtSearch = new TextBox();
             label1 = new Label();
             dgvAccount = new DataGridView();
-            btCreateAdmin = new Button();
+            cbRole = new ComboBox();
+            label2 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvAccount).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(cbRole);
             panel1.Controls.Add(btCreateAdmin);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(txtSearch);
@@ -52,25 +56,37 @@
             panel1.Size = new Size(984, 130);
             panel1.TabIndex = 0;
             // 
+            // btCreateAdmin
+            // 
+            btCreateAdmin.Font = new Font("Segoe UI", 10F);
+            btCreateAdmin.Location = new Point(19, 68);
+            btCreateAdmin.Name = "btCreateAdmin";
+            btCreateAdmin.Size = new Size(182, 45);
+            btCreateAdmin.TabIndex = 12;
+            btCreateAdmin.Text = "Tạo tài khoản Admin";
+            btCreateAdmin.UseVisualStyleBackColor = true;
+            btCreateAdmin.Click += btCreateAdmin_Click;
+            // 
             // label3
             // 
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F);
+            label3.Font = new Font("Segoe UI Semibold", 10F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(602, 82);
+            label3.Location = new Point(613, 84);
             label3.Name = "label3";
-            label3.Size = new Size(91, 28);
+            label3.Size = new Size(80, 23);
             label3.TabIndex = 11;
             label3.Text = "Tìm kiếm";
             // 
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearch.Font = new Font("Segoe UI", 12F);
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
+            txtSearch.Font = new Font("Segoe UI", 10F);
             txtSearch.Location = new Point(699, 79);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(268, 34);
+            txtSearch.Size = new Size(268, 30);
             txtSearch.TabIndex = 10;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
@@ -95,23 +111,23 @@
             dgvAccount.BorderStyle = BorderStyle.None;
             dgvAccount.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvAccount.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvAccount.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvAccount.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvAccount.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvAccount.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvAccount.DefaultCellStyle = dataGridViewCellStyle2;
             dgvAccount.Dock = DockStyle.Fill;
             dgvAccount.EnableHeadersVisualStyles = false;
             dgvAccount.GridColor = Color.DarkCyan;
@@ -127,16 +143,27 @@
             dgvAccount.TabIndex = 4;
             dgvAccount.CellContentClick += dgvAccount_CellContentClick;
             // 
-            // btCreateAdmin
+            // cbRole
             // 
-            btCreateAdmin.Font = new Font("Segoe UI", 10F);
-            btCreateAdmin.Location = new Point(19, 68);
-            btCreateAdmin.Name = "btCreateAdmin";
-            btCreateAdmin.Size = new Size(182, 45);
-            btCreateAdmin.TabIndex = 12;
-            btCreateAdmin.Text = "Tạo tài khoản Admin";
-            btCreateAdmin.UseVisualStyleBackColor = true;
-            btCreateAdmin.Click += btCreateAdmin_Click;
+            cbRole.Font = new Font("Segoe UI", 10F);
+            cbRole.FormattingEnabled = true;
+            cbRole.Location = new Point(363, 78);
+            cbRole.Name = "cbRole";
+            cbRole.Size = new Size(186, 31);
+            cbRole.TabIndex = 13;
+            cbRole.SelectedIndexChanged += cbRole_SelectedIndexChanged;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Semibold", 10F);
+            label2.ForeColor = Color.DarkCyan;
+            label2.Location = new Point(293, 84);
+            label2.Name = "label2";
+            label2.Size = new Size(64, 23);
+            label2.TabIndex = 14;
+            label2.Text = "Vai trò:";
             // 
             // UC_Account
             // 
@@ -165,5 +192,7 @@
         private TextBox txtSearch;
         private Label label1;
         private Button btCreateAdmin;
+        private Label label2;
+        private ComboBox cbRole;
     }
 }

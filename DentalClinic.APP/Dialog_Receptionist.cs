@@ -31,27 +31,89 @@ namespace DentalClinic.APP
             LoadComboBoxes();
         }
 
-        public Dialog_Receptionist(ReceptionistDto data) : this()
+        //public Dialog_Receptionist(ReceptionistDto data) : this()
+        //{
+        //    this.Text = "Chỉnh sửa thông tin lễ tân";
+        //    pnAccount.Enabled = false;
+        //    txtPassword.UseSystemPasswordChar = true;
+        //    _isEdit = true;
+        //    ReceptionistData = data;
+
+        //    lbReceptionistId.Text = data.ReceptionistId.ToString();
+        //    txtFullName.Text = data.FullName;
+        //    cbGender.SelectedValue = data.Gender;
+        //    dtpDateOfBirth.Value = data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
+        //    txtPhone.Text = data.Phone;
+        //    txtEmail.Text = data.Email;
+        //    txtDescription.Text = data.Description;
+
+        //    lbAccountId.Text = data.AccountId.ToString();
+        //    txtUserName.Text = data.UserName;
+        //    txtPassword.Text = string.Empty;
+        //    cbStatus.SelectedValue = data.Status;
+        //    lbCreatedDate.Text = data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
+        //}
+
+        private readonly bool _viewOnly = false;
+        public Dialog_Receptionist(
+    ReceptionistDto data,
+    bool viewOnly = false) : this()
         {
-            this.Text = "Chỉnh sửa thông tin lễ tân";
+            this.Text = viewOnly
+                ? "Thông tin lễ tân"
+                : "Chỉnh sửa thông tin lễ tân";
+
+            _viewOnly = viewOnly;
+
             pnAccount.Enabled = false;
-            txtPassword.UseSystemPasswordChar = true;
+
             _isEdit = true;
             ReceptionistData = data;
 
-            lbReceptionistId.Text = data.ReceptionistId.ToString();
+            lbReceptionistId.Text =
+                data.ReceptionistId.ToString();
+
             txtFullName.Text = data.FullName;
             cbGender.SelectedValue = data.Gender;
-            dtpDateOfBirth.Value = data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
+            dtpDateOfBirth.Value =
+                data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
+
             txtPhone.Text = data.Phone;
             txtEmail.Text = data.Email;
             txtDescription.Text = data.Description;
 
-            lbAccountId.Text = data.AccountId.ToString();
+            lbAccountId.Text =
+                data.AccountId.ToString();
+
             txtUserName.Text = data.UserName;
             txtPassword.Text = string.Empty;
-            cbStatus.SelectedValue = data.Status;
-            lbCreatedDate.Text = data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
+
+            cbStatus.SelectedValue =
+                data.Status;
+
+            lbCreatedDate.Text =
+                data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
+
+            if (viewOnly)
+            {
+                SetViewOnly();
+            }
+        }
+
+        private void SetViewOnly()
+        {
+            txtFullName.ReadOnly = true;
+            txtPhone.ReadOnly = true;
+            txtEmail.ReadOnly = true;
+            txtDescription.ReadOnly = true;
+
+            cbGender.Enabled = false;
+            dtpDateOfBirth.Enabled = false;
+            cbStatus.Enabled = false;
+
+            txtUserName.ReadOnly = true;
+
+            btSave.Visible = false;
         }
 
         // Load gender, role, status combo box

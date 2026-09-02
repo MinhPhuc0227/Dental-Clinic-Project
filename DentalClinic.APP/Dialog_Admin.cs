@@ -7,17 +7,20 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Admin : Form
     {
-        private readonly Account_BLL _accountBLL =
-            new Account_BLL();
+        private readonly Account_BLL _bll = new Account_BLL();
 
         public Dialog_Admin()
         {
             InitializeComponent();
 
-            StartPosition = FormStartPosition.CenterParent;
+            txtPassword.UseSystemPasswordChar = true;
+
+            this.Text = "Tạo tài khoản Admin";
+
+            LoadComboBoxes();
         }
 
-        private void Dialog_Admin_Load(object sender, EventArgs e)
+        private void LoadComboBoxes()
         {
             // Vai trò: chỉ có Admin
             cbRole.DataSource = new[]
@@ -25,47 +28,59 @@ namespace DentalClinic.APP
                 new
                 {
                     Value = AccountRole.Admin,
-                    Text = "Quản trị viên"
+                    Display = "Quản trị viên"
                 }
             };
 
-            cbRole.DisplayMember = "Text";
+            cbRole.DisplayMember = "Display";
             cbRole.ValueMember = "Value";
+
             cbRole.SelectedIndex = 0;
             cbRole.Enabled = false;
 
-            // Trạng thái mặc định: Hoạt động
-            cbStatus.DataSource = Enum.GetValues<AccountStatus>();
-            cbStatus.SelectedItem = AccountStatus.Active;
+            // Trạng thái
+            cbStatus.DataSource = new[]
+            {
+                new
+                {
+                    Value = AccountStatus.Active,
+                    Display = "Hoạt động"
+                },
+                new
+                {
+                    Value = AccountStatus.Inactive,
+                    Display = "Ngừng hoạt động"
+                },
+                new
+                {
+                    Value = AccountStatus.Locked,
+                    Display = "Đã khóa"
+                }
+            };
 
-            // Mật khẩu được che
-            txtPassword.UseSystemPasswordChar = true;
+            cbStatus.DisplayMember = "Display";
+            cbStatus.ValueMember = "Value";
+
+            // Mặc định tài khoản mới là Hoạt động
+            cbStatus.SelectedValue = AccountStatus.Active;
         }
 
-        private void chkShowPassword_CheckedChanged(
-            object sender,
-            EventArgs e)
+        private void Dialog_Admin_Load(object sender, EventArgs e)
         {
-            txtPassword.UseSystemPasswordChar =
-                !chkShowPassword.Checked;
+            txtUserName.Focus();
         }
 
-        private void btCancel_Click(
-            object sender,
-            EventArgs e)
+        private void btCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
-        private void btSave_Click(
-            object sender,
-            EventArgs e)
+        private void btSave_Click(object sender, EventArgs e)
         {
             string userName = txtUserName.Text.Trim();
             string password = txtPassword.Text.Trim();
 
-            // Kiểm tra cơ bản
             if (string.IsNullOrWhiteSpace(userName))
             {
                 MessageBox.Show(
@@ -90,10 +105,9 @@ namespace DentalClinic.APP
                 return;
             }
 
-            var result =
-                _accountBLL.CreateAdmin(
-                    userName,
-                    password);
+            var result = _bll.CreateAdmin(
+                userName,
+                password);
 
             if (!result.IsSuccess)
             {
@@ -114,6 +128,14 @@ namespace DentalClinic.APP
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void chkShowPassword_CheckedChanged(
+            object sender,
+            EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar =
+                !chkShowPassword.Checked;
         }
     }
 }

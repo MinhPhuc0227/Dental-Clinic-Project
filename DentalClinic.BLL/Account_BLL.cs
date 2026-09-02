@@ -23,6 +23,15 @@ namespace DentalClinic.BLL
                 var dtoList = list.Select(a => new AccountDto
                 {
                     AccountId = a.AccountId,
+
+                    DoctorId = a.Doctor?.DoctorId,
+                    ReceptionistId = a.Receptionist?.ReceptionistId,
+
+                    FullName =
+        a.Doctor?.FullName
+        ?? a.Receptionist?.FullName
+        ?? "",
+
                     UserName = a.UserName,
                     Role = a.Role,
                     Status = a.Status,
@@ -98,7 +107,7 @@ namespace DentalClinic.BLL
         }
 
         // Update
-        public Result Update(UpdateAccountDto dto)
+        public Result Update(UpdateAccountDto dto, int currentAccountId)
         {
             var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError))
@@ -111,6 +120,21 @@ namespace DentalClinic.BLL
             if (currentAccount == null)
             {
                 return Result.Failure("Tài khoản không tồn tại trên hệ thống.");
+            }
+
+            if (dto.AccountId == currentAccountId &&
+    dto.Status != AccountStatus.Active)
+            {
+                return Result.Failure(
+                    "Không thể khóa hoặc ngừng hoạt động tài khoản đang đăng nhập.");
+            }
+
+            // Không cho tự khóa hoặc tự ngừng hoạt động
+            if (dto.AccountId == currentAccountId &&
+                dto.Status != AccountStatus.Active)
+            {
+                return Result.Failure(
+                    "Không thể khóa hoặc ngừng hoạt động tài khoản đang đăng nhập.");
             }
 
             if (currentAccount.Role != dto.Role)

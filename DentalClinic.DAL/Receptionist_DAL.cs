@@ -8,67 +8,57 @@ namespace DentalClinic.DAL
 {
     public class Receptionist_DAL
     {
+        private readonly AppDbContext _context;
+
+        public Receptionist_DAL(AppDbContext context)
+        {
+            _context = context;
+        }
+
         // GetAll
         public List<Receptionist> GetAll()
         {
-            using (var context = new AppDbContext())
-            {
-                return context.Receptionists.Include(r => r.Account).ToList();
-            }
+                return _context.Receptionists.Include(r => r.Account).ToList();
         }
 
         // GetById
         public Receptionist? GetById(int receptionistId)
         {
-            using (var context = new AppDbContext())
-            {
-                return context.Receptionists.Include(r => r.Account).FirstOrDefault(r => r.ReceptionistId == receptionistId);
-            }
+            return _context.Receptionists.Include(r => r.Account).FirstOrDefault(r => r.ReceptionistId == receptionistId);
         }
 
         public Receptionist? GetReceptionistByAccountId(int accountId)
         {
-            using (var context = new AppDbContext())
-            {
-                return context.Receptionists.FirstOrDefault(d => d.AccountId == accountId);
-            }
+            return _context.Receptionists.FirstOrDefault(d => d.AccountId == accountId);
         }
 
         // Check if username exists (excludeAccountId) - for Updating
         public bool IsUserNameExists(string userName, int excludeAccountId = 0)
         {
-            using (var context = new AppDbContext())
-            {
-                return context.Accounts.Any(a => a.UserName.ToLower() == userName.ToLower() && a.AccountId != excludeAccountId);
-            }
+                return _context.Accounts.Any(a => a.UserName.ToLower() == userName.ToLower() && a.AccountId != excludeAccountId);
         }
 
         // Check if phone exists (excludeReceptionistId, active account) - for Updating
         public bool IsPhoneExists(string phone, int excludeReceptionistId = 0)
         {
-            using (var context = new AppDbContext())
-            {
-                bool isReceptionistPhoneExist = context.Receptionists.Any(d => d.Phone == phone && d.ReceptionistId != excludeReceptionistId);
-                bool isDoctorPhoneExist = context.Doctors.Any(r => r.Phone == phone);
+                bool isReceptionistPhoneExist = _context.Receptionists.Any(d => d.Phone == phone && d.ReceptionistId != excludeReceptionistId);
+                bool isDoctorPhoneExist = _context.Doctors.Any(r => r.Phone == phone);
                 return isReceptionistPhoneExist || isDoctorPhoneExist;
-            }
         }
 
         // Add receptionist + account with transaction
         public bool AddWithAccount(Account accountEntity, Receptionist receptionistEntity)
         {
-            using (var context = new AppDbContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = _context.Database.BeginTransaction())
                 {
                     try
                     {
-                        context.Accounts.Add(accountEntity);
-                        context.SaveChanges();
+                        _context.Accounts.Add(accountEntity);
+                        _context.SaveChanges();
 
                         receptionistEntity.AccountId = accountEntity.AccountId;
-                        context.Receptionists.Add(receptionistEntity);
-                        context.SaveChanges();
+                        _context.Receptionists.Add(receptionistEntity);
+                        _context.SaveChanges();
 
                         transaction.Commit();
                         return true;
@@ -79,20 +69,17 @@ namespace DentalClinic.DAL
                         throw;
                     }
                 }
-            }
         }
 
         // Update receptionist + account with transaction
         public bool UpdateWithAccount(Receptionist receptionistEntity, Account accountEntity, bool updatePassword)
         {
-            using (var context = new AppDbContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = _context.Database.BeginTransaction())
                 {
                     try
                     {
-                        var existingRec = context.Receptionists.FirstOrDefault(r => r.ReceptionistId == receptionistEntity.ReceptionistId);
-                        var existingAcc = context.Accounts.FirstOrDefault(a => a.AccountId == accountEntity.AccountId);
+                        var existingRec = _context.Receptionists.FirstOrDefault(r => r.ReceptionistId == receptionistEntity.ReceptionistId);
+                        var existingAcc = _context.Accounts.FirstOrDefault(a => a.AccountId == accountEntity.AccountId);
 
                         if (existingRec == null || existingAcc == null) return false;
 
@@ -110,7 +97,7 @@ namespace DentalClinic.DAL
                             existingAcc.Password = accountEntity.Password;
                         }
 
-                        context.SaveChanges();
+                        _context.SaveChanges();
                         transaction.Commit();
                         return true;
                     }
@@ -120,27 +107,24 @@ namespace DentalClinic.DAL
                         throw;
                     }
                 }
-            }
         }
 
         // Delete receptionist + account with transaction 
         public bool DeleteWithAccount(int receptionistId)
         {
-            using (var context = new AppDbContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = _context.Database.BeginTransaction())
                 {
                     try
                     {
-                        var receptionist = context.Receptionists.FirstOrDefault(r => r.ReceptionistId == receptionistId);
+                        var receptionist = _context.Receptionists.FirstOrDefault(r => r.ReceptionistId == receptionistId);
                         if (receptionist == null) return false;
 
-                        var account = context.Accounts.FirstOrDefault(a => a.AccountId == receptionist.AccountId);
+                        var account = _context.Accounts.FirstOrDefault(a => a.AccountId == receptionist.AccountId);
 
-                        context.Receptionists.Remove(receptionist);
-                        if (account != null) context.Accounts.Remove(account);
+                        _context.Receptionists.Remove(receptionist);
+                        if (account != null) _context.Accounts.Remove(account);
 
-                        context.SaveChanges();
+                        _context.SaveChanges();
                         transaction.Commit();
                         return true;
                     }
@@ -150,7 +134,6 @@ namespace DentalClinic.DAL
                         throw;
                     }
                 }
-            }
         }
     }
 }

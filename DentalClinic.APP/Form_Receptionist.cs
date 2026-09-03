@@ -1,6 +1,7 @@
 ﻿using DentalClinic.BLL;
 using DentalClinic.DAL;
 using DentalClinic.MODEL;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,22 +26,34 @@ namespace DentalClinic.APP
         private UC_Receptionist_InvoiceList InvoiceListUC;
 
         // 3. Khai báo BLL
-        private readonly Receptionist_BLL _receptionistBLL = new Receptionist_BLL();
-        private readonly Visit_BLL _visitBLL = new Visit_BLL(new Visit_DAL(new AppDbContext()));
-
+        private readonly Receptionist_BLL _receptionistBLL;
+        private readonly Visit_BLL _visitBLL;
         private readonly Appointment_BLL _appointmentBLL;
 
-        public Form_Receptionist(int accountId, string receptionistName)
+        // dependency injection
+        private readonly IServiceProvider _serviceProvider;
+
+        public Form_Receptionist(
+    int accountId,
+    string receptionistName,
+    Receptionist_BLL receptionistBLL,
+    Visit_BLL visitBLL,
+    Appointment_BLL appointmentBLL,
+    IServiceProvider serviceProvider)
         {
             InitializeComponent();
 
-            _appointmentBLL = new Appointment_BLL(new Appointment_DAL(new AppDbContext()), _visitBLL);
+            _receptionistBLL = receptionistBLL;
+            _visitBLL = visitBLL;
+            _appointmentBLL = appointmentBLL;
+            _serviceProvider = serviceProvider;
 
-            var receptionist = _receptionistBLL.GetReceptionistByAccountId(accountId);
+            var receptionist =
+                _receptionistBLL.GetReceptionistByAccountId(accountId);
 
             if (receptionist != null)
             {
-                _currentReceptionistId = receptionist.ReceptionistId; // Lấy đúng ID = 1 của bảng Receptionist
+                _currentReceptionistId = receptionist.ReceptionistId;
                 _currentReceptionistName = receptionist.FullName;
             }
             else
@@ -49,13 +62,34 @@ namespace DentalClinic.APP
                 _currentReceptionistName = receptionistName;
             }
 
-            // 4. Khởi tạo UC và truyền chính xác ID, Tên động vào
-            AppointmentUC = new UC_Receptionist_Appointment(_appointmentBLL, _currentReceptionistId, _currentReceptionistName);
-            WaitingQueueUC = new UC_Receptionist_WaitingQueue(_visitBLL);
-            VisitUC = new UC_Receptionist_Visit(_visitBLL, _currentReceptionistId);
-            InvoiceUC = new UC_Receptionist_Invoice(_currentReceptionistId, _currentReceptionistName);
-            InvoiceListUC = new UC_Receptionist_InvoiceList(_currentReceptionistId, _currentReceptionistName);
-            InvoiceListUC.InvoiceChanged += InvoiceListUC_InvoiceChanged;
+            AppointmentUC = new UC_Receptionist_Appointment(
+    _appointmentBLL,
+    _visitBLL,
+    _serviceProvider,
+    _currentReceptionistId,
+    _currentReceptionistName);
+
+            WaitingQueueUC =
+                new UC_Receptionist_WaitingQueue(
+                    _visitBLL);
+
+            VisitUC = new UC_Receptionist_Visit(
+    _visitBLL,
+    _serviceProvider,
+    _currentReceptionistId);
+
+            InvoiceUC = ActivatorUtilities.CreateInstance<UC_Receptionist_Invoice>(
+    _serviceProvider,
+    _currentReceptionistId,
+    _currentReceptionistName);
+
+            InvoiceListUC = ActivatorUtilities.CreateInstance<UC_Receptionist_InvoiceList>(
+    _serviceProvider,
+    _currentReceptionistId,
+    _currentReceptionistName);
+
+            InvoiceListUC.InvoiceChanged +=
+                InvoiceListUC_InvoiceChanged;
 
             this.Text = $"Lễ tân: {_currentReceptionistName}";
 

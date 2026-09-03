@@ -12,7 +12,12 @@ namespace DentalClinic.BLL
 {
     public class Account_BLL
     {
-        private readonly Account_DAL _dal = new Account_DAL();
+        private readonly Account_DAL _dal;
+
+        public Account_BLL(Account_DAL dal)
+        {
+            _dal = dal;
+        }
 
         // GetAll
         public Result<List<AccountDto>> GetAll()
@@ -120,13 +125,6 @@ namespace DentalClinic.BLL
             if (currentAccount == null)
             {
                 return Result.Failure("Tài khoản không tồn tại trên hệ thống.");
-            }
-
-            if (dto.AccountId == currentAccountId &&
-    dto.Status != AccountStatus.Active)
-            {
-                return Result.Failure(
-                    "Không thể khóa hoặc ngừng hoạt động tài khoản đang đăng nhập.");
             }
 
             // Không cho tự khóa hoặc tự ngừng hoạt động

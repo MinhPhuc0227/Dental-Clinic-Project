@@ -13,12 +13,13 @@ namespace DentalClinic.APP
 {
     public partial class UC_Patient : UserControl
     {
-        private readonly Patient_BLL _bll = new Patient_BLL();
+        private readonly Patient_BLL _patientBLL;
         private List<PatientDto> _fullList = new List<PatientDto>();
 
-        public UC_Patient()
+        public UC_Patient(Patient_BLL patientBLL)
         {
             InitializeComponent();
+            _patientBLL = patientBLL;
         }
 
         private void UC_Patient_Load(object sender, EventArgs e)
@@ -30,7 +31,7 @@ namespace DentalClinic.APP
         // Load data to datagridview
         public void LoadDataToGridView()
         {
-            var result = _bll.GetAll();
+            var result = _patientBLL.GetAll();
             if (result.IsSuccess && result.Data != null)
             {
                 _fullList = result.Data;
@@ -76,7 +77,7 @@ namespace DentalClinic.APP
         // Add button
         private void btAdd_Click(object sender, EventArgs e)
         {
-            using (var dialog = new Dialog_Patient())
+            using (var dialog = new Dialog_Patient(_patientBLL))
             {
                 if (dialog.ShowDialog() == DialogResult.OK) LoadDataToGridView();
             }
@@ -94,7 +95,7 @@ namespace DentalClinic.APP
 
             if (colName == "EditCol")
             {
-                using (var dialog = new Dialog_Patient(selectedDto))
+                using (var dialog = new Dialog_Patient(_patientBLL, selectedDto))
                 {
                     if (dialog.ShowDialog() == DialogResult.OK) LoadDataToGridView();
                 }
@@ -104,7 +105,7 @@ namespace DentalClinic.APP
                 var confirm = MessageBox.Show($"Bạn có chắc muốn xóa bệnh nhân '{selectedDto.FullName}'?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirm == DialogResult.Yes)
                 {
-                    var result = _bll.Delete(selectedDto.PatientId);
+                    var result = _patientBLL.Delete(selectedDto.PatientId);
                     if (result.IsSuccess)
                     {
                         MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

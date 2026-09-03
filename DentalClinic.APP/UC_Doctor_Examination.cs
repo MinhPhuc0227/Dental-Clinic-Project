@@ -15,10 +15,10 @@ namespace DentalClinic.APP
     public partial class UC_Doctor_Examination : UserControl
     {
         private readonly Visit_BLL _visitBLL;
-        private readonly Service_BLL _serviceBLL = new Service_BLL();
-        private readonly Medicine_BLL _medicineBLL = new Medicine_BLL();
-        private readonly MedicalRecord_BLL _medicalRecordBLL = new MedicalRecord_BLL(new MedicalRecord_DAL(new AppDbContext()));
-        private readonly Invoice_BLL _invoiceBLL = new Invoice_BLL();
+        private readonly Service_BLL _serviceBLL;
+        private readonly Medicine_BLL _medicineBLL;
+        private readonly MedicalRecord_BLL _medicalRecordBLL;
+        private readonly Invoice_BLL _invoiceBLL;
         private readonly int _doctorId;
         private int _currentVisitId = 0;
 
@@ -30,11 +30,22 @@ namespace DentalClinic.APP
         private Dictionary<int, decimal> _servicePrices = new Dictionary<int, decimal>();
         private Dictionary<int, decimal> _medicinePrices = new Dictionary<int, decimal>();
 
-        public UC_Doctor_Examination(Visit_BLL visitBLL, int doctorId)
+        public UC_Doctor_Examination(
+    Visit_BLL visitBLL,
+    int doctorId,
+    Service_BLL serviceBLL,
+    Medicine_BLL medicineBLL,
+    MedicalRecord_BLL medicalRecordBLL,
+    Invoice_BLL invoiceBLL)
         {
             InitializeComponent();
+
             _visitBLL = visitBLL;
             _doctorId = doctorId;
+            _serviceBLL = serviceBLL;
+            _medicineBLL = medicineBLL;
+            _medicalRecordBLL = medicalRecordBLL;
+            _invoiceBLL = invoiceBLL;
         }
 
         private void UC_Doctor_Examination_Load(object sender, EventArgs e)
@@ -678,7 +689,7 @@ namespace DentalClinic.APP
 
         private void btViewMedicalHistory_Click(object sender, EventArgs e)
         {
-            Dialog_PatientHistory diaglog = new Dialog_PatientHistory(_currentVisitId, lbFullName.Text);
+            Dialog_PatientHistory diaglog = new Dialog_PatientHistory(_medicalRecordBLL, _currentVisitId, lbFullName.Text);
             diaglog.ShowDialog();
         }
 

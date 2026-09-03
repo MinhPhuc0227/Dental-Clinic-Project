@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
@@ -13,16 +14,17 @@ namespace DentalClinic.APP
 {
     public partial class UC_Receptionist_InvoiceList : UserControl
     {
-        private readonly Invoice_BLL _bll = new Invoice_BLL();
+        private readonly Invoice_BLL _invoiceBLL;
         private readonly int _currentReceptionistId;
         private readonly string _currentReceptionistName;
         public event EventHandler? InvoiceChanged;
 
-        public UC_Receptionist_InvoiceList(int receptionistId, string receptionistName)
+        public UC_Receptionist_InvoiceList(int receptionistId, string receptionistName, Invoice_BLL invoiceBLL)
         {
             InitializeComponent();
             _currentReceptionistId = receptionistId;
             _currentReceptionistName = receptionistName;
+            _invoiceBLL = invoiceBLL;
         }
 
         private void UC_Receptionist_InvoiceList_Load(object sender, EventArgs e)
@@ -117,7 +119,7 @@ namespace DentalClinic.APP
                 status = InvoiceStatus.Cancelled;
 
             dgvInvoiceList.DataSource =
-                _bll.GetAllInvoices(
+                _invoiceBLL.GetAllInvoices(
                     dtpStart.Value,
                     dtpEnd.Value,
                     status);
@@ -144,6 +146,7 @@ namespace DentalClinic.APP
 
             using var detailDialog =
                 new Dialog_InvoiceDetail(
+                    _invoiceBLL,
                     invoice.InvoiceId,
                     _currentReceptionistId,
                     _currentReceptionistName);

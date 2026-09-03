@@ -11,13 +11,6 @@ namespace DentalClinic.BLL
     {
         private readonly MedicineImport_DAL _dal;
 
-        public MedicineImport_BLL()
-            : this(
-                new MedicineImport_DAL(
-                    new AppDbContext()))
-        {
-        }
-
         public MedicineImport_BLL(
             MedicineImport_DAL dal)
         {

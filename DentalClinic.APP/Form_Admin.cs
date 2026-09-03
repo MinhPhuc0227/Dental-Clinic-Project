@@ -1,5 +1,7 @@
 ﻿using DentalClinic.APP;
+using DentalClinic.BLL;
 using DentalClinic.MODEL;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,24 +26,53 @@ namespace DentalClinic.App
         private UC_PaymentMethod paymentUC;
         private UC_Supplier supplierUC;
 
-        public Form_Admin(int accountId)
+        // Dependency Injection
+        private readonly IServiceProvider _serviceProvider;
+
+        // BLL
+        private readonly Dashboard_BLL _dashboardBLL;
+        private readonly Account_BLL _accountBLL;
+
+        public Form_Admin(
+    int accountId,
+    Dashboard_BLL dashboardBLL,
+    Account_BLL accountBLL,
+    IServiceProvider serviceProvider)
         {
             InitializeComponent();
 
             _currentAccountId = accountId;
+            _dashboardBLL = dashboardBLL;
+            _accountBLL = accountBLL;
+            _serviceProvider = serviceProvider;
 
-            dashboardUC = new UC_DashBoard();
-            accountUC = new UC_Account(_currentAccountId);
-            doctorUC = new UC_Doctor();
-            receptionistUC = new UC_Receptionist();
-            patientUC = new UC_Patient();
-            serviceUC = new UC_Service();
+            dashboardUC = new UC_DashBoard(_dashboardBLL);
 
-            // Truyền AccountId của Admin đang đăng nhập
-            medicineUC = new UC_Medicine(_currentAccountId);
+            accountUC = ActivatorUtilities.CreateInstance<UC_Account>(
+    _serviceProvider,
+    _currentAccountId);
 
-            paymentUC = new UC_PaymentMethod();
-            supplierUC = new UC_Supplier();
+            doctorUC = ActivatorUtilities.CreateInstance<UC_Doctor>(
+    _serviceProvider);
+
+            receptionistUC = ActivatorUtilities.CreateInstance<UC_Receptionist>(
+                _serviceProvider);
+
+            patientUC = ActivatorUtilities.CreateInstance<UC_Patient>(
+                _serviceProvider);
+
+            serviceUC = ActivatorUtilities.CreateInstance<UC_Service>(
+                _serviceProvider);
+
+            medicineUC = ActivatorUtilities.CreateInstance<UC_Medicine>(
+                _serviceProvider,
+                _currentAccountId);
+
+            paymentUC = ActivatorUtilities.CreateInstance<UC_PaymentMethod>(
+                _serviceProvider);
+
+            supplierUC = ActivatorUtilities.CreateInstance<UC_Supplier>(
+                _serviceProvider);
         }
 
         private void Admin_Form_Load(object sender, EventArgs e)

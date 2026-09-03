@@ -10,17 +10,15 @@ namespace DentalClinic.APP
     {
         private readonly int _visitId;
 
-        private readonly MedicalRecord_BLL _medicalRecordBLL =
-            new MedicalRecord_BLL(
-                new MedicalRecord_DAL(
-                    new AppDbContext()));
+        private readonly MedicalRecord_BLL _medicalRecordBLL;
 
         public Dialog_PatientHistory(
+            MedicalRecord_BLL medicalRecordBLL,
             int visitId,
             string patientName)
         {
             InitializeComponent();
-
+            _medicalRecordBLL = medicalRecordBLL;
             _visitId = visitId;
 
             Text = $"Lịch sử khám - {patientName}";

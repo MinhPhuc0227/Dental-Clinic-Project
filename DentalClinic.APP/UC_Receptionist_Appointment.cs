@@ -3,6 +3,7 @@ using DentalClinic.BLL.Common;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,14 +16,28 @@ namespace DentalClinic.APP
 {
     public partial class UC_Receptionist_Appointment : UserControl
     {
-        private readonly Appointment_BLL _appointmentBLL;
         private readonly int _currentReceptionistId;
         private readonly string _currentReceptionistName;
 
-        public UC_Receptionist_Appointment(Appointment_BLL appointmentBLL, int receptionistId, string receptionistName)
+        // Dependency Injection
+        private readonly IServiceProvider _serviceProvider;
+
+        // BLL
+        private readonly Appointment_BLL _appointmentBLL;
+        private readonly Visit_BLL _visitBLL;
+
+        public UC_Receptionist_Appointment(
+    Appointment_BLL appointmentBLL,
+    Visit_BLL visitBLL,
+    IServiceProvider serviceProvider,
+    int receptionistId,
+    string receptionistName)
         {
             InitializeComponent();
+
             _appointmentBLL = appointmentBLL;
+            _visitBLL = visitBLL;
+            _serviceProvider = serviceProvider;
             _currentReceptionistId = receptionistId;
             _currentReceptionistName = receptionistName;
         }
@@ -139,7 +154,10 @@ namespace DentalClinic.APP
 
         private void btAdd_Click(object? sender, EventArgs e)
         {
-            using (var dialog = new Dialog_Appointment(_appointmentBLL, _currentReceptionistId, _currentReceptionistName, null))
+            using (var dialog = ActivatorUtilities.CreateInstance<Dialog_Appointment>(
+    _serviceProvider,
+    _currentReceptionistId,
+    _currentReceptionistName))
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -179,8 +197,7 @@ namespace DentalClinic.APP
                         }
 
                         // --- 2. KIỂM TRA QUÁ TẢI ---
-                        var visitBLL = new Visit_BLL();
-                        if (visitBLL.IsDoctorOverloaded(dto.DoctorId))
+                        if (_visitBLL.IsDoctorOverloaded(dto.DoctorId))
                         {
                             var confirmOverload = MessageBox.Show(
                                 $"Bác sĩ này hôm nay đã có từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên.\n\nXác nhận đưa bệnh nhân {dto.PatientName} vào hàng chờ?",
@@ -211,7 +228,11 @@ namespace DentalClinic.APP
                     // Xử lý khi nhấn Sửa
                     else if (columnName == "colEdit")
                     {
-                        using (var dialog = new Dialog_Appointment(_appointmentBLL, _currentReceptionistId, _currentReceptionistName, dto.AppointmentId))
+                        using (var dialog = ActivatorUtilities.CreateInstance<Dialog_Appointment>(
+    _serviceProvider,
+    _currentReceptionistId,
+    _currentReceptionistName,
+    dto.AppointmentId))
                         {
                             if (dialog.ShowDialog() == DialogResult.OK)
                             {

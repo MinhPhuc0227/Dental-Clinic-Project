@@ -15,16 +15,27 @@ namespace DentalClinic.APP
 {
     public partial class UC_Account : UserControl
     {
-        private readonly Account_BLL _bll = new Account_BLL();
-        private readonly Doctor_BLL _doctorBLL = new Doctor_BLL(new Doctor_DAL(new AppDbContext()));
-        private readonly Receptionist_BLL _receptionistBLL = new Receptionist_BLL();
+        // Khai báo biến lưu danh sách đầy đủ các tài khoản
         private List<AccountDto> _fullList = new List<AccountDto>();
         private readonly int _currentAccountId;
 
-        public UC_Account(int currentAccountId)
+        // Khởi tạo BLL
+        private readonly Account_BLL _accountBLL;
+        private readonly Doctor_BLL _doctorBLL;
+        private readonly Receptionist_BLL _receptionistBLL;
+
+        public UC_Account(
+    int currentAccountId,
+    Account_BLL accountBLL,
+    Receptionist_BLL receptionistBLL,
+    Doctor_BLL doctorBLL)
         {
             InitializeComponent();
+
             _currentAccountId = currentAccountId;
+            _accountBLL = accountBLL;
+            _receptionistBLL = receptionistBLL;
+            _doctorBLL = doctorBLL;
         }
 
         private void UC_Account_Load(object sender, EventArgs e)
@@ -43,7 +54,7 @@ namespace DentalClinic.APP
         // Load data to datagridview
         public void LoadDataToGridView()
         {
-            var result = _bll.GetAll();
+            var result = _accountBLL.GetAll();
 
             if (result.IsSuccess && result.Data != null)
             {
@@ -139,10 +150,10 @@ namespace DentalClinic.APP
                         return;
                     }
 
-                    using var dialog =
-                        new Dialog_Doctor(
-                            result.Data,
-                            true);
+                    using var dialog = new Dialog_Doctor(
+    _doctorBLL,
+    result.Data,
+    true);
 
                     dialog.ShowDialog(this);
                 }
@@ -166,10 +177,10 @@ namespace DentalClinic.APP
                         return;
                     }
 
-                    using var dialog =
-                        new Dialog_Receptionist(
-                            result.Data,
-                            true);
+                    using var dialog = new Dialog_Receptionist(
+    _receptionistBLL,
+    result.Data,
+    true);
 
                     dialog.ShowDialog(this);
                 }
@@ -188,7 +199,7 @@ namespace DentalClinic.APP
             // EDIT
             else if (colName == "EditCol")
             {
-                using (var dialog = new Dialog_Account(selectedDto, _currentAccountId))
+                using (var dialog = new Dialog_Account(selectedDto, _currentAccountId, _accountBLL))
                 {
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
@@ -220,7 +231,7 @@ namespace DentalClinic.APP
 
                 if (confirm == DialogResult.Yes)
                 {
-                    var result = _bll.Delete(selectedDto.AccountId);
+                    var result = _accountBLL.Delete(selectedDto.AccountId);
 
                     if (result.IsSuccess)
                     {
@@ -252,7 +263,7 @@ namespace DentalClinic.APP
 
         private void btCreateAdmin_Click(object sender, EventArgs e)
         {
-            using (var dialog = new Dialog_Admin())
+            using (var dialog = new Dialog_Admin(_accountBLL))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {

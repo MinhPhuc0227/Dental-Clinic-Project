@@ -6,40 +6,16 @@ using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
 using System.Text;
+
 namespace DentalClinic.BLL
-
 {
-
     public class Visit_BLL
-
     {
-
-        // Trong file Visit_BLL.cs
-
-        // 1. Khai báo biến _visitDAL
-
         private readonly Visit_DAL _visitDAL;
 
-
-
-        // 2. Constructor nhận DAL từ ngoài truyền vào
-
         public Visit_BLL(Visit_DAL visitDAL)
-
         {
-
             _visitDAL = visitDAL;
-
-        }
-
-
-
-        // Tùy chọn: Constructor không tham số (Giúp bạn gọi new Visit_BLL() ở Form cho ngắn gọn)
-
-        public Visit_BLL() : this(new Visit_DAL(new AppDbContext()))
-
-        {
-
         }
 
         public Result<List<WaitingQueueDto>> GetWaitingQueue(DateTime date, string keyword, int? doctorId, VisitStatus? status)

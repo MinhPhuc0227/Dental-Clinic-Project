@@ -7,11 +7,13 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Admin : Form
     {
-        private readonly Account_BLL _bll = new Account_BLL();
+        private readonly Account_BLL _bll;
 
-        public Dialog_Admin()
+        public Dialog_Admin(Account_BLL bll)
         {
             InitializeComponent();
+
+            _bll = bll;
 
             txtPassword.UseSystemPasswordChar = true;
 

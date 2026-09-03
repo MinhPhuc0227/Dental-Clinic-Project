@@ -1,6 +1,7 @@
 ﻿using DentalClinic.BLL;
 using DentalClinic.DAL;
 using DentalClinic.MODEL;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
@@ -15,27 +16,44 @@ namespace DentalClinic.APP
 {
     public partial class Form_Doctor : Form
     {
+        // Khai báo các User Control
         private UC_Doctor_Examination ExaminationUC;
         private UC_Doctor_Appointment DoctorAppointmentUC;
         private UC_Doctor_MedicalRecord MedicalRecordUC;
-        private readonly Doctor_BLL _doctorBll = new Doctor_BLL(new Doctor_DAL(new AppDbContext()));
-        private readonly MedicalRecord_BLL _medicalRecordBLL = new MedicalRecord_BLL(new MedicalRecord_DAL(new AppDbContext()));
-        private readonly Visit_BLL _visitBLL = new Visit_BLL(new Visit_DAL(new AppDbContext()));
-        private readonly Appointment_BLL _appointmentBLL;
 
+        // Khai báo biến lưu thông tin bác sĩ đang đăng nhập
         private readonly int _currentDoctorId;
         private readonly string _currentDoctorName;
 
-        public Form_Doctor(int accountId, string userName)
+        // BLL
+        private readonly Doctor_BLL _doctorBll;
+        private readonly MedicalRecord_BLL _medicalRecordBLL;
+        private readonly Visit_BLL _visitBLL;
+        private readonly Appointment_BLL _appointmentBLL;
+
+        // Dependency Injection
+        private readonly IServiceProvider _serviceProvider;
+
+        public Form_Doctor(
+    int accountId,
+    string userName,
+    Doctor_BLL doctorBll,
+    MedicalRecord_BLL medicalRecordBLL,
+    Visit_BLL visitBLL,
+    Appointment_BLL appointmentBLL,
+    IServiceProvider serviceProvider)
         {
             InitializeComponent();
 
-            _appointmentBLL = new Appointment_BLL(
-                new Appointment_DAL(new AppDbContext()),
-                _visitBLL);
+            _doctorBll = doctorBll;
+            _medicalRecordBLL = medicalRecordBLL;
+            _visitBLL = visitBLL;
+            _appointmentBLL = appointmentBLL;
+            _serviceProvider = serviceProvider;
 
             // Tìm thông tin Bác sĩ từ AccountId
             var doctor = _doctorBll.GetDoctorByAccountId(accountId);
+
             if (doctor != null)
             {
                 _currentDoctorId = doctor.DoctorId;
@@ -44,16 +62,24 @@ namespace DentalClinic.APP
             else
             {
                 _currentDoctorId = 0;
-                _currentDoctorName = userName; // Dùng tên đăng nhập nếu chưa có hồ sơ
+                _currentDoctorName = userName;
             }
 
-            // Đổi tiêu đề Form
             this.Text = $"Bác sĩ: {_currentDoctorName}";
 
-            // Truyền đúng _currentDoctorId vào các UserControl
-            ExaminationUC = new UC_Doctor_Examination(_visitBLL, _currentDoctorId);
-            DoctorAppointmentUC = new UC_Doctor_Appointment(_appointmentBLL, _currentDoctorId);
-            MedicalRecordUC = new UC_Doctor_MedicalRecord(_medicalRecordBLL ,_currentDoctorId);
+            ExaminationUC = ActivatorUtilities.CreateInstance<UC_Doctor_Examination>(
+                _serviceProvider,
+                _currentDoctorId);
+
+            DoctorAppointmentUC =
+                new UC_Doctor_Appointment(
+                    _appointmentBLL,
+                    _currentDoctorId);
+
+            MedicalRecordUC =
+                new UC_Doctor_MedicalRecord(
+                    _medicalRecordBLL,
+                    _currentDoctorId);
         }
 
         private void ShowUC(UserControl uc)

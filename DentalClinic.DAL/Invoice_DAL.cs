@@ -9,7 +9,12 @@ namespace DentalClinic.DAL
 {
     public class Invoice_DAL
     {
-        private readonly AppDbContext _context = new AppDbContext();
+        private readonly AppDbContext _context;
+
+        public Invoice_DAL(AppDbContext context)
+        {
+            _context = context;
+        }
 
         // 1. Lấy danh sách những người đã khám xong nhưng chưa xuất hóa đơn Paid
         public List<WaitingPaymentDto> GetWaitingPayments(string keyword)

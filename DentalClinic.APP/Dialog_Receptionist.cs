@@ -13,13 +13,14 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Receptionist : Form
     {
-        private readonly Receptionist_BLL _bll = new Receptionist_BLL();
+        private readonly Receptionist_BLL _bll;
         public ReceptionistDto? ReceptionistData { get; private set; }
         private readonly bool _isEdit = false;
 
-        public Dialog_Receptionist()
+        public Dialog_Receptionist(Receptionist_BLL bll)
         {
             InitializeComponent();
+            _bll = bll;
             txtPassword.UseSystemPasswordChar = true;
             this.Text = "Thêm mới lễ tân";
             _isEdit = false;
@@ -56,8 +57,9 @@ namespace DentalClinic.APP
 
         private readonly bool _viewOnly = false;
         public Dialog_Receptionist(
+    Receptionist_BLL bll,
     ReceptionistDto data,
-    bool viewOnly = false) : this()
+    bool viewOnly = false) : this(bll)
         {
             this.Text = viewOnly
                 ? "Thông tin lễ tân"
@@ -70,8 +72,7 @@ namespace DentalClinic.APP
             _isEdit = true;
             ReceptionistData = data;
 
-            lbReceptionistId.Text =
-                data.ReceptionistId.ToString();
+            lbReceptionistId.Text = data.ReceptionistId.ToString();
 
             txtFullName.Text = data.FullName;
             cbGender.SelectedValue = data.Gender;
@@ -82,14 +83,12 @@ namespace DentalClinic.APP
             txtEmail.Text = data.Email;
             txtDescription.Text = data.Description;
 
-            lbAccountId.Text =
-                data.AccountId.ToString();
+            lbAccountId.Text = data.AccountId.ToString();
 
             txtUserName.Text = data.UserName;
             txtPassword.Text = string.Empty;
 
-            cbStatus.SelectedValue =
-                data.Status;
+            cbStatus.SelectedValue = data.Status;
 
             lbCreatedDate.Text =
                 data.CreatedAt.ToString("dd/MM/yyyy HH:mm");

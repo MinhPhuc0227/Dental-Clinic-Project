@@ -1,5 +1,4 @@
 ﻿using DentalClinic.BLL;
-using DentalClinic.DAL;
 using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
@@ -14,16 +13,17 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Doctor : Form
     {
-        private readonly Doctor_BLL _bll = new Doctor_BLL(new Doctor_DAL(new AppDbContext()));
+        private readonly Doctor_BLL _bll;
         public DoctorDto? DoctorData { get; private set; }
         private readonly bool _isEdit = false;
 
-        public Dialog_Doctor()
+        public Dialog_Doctor(Doctor_BLL bll)
         {
             InitializeComponent();
             txtPassword.UseSystemPasswordChar = true;
             this.Text = "Thêm mới bác sĩ";
             _isEdit = false;
+            _bll = bll;
 
             lbDoctorId.Text = "Tự động";
             lbAccountId.Text = "Tự động";
@@ -32,32 +32,9 @@ namespace DentalClinic.APP
             LoadEnumComboBoxes();
         }
 
-        //public Dialog_Doctor(DoctorDto data) : this()
-        //{
-        //    this.Text = "Chỉnh sửa thông tin bác sĩ";
-        //    pnAccount.Enabled = false;
-        //    txtPassword.UseSystemPasswordChar = true;
-        //    _isEdit = true;
-        //    DoctorData = data;
-
-        //    lbDoctorId.Text = data.DoctorId.ToString();
-        //    txtFullName.Text = data.FullName;
-        //    cbGender.SelectedValue = data.Gender;
-        //    dtpDateOfBirth.Value = data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
-        //    txtPhone.Text = data.Phone;
-        //    txtEmail.Text = data.Email;
-        //    txtDescription.Text = data.Description;
-
-        //    lbAccountId.Text = data.AccountId.ToString();
-        //    txtUserName.Text = data.UserName;
-        //    txtPassword.Text = string.Empty; // empty when updating 
-        //    cbStatus.SelectedValue = data.Status;
-        //    lbCreatedDate.Text = data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
-        //}
-
         private readonly bool _viewOnly = false;
 
-        public Dialog_Doctor(DoctorDto data, bool viewOnly = false) : this()
+        public Dialog_Doctor(Doctor_BLL bll, DoctorDto data, bool viewOnly = false) : this(bll)
         {
             this.Text = viewOnly
                 ? "Thông tin bác sĩ"

@@ -1,5 +1,6 @@
 ﻿using DentalClinic.BLL;
 using DentalClinic.MODEL;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +13,20 @@ namespace DentalClinic.APP
 {
     public partial class UC_Receptionist_Visit : UserControl
     {
-        private readonly Visit_BLL _visitBLL;
+        // Khai báo biến
         private readonly int _currentReceptionistId;
 
-        public UC_Receptionist_Visit(Visit_BLL visitBLL, int receptionistId)
+        // Dependency Injection
+        private readonly IServiceProvider _serviceProvider;
+
+        // BLL
+        private readonly Visit_BLL _visitBLL;
+
+        public UC_Receptionist_Visit(Visit_BLL visitBLL, IServiceProvider serviceProvider, int receptionistId)
         {
             InitializeComponent();
             _visitBLL = visitBLL;
+            _serviceProvider = serviceProvider;
             _currentReceptionistId = receptionistId;
         }
 
@@ -61,7 +69,9 @@ namespace DentalClinic.APP
 
         private void btCreateVisit_Click(object sender, EventArgs e)
         {
-            using (var dialog = new Dialog_Visit(_visitBLL, _currentReceptionistId))
+            using (var dialog = ActivatorUtilities.CreateInstance<Dialog_Visit>(
+    _serviceProvider,
+    _currentReceptionistId))
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {

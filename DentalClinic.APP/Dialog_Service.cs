@@ -13,14 +13,15 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Service : Form
     {
-        private readonly Service_BLL _bll = new Service_BLL();
+        private readonly Service_BLL _bll;
         public ServiceDto? ServiceData { get; private set; }
         private readonly bool _isEdit = false;
 
         // Constructor 1: for Adding
-        public Dialog_Service()
+        public Dialog_Service(Service_BLL bll)
         {
             InitializeComponent();
+            _bll = bll;
             this.Text = "Thêm mới dịch vụ";
             _isEdit = false;
             lbServiceId.Text = "Tự động";
@@ -28,7 +29,7 @@ namespace DentalClinic.APP
         }
 
         // Constructor 2: for Updating
-        public Dialog_Service(ServiceDto data) : this()
+        public Dialog_Service(Service_BLL bll, ServiceDto data) : this(bll)
         {
             this.Text = "Chỉnh sửa dịch vụ";
             _isEdit = true;

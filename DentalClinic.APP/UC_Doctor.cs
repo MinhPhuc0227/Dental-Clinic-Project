@@ -14,12 +14,13 @@ namespace DentalClinic.APP
 {
     public partial class UC_Doctor : UserControl
     {
-        private readonly Doctor_BLL _bll = new Doctor_BLL(new Doctor_DAL(new AppDbContext()));
+        private readonly Doctor_BLL _bll;
         private List<DoctorDto> _fullList = new List<DoctorDto>();
 
-        public UC_Doctor()
+        public UC_Doctor(Doctor_BLL bll)
         {
             InitializeComponent();
+            _bll = bll;
         }
 
         private void UC_Doctor_Load(object sender, EventArgs e)
@@ -84,7 +85,7 @@ namespace DentalClinic.APP
         // Add button
         private void btAdd_Click(object sender, EventArgs e)
         {
-            using (var dialog = new Dialog_Doctor())
+            using (var dialog = new Dialog_Doctor(_bll))
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -106,7 +107,7 @@ namespace DentalClinic.APP
             // EDIT
             if (colName == "EditCol")
             {
-                using (var dialog = new Dialog_Doctor(selectedDto))
+                using (var dialog = new Dialog_Doctor(_bll, selectedDto))
                 {
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {

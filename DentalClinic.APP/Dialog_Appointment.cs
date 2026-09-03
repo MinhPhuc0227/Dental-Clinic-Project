@@ -3,6 +3,7 @@ using DentalClinic.BLL.Common;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,12 +22,27 @@ namespace DentalClinic.APP
         private readonly int? _appointmentId;
         private AppointmentStatus _currentStatus = AppointmentStatus.Scheduled;
 
-        public Dialog_Appointment(Appointment_BLL appointmentBLL, int receptionistId, string receptionistName, int? appointmentId = null)
+        // Dependency Injection
+        private readonly IServiceProvider _serviceProvider;
+
+        // BLL
+        private readonly Visit_BLL _visitBLL;
+
+        public Dialog_Appointment(
+    Appointment_BLL appointmentBLL,
+    Visit_BLL visitBLL,
+    int receptionistId,
+    string receptionistName,
+    IServiceProvider serviceProvider,
+    int? appointmentId = null)
         {
             InitializeComponent();
+
             _appointmentBLL = appointmentBLL;
+            _visitBLL = visitBLL;
             _receptionistId = receptionistId;
             _receptionistName = receptionistName;
+            _serviceProvider = serviceProvider;
             _appointmentId = appointmentId;
         }
 
@@ -129,7 +145,8 @@ namespace DentalClinic.APP
 
         private void btCreatePatient_Click(object? sender, EventArgs e)
         {
-            using (var dialogPatient = new Dialog_Patient())
+            using (var dialogPatient =
+    ActivatorUtilities.CreateInstance<Dialog_Patient>(_serviceProvider))
             {
                 if (dialogPatient.ShowDialog() == DialogResult.OK)
                 {
@@ -314,9 +331,8 @@ namespace DentalClinic.APP
 
             // --- 2. KIỂM TRA BÁC SĨ QUÁ TẢI ---
             int selectedDoctorId = cbDoctor.SelectedValue is int dId ? dId : 0;
-            var visitBLL = new Visit_BLL();
 
-            if (selectedDoctorId > 0 && visitBLL.IsDoctorOverloaded(selectedDoctorId))
+            if (selectedDoctorId > 0 && _visitBLL.IsDoctorOverloaded(selectedDoctorId))
             {
                 var confirmOverload = MessageBox.Show(
                     $"Bác sĩ này hôm nay đã có từ {SystemConstants.MaxDailyVisitsPerDoctor} bệnh nhân trở lên.\n\nBạn có chắc chắn muốn đưa bệnh nhân này vào hàng chờ không?",

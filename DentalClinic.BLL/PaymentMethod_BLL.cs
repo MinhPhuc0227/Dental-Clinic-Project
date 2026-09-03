@@ -11,7 +11,11 @@ namespace DentalClinic.BLL
 {
     public class PaymentMethod_BLL
     {
-        private readonly PaymentMethod_DAL _dal = new PaymentMethod_DAL();
+        private readonly PaymentMethod_DAL _dal;
+        public PaymentMethod_BLL(PaymentMethod_DAL dal)
+        {
+            _dal = dal;
+        }
 
         // GetAll
         public Result<List<PaymentMethodDto>> GetAll()

@@ -11,13 +11,6 @@ namespace DentalClinic.BLL
     {
         private readonly Dashboard_DAL _dal;
 
-        public Dashboard_BLL()
-            : this(
-                new Dashboard_DAL(
-                    new AppDbContext()))
-        {
-        }
-
         public Dashboard_BLL(
             Dashboard_DAL dal)
         {

@@ -1,19 +1,20 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing.Printing;
 
 namespace DentalClinic.APP
 {
     public partial class Dialog_InvoiceDetail : Form
     {
-        private readonly Invoice_BLL _invoiceBLL = new Invoice_BLL();
+        private readonly Invoice_BLL _invoiceBLL;
 
         private readonly int _invoiceId;
         private readonly int _currentReceptionistId;
@@ -25,12 +26,14 @@ namespace DentalClinic.APP
         private readonly PrintDocument _printDocument = new PrintDocument();
 
         public Dialog_InvoiceDetail(
-    int invoiceId,
-    int receptionistId,
-    string receptionistName)
+            Invoice_BLL invoiceBLL,
+            int invoiceId,
+            int receptionistId,
+            string receptionistName)
         {
             InitializeComponent();
 
+            _invoiceBLL = invoiceBLL;
             _invoiceId = invoiceId;
             _currentReceptionistId = receptionistId;
             _currentReceptionistName = receptionistName;

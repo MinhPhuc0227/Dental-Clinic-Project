@@ -13,12 +13,13 @@ namespace DentalClinic.APP
 {
     public partial class UC_Receptionist : UserControl
     {
-        private readonly Receptionist_BLL _bll = new Receptionist_BLL();
+        private readonly Receptionist_BLL _receptionistBLL;
         private List<ReceptionistDto> _fullList = new List<ReceptionistDto>();
 
-        public UC_Receptionist()
+        public UC_Receptionist(Receptionist_BLL receptionistBLL)
         {
             InitializeComponent();
+            _receptionistBLL = receptionistBLL;
         }
 
         private void UC_Receptionist_Load(object sender, EventArgs e)
@@ -30,7 +31,7 @@ namespace DentalClinic.APP
         // Load data to datagridview
         public void LoadDataToGridView()
         {
-            var result = _bll.GetAll();
+            var result = _receptionistBLL.GetAll();
             if (result.IsSuccess && result.Data != null)
             {
                 _fullList = result.Data;
@@ -76,7 +77,7 @@ namespace DentalClinic.APP
         // Add button
         private void btAdd_Click(object sender, EventArgs e)
         {
-            using (var dialog = new Dialog_Receptionist())
+            using (var dialog = new Dialog_Receptionist(_receptionistBLL))
             {
                 if (dialog.ShowDialog() == DialogResult.OK) LoadDataToGridView();
             }
@@ -94,9 +95,12 @@ namespace DentalClinic.APP
 
             if (colName == "EditCol")
             {
-                using (var dialog = new Dialog_Receptionist(selectedDto))
+                using (var dialog = new Dialog_Receptionist(
+    _receptionistBLL,
+    selectedDto))
                 {
-                    if (dialog.ShowDialog() == DialogResult.OK) LoadDataToGridView();
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                        LoadDataToGridView();
                 }
             }
             else if (colName == "DeleteCol")
@@ -104,7 +108,7 @@ namespace DentalClinic.APP
                 var confirm = MessageBox.Show($"Bạn có chắc muốn xóa lễ tân '{selectedDto.FullName}'?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirm == DialogResult.Yes)
                 {
-                    var result = _bll.Delete(selectedDto.ReceptionistId);
+                    var result = _receptionistBLL.Delete(selectedDto.ReceptionistId);
                     if (result.IsSuccess)
                     {
                         MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -12,12 +12,13 @@ namespace DentalClinic.APP
 {
     public partial class UC_Supplier : UserControl
     {
-        private readonly Supplier_BLL _supplierBLL =
-            new Supplier_BLL();
+        private readonly Supplier_BLL _supplierBLL;
 
-        public UC_Supplier()
+        public UC_Supplier(Supplier_BLL bll)
         {
             InitializeComponent();
+
+            _supplierBLL = bll;
         }
 
         private void UC_Supplier_Load(

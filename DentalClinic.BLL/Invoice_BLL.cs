@@ -11,7 +11,12 @@ namespace DentalClinic.BLL
 {
     public class Invoice_BLL
     {
-        private readonly Invoice_DAL _dal = new Invoice_DAL();
+        private readonly Invoice_DAL _dal;
+
+        public Invoice_BLL(Invoice_DAL dal)
+        {
+            _dal = dal;
+        }
 
         public List<WaitingPaymentDto> GetWaitingPayments(string keyword = "")
         {

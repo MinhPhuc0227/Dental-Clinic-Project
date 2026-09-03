@@ -8,44 +8,40 @@ namespace DentalClinic.DAL
 {
     public class PaymentMethod_DAL
     {
+        private readonly AppDbContext _context;
+
+        public PaymentMethod_DAL(AppDbContext context)
+        {
+            _context = context;
+        }
+
         // GetAll
         public List<PaymentMethod> GetAll()
         {
-            using (var context = new AppDbContext())
-            {
-                return context.PaymentMethods.ToList();
-            }
+                return _context.PaymentMethods.ToList();
         }
 
         // GetById
         public PaymentMethod? GetById(int id)
         {
-            using (var context = new AppDbContext())
-            {
-                return context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == id);
-            }
+                return _context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == id);
         }
 
         // Check if name exists
         public bool IsNameExists(string name, int excludeId = 0)
         {
-            using (var context = new AppDbContext())
-            {
-                return context.PaymentMethods.Any(pm => pm.PaymentMethodName.ToLower() == name.ToLower() && pm.PaymentMethodId != excludeId);
-            }
+                return _context.PaymentMethods.Any(pm => pm.PaymentMethodName.ToLower() == name.ToLower() && pm.PaymentMethodId != excludeId);
         }
 
         // Add
         public bool Add(PaymentMethod entity)
         {
-            using (var context = new AppDbContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = _context.Database.BeginTransaction())
                 {
                     try
                     {
-                        context.PaymentMethods.Add(entity);
-                        context.SaveChanges();
+                        _context.PaymentMethods.Add(entity);
+                        _context.SaveChanges();
                         transaction.Commit();
                         return true;
                     }
@@ -55,19 +51,16 @@ namespace DentalClinic.DAL
                         throw;
                     }
                 }
-            }
         }
 
         // Update
         public bool Update(PaymentMethod entity)
         {
-            using (var context = new AppDbContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = _context.Database.BeginTransaction())
                 {
                     try
                     {
-                        var existing = context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == entity.PaymentMethodId);
+                        var existing = _context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == entity.PaymentMethodId);
                         if (existing == null) return false;
 
                         existing.PaymentMethodName = entity.PaymentMethodName;
@@ -75,7 +68,7 @@ namespace DentalClinic.DAL
                         existing.IsCash = entity.IsCash;
                         existing.Status = entity.Status;
 
-                        context.SaveChanges();
+                        _context.SaveChanges();
                         transaction.Commit();
                         return true;
                     }
@@ -85,23 +78,20 @@ namespace DentalClinic.DAL
                         throw;
                     }
                 }
-            }
         }
 
         // Delete
         public bool Delete(int id)
         {
-            using (var context = new AppDbContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = _context.Database.BeginTransaction())
                 {
                     try
                     {
-                        var existing = context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == id);
+                        var existing = _context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == id);
                         if (existing == null) return false;
 
-                        context.PaymentMethods.Remove(existing);
-                        context.SaveChanges();
+                        _context.PaymentMethods.Remove(existing);
+                        _context.SaveChanges();
                         transaction.Commit();
                         return true;
                     }
@@ -111,7 +101,6 @@ namespace DentalClinic.DAL
                         throw;
                     }
                 }
-            }
         }
     }
 }

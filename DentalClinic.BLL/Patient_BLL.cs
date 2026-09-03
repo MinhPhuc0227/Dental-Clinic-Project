@@ -11,7 +11,12 @@ namespace DentalClinic.BLL
 {
     public class Patient_BLL
     {
-        private readonly Patient_DAL _dal = new Patient_DAL();
+        private readonly Patient_DAL _dal;
+
+        public Patient_BLL(Patient_DAL dal)
+        {
+            _dal = dal;
+        }
 
         // GetAll
         public Result<List<PatientDto>> GetAll()

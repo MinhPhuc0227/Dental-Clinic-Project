@@ -3,6 +3,7 @@ using DentalClinic.BLL.Common;
 using DentalClinic.DTO;
 using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,10 +19,14 @@ namespace DentalClinic.APP
         private readonly Visit_BLL _visitBLL;
         private readonly int _receptionistId;
 
-        public Dialog_Visit(Visit_BLL visitBLL, int receptionistId)
+        // Dependency Injection
+        private readonly IServiceProvider _serviceProvider;
+
+        public Dialog_Visit(Visit_BLL visitBLL, IServiceProvider serviceProvider, int receptionistId)
         {
             InitializeComponent();
             _visitBLL = visitBLL;
+            _serviceProvider = serviceProvider;
             _receptionistId = receptionistId;
         }
 
@@ -128,7 +133,8 @@ namespace DentalClinic.APP
 
         private void btCreatePatient_Click(object sender, EventArgs e)
         {
-            using (var dialogPatient = new Dialog_Patient())
+            using (var dialogPatient = ActivatorUtilities.CreateInstance<Dialog_Patient>(
+    _serviceProvider))
             {
                 if (dialogPatient.ShowDialog() == DialogResult.OK)
                 {

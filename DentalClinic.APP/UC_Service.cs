@@ -13,12 +13,13 @@ namespace DentalClinic.APP
 {
     public partial class UC_Service : UserControl
     {
-        private readonly Service_BLL _bll = new Service_BLL();
+        private readonly Service_BLL _serviceBLL;
         private List<ServiceDto> _fullList = new List<ServiceDto>();
 
-        public UC_Service()
+        public UC_Service(Service_BLL serviceBLL)
         {
             InitializeComponent();
+            _serviceBLL = serviceBLL;
         }
 
         private void UC_Service_Load(object sender, EventArgs e)
@@ -36,7 +37,7 @@ namespace DentalClinic.APP
         // Load data to DataGridView
         public void LoadDataToGridView()
         {
-            var result = _bll.GetAll();
+            var result = _serviceBLL.GetAll();
 
             if (result.IsSuccess && result.Data != null)
             {
@@ -83,7 +84,7 @@ namespace DentalClinic.APP
         // Add button 
         private void btAdd_Click(object sender, EventArgs e)
         {
-            using (var dialog = new Dialog_Service())
+            using (var dialog = new Dialog_Service(_serviceBLL))
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -105,7 +106,7 @@ namespace DentalClinic.APP
             // Edit
             if (colName == "EditCol")
             {
-                using (var dialog = new Dialog_Service(selectedDto))
+                using (var dialog = new Dialog_Service(_serviceBLL, selectedDto))
                 {
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
@@ -125,7 +126,7 @@ namespace DentalClinic.APP
 
                 if (confirm == DialogResult.Yes)
                 {
-                    var result = _bll.Delete(selectedDto.ServiceId);
+                    var result = _serviceBLL.Delete(selectedDto.ServiceId);
 
                     if (result.IsSuccess)
                     {

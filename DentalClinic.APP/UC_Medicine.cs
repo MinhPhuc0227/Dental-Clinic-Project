@@ -2,6 +2,7 @@
 using DentalClinic.BLL;
 using DentalClinic.DTO;
 using DentalClinic.MODEL;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,15 +13,26 @@ namespace DentalClinic.APP
 {
     public partial class UC_Medicine : UserControl
     {
-        private readonly Medicine_BLL _bll = new Medicine_BLL();
+        // Khai báo biến
         private List<MedicineDto> _fullList = new List<MedicineDto>();
         private readonly int _accountId;
 
-        public UC_Medicine(int accountId)
+        // Dependency Injection
+        private readonly IServiceProvider _serviceProvider;
+
+        // BLL 
+        private readonly Medicine_BLL _bll;
+
+        public UC_Medicine(
+    int accountId,
+    Medicine_BLL bll,
+    IServiceProvider serviceProvider)
         {
             InitializeComponent();
 
             _accountId = accountId;
+            _bll = bll;
+            _serviceProvider = serviceProvider;
         }
 
         private void UC_Medicine_Load(object sender, EventArgs e)
@@ -148,13 +160,13 @@ namespace DentalClinic.APP
         // Nút THÊM MỚI (+ Thêm mới)
         private void btAdd_Click(object sender, EventArgs e)
         {
-            using (var dialog = new Dialog_Medicine())
+            using var dialog =
+        ActivatorUtilities.CreateInstance<Dialog_Medicine>(
+            _serviceProvider);
+
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                // Dialog_Medicine đã tự xử lý gọi BLL.Add() và hiển thị thông báo.
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    LoadDataToGridView();
-                }
+                LoadDataToGridView();
             }
         }
 
@@ -171,13 +183,14 @@ namespace DentalClinic.APP
             // 1. Xử lý SỬA
             if (colName == "EditCol")
             {
-                using (var dialog = new Dialog_Medicine(selectedDto))
+                using var dialog =
+        ActivatorUtilities.CreateInstance<Dialog_Medicine>(
+            _serviceProvider,
+            selectedDto);
+
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    // Dialog_Medicine đã tự xử lý gọi BLL.Update() và hiển thị thông báo.
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        LoadDataToGridView();
-                    }
+                    LoadDataToGridView();
                 }
             }
             // 2. Xử lý XÓA
@@ -218,8 +231,9 @@ namespace DentalClinic.APP
         private void btImport_Click(object sender, EventArgs e)
         {
             using var dialog =
-        new Dialog_MedicineImport(
-            _accountId);
+    ActivatorUtilities.CreateInstance<Dialog_MedicineImport>(
+        _serviceProvider,
+        _accountId);
 
             if (dialog.ShowDialog(this) ==
                 DialogResult.OK)
@@ -231,7 +245,8 @@ namespace DentalClinic.APP
         private void btImportHistory_Click(object sender, EventArgs e)
         {
             using var dialog =
-        new Dialog_MedicineImportHistory();
+        ActivatorUtilities.CreateInstance<Dialog_MedicineImportHistory>(
+            _serviceProvider);
 
             dialog.ShowDialog(this);
         }

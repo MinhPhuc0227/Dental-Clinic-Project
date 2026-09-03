@@ -14,35 +14,35 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_MedicineImport : Form
     {
+        // Khai báo biến
         private DateTime _importDate;
         private readonly int _accountId;
+        private BindingList<MedicineImportItemDto> _items = new BindingList<MedicineImportItemDto>();
 
-        private readonly MedicineImport_BLL _importBLL =
-            new MedicineImport_BLL();
+        // BLL
+        private readonly Medicine_BLL _medicineBLL;
+        private readonly Invoice_BLL _invoiceBLL;
+        private readonly MedicineImport_BLL _importBLL;
+        private readonly Supplier_BLL _supplierBLL;
+        private readonly Account_BLL _accountBLL;
 
-        private readonly Supplier_BLL _supplierBLL =
-            new Supplier_BLL();
-
-        private readonly Medicine_BLL _medicineBLL =
-            new Medicine_BLL();
-
-        private readonly Invoice_BLL _invoiceBLL =
-            new Invoice_BLL();
-
-        private readonly Account_BLL _accountBLL =
-            new Account_BLL();
-
-        private BindingList<MedicineImportItemDto> _items =
-            new BindingList<MedicineImportItemDto>();
-
-        public Dialog_MedicineImport(int accountId)
+        public Dialog_MedicineImport(
+    int accountId,
+    MedicineImport_BLL importBLL,
+    Supplier_BLL supplierBLL,
+    Account_BLL accountBLL,
+    Medicine_BLL medicineBLL,
+    Invoice_BLL invoiceBLL)
         {
             InitializeComponent();
 
             _accountId = accountId;
 
-            StartPosition =
-                FormStartPosition.CenterParent;
+            _importBLL = importBLL;
+            _supplierBLL = supplierBLL;
+            _accountBLL = accountBLL;
+            _medicineBLL = medicineBLL;
+            _invoiceBLL = invoiceBLL;
         }
 
         private void Dialog_MedicineImport_Load(
@@ -71,13 +71,22 @@ namespace DentalClinic.APP
 
         private void LoadAccount()
         {
-            using var context =
-                new AppDbContext();
+            var result = _accountBLL.GetAll();
 
-            var account =
-                context.Accounts
-                    .FirstOrDefault(a =>
-                        a.AccountId == _accountId);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                MessageBox.Show(
+                    "Không thể tải thông tin tài khoản.",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                Close();
+                return;
+            }
+
+            var account = result.Data
+                .FirstOrDefault(a => a.AccountId == _accountId);
 
             if (account == null)
             {
@@ -88,7 +97,6 @@ namespace DentalClinic.APP
                     MessageBoxIcon.Error);
 
                 Close();
-
                 return;
             }
 
@@ -101,12 +109,10 @@ namespace DentalClinic.APP
                     MessageBoxIcon.Warning);
 
                 Close();
-
                 return;
             }
 
-            lbAccountName.Text =
-                account.UserName;
+            lbAccountName.Text = account.UserName;
         }
 
         private void LoadSuppliers()

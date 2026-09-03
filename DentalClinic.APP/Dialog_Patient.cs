@@ -13,14 +13,18 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Patient : Form
     {
-        private readonly Patient_BLL _bll = new Patient_BLL();
+        // Khai báo biến
         public PatientDto? PatientData { get; private set; }
         private readonly bool _isEdit = false;
         public int CreatedPatientId { get; private set; }
 
-        public Dialog_Patient()
+        // BLL
+        private readonly Patient_BLL _bll;
+
+        public Dialog_Patient(Patient_BLL bll)
         {
             InitializeComponent();
+            _bll = bll;
             this.Text = "Thêm mới bệnh nhân";
             _isEdit = false;
 
@@ -29,7 +33,7 @@ namespace DentalClinic.APP
             LoadComboBoxes();
         }
 
-        public Dialog_Patient(PatientDto data) : this()
+        public Dialog_Patient(Patient_BLL bll, PatientDto data) : this(bll)
         {
             this.Text = "Chỉnh sửa thông tin bệnh nhân";
             _isEdit = true;

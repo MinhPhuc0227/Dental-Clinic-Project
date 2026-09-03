@@ -13,18 +13,18 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_MedicineImportHistory : Form
     {
-        private readonly MedicineImport_BLL _importBLL =
-            new MedicineImport_BLL();
+        // BLL 
+        private readonly MedicineImport_BLL _importBLL;
+        private readonly Supplier_BLL _supplierBLL;
 
-        private readonly Supplier_BLL _supplierBLL =
-            new Supplier_BLL();
-
-        public Dialog_MedicineImportHistory()
+        public Dialog_MedicineImportHistory(
+    MedicineImport_BLL importBLL,
+    Supplier_BLL supplierBLL)
         {
             InitializeComponent();
 
-            StartPosition =
-                FormStartPosition.CenterParent;
+            _importBLL = importBLL;
+            _supplierBLL = supplierBLL;
         }
 
         private void Dialog_MedicineImportHistory_Load(

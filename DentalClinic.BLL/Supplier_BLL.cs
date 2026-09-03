@@ -13,11 +13,6 @@ namespace DentalClinic.BLL
     {
         private readonly Supplier_DAL _dal;
 
-        public Supplier_BLL()
-            : this(new Supplier_DAL(new AppDbContext()))
-        {
-        }
-
         public Supplier_BLL(Supplier_DAL dal)
         {
             _dal = dal;

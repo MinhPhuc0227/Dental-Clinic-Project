@@ -8,13 +8,17 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_PaymentMethod : Form
     {
-        private readonly PaymentMethod_BLL _bll = new PaymentMethod_BLL();
+        // Khai báo biến
         public PaymentMethodDto? PaymentData { get; private set; }
         private readonly bool _isEdit = false;
 
-        public Dialog_PaymentMethod()
+        // BLL
+        private readonly PaymentMethod_BLL _bll;
+
+        public Dialog_PaymentMethod(PaymentMethod_BLL bll)
         {
             InitializeComponent();
+            _bll = bll;
             this.Text = "Thêm phương thức thanh toán";
             _isEdit = false;
 
@@ -22,7 +26,7 @@ namespace DentalClinic.APP
             LoadComboBoxes();
         }
 
-        public Dialog_PaymentMethod(PaymentMethodDto data) : this()
+        public Dialog_PaymentMethod(PaymentMethod_BLL bll, PaymentMethodDto data) : this(bll)
         {
             this.Text = "Chỉnh sửa phương thức thanh toán";
             _isEdit = true;

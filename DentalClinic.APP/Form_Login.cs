@@ -2,6 +2,7 @@
 using DentalClinic.BLL;
 using DentalClinic.DTO;
 using DentalClinic.MODEL;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,11 +15,18 @@ namespace DentalClinic.APP
 {
     public partial class Form_Login : Form
     {
-        private readonly Account_BLL _accountBll = new Account_BLL();
+        private readonly Account_BLL _accountBll;
+        private readonly IServiceProvider _serviceProvider;
 
-        public Form_Login()
+        public Form_Login(
+    Account_BLL accountBll,
+    IServiceProvider serviceProvider)
         {
             InitializeComponent();
+
+            _accountBll = accountBll;
+            _serviceProvider = serviceProvider;
+
             txtPassword.UseSystemPasswordChar = true;
         }
 
@@ -64,17 +72,25 @@ namespace DentalClinic.APP
             switch (userSession.Role)
             {
                 case AccountRole.Admin:
-                    mainForm = new Form_Admin(userSession.AccountId);
+                    mainForm = ActivatorUtilities.CreateInstance<Form_Admin>(
+    _serviceProvider,
+    userSession.AccountId);
                     break;
 
                 case AccountRole.Doctor:
                     // Dùng AccountId và UserName có sẵn trong AccountDto truyền sang
-                    mainForm = new Form_Doctor(userSession.AccountId, userSession.UserName);
+                    mainForm = ActivatorUtilities.CreateInstance<Form_Doctor>(
+    _serviceProvider,
+    userSession.AccountId,
+    userSession.UserName);
                     break;
 
                 case AccountRole.Receptionist:
                     // Dùng AccountId và UserName có sẵn trong AccountDto truyền sang
-                    mainForm = new Form_Receptionist(userSession.AccountId, userSession.UserName);
+                    mainForm = ActivatorUtilities.CreateInstance<Form_Receptionist>(
+    _serviceProvider,
+    userSession.AccountId,
+    userSession.UserName);
                     break;
 
                 default:

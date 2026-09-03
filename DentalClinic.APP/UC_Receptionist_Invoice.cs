@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.DAL;
 using DentalClinic.DTO;
 using DentalClinic.MODEL;
 using System;
@@ -20,11 +21,12 @@ namespace DentalClinic.APP
         private int _currentVisitId = 0;
         private readonly int _currentReceptionistId;
         private readonly string _currentReceptionistName;
-        private readonly Invoice_BLL _invoiceBLL = new Invoice_BLL();
+        private readonly Invoice_BLL _invoiceBLL;
 
-        public UC_Receptionist_Invoice(int receptionistId, string receptionistName)
+        public UC_Receptionist_Invoice(int receptionistId, string receptionistName, Invoice_BLL invoiceBLL)
         {
             InitializeComponent();
+            _invoiceBLL = invoiceBLL;
 
             _currentReceptionistId = receptionistId;
             _currentReceptionistName = receptionistName;
@@ -324,6 +326,7 @@ namespace DentalClinic.APP
             if (printConfirm == DialogResult.Yes)
             {
                 using var detailDialog = new Dialog_InvoiceDetail(
+                    _invoiceBLL,
                     _currentInvoiceId,
                     _currentReceptionistId,
                     _currentReceptionistName);

@@ -10,12 +10,13 @@ namespace DentalClinic.APP
 {
     public partial class UC_DashBoard : UserControl
     {
-        private readonly Dashboard_BLL _dashboardBLL =
-            new Dashboard_BLL();
+        private readonly Dashboard_BLL _dashboardBLL;
 
-        public UC_DashBoard()
+        public UC_DashBoard(Dashboard_BLL dashboardBLL)
         {
             InitializeComponent();
+
+            _dashboardBLL = dashboardBLL;
         }
 
         // =========================================================

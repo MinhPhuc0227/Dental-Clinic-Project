@@ -13,15 +13,19 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Account : Form
     {
-        private readonly Account_BLL _bll = new Account_BLL();
+        // Khai báo biến lưu thông tin tài khoản đang đăng nhập
         private readonly int _currentAccountId;
         public AccountDto? AccountData { get; private set; }
 
-        public Dialog_Account(AccountDto data, int currentAccountId)
+        // BLL
+        private readonly Account_BLL _bll;
+
+        public Dialog_Account(AccountDto data, int currentAccountId, Account_BLL bll)
         {
             InitializeComponent();
 
             _currentAccountId = currentAccountId;
+            _bll = bll;
 
             txtPassword.UseSystemPasswordChar = true;
             this.Text = "Chỉnh sửa tài khoản";

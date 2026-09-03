@@ -11,7 +11,12 @@ namespace DentalClinic.BLL
 {
     public class Medicine_BLL
     {
-        private readonly Medicine_DAL _dal = new Medicine_DAL();
+        private readonly Medicine_DAL _dal;
+
+        public Medicine_BLL(Medicine_DAL dal)
+        {
+            _dal = dal;
+        }
 
         // 1. Lấy tất cả thuốc (Dùng Result<T> để trả về danh sách DTO)
         public Result<List<MedicineDto>> GetAll(

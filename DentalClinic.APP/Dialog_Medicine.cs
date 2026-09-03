@@ -8,14 +8,15 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Medicine : Form
     {
-        private readonly Medicine_BLL _bll = new Medicine_BLL();
+        private readonly Medicine_BLL _bll;
         public MedicineDto? MedicineData { get; private set; }
         private readonly bool _isEdit = false;
 
         // Constructor 1: for Adding 
-        public Dialog_Medicine()
+        public Dialog_Medicine(Medicine_BLL bll)
         {
             InitializeComponent();
+            _bll = bll;
             this.Text = "Thêm mới thuốc";
             _isEdit = false;
             lbMedicineId.Text = "Tự động";
@@ -24,7 +25,9 @@ namespace DentalClinic.APP
         }
 
         // Constructor 2: for Updating
-        public Dialog_Medicine(MedicineDto data) : this()
+        public Dialog_Medicine(
+    MedicineDto data,
+    Medicine_BLL bll) : this(bll)
         {
             this.Text = "Chỉnh sửa thông tin thuốc";
             _isEdit = true;

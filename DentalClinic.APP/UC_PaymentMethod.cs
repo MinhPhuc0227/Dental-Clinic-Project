@@ -9,12 +9,13 @@ namespace DentalClinic.App
 {
     public partial class UC_PaymentMethod : UserControl
     {
-        private readonly PaymentMethod_BLL _bll = new PaymentMethod_BLL();
+        private readonly PaymentMethod_BLL _paymentMethodBLL;
         private List<PaymentMethodDto> _fullList = new List<PaymentMethodDto>();
 
-        public UC_PaymentMethod()
+        public UC_PaymentMethod(PaymentMethod_BLL paymentMethodBLL)
         {
             InitializeComponent();
+            _paymentMethodBLL = paymentMethodBLL;
         }
 
         private void UC_Payment_Load(object sender, EventArgs e)
@@ -26,7 +27,7 @@ namespace DentalClinic.App
         // Load data to datagridview
         public void LoadDataToGridView()
         {
-            var result = _bll.GetAll();
+            var result = _paymentMethodBLL.GetAll();
             if (result.IsSuccess && result.Data != null)
             {
                 _fullList = result.Data;
@@ -72,7 +73,7 @@ namespace DentalClinic.App
         // Add button
         private void btAdd_Click(object sender, EventArgs e)
         {
-            using (var dialog = new Dialog_PaymentMethod())
+            using (var dialog = new Dialog_PaymentMethod(_paymentMethodBLL))
             {
                 if (dialog.ShowDialog() == DialogResult.OK) LoadDataToGridView();
             }
@@ -90,7 +91,7 @@ namespace DentalClinic.App
 
             if (colName == "EditCol")
             {
-                using (var dialog = new Dialog_PaymentMethod(selectedDto))
+                using (var dialog = new Dialog_PaymentMethod(_paymentMethodBLL, selectedDto))
                 {
                     if (dialog.ShowDialog() == DialogResult.OK) LoadDataToGridView();
                 }
@@ -100,7 +101,7 @@ namespace DentalClinic.App
                 var confirm = MessageBox.Show($"Bạn có chắc muốn xóa phương thức '{selectedDto.PaymentMethodName}'?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirm == DialogResult.Yes)
                 {
-                    var result = _bll.Delete(selectedDto.PaymentMethodId);
+                    var result = _paymentMethodBLL.Delete(selectedDto.PaymentMethodId);
                     if (result.IsSuccess)
                     {
                         MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

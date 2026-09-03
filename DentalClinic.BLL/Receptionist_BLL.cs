@@ -12,7 +12,12 @@ namespace DentalClinic.BLL
 {
     public class Receptionist_BLL
     {
-        private readonly Receptionist_DAL _dal = new Receptionist_DAL();
+        private readonly Receptionist_DAL _dal;
+
+        public Receptionist_BLL(Receptionist_DAL dal)
+        {
+            _dal = dal;
+        }
 
         // GetAll
         public Result<List<ReceptionistDto>> GetAll()

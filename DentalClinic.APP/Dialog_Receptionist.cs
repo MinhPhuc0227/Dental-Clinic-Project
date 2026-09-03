@@ -32,28 +32,28 @@ namespace DentalClinic.APP
             LoadComboBoxes();
         }
 
-        //public Dialog_Receptionist(ReceptionistDto data) : this()
-        //{
-        //    this.Text = "Chỉnh sửa thông tin lễ tân";
-        //    pnAccount.Enabled = false;
-        //    txtPassword.UseSystemPasswordChar = true;
-        //    _isEdit = true;
-        //    ReceptionistData = data;
+        public Dialog_Receptionist(Receptionist_BLL bll, ReceptionistDto data) : this(bll)
+        {
+            this.Text = "Chỉnh sửa thông tin lễ tân";
+            //pnAccount.Enabled = false;
+            txtPassword.UseSystemPasswordChar = true;
+            _isEdit = true;
+            ReceptionistData = data;
 
-        //    lbReceptionistId.Text = data.ReceptionistId.ToString();
-        //    txtFullName.Text = data.FullName;
-        //    cbGender.SelectedValue = data.Gender;
-        //    dtpDateOfBirth.Value = data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
-        //    txtPhone.Text = data.Phone;
-        //    txtEmail.Text = data.Email;
-        //    txtDescription.Text = data.Description;
+            lbReceptionistId.Text = data.ReceptionistId.ToString();
+            txtFullName.Text = data.FullName;
+            cbGender.SelectedValue = data.Gender;
+            dtpDateOfBirth.Value = data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
+            txtPhone.Text = data.Phone;
+            txtEmail.Text = data.Email;
+            txtDescription.Text = data.Description;
 
-        //    lbAccountId.Text = data.AccountId.ToString();
-        //    txtUserName.Text = data.UserName;
-        //    txtPassword.Text = string.Empty;
-        //    cbStatus.SelectedValue = data.Status;
-        //    lbCreatedDate.Text = data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
-        //}
+            lbAccountId.Text = data.AccountId.ToString();
+            txtUserName.Text = data.UserName;
+            txtPassword.Text = string.Empty;
+            cbStatus.SelectedValue = data.Status;
+            lbCreatedDate.Text = data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
+        }
 
         private readonly bool _viewOnly = false;
         public Dialog_Receptionist(
@@ -167,7 +167,7 @@ namespace DentalClinic.APP
                     Email = txtEmail.Text.Trim(),
                     Description = txtDescription.Text.Trim(),
                     UserName = txtUserName.Text.Trim(),
-                    Password = txtPassword.Text.Trim(),
+                    Password = string.IsNullOrWhiteSpace(txtPassword.Text) ? null : txtPassword.Text.Trim(),
                     Status = selectedStatus
                 };
 

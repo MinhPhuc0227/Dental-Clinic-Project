@@ -214,7 +214,6 @@
             // txtUserName
             // 
             txtUserName.BorderStyle = BorderStyle.FixedSingle;
-            txtUserName.Enabled = false;
             txtUserName.Font = new Font("Segoe UI", 12F);
             txtUserName.Location = new Point(168, 75);
             txtUserName.Name = "txtUserName";

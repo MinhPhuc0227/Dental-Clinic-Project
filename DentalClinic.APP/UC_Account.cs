@@ -77,19 +77,19 @@ namespace DentalClinic.APP
         // Add edit and delete image columns 
         private void AddActionImageColumns()
         {
-            if (!dgvAccount.Columns.Contains("ViewCol"))
-            {
-                var viewCol = new DataGridViewButtonColumn
-                {
-                    Name = "ViewCol",
-                    HeaderText = "Xem hồ sơ",
-                    Text = "Xem",
-                    UseColumnTextForButtonValue = true,
-                    Width = 80
-                };
+            //if (!dgvAccount.Columns.Contains("ViewCol"))
+            //{
+            //    var viewCol = new DataGridViewButtonColumn
+            //    {
+            //        Name = "ViewCol",
+            //        HeaderText = "Xem hồ sơ",
+            //        Text = "Xem",
+            //        UseColumnTextForButtonValue = true,
+            //        Width = 80
+            //    };
 
-                dgvAccount.Columns.Add(viewCol);
-            }
+            //    dgvAccount.Columns.Add(viewCol);
+            //}
 
             if (!dgvAccount.Columns.Contains("EditCol"))
             {
@@ -339,6 +339,18 @@ namespace DentalClinic.APP
             }
 
             dgvAccount.DataSource = filtered.ToList();
+
+            if (dgvAccount.Columns.Contains("PatientId"))
+                dgvAccount.Columns["PatientId"].HeaderText = "Mã Bệnh Nhân";
+
+            if (dgvAccount.Columns.Contains("DoctorId"))
+                dgvAccount.Columns["DoctorId"].HeaderText = "Mã Bác Sĩ";
+
+            if (dgvAccount.Columns.Contains("ReceptionistId"))
+                dgvAccount.Columns["ReceptionistId"].HeaderText = "Mã Lễ Tân";
+
+            if (dgvAccount.Columns.Contains("FullName"))
+                dgvAccount.Columns["FullName"].HeaderText = "Họ và Tên";
         }
     }
 }

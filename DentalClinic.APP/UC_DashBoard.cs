@@ -27,11 +27,15 @@ namespace DentalClinic.APP
             object sender,
             EventArgs e)
         {
-            dtpFrom.Value =
-                DateTime.Today;
+            // Lấy ngày hiện tại
+            DateTime today = DateTime.Today;
 
-            dtpTo.Value =
-                DateTime.Today;
+            // dtpFrom là ngày 1 của tháng hiện tại
+            dtpFrom.Value = new DateTime(today.Year, today.Month, 1);
+
+            // Tìm số ngày của tháng hiện tại (ví dụ tháng 9 có 30 ngày) để gán cho dtpTo
+            int daysInMonth = DateTime.DaysInMonth(today.Year, today.Month);
+            dtpTo.Value = new DateTime(today.Year, today.Month, daysInMonth);
 
             SetupCharts();
 
@@ -212,11 +216,9 @@ namespace DentalClinic.APP
             var series =
                 new Series("Lượt khám")
                 {
-                    ChartType =
-                        SeriesChartType.Column,
-
-                    IsValueShownAsLabel =
-                        true
+                    ChartType = SeriesChartType.Column,
+                    IsValueShownAsLabel = true,
+                    IsXValueIndexed = true
                 };
 
             foreach (var item in result.Data)
@@ -269,11 +271,9 @@ namespace DentalClinic.APP
             var series =
                 new Series("Doanh thu")
                 {
-                    ChartType =
-                        SeriesChartType.Column,
-
-                    IsValueShownAsLabel =
-                        true
+                    ChartType = SeriesChartType.Column,
+                    IsValueShownAsLabel = true,
+                    IsXValueIndexed = true  
                 };
 
             foreach (var item in result.Data)

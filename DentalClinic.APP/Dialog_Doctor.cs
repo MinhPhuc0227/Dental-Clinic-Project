@@ -42,7 +42,7 @@ namespace DentalClinic.APP
 
             _viewOnly = viewOnly;
 
-            pnAccount.Enabled = false;
+            //pnAccount.Enabled = false;
             txtPassword.UseSystemPasswordChar = true;
             _isEdit = true;
             DoctorData = data;
@@ -143,7 +143,8 @@ namespace DentalClinic.APP
                     Email = txtEmail.Text.Trim(),
                     Description = txtDescription.Text.Trim(),
                     UserName = txtUserName.Text.Trim(),
-                    Password = txtPassword.Text.Trim(),
+                    //Password = txtPassword.Text.Trim(),
+                    Password = string.IsNullOrWhiteSpace(txtPassword.Text) ? null : txtPassword.Text.Trim(),
                     Status = selectedStatus
                 };
 

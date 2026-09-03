@@ -216,12 +216,81 @@ namespace DentalClinic.BLL
             var accountDto = new AccountDto
             {
                 AccountId = account.AccountId,
+                PatientId = account.Patient?.PatientId,
+                DoctorId = account.Doctor?.DoctorId,
+                ReceptionistId = account.Receptionist?.ReceptionistId,
+
+                FullName =
+        account.Patient?.FullName
+        ?? account.Doctor?.FullName
+        ?? account.Receptionist?.FullName
+        ?? account.UserName,
+
                 UserName = account.UserName,
                 Role = account.Role,
                 Status = account.Status
             };
 
             return Result<AccountDto>.Success(accountDto, "Đăng nhập thành công!");
+        }
+
+        // Tạo tài khoản cho bệnh nhân dùng website
+        public Result RegisterPatient(RegisterPatientDto dto)
+        {
+            var validationError = dto.Validate();
+
+            if (!string.IsNullOrEmpty(validationError))
+            {
+                return Result.Failure(validationError);
+            }
+
+            string userName = dto.UserName.Trim();
+            string password = dto.Password.Trim();
+            string phone = dto.Phone.Trim();
+
+            // Kiểm tra username
+            if (_dal.IsUserNameExists(userName))
+            {
+                return Result.Failure(
+                    "Tên đăng nhập này đã tồn tại.");
+            }
+
+            try
+            {
+                var account = new Account
+                {
+                    UserName = userName,
+                    Password = PasswordHelper.HashPassword(password),
+                    Role = AccountRole.Patient,
+                    Status = AccountStatus.Active,
+                    CreatedDate = DateTime.Now
+                };
+
+                var patient = new Patient
+                {
+                    FullName = dto.FullName.Trim(),
+                    Gender = dto.Gender,
+                    DateOfBirth = dto.DateOfBirth,
+                    Phone = phone,
+                    Email = dto.Email?.Trim(),
+                    Address = dto.Address?.Trim(),
+                    AccountId = null
+                };
+
+                bool success = _dal.CreatePatientAccount(
+                    account,
+                    patient);
+
+                return success
+                    ? Result.Success("Đăng ký tài khoản thành công!")
+                    : Result.Failure("Đăng ký tài khoản thất bại.");
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(
+                    "Lỗi hệ thống: " +
+                    (ex.InnerException?.Message ?? ex.Message));
+            }
         }
     }
 }

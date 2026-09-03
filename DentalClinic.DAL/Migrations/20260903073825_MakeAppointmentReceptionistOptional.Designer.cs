@@ -4,6 +4,7 @@ using DentalClinic.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalClinic.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260903073825_MakeAppointmentReceptionistOptional")]
+    partial class MakeAppointmentReceptionistOptional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -474,9 +477,6 @@ namespace DentalClinic.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PatientId"));
 
-                    b.Property<int?>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Address")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
@@ -508,10 +508,6 @@ namespace DentalClinic.DAL.Migrations
                         .HasColumnType("nvarchar(15)");
 
                     b.HasKey("PatientId");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique()
-                        .HasFilter("[AccountId] IS NOT NULL");
 
                     b.ToTable("Patient", (string)null);
                 });
@@ -965,16 +961,6 @@ namespace DentalClinic.DAL.Migrations
                     b.Navigation("MedicineImport");
                 });
 
-            modelBuilder.Entity("DentalClinic.MODEL.Patient", b =>
-                {
-                    b.HasOne("DentalClinic.MODEL.Account", "Account")
-                        .WithOne("Patient")
-                        .HasForeignKey("DentalClinic.MODEL.Patient", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Account");
-                });
-
             modelBuilder.Entity("DentalClinic.MODEL.Prescription", b =>
                 {
                     b.HasOne("DentalClinic.MODEL.MedicalRecord", "MedicalRecord")
@@ -1053,8 +1039,6 @@ namespace DentalClinic.DAL.Migrations
             modelBuilder.Entity("DentalClinic.MODEL.Account", b =>
                 {
                     b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
 
                     b.Navigation("Receptionist");
                 });

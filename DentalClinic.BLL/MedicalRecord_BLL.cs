@@ -105,5 +105,23 @@ namespace DentalClinic.BLL
                 return (string.Empty, string.Empty, new List<ExaminedServiceDto>(), new List<ExaminedMedicineDto>());
             }
         }
+
+        // Khách hàng online có thể xem được lịch sử khám bệnh của mình
+        public List<MedicalHistoryDto> GetPatientHistoryByPatientId(int patientId)
+        {
+            if (patientId <= 0)
+            {
+                return new List<MedicalHistoryDto>();
+            }
+
+            try
+            {
+                return _dal.GetPatientHistoryByPatientId(patientId);
+            }
+            catch
+            {
+                return new List<MedicalHistoryDto>();
+            }
+        }
     }
 }

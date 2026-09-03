@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DentalClinic.BLL\DentalClinic.BLL.csproj" />
+    <ProjectReference Include="..\DentalClinic.DAL\DentalClinic.DAL.csproj" />
     <ProjectReference Include="..\DentalClinic.DTO\DentalClinic.DTO.csproj" />
   </ItemGroup>
 

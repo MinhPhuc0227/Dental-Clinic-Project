@@ -296,5 +296,206 @@ namespace DentalClinic.BLL
 
             return warnings;
         }
+
+        // Đặt lịch online
+        public Result CreateOnline(
+    int patientId,
+    OnlineAppointmentCreateDto dto)
+        {
+            if (patientId <= 0)
+            {
+                return Result.Failure(
+                    "Không xác định được bệnh nhân đang đăng nhập.");
+            }
+
+            string? validationError = dto.Validate();
+
+            if (!string.IsNullOrEmpty(validationError))
+            {
+                return Result.Failure(validationError);
+            }
+
+            DateTime fullDateTime =
+                dto.AppointmentDate.Date.Add(dto.AppointmentTime);
+
+            // Không cho đặt lịch trong quá khứ
+            if (fullDateTime < DateTime.Now)
+            {
+                return Result.Failure(
+                    "Không thể đặt lịch cho thời điểm trong quá khứ.");
+            }
+
+            // Không cho đặt quá xa
+            if (fullDateTime >
+                DateTime.Now.AddDays(SystemConstants.MaxAdvanceBookingDays))
+            {
+                return Result.Failure(
+                    $"Chỉ được đặt lịch trước tối đa {SystemConstants.MaxAdvanceBookingDays} ngày.");
+            }
+
+            // Kiểm tra giờ làm việc
+            TimeSpan time = fullDateTime.TimeOfDay;
+
+            bool isMorning =
+                time >= SystemConstants.MorningStartTime &&
+                time < SystemConstants.MorningEndTime;
+
+            bool isAfternoon =
+                time >= SystemConstants.AfternoonStartTime &&
+                time < SystemConstants.AfternoonEndTime;
+
+            if (!isMorning && !isAfternoon)
+            {
+                return Result.Failure(
+                    "Giờ đặt lịch nằm ngoài giờ làm việc của phòng khám.");
+            }
+
+            // Kiểm tra trùng lịch bệnh nhân
+            if (_appointmentDAL.HasPatientConflict(
+                patientId,
+                fullDateTime,
+                SystemConstants.DefaultSlotDurationMinutes))
+            {
+                return Result.Failure(
+                    "Bạn đã có một lịch hẹn khác trùng vào khung giờ này.");
+            }
+
+            // Kiểm tra trùng lịch bác sĩ
+            if (_appointmentDAL.HasDoctorConflict(
+                dto.DoctorId,
+                fullDateTime,
+                SystemConstants.DefaultSlotDurationMinutes))
+            {
+                return Result.Failure(
+                    "Bác sĩ đã có lịch hẹn khác trùng vào khung giờ này.");
+            }
+
+            using var transaction = _appointmentDAL.BeginTransaction();
+
+            try
+            {
+                var entity = new Appointment
+                {
+                    PatientId = patientId,
+                    DoctorId = dto.DoctorId,
+                    AppointmentDateTime = fullDateTime,
+                    ReasonForVisit = dto.ReasonForVisit.Trim(),
+                    Note = string.IsNullOrWhiteSpace(dto.Note)
+                        ? null
+                        : dto.Note.Trim(),
+
+                    // Đặt lịch online → chưa có lễ tân
+                    ReceptionistId = null,
+
+                    Status = AppointmentStatus.Scheduled,
+                    CreatedDate = DateTime.Now
+                };
+
+                bool success = _appointmentDAL.Add(entity);
+
+                if (!success)
+                {
+                    transaction.Rollback();
+
+                    return Result.Failure(
+                        "Tạo lịch hẹn thất bại.");
+                }
+
+                transaction.Commit();
+
+                return Result.Success(
+                    "Đặt lịch khám thành công.");
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+
+                return Result.Failure(
+                    "Lỗi hệ thống khi đặt lịch: " +
+                    (ex.InnerException?.Message ?? ex.Message));
+            }
+        }
+
+        // Lấy lịch online
+        public Result<List<AppointmentListDto>> GetByPatientId(int patientId)
+        {
+            if (patientId <= 0)
+            {
+                return Result<List<AppointmentListDto>>
+                    .Failure("Mã bệnh nhân không hợp lệ.");
+            }
+
+            try
+            {
+                var list = _appointmentDAL.GetByPatientId(patientId);
+
+                return Result<List<AppointmentListDto>>
+                    .Success(list);
+            }
+            catch (Exception ex)
+            {
+                return Result<List<AppointmentListDto>>
+                    .Failure(
+                        "Không thể tải lịch hẹn: " + ex.Message);
+            }
+        }
+
+        // Hủy lịch online
+        public Result CancelByPatient(
+    int appointmentId,
+    int patientId)
+        {
+            if (appointmentId <= 0)
+            {
+                return Result.Failure(
+                    "Mã lịch hẹn không hợp lệ.");
+            }
+
+            if (patientId <= 0)
+            {
+                return Result.Failure(
+                    "Mã bệnh nhân không hợp lệ.");
+            }
+
+            try
+            {
+                var appointment =
+                    _appointmentDAL.GetById(appointmentId);
+
+                if (appointment == null)
+                {
+                    return Result.Failure(
+                        "Không tìm thấy lịch hẹn.");
+                }
+
+                // Không cho bệnh nhân hủy lịch của người khác
+                if (appointment.PatientId != patientId)
+                {
+                    return Result.Failure(
+                        "Bạn không có quyền hủy lịch hẹn này.");
+                }
+
+                if (appointment.Status != AppointmentStatus.Scheduled)
+                {
+                    return Result.Failure(
+                        "Chỉ có thể hủy lịch hẹn đang ở trạng thái Đã đặt lịch.");
+                }
+
+                bool success =
+                    _appointmentDAL.CancelByPatient(
+                        appointmentId,
+                        patientId);
+
+                return success
+                    ? Result.Success("Hủy lịch hẹn thành công.")
+                    : Result.Failure("Hủy lịch hẹn thất bại.");
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(
+                    "Lỗi hệ thống khi hủy lịch: " +
+                    (ex.InnerException?.Message ?? ex.Message));
+            }
+        }
     }
 }

@@ -1,0 +1,99 @@
+﻿@model List<DentalClinic.DTO.AppointmentListDto>
+
+@{
+    ViewData["Title"] = "Lịch hẹn của tôi";
+}
+
+<section class="container appointment-page">
+
+    <div class="page-heading">
+        <h1>Lịch hẹn của tôi</h1>
+
+        <p>
+            Quản lý các lịch khám bạn đã đặt.
+        </p>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="success-message">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (Model == null || Model.Count == 0)
+    {
+        <div class="empty-state">
+            <p>Bạn chưa có lịch hẹn nào.</p>
+
+            <a asp-controller="Appointment"
+               asp-action="Index"
+               class="btn-appointment">
+                Đặt lịch ngay
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="appointment-list">
+
+            @foreach (var appointment in Model)
+            {
+                <article class="appointment-item">
+
+                    <div>
+                        <h2>
+                            @appointment.DoctorName
+                        </h2>
+
+                        <p>
+                            <strong>Thời gian:</strong>
+                            @appointment.AppointmentDateTime.ToString("dd/MM/yyyy HH:mm")
+                        </p>
+
+                        <p>
+                            <strong>Lý do:</strong>
+                            @appointment.ReasonForVisit
+                        </p>
+
+                        @if (!string.IsNullOrWhiteSpace(appointment.Note))
+                        {
+                            <p>
+                                <strong>Ghi chú:</strong>
+                                @appointment.Note
+                            </p>
+                        }
+                    </div>
+
+                    <div class="appointment-actions">
+
+                        <div class="appointment-status">
+                            @appointment.StatusText
+                        </div>
+
+                        @if (appointment.Status == DentalClinic.MODEL.AppointmentStatus.Scheduled)
+                        {
+                            <form asp-controller="Appointment"
+                                  asp-action="Cancel"
+                                  asp-route-id="@appointment.AppointmentId"
+                                  method="post"
+                                  onsubmit="return confirm('Bạn có chắc muốn hủy lịch hẹn này không?');">
+
+                                @Html.AntiForgeryToken()
+
+                                <button type="submit"
+                                        class="btn-cancel">
+                                    Hủy lịch
+                                </button>
+                            </form>
+                        }
+
+                    </div>
+
+                </article>
+            }
+
+        </div>
+    }
+
+</section>

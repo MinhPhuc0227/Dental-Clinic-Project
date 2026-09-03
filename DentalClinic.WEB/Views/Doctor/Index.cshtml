@@ -1,0 +1,48 @@
+﻿@model List<DentalClinic.DTO.DoctorDto>
+
+@{
+    ViewData["Title"] = "Bác sĩ";
+}
+
+<section class="container doctors-page">
+
+    <div class="page-heading">
+        <h1>Đội ngũ bác sĩ</h1>
+
+        <p>
+            Đội ngũ bác sĩ giàu kinh nghiệm tại Dental Clinic.
+        </p>
+    </div>
+
+    @if (Model == null || Model.Count == 0)
+    {
+        <p>Hiện chưa có bác sĩ.</p>
+    }
+    else
+    {
+        <div class="doctors-grid">
+            @foreach (var doctor in Model)
+            {
+                <article class="doctor-card">
+                    <h2>@doctor.FullName</h2>
+
+                    <p>
+                        Mô tả: @doctor.Description
+                    </p>
+
+                    <p>
+                        @doctor.Phone
+                    </p>
+
+                    <a asp-controller="Doctor"
+                       asp-action="Details"
+                       asp-route-id="@doctor.DoctorId"
+                       class="doctor-detail-link">
+                        Xem hồ sơ
+                    </a>
+                </article>
+            }
+        </div>
+    }
+
+</section>

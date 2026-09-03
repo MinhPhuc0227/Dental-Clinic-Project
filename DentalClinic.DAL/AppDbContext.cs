@@ -14,13 +14,17 @@ namespace DentalClinic.DAL
         {
         }
 
+        public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
+        {
+        }
+
         // ConnectionString configuration
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 string? conn = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"]?.ConnectionString;
-                optionsBuilder.UseSqlServer(conn ?? "Server=.\\SQLEXPRESS;Database=DentalClinicDB-DI;Trusted_Connection=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer(conn ?? "Server=.\\SQLEXPRESS;Database=DentalClinicDB;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
 
@@ -164,6 +168,7 @@ namespace DentalClinic.DAL
                 // Relationship 3: Receptionist
                 entity.HasOne(a => a.Receptionist)
                       .WithMany()
+                      .IsRequired(false)
                       .HasForeignKey(a => a.ReceptionistId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
@@ -604,6 +609,13 @@ namespace DentalClinic.DAL
                 entity.Property(p => p.Note)
                       .IsRequired(false)
                       .HasMaxLength(1000);
+
+                // Relationship 1: Account
+                entity.HasOne(p => p.Account)
+                      .WithOne(a => a.Patient)
+                      .HasForeignKey<Patient>(p => p.AccountId)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // 12. PaymentMethod

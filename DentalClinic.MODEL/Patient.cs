@@ -14,5 +14,9 @@ namespace DentalClinic.MODEL
         public string? Email { get; set; }
         public string? Address { get; set; }
         public string? Note { get; set; }
+
+        // Account dành cho bệnh nhân đăng nhập website
+        public int? AccountId { get; set; }
+        public virtual Account? Account { get; set; }
     }
 }

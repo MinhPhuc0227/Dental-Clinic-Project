@@ -1,0 +1,109 @@
+﻿@model DentalClinic.DTO.RegisterPatientDto
+
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<section class="container account-page">
+
+    <div class="account-card">
+
+        <div class="page-heading">
+            <h1>Đăng ký tài khoản</h1>
+            <p>Tạo tài khoản để đặt lịch và quản lý thông tin khám.</p>
+        </div>
+
+        <form asp-action="Register" method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-message">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FullName">Họ và tên</label>
+                <input asp-for="FullName"
+                       class="form-control" />
+                <span asp-validation-for="FullName"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gender">Giới tính</label>
+                <select asp-for="Gender"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<DentalClinic.MODEL.Gender>()">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DateOfBirth">Ngày sinh</label>
+                <input asp-for="DateOfBirth"
+                       type="date"
+                       class="form-control" />
+                <span asp-validation-for="DateOfBirth"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Phone">Số điện thoại</label>
+                <input asp-for="Phone"
+                       class="form-control" />
+                <span asp-validation-for="Phone"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email"
+                       type="email"
+                       class="form-control" />
+                <span asp-validation-for="Email"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address">Địa chỉ</label>
+                <input asp-for="Address"
+                       class="form-control" />
+                <span asp-validation-for="Address"></span>
+            </div>
+
+            <hr />
+
+            <div class="form-group">
+                <label asp-for="UserName">Tên đăng nhập</label>
+                <input asp-for="UserName"
+                       class="form-control" />
+                <span asp-validation-for="UserName"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Mật khẩu</label>
+                <input asp-for="Password"
+                       type="password"
+                       class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword">
+                    Xác nhận mật khẩu
+                </label>
+
+                <input asp-for="ConfirmPassword"
+                       type="password"
+                       class="form-control" />
+
+                <span asp-validation-for="ConfirmPassword"></span>
+            </div>
+
+            <button type="submit"
+                    class="btn-appointment">
+                Đăng ký
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

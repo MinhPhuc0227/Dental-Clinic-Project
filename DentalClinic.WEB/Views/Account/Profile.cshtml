@@ -1,0 +1,139 @@
+﻿@model DentalClinic.DTO.PatientDto
+
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+}
+
+<section class="container account-page">
+
+    <div class="account-card">
+
+        <div class="page-heading">
+            <h1>Hồ sơ cá nhân</h1>
+
+            <p>
+                Quản lý thông tin cá nhân của bạn.
+            </p>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="success-message">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <form asp-action="Profile" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-message">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FullName">
+                    Họ và tên
+                </label>
+
+                <input asp-for="FullName"
+                       class="form-control" />
+
+                <span asp-validation-for="FullName"
+                      class="field-validation-error">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gender">
+                    Giới tính
+                </label>
+
+                <select asp-for="Gender"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<DentalClinic.MODEL.Gender>()">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DateOfBirth">
+                    Ngày sinh
+                </label>
+
+                <input asp-for="DateOfBirth"
+                       type="date"
+                       class="form-control" />
+
+                <span asp-validation-for="DateOfBirth"
+                      class="field-validation-error">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Phone">
+                    Số điện thoại
+                </label>
+
+                <input asp-for="Phone"
+                       class="form-control" />
+
+                <span asp-validation-for="Phone"
+                      class="field-validation-error">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">
+                    Email
+                </label>
+
+                <input asp-for="Email"
+                       type="email"
+                       class="form-control" />
+
+                <span asp-validation-for="Email"
+                      class="field-validation-error">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address">
+                    Địa chỉ
+                </label>
+
+                <input asp-for="Address"
+                       class="form-control" />
+
+                <span asp-validation-for="Address"
+                      class="field-validation-error">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Note">
+                    Ghi chú
+                </label>
+
+                <textarea asp-for="Note"
+                          class="form-control"
+                          rows="4"></textarea>
+
+                <span asp-validation-for="Note"
+                      class="field-validation-error">
+                </span>
+            </div>
+
+            <button type="submit"
+                    class="btn-appointment">
+                Lưu thay đổi
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

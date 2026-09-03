@@ -208,54 +208,6 @@ namespace DentalClinic.DAL
             }
         }
 
-        //public bool CreateVisitFromAppointmentTransaction(int appointmentId, int receptionistId, bool keepPriority = true)
-        //{
-        //    using (var transaction = _context.Database.BeginTransaction())
-        //    {
-        //        try
-        //        {
-        //            // 1. Lấy lịch hẹn lên và kiểm tra
-        //            var app = _context.Appointments.Find(appointmentId);
-        //            if (app == null || app.Status == AppointmentStatus.Cancelled)
-        //                return false; // Trả về false nếu lịch không hợp lệ
-
-        //            // 2. Đổi trạng thái lịch hẹn -> Completed (Đã tới phòng khám)
-        //            app.Status = AppointmentStatus.Completed;
-        //            _context.Appointments.Update(app);
-
-        //            // Đếm số lượng bệnh nhân của Bác sĩ này trong NGÀY HÔM NAY
-        //            int currentQueueCount = _context.Visits
-        //                .Count(v => v.DoctorId == app.DoctorId && v.CheckInDateTime.Date == DateTime.Today);
-
-        //            // 3. Tạo dòng mới trong bảng Visit (Đồng thời là thêm vào hàng chờ)
-        //            var newVisit = new Visit
-        //            {
-        //                AppointmentId = keepPriority ? app.AppointmentId : (int?)null,
-        //                PatientId = app.PatientId,
-        //                DoctorId = app.DoctorId,
-        //                ReasonForVisit = app.ReasonForVisit,
-        //                CheckInDateTime = DateTime.Now,
-        //                Status = VisitStatus.Waiting, 
-        //                ReceptionistId = receptionistId,
-        //                QueueNumber = currentQueueCount + 1 
-        //            };
-
-        //            _context.Visits.Add(newVisit);
-
-        //            // Hoàn tất Transaction
-        //            _context.SaveChanges();
-        //            transaction.Commit();
-
-        //            return true;
-        //        }
-        //        catch (Exception)
-        //        {
-        //            transaction.Rollback();
-        //            throw; 
-        //        }
-        //    }
-        //}
-
         // Kiểm tra trùng lịch Bác sĩ
         public bool HasDoctorConflict(int doctorId, DateTime startTime, int durationMinutes, int? excludeAppId = null)
         {
@@ -284,6 +236,50 @@ namespace DentalClinic.DAL
             );
         }
 
+        // Lấy lịch online
+        public List<AppointmentListDto> GetByPatientId(int patientId)
+        {
+            return _context.Appointments
+                .Include(a => a.Doctor)
+                .Where(a => a.PatientId == patientId)
+                .OrderByDescending(a => a.AppointmentDateTime)
+                .AsNoTracking()
+                .Select(a => new AppointmentListDto
+                {
+                    AppointmentId = a.AppointmentId,
+                    PatientName = a.Patient.FullName,
+                    PatientPhone = a.Patient.Phone,
+                    DoctorId = a.DoctorId,
+                    DoctorName = a.Doctor.FullName,
+                    AppointmentDateTime = a.AppointmentDateTime,
+                    Status = a.Status,
+                    ReasonForVisit = a.ReasonForVisit,
+                    Note = a.Note,
+                    ReceptionistName = a.Receptionist != null
+                        ? a.Receptionist.FullName
+                        : "Đặt online",
+                    CreatedDate = a.CreatedDate
+                })
+                .ToList();
+        }
 
+        // Hủy lịch online
+        public bool CancelByPatient(int appointmentId, int patientId)
+        {
+            var appointment = _context.Appointments
+                .FirstOrDefault(a =>
+                    a.AppointmentId == appointmentId &&
+                    a.PatientId == patientId);
+
+            if (appointment == null)
+                return false;
+
+            if (appointment.Status != AppointmentStatus.Scheduled)
+                return false;
+
+            appointment.Status = AppointmentStatus.Cancelled;
+
+            return _context.SaveChanges() > 0;
+        }
     }
 }

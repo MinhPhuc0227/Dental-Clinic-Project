@@ -272,5 +272,24 @@ namespace DentalClinic.DAL
 
             return (record.Diagnosis, record.Conclusion, services, medicines);
         }
+
+        // Khách hàng online có thể xem được lịch sử khám bệnh của mình
+        public List<MedicalHistoryDto> GetPatientHistoryByPatientId(int patientId)
+        {
+            return _context.MedicalRecords
+                .Where(m =>
+                    m.Visit.PatientId == patientId &&
+                    m.Visit.Status == VisitStatus.Completed)
+                .OrderByDescending(m => m.ExaminationDateTime)
+                .Select(m => new MedicalHistoryDto
+                {
+                    VisitId = m.VisitId,
+                    ExaminationDate = m.ExaminationDateTime,
+                    DoctorName = m.Visit.Doctor.FullName,
+                    Diagnosis = m.Diagnosis,
+                    Conclusion = m.Conclusion
+                })
+                .ToList();
+        }
     }
 }

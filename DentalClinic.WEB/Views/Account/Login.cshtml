@@ -1,0 +1,82 @@
+﻿@model DentalClinic.DTO.LoginRequestDto
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<section class="container account-page">
+
+    <div class="account-card">
+
+        <div class="page-heading">
+            <h1>Đăng nhập</h1>
+
+            <p>
+                Đăng nhập để đặt lịch và quản lý thông tin khám.
+            </p>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="success-message">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <form asp-action="Login" method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-message">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UserName">
+                    Tên đăng nhập
+                </label>
+
+                <input asp-for="UserName"
+                       class="form-control"
+                       autocomplete="username" />
+
+                <span asp-validation-for="UserName"
+                      class="field-validation-error">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">
+                    Mật khẩu
+                </label>
+
+                <input asp-for="Password"
+                       type="password"
+                       class="form-control"
+                       autocomplete="current-password" />
+
+                <span asp-validation-for="Password"
+                      class="field-validation-error">
+                </span>
+            </div>
+
+            <button type="submit"
+                    class="btn-appointment">
+                Đăng nhập
+            </button>
+
+        </form>
+
+        <p class="account-link">
+            Chưa có tài khoản?
+            <a asp-controller="Account"
+               asp-action="Register">
+                Đăng ký
+            </a>
+        </p>
+
+    </div>
+
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

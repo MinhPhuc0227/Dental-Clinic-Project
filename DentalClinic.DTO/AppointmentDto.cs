@@ -53,8 +53,8 @@ namespace DentalClinic.DTO
         public string ReasonForVisit { get; set; } = string.Empty;
         public string? Note { get; set; }
         public AppointmentStatus Status { get; set; }
-        public int ReceptionistId { get; set; }
-        public string ReceptionistName { get; set; } = string.Empty;
+        public int? ReceptionistId { get; set; }
+        public string? ReceptionistName { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
     }
 
@@ -94,5 +94,26 @@ namespace DentalClinic.DTO
         public int AppointmentId { get; set; }
 
         public AppointmentStatus Status { get; set; }
+    }
+
+    // Dành cho website
+    public class OnlineAppointmentCreateDto
+    {
+        [Required(ErrorMessage = "Vui lòng chọn bác sĩ.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Bác sĩ không hợp lệ.")]
+        public int DoctorId { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng chọn ngày khám.")]
+        public DateTime AppointmentDate { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng chọn giờ khám.")]
+        public TimeSpan AppointmentTime { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng nhập lý do khám.")]
+        [StringLength(500, ErrorMessage = "Lý do khám không được vượt quá 500 ký tự.")]
+        public string ReasonForVisit { get; set; } = string.Empty;
+
+        [StringLength(1000, ErrorMessage = "Ghi chú không được vượt quá 1000 ký tự.")]
+        public string? Note { get; set; }
     }
 }

@@ -38,6 +38,12 @@ namespace DentalClinic.DAL
                                           && a.AccountId != excludeAccountId);
         }
 
+        public bool IsPatientPhoneExists(string phone)
+        {
+            return _context.Patients.Any(
+                p => p.Phone == phone);
+        }
+
         // CREATE
         public bool Create(Account entity)
         {
@@ -74,9 +80,46 @@ namespace DentalClinic.DAL
         }
 
         // GetByUserName (for Login)
+        //public Account? GetByUserName(string userName)
+        //{
+        //    return _context.Accounts.FirstOrDefault(a => a.UserName == userName);
+        //}
+
         public Account? GetByUserName(string userName)
         {
-            return _context.Accounts.FirstOrDefault(a => a.UserName == userName);
+            return _context.Accounts
+                .Include(a => a.Patient)
+                .Include(a => a.Doctor)
+                .Include(a => a.Receptionist)
+                .FirstOrDefault(a => a.UserName == userName);
+        }
+
+        // Tạo tài khoản cho bệnh nhân dùng website
+        public bool CreatePatientAccount(
+    Account account,
+    Patient patient)
+        {
+            using var transaction =
+                _context.Database.BeginTransaction();
+
+            try
+            {
+                _context.Accounts.Add(account);
+                _context.SaveChanges();
+
+                patient.AccountId = account.AccountId;
+
+                _context.Patients.Add(patient);
+                _context.SaveChanges();
+
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
     }
 }

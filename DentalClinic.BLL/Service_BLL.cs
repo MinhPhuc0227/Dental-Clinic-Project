@@ -29,6 +29,7 @@ namespace DentalClinic.BLL
                     ServiceId = s.ServiceId,
                     ServiceName = s.ServiceName,
                     UnitPrice = s.UnitPrice,
+                    IsLongTerm = s.IsLongTerm,
                     Description = s.Description,
                     Status = s.Status
                 }).ToList();
@@ -61,6 +62,7 @@ namespace DentalClinic.BLL
                 {
                     ServiceName = dto.ServiceName.Trim(),
                     UnitPrice = dto.UnitPrice,
+                    IsLongTerm = dto.IsLongTerm,
                     Description = dto.Description?.Trim(),
                     Status = dto.Status
                 };
@@ -97,6 +99,7 @@ namespace DentalClinic.BLL
                     ServiceId = dto.ServiceId,
                     ServiceName = dto.ServiceName.Trim(),
                     UnitPrice = dto.UnitPrice,
+                    IsLongTerm = dto.IsLongTerm,
                     Description = dto.Description?.Trim(),
                     Status = dto.Status
                 };
@@ -130,6 +133,42 @@ namespace DentalClinic.BLL
             catch (Exception)
             {
                 return Result.Failure("Không thể xóa do dịch vụ này đã phát sinh trong lịch khám hoặc hóa đơn.");
+            }
+        }
+
+        // GetById
+        public Result<ServiceDto> GetById(int serviceId)
+        {
+            if (serviceId <= 0)
+            {
+                return Result<ServiceDto>.Failure("Mã dịch vụ không hợp lệ.");
+            }
+
+            try
+            {
+                var service = _dal.GetById(serviceId);
+
+                if (service == null)
+                {
+                    return Result<ServiceDto>.Failure("Không tìm thấy dịch vụ.");
+                }
+
+                var dto = new ServiceDto
+                {
+                    ServiceId = service.ServiceId,
+                    ServiceName = service.ServiceName,
+                    UnitPrice = service.UnitPrice,
+                    IsLongTerm = service.IsLongTerm,
+                    Description = service.Description,
+                    Status = service.Status
+                };
+
+                return Result<ServiceDto>.Success(dto);
+            }
+            catch (Exception ex)
+            {
+                return Result<ServiceDto>.Failure(
+                    "Lỗi khi tải thông tin dịch vụ: " + ex.Message);
             }
         }
     }

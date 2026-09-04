@@ -19,8 +19,12 @@ namespace DentalClinic.APP
         private readonly Medicine_BLL _medicineBLL;
         private readonly MedicalRecord_BLL _medicalRecordBLL;
         private readonly Invoice_BLL _invoiceBLL;
+        private readonly Treatment_BLL _treatmentBLL;
+        private readonly Doctor_BLL _doctorBLL;
+
         private readonly int _doctorId;
         private int _currentVisitId = 0;
+        private int _currentPatientId = 0;
 
         // Quản lý danh sách dịch vụ và thuốc được chọn tạm thời trên giao diện
         private BindingList<SelectedServiceDto> _selectedServices = new BindingList<SelectedServiceDto>();
@@ -36,7 +40,9 @@ namespace DentalClinic.APP
     Service_BLL serviceBLL,
     Medicine_BLL medicineBLL,
     MedicalRecord_BLL medicalRecordBLL,
-    Invoice_BLL invoiceBLL)
+    Invoice_BLL invoiceBLL,
+    Treatment_BLL treatmentBLL,
+    Doctor_BLL doctorBLL)
         {
             InitializeComponent();
 
@@ -46,6 +52,8 @@ namespace DentalClinic.APP
             _medicineBLL = medicineBLL;
             _medicalRecordBLL = medicalRecordBLL;
             _invoiceBLL = invoiceBLL;
+            _treatmentBLL = treatmentBLL;
+            _doctorBLL = doctorBLL;
         }
 
         private void UC_Doctor_Examination_Load(object sender, EventArgs e)
@@ -152,6 +160,8 @@ namespace DentalClinic.APP
 
         private void ClearPatientInfo()
         {
+            _currentVisitId = 0;
+            _currentPatientId = 0;
             lbFullName.Text = "...";
             lbPhone.Text = "...";
             lbPatientNote.Text = "...";
@@ -163,6 +173,7 @@ namespace DentalClinic.APP
         private void LoadPatientToPanel(WaitingQueueDto selectedVisit)
         {
             _currentVisitId = selectedVisit.VisitId;
+            _currentPatientId = selectedVisit.PatientId;
             lbFullName.Text = selectedVisit.PatientName;
             lbPhone.Text = selectedVisit.PatientPhone;
             lbReasonForVisit.Text = string.IsNullOrWhiteSpace(selectedVisit.ReasonForVisit) ? "Không có" : selectedVisit.ReasonForVisit;
@@ -174,6 +185,7 @@ namespace DentalClinic.APP
             lbMedicalRecordId.Text = "...";
             txtDiagnosis.Clear();
             txtConclusion.Clear();
+            txtNote.Clear();
             _selectedServices.Clear();
             _selectedMedicines.Clear();
             CalculateTotal();
@@ -185,6 +197,7 @@ namespace DentalClinic.APP
                 lbMedicalRecordId.Text = draftRecord.MedicalRecordId.ToString();
                 txtDiagnosis.Text = draftRecord.Diagnosis;
                 txtConclusion.Text = draftRecord.Conclusion;
+                txtNote.Text = draftRecord.Note;
 
                 foreach (var s in draftRecord.Services) _selectedServices.Add(s);
                 foreach (var m in draftRecord.Medicines) _selectedMedicines.Add(m);
@@ -361,16 +374,97 @@ namespace DentalClinic.APP
         {
             if (cbService.SelectedValue is not int serviceId)
             {
-                serviceId = 1;
+                MessageBox.Show(
+                    "Vui lòng chọn dịch vụ.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                cbService.Focus();
+                return;
             }
 
+            var serviceResult = _serviceBLL.GetById(serviceId);
+
+            if (!serviceResult.IsSuccess || serviceResult.Data == null)
+            {
+                MessageBox.Show(
+                    "Không tìm thấy thông tin dịch vụ.",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
+            var service = serviceResult.Data;
+
+            // =========================================================
+            // DỊCH VỤ DÀI HẠN
+            // =========================================================
+            if (service.IsLongTerm)
+            {
+                // Kiểm tra đã có kế hoạch đang thực hiện chưa
+                var activeTreatmentResult =
+                    _treatmentBLL.GetActiveByPatientAndService(
+                        _currentPatientId,
+                        serviceId);
+
+                if (!activeTreatmentResult.IsSuccess)
+                {
+                    MessageBox.Show(
+                        activeTreatmentResult.Message,
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                // Chưa có kế hoạch -> bắt buộc tạo
+                if (activeTreatmentResult.Data == null)
+                {
+                    var confirm = MessageBox.Show(
+                        "Dịch vụ này yêu cầu tạo kế hoạch điều trị.\n\n" +
+                        "Bạn có muốn tạo kế hoạch điều trị ngay không?",
+                        "Dịch vụ điều trị dài hạn",
+                        MessageBoxButtons.OKCancel,
+                        MessageBoxIcon.Information);
+
+                    if (confirm != DialogResult.OK)
+                        return;
+
+                    using var dialog = new Dialog_Treatment(
+    _treatmentBLL,
+    _serviceBLL,
+    _currentPatientId,
+    _doctorId,
+    _currentVisitId,
+    GetCurrentDoctorName(),
+    serviceId);
+
+                    dialog.ShowDialog();
+
+                    if (!dialog.IsTreatmentCreated)
+                        return;
+                }
+            }
+
+            // =========================================================
+            // THÊM DỊCH VỤ
+            // =========================================================
+
             int qty = (int)nudServiceQuantity.Value;
-            if (qty <= 0) qty = 1;
 
-            string serviceName = cbService.Text;
-            decimal unitPrice = _servicePrices.ContainsKey(serviceId) ? _servicePrices[serviceId] : 200000; // Giá mặc định mẫu
+            if (qty <= 0)
+                qty = 1;
 
-            var existing = _selectedServices.FirstOrDefault(s => s.ServiceId == serviceId);
+            string serviceName = service.ServiceName;
+            decimal unitPrice = service.UnitPrice;
+
+            var existing = _selectedServices
+                .FirstOrDefault(s => s.ServiceId == serviceId);
+
             if (existing != null)
             {
                 existing.Quantity += qty;
@@ -380,7 +474,7 @@ namespace DentalClinic.APP
                 _selectedServices.Add(new SelectedServiceDto
                 {
                     ServiceId = serviceId,
-                    ServiceName = string.IsNullOrEmpty(serviceName) ? "Dịch vụ mẫu" : serviceName,
+                    ServiceName = serviceName,
                     Quantity = qty,
                     UnitPrice = unitPrice
                 });
@@ -571,10 +665,11 @@ namespace DentalClinic.APP
                     "Thông báo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 return;
             }
 
-            // Chỉ kiểm tra tồn kho khi hoàn thành khám
+            // Nếu hoàn thành khám thì kiểm tra tồn kho khi có thuốc
             if (!isDraft)
             {
                 if (_invoiceBLL.HasUnpaidInvoice(_currentVisitId))
@@ -588,9 +683,12 @@ namespace DentalClinic.APP
                     return;
                 }
 
-                if (!CheckMedicineStock())
+                if (_selectedMedicines.Count > 0)
                 {
-                    return;
+                    if (!CheckMedicineStock())
+                    {
+                        return;
+                    }
                 }
             }
 
@@ -600,91 +698,162 @@ namespace DentalClinic.APP
                 DoctorId = _doctorId,
                 Diagnosis = txtDiagnosis.Text.Trim(),
                 Conclusion = txtConclusion.Text.Trim(),
+                Note = string.IsNullOrWhiteSpace(txtNote.Text)
+                    ? null
+                    : txtNote.Text.Trim(),
+
                 Services = _selectedServices.ToList(),
                 Medicines = _selectedMedicines.ToList(),
+
                 IsDraft = isDraft
             };
+
+            // Tính tổng tiền phát sinh trong ca khám
+            decimal totalAmount =
+                _selectedServices.Sum(s => s.TotalPrice) +
+                _selectedMedicines.Sum(m => m.TotalPrice);
+
+            bool hasCharge = totalAmount > 0;
 
             try
             {
                 var result = _medicalRecordBLL.SaveRecord(recordData);
 
-                if (result.IsSuccess)
+                if (!result.IsSuccess)
                 {
-                    if (isDraft)
+                    MessageBox.Show(
+                        result.Message,
+                        "Cảnh báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                if (isDraft)
+                {
+                    lbMedicalRecordId.Text =
+                        recordData.MedicalRecordId.ToString();
+
+                    MessageBox.Show(
+                        result.Message,
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    // Lưu nháp -> vẫn đang khám
+                    LoadInExamination();
+
+                    return;
+                }
+
+                // =====================================================
+                // KHÔNG PHÁT SINH CHI PHÍ
+                // =====================================================
+                if (!hasCharge)
+                {
+                    var visitResult = _visitBLL.UpdateVisitStatus(
+                        _currentVisitId,
+                        VisitStatus.Completed);
+
+                    if (!visitResult.IsSuccess)
                     {
-                        lbMedicalRecordId.Text = recordData.MedicalRecordId.ToString();
-                        MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // Lưu nháp -> Vẫn là InExamination -> Tự động refresh để update
-                        LoadInExamination();
-                    }
-                    else
-                    {
-                        // 1. Chuyển Visit sang WaitingForPayment
-                        var visitResult = _visitBLL.UpdateVisitStatus(
-                            _currentVisitId,
-                            VisitStatus.WaitingForPayment);
-
-                        if (!visitResult.IsSuccess)
-                        {
-                            MessageBox.Show(
-                                "Không thể chuyển ca khám sang trạng thái chờ thanh toán.",
-                                "Lỗi",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-
-                            return;
-                        }
-
-                        // 2. Tạo Invoice Unpaid
-                        var invoiceResult =
-                            _invoiceBLL.CreateUnpaidInvoice(_currentVisitId);
-
-                        if (!invoiceResult.IsSuccess)
-                        {
-                            MessageBox.Show(
-                                "Không thể tạo hóa đơn:\n" +
-                                invoiceResult.Message,
-                                "Lỗi tạo hóa đơn",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-
-                            return;
-                        }
-
                         MessageBox.Show(
-                            "Hoàn thành ca khám!\n" +
-                            "Hóa đơn chưa thanh toán đã được tạo.",
-                            "Thông báo",
+                            "Lưu hồ sơ thành công nhưng không thể hoàn thành ca khám.",
+                            "Lỗi",
                             MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
+                            MessageBoxIcon.Error);
 
-                        _currentVisitId = 0;
-
-                        ClearPatientInfo();
-
-                        lbMedicalRecordId.Text = "...";
-                        txtDiagnosis.Clear();
-                        txtConclusion.Clear();
-
-                        _selectedServices.Clear();
-                        _selectedMedicines.Clear();
-
-                        CalculateTotal();
-
-                        LoadWaitingQueue();
-                        LoadInExamination();
+                        return;
                     }
+
+                    MessageBox.Show(
+                        "Hoàn thành ca khám thành công.\n" +
+                        "Ca khám không phát sinh chi phí nên không tạo hóa đơn.",
+                        "Hoàn thành",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    ResetCurrentExamination();
+
+                    return;
                 }
-                else
+
+                // =====================================================
+                // CÓ PHÁT SINH CHI PHÍ
+                // =====================================================
+
+                // 1. Chuyển Visit -> WaitingForPayment
+                var waitingPaymentResult =
+                    _visitBLL.UpdateVisitStatus(
+                        _currentVisitId,
+                        VisitStatus.WaitingForPayment);
+
+                if (!waitingPaymentResult.IsSuccess)
                 {
-                    MessageBox.Show(result.Message, "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        "Không thể chuyển ca khám sang trạng thái chờ thanh toán.",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return;
                 }
+
+                // 2. Tạo Invoice Unpaid
+                var invoiceResult =
+                    _invoiceBLL.CreateUnpaidInvoice(_currentVisitId);
+
+                if (!invoiceResult.IsSuccess)
+                {
+                    MessageBox.Show(
+                        "Không thể tạo hóa đơn:\n" +
+                        invoiceResult.Message,
+                        "Lỗi tạo hóa đơn",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                MessageBox.Show(
+                    "Hoàn thành ca khám!\n" +
+                    "Hóa đơn chưa thanh toán đã được tạo.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                ResetCurrentExamination();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi Hệ Thống: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Lỗi Hệ Thống: " + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
+        }
+
+        private void ResetCurrentExamination()
+        {
+            _currentVisitId = 0;
+            _currentPatientId = 0;
+
+            ClearPatientInfo();
+
+            lbMedicalRecordId.Text = "...";
+            txtDiagnosis.Clear();
+            txtConclusion.Clear();
+            txtNote.Clear();
+
+            _selectedServices.Clear();
+            _selectedMedicines.Clear();
+
+            CalculateTotal();
+
+            LoadWaitingQueue();
+            LoadInExamination();
         }
 
         private void btViewMedicalHistory_Click(object sender, EventArgs e)
@@ -800,6 +969,7 @@ namespace DentalClinic.APP
                 lbMedicalRecordId.Text = "...";
                 txtDiagnosis.Clear();
                 txtConclusion.Clear();
+                txtNote.Clear();
 
                 _selectedServices.Clear();
                 _selectedMedicines.Clear();
@@ -836,6 +1006,42 @@ namespace DentalClinic.APP
                     }
                 }));
             }
+        }
+
+        private string GetCurrentDoctorName()
+        {
+            var result = _doctorBLL.GetById(_doctorId);
+
+            if (result.IsSuccess && result.Data != null)
+            {
+                return result.Data.FullName;
+            }
+
+            return "...";
+        }
+
+        private void btTreatment_Click(object sender, EventArgs e)
+        {
+            if (_currentVisitId <= 0 || _currentPatientId <= 0)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn bệnh nhân đang khám.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            using var dialog = new Dialog_Treatment(
+    _treatmentBLL,
+    _serviceBLL,
+    _currentPatientId,
+    _doctorId,
+    _currentVisitId,
+    GetCurrentDoctorName());
+
+            dialog.ShowDialog();
         }
     }
 }

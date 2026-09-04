@@ -16,6 +16,7 @@ namespace DentalClinic.MODEL
         public string ServiceName { get; set; } = string.Empty;
         public string? Description { get; set; }
         public decimal UnitPrice { get; set; }
+        public bool IsLongTerm { get; set; }
         public ServiceStatus Status { get; set; } = ServiceStatus.Active;
     }
 }

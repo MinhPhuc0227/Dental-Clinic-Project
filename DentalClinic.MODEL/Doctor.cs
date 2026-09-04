@@ -24,5 +24,8 @@ namespace DentalClinic.MODEL
         // Foreign Key
         public int AccountId { get; set; }
         public Account Account { get; set; } = null!;
+
+        // Navigation Property cho Treatment
+        public ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
     }
 }

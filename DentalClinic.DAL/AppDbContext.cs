@@ -80,6 +80,9 @@ namespace DentalClinic.DAL
         public DbSet<Supplier> Suppliers { get; set; }
 
         // 18
+        public DbSet<Treatment> Treatments { get; set; }
+
+        // 19
         public DbSet<Visit> Visits { get; set; }
 
 
@@ -376,6 +379,11 @@ namespace DentalClinic.DAL
                 // Conclusion
                 entity.Property(m => m.Conclusion)
                       .IsRequired()
+                      .HasMaxLength(1000);
+
+                // Note
+                entity.Property(m => m.Note)
+                      .IsRequired(false)
                       .HasMaxLength(1000);
 
                 // Relationship: Visit
@@ -781,6 +789,11 @@ namespace DentalClinic.DAL
                       .IsRequired()
                       .HasColumnType("decimal(18, 2)");
 
+                // IsLongTerm
+                entity.Property(s => s.IsLongTerm)
+                      .IsRequired()
+                      .HasDefaultValue(false);
+
                 // Status
                 entity.Property(s => s.Status)
                       .IsRequired()
@@ -789,61 +802,7 @@ namespace DentalClinic.DAL
                       .HasDefaultValue(ServiceStatus.Active);
             });
 
-            // 17. Visit
-            modelBuilder.Entity<Visit>(entity =>
-            {
-                entity.ToTable("Visit");
-
-                entity.HasKey(v => v.VisitId);
-
-                // CheckInDateTime
-                entity.Property(v => v.CheckInDateTime)
-                      .IsRequired()
-                      .HasDefaultValueSql("GETDATE()");
-
-                // ReasonForVisit
-                entity.Property(v => v.ReasonForVisit)
-                      .IsRequired()
-                      .HasMaxLength(1000);
-
-                // Status
-                entity.Property(v => v.Status)
-                      .IsRequired()
-                      .HasConversion<string>()
-                      .HasMaxLength(30)
-                      .HasDefaultValue(VisitStatus.Waiting);
-
-                // QueueNumber
-                entity.Property(v => v.QueueNumber)
-                      .IsRequired();
-
-                // Relationship 1: Patient
-                entity.HasOne(v => v.Patient)
-                      .WithMany()
-                      .HasForeignKey(v => v.PatientId)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                // Relationship 2: Appointment, nullable
-                entity.HasOne(v => v.Appointment)
-                      .WithOne(a => a.Visit)
-                      .HasForeignKey<Visit>(v => v.AppointmentId)
-                      .IsRequired(false)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                // Relationship 3: Doctor
-                entity.HasOne(v => v.Doctor)
-                      .WithMany()
-                      .HasForeignKey(v => v.DoctorId)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                // Relationship 4: Receptionist
-                entity.HasOne(v => v.Receptionist)
-                      .WithMany()
-                      .HasForeignKey(v => v.ReceptionistId)
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            // 18. Supplier
+            // 17. Supplier
             modelBuilder.Entity<Supplier>(entity =>
             {
                 entity.ToTable("Supplier");
@@ -880,6 +839,125 @@ namespace DentalClinic.DAL
                 entity.Property(s => s.IsActive)
                       .HasDefaultValue(true)
                       .IsRequired();
+            });
+
+            // 18. Treatment
+            modelBuilder.Entity<Treatment>(entity =>
+            {
+                entity.ToTable("Treatment");
+
+                entity.HasKey(t => t.TreatmentId);
+
+                entity.Property(t => t.StartDate)
+                      .IsRequired()
+                      .HasDefaultValueSql("GETDATE()");
+
+                entity.Property(t => t.EndDate)
+                      .IsRequired(false);
+
+                entity.Property(t => t.PlannedSessions)
+                      .IsRequired(false);
+
+                entity.Property(t => t.TotalAmount)
+                      .IsRequired()
+                      .HasColumnType("decimal(18,2)");
+
+                //entity.Property(t => t.PaymentStatus)
+                //      .IsRequired()
+                //      .HasConversion<string>()
+                //      .HasMaxLength(20)
+                //      .HasDefaultValue(TreatmentPaymentStatus.Unpaid);
+
+                entity.Property(t => t.Status)
+                      .IsRequired()
+                      .HasConversion<string>()
+                      .HasMaxLength(20)
+                      .HasDefaultValue(TreatmentStatus.InProgress);
+
+                entity.Property(t => t.Note)
+                      .IsRequired(false)
+                      .HasMaxLength(1000);
+
+                entity.HasOne(t => t.Patient)
+                      .WithMany(p => p.Treatments)
+                      .HasForeignKey(t => t.PatientId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(t => t.Doctor)
+                      .WithMany(d => d.Treatments)
+                      .HasForeignKey(t => t.DoctorId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(t => t.Service)
+                      .WithMany()
+                      .HasForeignKey(t => t.ServiceId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // 19. Visit
+            modelBuilder.Entity<Visit>(entity =>
+            {
+                entity.ToTable("Visit");
+
+                entity.HasKey(v => v.VisitId);
+
+                // CheckInDateTime
+                entity.Property(v => v.CheckInDateTime)
+                      .IsRequired()
+                      .HasDefaultValueSql("GETDATE()");
+
+                // ReasonForVisit
+                entity.Property(v => v.ReasonForVisit)
+                      .IsRequired()
+                      .HasMaxLength(1000);
+
+                // Status
+                entity.Property(v => v.Status)
+                      .IsRequired()
+                      .HasConversion<string>()
+                      .HasMaxLength(30)
+                      .HasDefaultValue(VisitStatus.Waiting);
+
+                // QueueNumber
+                entity.Property(v => v.QueueNumber)
+                      .IsRequired();
+
+                // TreatmentSessionNumber
+                entity.Property(v => v.TreatmentSessionNumber)
+                       .IsRequired(false);
+
+                // Relationship 1: Patient
+                entity.HasOne(v => v.Patient)
+                      .WithMany()
+                      .HasForeignKey(v => v.PatientId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 2: Appointment, nullable
+                entity.HasOne(v => v.Appointment)
+                      .WithOne(a => a.Visit)
+                      .HasForeignKey<Visit>(v => v.AppointmentId)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 3: Doctor
+                entity.HasOne(v => v.Doctor)
+                      .WithMany()
+                      .HasForeignKey(v => v.DoctorId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 4: Receptionist
+                entity.HasOne(v => v.Receptionist)
+                      .WithMany()
+                      .HasForeignKey(v => v.ReceptionistId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 5: Treatment
+                entity.HasOne(v => v.Treatment)
+                      .WithMany(t => t.Visits)
+                      .HasForeignKey(v => v.TreatmentId)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

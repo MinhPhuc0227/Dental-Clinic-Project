@@ -10,6 +10,7 @@ namespace DentalClinic.MODEL
         public DateTime ExaminationDateTime { get; set; }
         public string Diagnosis { get; set; } = string.Empty;
         public string Conclusion { get; set; } = string.Empty;
+        public string? Note { get; set; }
 
         // Foreign Key
         public int VisitId { get; set; }

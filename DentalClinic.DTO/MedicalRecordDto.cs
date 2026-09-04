@@ -11,6 +11,7 @@ namespace DentalClinic.DTO
         public int DoctorId { get; set; }
         public string Diagnosis { get; set; } = string.Empty;
         public string Conclusion { get; set; } = string.Empty;
+        public string? Note { get; set; }
         public bool IsDraft { get; set; }
 
         // Chứa danh sách dịch vụ và thuốc bác sĩ đã kê

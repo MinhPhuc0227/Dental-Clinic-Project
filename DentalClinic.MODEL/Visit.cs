@@ -37,5 +37,11 @@ namespace DentalClinic.MODEL
         // Navigation Property
         public MedicalRecord? MedicalRecord { get; set; }
         public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
+
+        // For Treatment 
+        public int? TreatmentId { get; set; }
+        public Treatment? Treatment { get; set; }
+
+        public int? TreatmentSessionNumber { get; set; }
     }
 }

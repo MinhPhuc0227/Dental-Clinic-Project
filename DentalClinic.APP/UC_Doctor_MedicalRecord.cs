@@ -62,6 +62,7 @@ namespace DentalClinic.APP
             lbPatientName.Text = "...";
             txtDiagnosis.Clear();
             txtConclusion.Clear();
+            txtNote.Clear();
             dgvService.DataSource = null;
             dgvMedicine.DataSource = null;
         }
@@ -84,6 +85,7 @@ namespace DentalClinic.APP
                     // Hiển thị lên giao diện
                     txtDiagnosis.Text = details.Diagnosis;
                     txtConclusion.Text = details.Conclusion;
+                    txtNote.Text = details.Note;
                     dgvService.DataSource = details.Services;
                     dgvMedicine.DataSource = details.Medicines;
                 }
@@ -134,6 +136,11 @@ namespace DentalClinic.APP
         }
 
         private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }

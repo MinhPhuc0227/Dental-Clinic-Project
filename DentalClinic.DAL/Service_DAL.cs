@@ -37,6 +37,7 @@ namespace DentalClinic.DAL
 
                 existing.ServiceName = entity.ServiceName;
                 existing.UnitPrice = entity.UnitPrice;
+                existing.IsLongTerm = entity.IsLongTerm;
                 existing.Description = entity.Description;
                 existing.Status = entity.Status;
 

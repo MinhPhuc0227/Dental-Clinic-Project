@@ -40,6 +40,7 @@ namespace DentalClinic.DAL
                     // Cập nhật dữ liệu 
                     record.Diagnosis = dto.Diagnosis;
                     record.Conclusion = dto.Conclusion;
+                    record.Note = dto.Note;
 
                     _context.SaveChanges();
 
@@ -129,6 +130,7 @@ namespace DentalClinic.DAL
                 VisitId = visitId,
                 Diagnosis = record.Diagnosis,
                 Conclusion = record.Conclusion,
+                Note = record.Note,
                 IsDraft = true
             };
 
@@ -176,7 +178,8 @@ namespace DentalClinic.DAL
                     ExaminationDate = m.ExaminationDateTime,
                     DoctorName = m.Visit.Doctor.FullName,
                     Diagnosis = m.Diagnosis,
-                    Conclusion = m.Conclusion
+                    Conclusion = m.Conclusion,
+                    Note = m.Note
                 }).ToList();
         }
 
@@ -195,14 +198,11 @@ namespace DentalClinic.DAL
                 .Select(m => new MedicalHistoryDto
                 {
                     VisitId = m.VisitId,
-
                     ExaminationDate = m.ExaminationDateTime,
-
                     DoctorName = m.Visit.Doctor.FullName,
-
                     Diagnosis = m.Diagnosis,
-
-                    Conclusion = m.Conclusion
+                    Conclusion = m.Conclusion,
+                    Note = m.Note
                 })
                 .ToList();
         }
@@ -243,10 +243,10 @@ namespace DentalClinic.DAL
         }
 
         // Lấy chi tiết 1 ca khám để hiển thị (pnRight trong UC_Doctor_MedicalRecord)
-        public (string Diagnosis, string Conclusion, List<ExaminedServiceDto> Services, List<ExaminedMedicineDto> Medicines) GetRecordDetails(int visitId)
+        public (string Diagnosis, string Conclusion, string? Note, List<ExaminedServiceDto> Services, List<ExaminedMedicineDto> Medicines) GetRecordDetails(int visitId)
         {
             var record = _context.MedicalRecords.FirstOrDefault(m => m.VisitId == visitId);
-            if (record == null) return (string.Empty, string.Empty, new List<ExaminedServiceDto>(), new List<ExaminedMedicineDto>());
+            if (record == null) return (string.Empty, string.Empty, null, new List<ExaminedServiceDto>(), new List<ExaminedMedicineDto>());
 
             var services = _context.MedicalRecordServices
                 .Where(s => s.MedicalRecordId == record.MedicalRecordId)
@@ -270,7 +270,7 @@ namespace DentalClinic.DAL
                     }).ToList();
             }
 
-            return (record.Diagnosis, record.Conclusion, services, medicines);
+            return (record.Diagnosis, record.Conclusion, record.Note, services, medicines);
         }
 
         // Khách hàng online có thể xem được lịch sử khám bệnh của mình
@@ -287,7 +287,8 @@ namespace DentalClinic.DAL
                     ExaminationDate = m.ExaminationDateTime,
                     DoctorName = m.Visit.Doctor.FullName,
                     Diagnosis = m.Diagnosis,
-                    Conclusion = m.Conclusion
+                    Conclusion = m.Conclusion,
+                    Note = m.Note,
                 })
                 .ToList();
         }

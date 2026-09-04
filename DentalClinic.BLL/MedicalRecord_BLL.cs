@@ -94,7 +94,7 @@ namespace DentalClinic.BLL
         }
 
         // Lấy chi tiết 1 ca khám để hiển thị (pnRight trong UC_Doctor_MedicalRecord)
-        public (string Diagnosis, string Conclusion, List<ExaminedServiceDto> Services, List<ExaminedMedicineDto> Medicines) GetRecordDetails(int visitId)
+        public (string Diagnosis, string Conclusion, string? Note, List<ExaminedServiceDto> Services, List<ExaminedMedicineDto> Medicines) GetRecordDetails(int visitId)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace DentalClinic.BLL
             }
             catch (Exception)
             {
-                return (string.Empty, string.Empty, new List<ExaminedServiceDto>(), new List<ExaminedMedicineDto>());
+                return (string.Empty, string.Empty, null, new List<ExaminedServiceDto>(), new List<ExaminedMedicineDto>());
             }
         }
 

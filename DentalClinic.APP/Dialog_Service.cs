@@ -38,6 +38,7 @@ namespace DentalClinic.APP
             lbServiceId.Text = data.ServiceId.ToString();
             txtServiceName.Text = data.ServiceName;
             txtUnitPrice.Text = data.UnitPrice.ToString("G29");
+            chkIsLongTerm.Checked = data.IsLongTerm;
             txtDescription.Text = data.Description;
             cbStatus.SelectedValue = data.Status;
         }
@@ -91,6 +92,7 @@ namespace DentalClinic.APP
                 {
                     ServiceName = txtServiceName.Text.Trim(),
                     UnitPrice = unitPrice,
+                    IsLongTerm = chkIsLongTerm.Checked,
                     Description = txtDescription.Text.Trim(),
                     Status = selectedStatus
                 };
@@ -113,6 +115,7 @@ namespace DentalClinic.APP
                     ServiceId = ServiceData.ServiceId,
                     ServiceName = txtServiceName.Text.Trim(),
                     UnitPrice = unitPrice,
+                    IsLongTerm = chkIsLongTerm.Checked,
                     Description = txtDescription.Text.Trim(),
                     Status = selectedStatus
                 };

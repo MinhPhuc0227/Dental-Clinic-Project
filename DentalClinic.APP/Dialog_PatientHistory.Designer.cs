@@ -58,7 +58,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(913, 172);
+            panel1.Size = new Size(1366, 256);
             panel1.TabIndex = 0;
             // 
             // dgvHistory
@@ -98,7 +98,7 @@
             dgvHistory.RowHeadersWidth = 51;
             dgvHistory.RowTemplate.Height = 38;
             dgvHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvHistory.Size = new Size(913, 144);
+            dgvHistory.Size = new Size(1366, 228);
             dgvHistory.TabIndex = 7;
             dgvHistory.CellClick += dgvHistory_CellClick;
             // 
@@ -120,9 +120,9 @@
             panel2.Controls.Add(dgvMedicines);
             panel2.Controls.Add(label3);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(10, 367);
+            panel2.Location = new Point(10, 487);
             panel2.Name = "panel2";
-            panel2.Size = new Size(913, 187);
+            panel2.Size = new Size(1366, 187);
             panel2.TabIndex = 8;
             // 
             // dgvMedicines
@@ -162,7 +162,7 @@
             dgvMedicines.RowHeadersWidth = 51;
             dgvMedicines.RowTemplate.Height = 38;
             dgvMedicines.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMedicines.Size = new Size(913, 159);
+            dgvMedicines.Size = new Size(1366, 159);
             dgvMedicines.TabIndex = 19;
             // 
             // label3
@@ -183,9 +183,9 @@
             panel3.Controls.Add(dgvServices);
             panel3.Controls.Add(label2);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(10, 182);
+            panel3.Location = new Point(10, 266);
             panel3.Name = "panel3";
-            panel3.Size = new Size(913, 185);
+            panel3.Size = new Size(1366, 221);
             panel3.TabIndex = 9;
             // 
             // dgvServices
@@ -225,7 +225,7 @@
             dgvServices.RowHeadersWidth = 51;
             dgvServices.RowTemplate.Height = 38;
             dgvServices.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvServices.Size = new Size(913, 157);
+            dgvServices.Size = new Size(1366, 193);
             dgvServices.TabIndex = 19;
             // 
             // label2
@@ -246,7 +246,7 @@
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(933, 564);
+            ClientSize = new Size(1386, 684);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);

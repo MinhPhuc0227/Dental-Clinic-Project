@@ -38,6 +38,7 @@
             DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             pnLeft = new Panel();
             pnPatientInfo = new Panel();
+            btTreatment = new Button();
             btCancelVisit = new Button();
             btViewMedicalHistory = new Button();
             lbAppointmentNote = new Label();
@@ -96,6 +97,8 @@
             lbServiceAmount = new Label();
             label2 = new Label();
             pnMedicalRecordInfo = new Panel();
+            txtNote = new TextBox();
+            label4 = new Label();
             lbMedicalRecordId = new Label();
             label14 = new Label();
             txtConclusion = new TextBox();
@@ -147,6 +150,7 @@
             // pnPatientInfo
             // 
             pnPatientInfo.BackColor = Color.White;
+            pnPatientInfo.Controls.Add(btTreatment);
             pnPatientInfo.Controls.Add(btCancelVisit);
             pnPatientInfo.Controls.Add(btViewMedicalHistory);
             pnPatientInfo.Controls.Add(lbAppointmentNote);
@@ -165,6 +169,17 @@
             pnPatientInfo.Name = "pnPatientInfo";
             pnPatientInfo.Size = new Size(619, 362);
             pnPatientInfo.TabIndex = 1;
+            // 
+            // btTreatment
+            // 
+            btTreatment.Font = new Font("Segoe UI", 10F);
+            btTreatment.Location = new Point(438, 73);
+            btTreatment.Name = "btTreatment";
+            btTreatment.Size = new Size(156, 50);
+            btTreatment.TabIndex = 47;
+            btTreatment.Text = "Kế hoạch điều trị";
+            btTreatment.UseVisualStyleBackColor = true;
+            btTreatment.Click += btTreatment_Click;
             // 
             // btCancelVisit
             // 
@@ -455,10 +470,10 @@
             pnServiceMedicine.BackColor = Color.FromArgb(255, 192, 192);
             pnServiceMedicine.Controls.Add(tabControl1);
             pnServiceMedicine.Dock = DockStyle.Fill;
-            pnServiceMedicine.Location = new Point(10, 222);
+            pnServiceMedicine.Location = new Point(10, 266);
             pnServiceMedicine.Name = "pnServiceMedicine";
             pnServiceMedicine.Padding = new Padding(0, 10, 0, 10);
-            pnServiceMedicine.Size = new Size(930, 473);
+            pnServiceMedicine.Size = new Size(930, 429);
             pnServiceMedicine.TabIndex = 1;
             // 
             // tabControl1
@@ -469,7 +484,7 @@
             tabControl1.Location = new Point(0, 10);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(930, 453);
+            tabControl1.Size = new Size(930, 409);
             tabControl1.TabIndex = 0;
             // 
             // tpService
@@ -480,7 +495,7 @@
             tpService.Location = new Point(4, 37);
             tpService.Name = "tpService";
             tpService.Padding = new Padding(3);
-            tpService.Size = new Size(922, 412);
+            tpService.Size = new Size(922, 368);
             tpService.TabIndex = 0;
             tpService.Text = "Dịch vụ";
             // 
@@ -521,7 +536,7 @@
             dgvService.RowHeadersWidth = 51;
             dgvService.RowTemplate.Height = 38;
             dgvService.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvService.Size = new Size(916, 289);
+            dgvService.Size = new Size(916, 245);
             dgvService.TabIndex = 7;
             dgvService.CellClick += dgvService_CellClick;
             dgvService.CellEndEdit += dgvService_CellEndEdit;
@@ -596,10 +611,10 @@
             tpMedicine.BackColor = Color.White;
             tpMedicine.Controls.Add(dgvMedicine);
             tpMedicine.Controls.Add(panel8);
-            tpMedicine.Location = new Point(4, 37);
+            tpMedicine.Location = new Point(4, 29);
             tpMedicine.Name = "tpMedicine";
             tpMedicine.Padding = new Padding(3);
-            tpMedicine.Size = new Size(922, 412);
+            tpMedicine.Size = new Size(922, 376);
             tpMedicine.TabIndex = 1;
             tpMedicine.Text = "Thuốc";
             // 
@@ -640,7 +655,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvMedicine.Size = new Size(916, 183);
+            dgvMedicine.Size = new Size(916, 147);
             dgvMedicine.TabIndex = 8;
             dgvMedicine.CellClick += dgvMedicine_CellClick;
             dgvMedicine.CellEndEdit += dgvMedicine_CellEndEdit;
@@ -930,6 +945,8 @@
             // pnMedicalRecordInfo
             // 
             pnMedicalRecordInfo.BackColor = Color.White;
+            pnMedicalRecordInfo.Controls.Add(txtNote);
+            pnMedicalRecordInfo.Controls.Add(label4);
             pnMedicalRecordInfo.Controls.Add(lbMedicalRecordId);
             pnMedicalRecordInfo.Controls.Add(label14);
             pnMedicalRecordInfo.Controls.Add(txtConclusion);
@@ -942,8 +959,28 @@
             pnMedicalRecordInfo.Dock = DockStyle.Top;
             pnMedicalRecordInfo.Location = new Point(10, 10);
             pnMedicalRecordInfo.Name = "pnMedicalRecordInfo";
-            pnMedicalRecordInfo.Size = new Size(930, 212);
+            pnMedicalRecordInfo.Size = new Size(930, 256);
             pnMedicalRecordInfo.TabIndex = 0;
+            // 
+            // txtNote
+            // 
+            txtNote.BorderStyle = BorderStyle.FixedSingle;
+            txtNote.Font = new Font("Segoe UI", 10F);
+            txtNote.Location = new Point(271, 206);
+            txtNote.Name = "txtNote";
+            txtNote.Size = new Size(641, 30);
+            txtNote.TabIndex = 51;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Semibold", 12F);
+            label4.ForeColor = Color.DarkCyan;
+            label4.Location = new Point(18, 207);
+            label4.Name = "label4";
+            label4.Size = new Size(87, 28);
+            label4.TabIndex = 50;
+            label4.Text = "Ghi chú:";
             // 
             // lbMedicalRecordId
             // 
@@ -952,9 +989,9 @@
             lbMedicalRecordId.ForeColor = Color.Black;
             lbMedicalRecordId.Location = new Point(146, 73);
             lbMedicalRecordId.Name = "lbMedicalRecordId";
-            lbMedicalRecordId.Size = new Size(176, 28);
+            lbMedicalRecordId.Size = new Size(24, 28);
             lbMedicalRecordId.TabIndex = 49;
-            lbMedicalRecordId.Text = "lbMedicalRecordId";
+            lbMedicalRecordId.Text = "...";
             // 
             // label14
             // 
@@ -992,9 +1029,9 @@
             lbExaminationDateTime.ForeColor = Color.Black;
             lbExaminationDateTime.Location = new Point(691, 71);
             lbExaminationDateTime.Name = "lbExaminationDateTime";
-            lbExaminationDateTime.Size = new Size(219, 28);
+            lbExaminationDateTime.Size = new Size(24, 28);
             lbExaminationDateTime.TabIndex = 45;
-            lbExaminationDateTime.Text = "lbExaminationDateTime";
+            lbExaminationDateTime.Text = "...";
             // 
             // label13
             // 
@@ -1157,5 +1194,8 @@
         private TabPage tabPage2;
         private DataGridView dgvInExamination;
         private Button btCancelVisit;
+        private TextBox txtNote;
+        private Label label4;
+        private Button btTreatment;
     }
 }

@@ -144,7 +144,7 @@
             tabControl1.Location = new Point(10, 68);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1481, 750);
+            tabControl1.Size = new Size(1481, 1069);
             tabControl1.TabIndex = 14;
             // 
             // tabPage1
@@ -157,7 +157,7 @@
             tabPage1.Location = new Point(4, 29);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(5);
-            tabPage1.Size = new Size(1473, 717);
+            tabPage1.Size = new Size(1473, 1036);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Tổng quan";
             // 
@@ -167,7 +167,7 @@
             panel10.Dock = DockStyle.Fill;
             panel10.Location = new Point(5, 169);
             panel10.Name = "panel10";
-            panel10.Size = new Size(1463, 280);
+            panel10.Size = new Size(1463, 599);
             panel10.TabIndex = 18;
             // 
             // chartVisits
@@ -183,7 +183,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             chartVisits.Series.Add(series1);
-            chartVisits.Size = new Size(1463, 280);
+            chartVisits.Size = new Size(1463, 599);
             chartVisits.TabIndex = 15;
             chartVisits.Text = "chart1";
             // 
@@ -191,7 +191,7 @@
             // 
             panel9.Controls.Add(tableLayoutPanel1);
             panel9.Dock = DockStyle.Bottom;
-            panel9.Location = new Point(5, 449);
+            panel9.Location = new Point(5, 768);
             panel9.Name = "panel9";
             panel9.Size = new Size(1463, 263);
             panel9.TabIndex = 17;
@@ -483,7 +483,7 @@
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1473, 717);
+            tabPage2.Size = new Size(1473, 1036);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Kho thuốc";
             // 
@@ -503,7 +503,7 @@
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
-            tableLayoutPanel4.Size = new Size(1467, 586);
+            tableLayoutPanel4.Size = new Size(1467, 905);
             tableLayoutPanel4.TabIndex = 3;
             // 
             // label9
@@ -511,7 +511,7 @@
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label9.ForeColor = Color.DarkCyan;
-            label9.Location = new Point(3, 292);
+            label9.Location = new Point(3, 452);
             label9.Name = "label9";
             label9.Size = new Size(213, 28);
             label9.TabIndex = 19;
@@ -557,7 +557,7 @@
             dgvLowStock.Dock = DockStyle.Fill;
             dgvLowStock.EnableHeadersVisualStyles = false;
             dgvLowStock.GridColor = Color.DarkCyan;
-            dgvLowStock.Location = new Point(3, 32);
+            dgvLowStock.Location = new Point(3, 48);
             dgvLowStock.MultiSelect = false;
             dgvLowStock.Name = "dgvLowStock";
             dgvLowStock.ReadOnly = true;
@@ -565,7 +565,7 @@
             dgvLowStock.RowHeadersWidth = 51;
             dgvLowStock.RowTemplate.Height = 38;
             dgvLowStock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvLowStock.Size = new Size(1461, 257);
+            dgvLowStock.Size = new Size(1461, 401);
             dgvLowStock.TabIndex = 8;
             // 
             // dgvRecentImports
@@ -597,7 +597,7 @@
             dgvRecentImports.Dock = DockStyle.Fill;
             dgvRecentImports.EnableHeadersVisualStyles = false;
             dgvRecentImports.GridColor = Color.DarkCyan;
-            dgvRecentImports.Location = new Point(3, 324);
+            dgvRecentImports.Location = new Point(3, 500);
             dgvRecentImports.MultiSelect = false;
             dgvRecentImports.Name = "dgvRecentImports";
             dgvRecentImports.ReadOnly = true;
@@ -605,7 +605,7 @@
             dgvRecentImports.RowHeadersWidth = 51;
             dgvRecentImports.RowTemplate.Height = 38;
             dgvRecentImports.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvRecentImports.Size = new Size(1461, 259);
+            dgvRecentImports.Size = new Size(1461, 402);
             dgvRecentImports.TabIndex = 9;
             // 
             // tableLayoutPanel3
@@ -695,7 +695,7 @@
             tabPage3.Location = new Point(4, 29);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1473, 717);
+            tabPage3.Size = new Size(1473, 1036);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Bác sĩ / Bệnh nhân";
             // 
@@ -707,7 +707,7 @@
             panel15.Location = new Point(3, 3);
             panel15.Name = "panel15";
             panel15.Padding = new Padding(10);
-            panel15.Size = new Size(1467, 435);
+            panel15.Size = new Size(1467, 497);
             panel15.TabIndex = 2;
             // 
             // chartDoctorVisits
@@ -723,7 +723,7 @@
             series4.Legend = "Legend1";
             series4.Name = "Series1";
             chartDoctorVisits.Series.Add(series4);
-            chartDoctorVisits.Size = new Size(1447, 358);
+            chartDoctorVisits.Size = new Size(1447, 420);
             chartDoctorVisits.TabIndex = 16;
             chartDoctorVisits.Text = "chart1";
             // 
@@ -752,10 +752,10 @@
             panel14.Controls.Add(dgvPatientStatistics);
             panel14.Controls.Add(panel17);
             panel14.Dock = DockStyle.Bottom;
-            panel14.Location = new Point(3, 438);
+            panel14.Location = new Point(3, 500);
             panel14.Name = "panel14";
             panel14.Padding = new Padding(10);
-            panel14.Size = new Size(1467, 276);
+            panel14.Size = new Size(1467, 533);
             panel14.TabIndex = 1;
             // 
             // dgvPatientStatistics
@@ -795,7 +795,7 @@
             dgvPatientStatistics.RowHeadersWidth = 51;
             dgvPatientStatistics.RowTemplate.Height = 38;
             dgvPatientStatistics.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPatientStatistics.Size = new Size(1447, 188);
+            dgvPatientStatistics.Size = new Size(1447, 445);
             dgvPatientStatistics.TabIndex = 9;
             // 
             // panel17
@@ -890,12 +890,13 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             BackColor = Color.White;
             Controls.Add(tabControl1);
             Controls.Add(panel1);
             Name = "UC_DashBoard";
             Padding = new Padding(10);
-            Size = new Size(1501, 828);
+            Size = new Size(1501, 1147);
             Load += UC_DashBoard_Load;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);

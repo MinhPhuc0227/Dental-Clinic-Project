@@ -100,6 +100,14 @@ namespace DentalClinic.APP
                         DataGridViewAutoSizeColumnMode.Fill
                 });
 
+            dgvHistory.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "Note",
+                    HeaderText = "Ghi Chú",
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                });
+
             dgvHistory.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
 

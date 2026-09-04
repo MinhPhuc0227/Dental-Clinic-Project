@@ -18,6 +18,9 @@ namespace DentalClinic.DTO
         [DisplayName("Đơn giá")]
         public decimal UnitPrice { get; set; }
 
+        [DisplayName("Điều trị dài hạn")]
+        public bool IsLongTerm { get; set; }
+
         [DisplayName("Mô tả")]
         public string? Description { get; set; }
 
@@ -37,6 +40,8 @@ namespace DentalClinic.DTO
         [Required(ErrorMessage = "Đơn giá không được để trống.")]
         [Range(0, 999_999_999, ErrorMessage = "Đơn giá phải lớn hơn hoặc bằng 0.")]
         public decimal UnitPrice { get; set; }
+
+        public bool IsLongTerm { get; set; }
 
         [StringLength(250, ErrorMessage = "Mô tả không được vượt quá 250 ký tự.")]
         public string? Description { get; set; }

@@ -40,6 +40,7 @@
             label2 = new Label();
             btSave = new Button();
             label1 = new Label();
+            chkIsLongTerm = new CheckBox();
             SuspendLayout();
             // 
             // lbServiceId
@@ -66,7 +67,7 @@
             // 
             txtUnitPrice.BorderStyle = BorderStyle.FixedSingle;
             txtUnitPrice.Font = new Font("Segoe UI", 12F);
-            txtUnitPrice.Location = new Point(140, 117);
+            txtUnitPrice.Location = new Point(140, 162);
             txtUnitPrice.Name = "txtUnitPrice";
             txtUnitPrice.Size = new Size(378, 34);
             txtUnitPrice.TabIndex = 2;
@@ -87,7 +88,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 12F);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(16, 120);
+            label4.Location = new Point(16, 165);
             label4.Name = "label4";
             label4.Size = new Size(83, 28);
             label4.TabIndex = 35;
@@ -98,7 +99,7 @@
             cbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             cbStatus.Font = new Font("Segoe UI", 12F);
             cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(140, 180);
+            cbStatus.Location = new Point(140, 222);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(378, 36);
             cbStatus.TabIndex = 3;
@@ -107,7 +108,7 @@
             // 
             txtDescription.BorderStyle = BorderStyle.FixedSingle;
             txtDescription.Font = new Font("Segoe UI", 12F);
-            txtDescription.Location = new Point(140, 243);
+            txtDescription.Location = new Point(140, 285);
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
             txtDescription.ScrollBars = ScrollBars.Vertical;
@@ -121,7 +122,7 @@
             btCancel.FlatStyle = FlatStyle.Flat;
             btCancel.Font = new Font("Segoe UI Semibold", 12F);
             btCancel.ForeColor = Color.White;
-            btCancel.Location = new Point(310, 456);
+            btCancel.Location = new Point(310, 516);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
             btCancel.TabIndex = 5;
@@ -134,7 +135,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(16, 243);
+            label3.Location = new Point(16, 285);
             label3.Name = "label3";
             label3.Size = new Size(65, 28);
             label3.TabIndex = 31;
@@ -145,7 +146,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(16, 184);
+            label2.Location = new Point(16, 226);
             label2.Name = "label2";
             label2.Size = new Size(102, 28);
             label2.TabIndex = 30;
@@ -158,7 +159,7 @@
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
-            btSave.Location = new Point(417, 456);
+            btSave.Location = new Point(417, 516);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
             btSave.TabIndex = 6;
@@ -177,6 +178,18 @@
             label1.TabIndex = 28;
             label1.Text = "Tên dịch vụ";
             // 
+            // chkIsLongTerm
+            // 
+            chkIsLongTerm.AutoSize = true;
+            chkIsLongTerm.Font = new Font("Segoe UI", 12F);
+            chkIsLongTerm.ForeColor = Color.DarkCyan;
+            chkIsLongTerm.Location = new Point(140, 115);
+            chkIsLongTerm.Name = "chkIsLongTerm";
+            chkIsLongTerm.Size = new Size(235, 32);
+            chkIsLongTerm.TabIndex = 45;
+            chkIsLongTerm.Text = "Dịch vụ điều trị dài hạn";
+            chkIsLongTerm.UseVisualStyleBackColor = true;
+            // 
             // Dialog_Service
             // 
             AcceptButton = btSave;
@@ -184,8 +197,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             CancelButton = btCancel;
-            ClientSize = new Size(542, 526);
+            ClientSize = new Size(542, 581);
             ControlBox = false;
+            Controls.Add(chkIsLongTerm);
             Controls.Add(lbServiceId);
             Controls.Add(txtServiceName);
             Controls.Add(txtUnitPrice);
@@ -222,5 +236,6 @@
         private Label label2;
         private Button btSave;
         private Label label1;
+        private CheckBox chkIsLongTerm;
     }
 }

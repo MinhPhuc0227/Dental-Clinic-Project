@@ -49,6 +49,7 @@ namespace DentalClinic.DAL
                 .Select(v => new WaitingQueueDto
                 {
                     VisitId = v.VisitId,
+                    PatientId = v.PatientId,
                     QueueNumber = v.QueueNumber,
                     PatientName = v.Patient.FullName,
                     PatientPhone = v.Patient.Phone,
@@ -116,6 +117,7 @@ namespace DentalClinic.DAL
                 }).ToList();
         }
 
+
         public bool AddWalkInVisit(Visit visit)
         {
             // Đếm số lượng bệnh nhân của Bác sĩ này trong NGÀY HÔM NAY
@@ -164,6 +166,33 @@ namespace DentalClinic.DAL
                 // Có thể ghi log lỗi ở đây nếu cần
                 return false;
             }
+        }
+
+        public Visit? GetById(int visitId)
+        {
+            return _context.Visits
+                .FirstOrDefault(v => v.VisitId == visitId);
+        }
+
+        // Treatment
+        public bool AssignTreatment(
+    int visitId,
+    int treatmentId,
+    int sessionNumber)
+        {
+            var existing = _context.Visits
+                .FirstOrDefault(v => v.VisitId == visitId);
+
+            if (existing == null)
+                return false;
+
+            if (existing.TreatmentId.HasValue)
+                return false;
+
+            existing.TreatmentId = treatmentId;
+            existing.TreatmentSessionNumber = sessionNumber;
+
+            return _context.SaveChanges() > 0;
         }
     }
 }

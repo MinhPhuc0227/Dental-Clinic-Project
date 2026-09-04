@@ -15,6 +15,9 @@ namespace DentalClinic.MODEL
         public string? Address { get; set; }
         public string? Note { get; set; }
 
+        // Navigation Property cho Treatment
+        public ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
+
         // Account dành cho bệnh nhân đăng nhập website
         public int? AccountId { get; set; }
         public virtual Account? Account { get; set; }

@@ -11,5 +11,6 @@ namespace DentalClinic.DTO
         public string DoctorName { get; set; } = string.Empty;
         public string Diagnosis { get; set; } = string.Empty;
         public string Conclusion { get; set; } = string.Empty;
+        public string? Note { get; set; }
     }
 }

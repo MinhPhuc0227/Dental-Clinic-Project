@@ -42,6 +42,7 @@ namespace DentalClinic.APP
             services.AddScoped<Receptionist_DAL>();
             services.AddScoped<Service_DAL>();
             services.AddScoped<Supplier_DAL>();
+            services.AddScoped<Treatment_DAL>();
             services.AddScoped<Visit_DAL>();
 
             // =========================
@@ -60,6 +61,7 @@ namespace DentalClinic.APP
             services.AddScoped<Receptionist_BLL>();
             services.AddScoped<Service_BLL>();
             services.AddScoped<Supplier_BLL>();
+            services.AddScoped<Treatment_BLL>();
             services.AddScoped<Visit_BLL>();
 
             // =========================

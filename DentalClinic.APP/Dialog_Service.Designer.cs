@@ -46,13 +46,13 @@
             // lbServiceId
             // 
             lbServiceId.AutoSize = true;
-            lbServiceId.Font = new Font("Segoe UI Semibold", 12F);
-            lbServiceId.ForeColor = Color.DarkCyan;
+            lbServiceId.Font = new Font("Segoe UI", 12F);
+            lbServiceId.ForeColor = Color.Black;
             lbServiceId.Location = new Point(140, 17);
             lbServiceId.Name = "lbServiceId";
-            lbServiceId.Size = new Size(47, 28);
+            lbServiceId.Size = new Size(24, 28);
             lbServiceId.TabIndex = 44;
-            lbServiceId.Text = "lbId";
+            lbServiceId.Text = "...";
             // 
             // txtServiceName
             // 
@@ -70,7 +70,7 @@
             txtUnitPrice.Location = new Point(140, 162);
             txtUnitPrice.Name = "txtUnitPrice";
             txtUnitPrice.Size = new Size(378, 34);
-            txtUnitPrice.TabIndex = 2;
+            txtUnitPrice.TabIndex = 3;
             // 
             // label7
             // 
@@ -102,7 +102,7 @@
             cbStatus.Location = new Point(140, 222);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(378, 36);
-            cbStatus.TabIndex = 3;
+            cbStatus.TabIndex = 4;
             // 
             // txtDescription
             // 
@@ -113,7 +113,7 @@
             txtDescription.Name = "txtDescription";
             txtDescription.ScrollBars = ScrollBars.Vertical;
             txtDescription.Size = new Size(378, 186);
-            txtDescription.TabIndex = 4;
+            txtDescription.TabIndex = 5;
             // 
             // btCancel
             // 
@@ -125,7 +125,7 @@
             btCancel.Location = new Point(310, 516);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 5;
+            btCancel.TabIndex = 6;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
@@ -155,14 +155,14 @@
             // btSave
             // 
             btSave.AutoSize = true;
-            btSave.BackColor = Color.DarkCyan;
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
             btSave.Location = new Point(417, 516);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
-            btSave.TabIndex = 6;
+            btSave.TabIndex = 7;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
@@ -186,7 +186,7 @@
             chkIsLongTerm.Location = new Point(140, 115);
             chkIsLongTerm.Name = "chkIsLongTerm";
             chkIsLongTerm.Size = new Size(235, 32);
-            chkIsLongTerm.TabIndex = 45;
+            chkIsLongTerm.TabIndex = 2;
             chkIsLongTerm.Text = "Dịch vụ điều trị dài hạn";
             chkIsLongTerm.UseVisualStyleBackColor = true;
             // 
@@ -198,7 +198,6 @@
             BackColor = Color.White;
             CancelButton = btCancel;
             ClientSize = new Size(542, 581);
-            ControlBox = false;
             Controls.Add(chkIsLongTerm);
             Controls.Add(lbServiceId);
             Controls.Add(txtServiceName);
@@ -216,7 +215,6 @@
             Name = "Dialog_Service";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dịch vụ";
             Load += Dialog_Service_Load;
             ResumeLayout(false);
             PerformLayout();

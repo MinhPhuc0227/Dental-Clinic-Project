@@ -36,12 +36,6 @@ namespace DentalClinic.APP
             txtPassword.UseSystemPasswordChar = !chkShowPassword.Checked;
         }
 
-        // Exit button
-        private void btExit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         // Login button
         private void btLogin_Click(object sender, EventArgs e)
         {
@@ -109,6 +103,11 @@ namespace DentalClinic.APP
 
                 mainForm.Show();
             }
+        }
+
+        private void txtUserName_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

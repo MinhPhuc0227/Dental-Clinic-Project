@@ -202,13 +202,13 @@
             // lbPatientId
             // 
             lbPatientId.AutoSize = true;
-            lbPatientId.Font = new Font("Segoe UI Semibold", 12F);
-            lbPatientId.ForeColor = Color.DarkCyan;
+            lbPatientId.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbPatientId.ForeColor = Color.Black;
             lbPatientId.Location = new Point(163, 27);
             lbPatientId.Name = "lbPatientId";
-            lbPatientId.Size = new Size(89, 28);
+            lbPatientId.Size = new Size(24, 28);
             lbPatientId.TabIndex = 44;
-            lbPatientId.Text = "Tự động";
+            lbPatientId.Text = "...";
             // 
             // label6
             // 
@@ -244,11 +244,11 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI Semibold", 20F);
-            label8.ForeColor = Color.FromArgb(0, 69, 139);
-            label8.Location = new Point(131, 19);
+            label8.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            label8.ForeColor = Color.DarkCyan;
+            label8.Location = new Point(179, 22);
             label8.Name = "label8";
-            label8.Size = new Size(287, 46);
+            label8.Size = new Size(203, 32);
             label8.TabIndex = 55;
             label8.Text = "HỒ SƠ CÁ NHÂN";
             // 
@@ -270,7 +270,7 @@
             // btSave
             // 
             btSave.AutoSize = true;
-            btSave.BackColor = Color.DarkCyan;
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
@@ -290,7 +290,6 @@
             BackColor = Color.White;
             CancelButton = btCancel;
             ClientSize = new Size(560, 715);
-            ControlBox = false;
             Controls.Add(panel1);
             Controls.Add(label8);
             Controls.Add(btCancel);
@@ -299,7 +298,6 @@
             Name = "Dialog_Patient";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Bệnh nhân";
             Load += Dialog_Patient_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

@@ -237,11 +237,6 @@ namespace DentalClinic.APP
             }
         }
 
-        private void btClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void btCancel_Click(object sender, EventArgs e)
         {
             // 1. Kiểm tra nếu đang ở chế độ Tạo mới (chưa có ID lịch hẹn trong DB)

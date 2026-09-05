@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Receptionist));
             btLogout = new Button();
             panel1 = new Panel();
             panel2 = new Panel();
@@ -37,19 +38,26 @@
             rbWaitingQueue = new RadioButton();
             rbAppointment = new RadioButton();
             pnContent = new Panel();
+            panel3 = new Panel();
+            panel4 = new Panel();
             panel2.SuspendLayout();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // btLogout
             // 
-            btLogout.Font = new Font("Segoe UI", 12F);
-            btLogout.Location = new Point(13, 487);
+            btLogout.BackColor = Color.White;
+            btLogout.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btLogout.Image = Properties.Resources.logout;
+            btLogout.ImageAlign = ContentAlignment.MiddleLeft;
+            btLogout.Location = new Point(12, 10);
             btLogout.Margin = new Padding(4);
             btLogout.Name = "btLogout";
-            btLogout.Size = new Size(172, 43);
+            btLogout.Size = new Size(156, 41);
             btLogout.TabIndex = 1;
-            btLogout.Text = "Đăng xuất";
-            btLogout.UseVisualStyleBackColor = true;
+            btLogout.Text = "Đăng Xuất";
+            btLogout.TextAlign = ContentAlignment.MiddleRight;
+            btLogout.UseVisualStyleBackColor = false;
             btLogout.Click += btLogout_Click;
             // 
             // panel1
@@ -67,13 +75,12 @@
             panel2.Controls.Add(rbInvoiceList);
             panel2.Controls.Add(rbInvoice);
             panel2.Controls.Add(rbVisit);
-            panel2.Controls.Add(btLogout);
             panel2.Controls.Add(rbWaitingQueue);
             panel2.Controls.Add(rbAppointment);
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(10, 66);
             panel2.Name = "panel2";
-            panel2.Size = new Size(200, 545);
+            panel2.Size = new Size(200, 489);
             panel2.TabIndex = 3;
             // 
             // rbInvoiceList
@@ -86,7 +93,7 @@
             rbInvoiceList.FlatStyle = FlatStyle.Flat;
             rbInvoiceList.Font = new Font("Segoe UI Semibold", 12F);
             rbInvoiceList.ForeColor = Color.White;
-            rbInvoiceList.Location = new Point(0, 242);
+            rbInvoiceList.Location = new Point(0, 224);
             rbInvoiceList.Name = "rbInvoiceList";
             rbInvoiceList.Size = new Size(200, 60);
             rbInvoiceList.TabIndex = 10;
@@ -104,7 +111,7 @@
             rbInvoice.FlatStyle = FlatStyle.Flat;
             rbInvoice.Font = new Font("Segoe UI Semibold", 12F);
             rbInvoice.ForeColor = Color.White;
-            rbInvoice.Location = new Point(0, 180);
+            rbInvoice.Location = new Point(0, 168);
             rbInvoice.Name = "rbInvoice";
             rbInvoice.Size = new Size(200, 60);
             rbInvoice.TabIndex = 9;
@@ -142,7 +149,7 @@
             rbWaitingQueue.FlatStyle = FlatStyle.Flat;
             rbWaitingQueue.Font = new Font("Segoe UI Semibold", 12F);
             rbWaitingQueue.ForeColor = Color.White;
-            rbWaitingQueue.Location = new Point(0, 120);
+            rbWaitingQueue.Location = new Point(0, 112);
             rbWaitingQueue.Name = "rbWaitingQueue";
             rbWaitingQueue.Size = new Size(200, 60);
             rbWaitingQueue.TabIndex = 5;
@@ -160,7 +167,7 @@
             rbAppointment.FlatStyle = FlatStyle.Flat;
             rbAppointment.Font = new Font("Segoe UI Semibold", 12F);
             rbAppointment.ForeColor = Color.White;
-            rbAppointment.Location = new Point(0, 60);
+            rbAppointment.Location = new Point(0, 56);
             rbAppointment.Name = "rbAppointment";
             rbAppointment.Size = new Size(200, 60);
             rbAppointment.TabIndex = 4;
@@ -173,8 +180,27 @@
             pnContent.Dock = DockStyle.Fill;
             pnContent.Location = new Point(210, 66);
             pnContent.Name = "pnContent";
-            pnContent.Size = new Size(862, 545);
+            pnContent.Size = new Size(806, 489);
             pnContent.TabIndex = 4;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.DarkCyan;
+            panel3.Controls.Add(btLogout);
+            panel3.Dock = DockStyle.Bottom;
+            panel3.Location = new Point(10, 555);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(1062, 56);
+            panel3.TabIndex = 5;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.DarkCyan;
+            panel4.Dock = DockStyle.Right;
+            panel4.Location = new Point(1016, 66);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(56, 489);
+            panel4.TabIndex = 6;
             // 
             // Form_Receptionist
             // 
@@ -183,15 +209,19 @@
             BackColor = Color.White;
             ClientSize = new Size(1082, 621);
             Controls.Add(pnContent);
+            Controls.Add(panel4);
             Controls.Add(panel2);
+            Controls.Add(panel3);
             Controls.Add(panel1);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "Form_Receptionist";
             Padding = new Padding(10);
-            Text = "Lễ tân";
+            Text = "Nha Khoa Gia An - Lễ tân";
             WindowState = FormWindowState.Maximized;
             panel2.ResumeLayout(false);
+            panel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -206,5 +236,7 @@
         private RadioButton rbVisit;
         private RadioButton rbInvoice;
         private RadioButton rbInvoiceList;
+        private Panel panel3;
+        private Panel panel4;
     }
 }

@@ -69,7 +69,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Semibold", 20F);
-            label9.ForeColor = Color.FromArgb(0, 69, 139);
+            label9.ForeColor = Color.DarkCyan;
             label9.Location = new Point(569, 32);
             label9.Name = "label9";
             label9.Size = new Size(343, 46);
@@ -105,7 +105,7 @@
             chkShowPassword.Location = new Point(168, 180);
             chkShowPassword.Name = "chkShowPassword";
             chkShowPassword.Size = new Size(144, 27);
-            chkShowPassword.TabIndex = 64;
+            chkShowPassword.TabIndex = 9;
             chkShowPassword.Text = "Hiện mật khẩu";
             chkShowPassword.UseVisualStyleBackColor = true;
             chkShowPassword.CheckedChanged += chkShowPassword_CheckedChanged;
@@ -113,13 +113,13 @@
             // lbCreatedDate
             // 
             lbCreatedDate.AutoSize = true;
-            lbCreatedDate.Font = new Font("Segoe UI Semibold", 12F);
-            lbCreatedDate.ForeColor = Color.DarkCyan;
+            lbCreatedDate.Font = new Font("Segoe UI", 12F);
+            lbCreatedDate.ForeColor = Color.Black;
             lbCreatedDate.Location = new Point(168, 328);
             lbCreatedDate.Name = "lbCreatedDate";
-            lbCreatedDate.Size = new Size(89, 28);
+            lbCreatedDate.Size = new Size(24, 28);
             lbCreatedDate.TabIndex = 61;
-            lbCreatedDate.Text = "Tự động";
+            lbCreatedDate.Text = "...";
             // 
             // cbStatus
             // 
@@ -129,7 +129,7 @@
             cbStatus.Location = new Point(168, 276);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(348, 36);
-            cbStatus.TabIndex = 10;
+            cbStatus.TabIndex = 11;
             // 
             // txtPassword
             // 
@@ -148,7 +148,7 @@
             cbRole.Location = new Point(168, 224);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(348, 36);
-            cbRole.TabIndex = 9;
+            cbRole.TabIndex = 10;
             cbRole.SelectedIndexChanged += cbRole_SelectedIndexChanged;
             // 
             // label10
@@ -198,13 +198,13 @@
             // lbAccountId
             // 
             lbAccountId.AutoSize = true;
-            lbAccountId.Font = new Font("Segoe UI Semibold", 12F);
-            lbAccountId.ForeColor = Color.DarkCyan;
+            lbAccountId.Font = new Font("Segoe UI", 12F);
+            lbAccountId.ForeColor = Color.Black;
             lbAccountId.Location = new Point(168, 27);
             lbAccountId.Name = "lbAccountId";
-            lbAccountId.Size = new Size(89, 28);
+            lbAccountId.Size = new Size(24, 28);
             lbAccountId.TabIndex = 56;
-            lbAccountId.Text = "Tự động";
+            lbAccountId.Text = "...";
             // 
             // label15
             // 
@@ -365,13 +365,13 @@
             // lbReceptionistId
             // 
             lbReceptionistId.AutoSize = true;
-            lbReceptionistId.Font = new Font("Segoe UI Semibold", 12F);
-            lbReceptionistId.ForeColor = Color.DarkCyan;
+            lbReceptionistId.Font = new Font("Segoe UI", 12F);
+            lbReceptionistId.ForeColor = Color.Black;
             lbReceptionistId.Location = new Point(136, 27);
             lbReceptionistId.Name = "lbReceptionistId";
-            lbReceptionistId.Size = new Size(89, 28);
+            lbReceptionistId.Size = new Size(24, 28);
             lbReceptionistId.TabIndex = 44;
-            lbReceptionistId.Text = "Tự động";
+            lbReceptionistId.Text = "...";
             // 
             // label6
             // 
@@ -408,7 +408,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 20F);
-            label8.ForeColor = Color.FromArgb(0, 69, 139);
+            label8.ForeColor = Color.DarkCyan;
             label8.Location = new Point(15, 32);
             label8.Name = "label8";
             label8.Size = new Size(394, 46);
@@ -425,7 +425,7 @@
             btCancel.Location = new Point(878, 601);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 11;
+            btCancel.TabIndex = 12;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
@@ -433,14 +433,14 @@
             // btSave
             // 
             btSave.AutoSize = true;
-            btSave.BackColor = Color.DarkCyan;
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
             btSave.Location = new Point(985, 601);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
-            btSave.TabIndex = 12;
+            btSave.TabIndex = 13;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
@@ -453,7 +453,6 @@
             BackColor = Color.White;
             CancelButton = btCancel;
             ClientSize = new Size(1124, 672);
-            ControlBox = false;
             Controls.Add(label9);
             Controls.Add(pnAccount);
             Controls.Add(panel1);
@@ -464,7 +463,6 @@
             Name = "Dialog_Receptionist";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Lễ tân";
             Load += Dialog_Receptionist_Load;
             pnAccount.ResumeLayout(false);
             pnAccount.PerformLayout();

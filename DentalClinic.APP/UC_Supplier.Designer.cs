@@ -65,13 +65,14 @@
             // 
             // btAdd
             // 
+            btAdd.BackColor = Color.WhiteSmoke;
             btAdd.Font = new Font("Segoe UI", 10F);
             btAdd.Location = new Point(40, 57);
             btAdd.Name = "btAdd";
             btAdd.Size = new Size(175, 45);
             btAdd.TabIndex = 3;
             btAdd.Text = "Thêm nhà cung cấp";
-            btAdd.UseVisualStyleBackColor = true;
+            btAdd.UseVisualStyleBackColor = false;
             btAdd.Click += btAdd_Click;
             // 
             // txtSearch

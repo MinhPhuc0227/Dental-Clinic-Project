@@ -52,11 +52,11 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI Semibold", 20F);
-            label9.ForeColor = Color.FromArgb(0, 69, 139);
-            label9.Location = new Point(12, 9);
+            label9.Font = new Font("Segoe UI Semibold", 14F);
+            label9.ForeColor = Color.DarkCyan;
+            label9.Location = new Point(107, 22);
             label9.Name = "label9";
-            label9.Size = new Size(497, 46);
+            label9.Size = new Size(354, 32);
             label9.TabIndex = 54;
             label9.Text = "Thông tin tài khoản đăng nhập";
             // 
@@ -89,7 +89,7 @@
             chkShowPassword.Location = new Point(18, 166);
             chkShowPassword.Name = "chkShowPassword";
             chkShowPassword.Size = new Size(144, 27);
-            chkShowPassword.TabIndex = 63;
+            chkShowPassword.TabIndex = 3;
             chkShowPassword.Text = "Hiện mật khẩu";
             chkShowPassword.UseVisualStyleBackColor = true;
             chkShowPassword.CheckedChanged += chkShowPassword_CheckedChanged;
@@ -109,13 +109,13 @@
             // lbCreatedDate
             // 
             lbCreatedDate.AutoSize = true;
-            lbCreatedDate.Font = new Font("Segoe UI Semibold", 12F);
-            lbCreatedDate.ForeColor = Color.DarkCyan;
+            lbCreatedDate.Font = new Font("Segoe UI", 12F);
+            lbCreatedDate.ForeColor = Color.Black;
             lbCreatedDate.Location = new Point(168, 313);
             lbCreatedDate.Name = "lbCreatedDate";
-            lbCreatedDate.Size = new Size(89, 28);
+            lbCreatedDate.Size = new Size(24, 28);
             lbCreatedDate.TabIndex = 61;
-            lbCreatedDate.Text = "Tự động";
+            lbCreatedDate.Text = "...";
             // 
             // cbStatus
             // 
@@ -124,7 +124,7 @@
             cbStatus.Location = new Point(168, 261);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(348, 36);
-            cbStatus.TabIndex = 4;
+            cbStatus.TabIndex = 5;
             // 
             // txtPassword
             // 
@@ -143,7 +143,7 @@
             cbRole.Location = new Point(168, 209);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(348, 36);
-            cbRole.TabIndex = 3;
+            cbRole.TabIndex = 4;
             // 
             // label10
             // 
@@ -192,13 +192,13 @@
             // lbAccountId
             // 
             lbAccountId.AutoSize = true;
-            lbAccountId.Font = new Font("Segoe UI Semibold", 12F);
-            lbAccountId.ForeColor = Color.DarkCyan;
+            lbAccountId.Font = new Font("Segoe UI", 12F);
+            lbAccountId.ForeColor = Color.Black;
             lbAccountId.Location = new Point(168, 27);
             lbAccountId.Name = "lbAccountId";
-            lbAccountId.Size = new Size(89, 28);
+            lbAccountId.Size = new Size(24, 28);
             lbAccountId.TabIndex = 56;
-            lbAccountId.Text = "Tự động";
+            lbAccountId.Text = "...";
             // 
             // label15
             // 
@@ -241,7 +241,7 @@
             btCancel.Location = new Point(345, 467);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 5;
+            btCancel.TabIndex = 6;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
@@ -249,14 +249,14 @@
             // btSave
             // 
             btSave.AutoSize = true;
-            btSave.BackColor = Color.DarkCyan;
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
             btSave.Location = new Point(452, 467);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
-            btSave.TabIndex = 6;
+            btSave.TabIndex = 7;
             btSave.Text = "Lưu";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
@@ -268,7 +268,6 @@
             BackColor = Color.White;
             CancelButton = btCancel;
             ClientSize = new Size(572, 527);
-            ControlBox = false;
             Controls.Add(btCancel);
             Controls.Add(btSave);
             Controls.Add(label9);
@@ -279,7 +278,6 @@
             Name = "Dialog_Account";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Chỉnh sửa tài khoản";
             Load += Dialog_Account_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

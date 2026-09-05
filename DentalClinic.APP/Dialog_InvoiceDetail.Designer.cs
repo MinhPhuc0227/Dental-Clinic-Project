@@ -77,7 +77,6 @@
             label12 = new Label();
             label11 = new Label();
             panel6 = new Panel();
-            btnClose = new Button();
             btnPrinInvoice = new Button();
             btnCancelInvoice = new Button();
             lbTotalAmount = new Label();
@@ -107,7 +106,7 @@
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Padding = new Padding(0, 0, 0, 10);
-            panel1.Size = new Size(1310, 271);
+            panel1.Size = new Size(1310, 309);
             panel1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -125,7 +124,7 @@
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1310, 261);
+            tableLayoutPanel1.Size = new Size(1310, 299);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // panel3
@@ -144,7 +143,7 @@
             panel3.ForeColor = Color.DarkCyan;
             panel3.Location = new Point(3, 3);
             panel3.Name = "panel3";
-            panel3.Size = new Size(391, 255);
+            panel3.Size = new Size(391, 293);
             panel3.TabIndex = 0;
             // 
             // lbInvoiceReceptionist
@@ -154,9 +153,9 @@
             lbInvoiceReceptionist.ForeColor = Color.Black;
             lbInvoiceReceptionist.Location = new Point(112, 161);
             lbInvoiceReceptionist.Name = "lbInvoiceReceptionist";
-            lbInvoiceReceptionist.Size = new Size(89, 23);
+            lbInvoiceReceptionist.Size = new Size(22, 23);
             lbInvoiceReceptionist.TabIndex = 23;
-            lbInvoiceReceptionist.Text = "Người lập:";
+            lbInvoiceReceptionist.Text = "...";
             // 
             // label29
             // 
@@ -176,9 +175,9 @@
             lbInvoiceStatus.ForeColor = Color.Black;
             lbInvoiceStatus.Location = new Point(112, 126);
             lbInvoiceStatus.Name = "lbInvoiceStatus";
-            lbInvoiceStatus.Size = new Size(91, 23);
+            lbInvoiceStatus.Size = new Size(22, 23);
             lbInvoiceStatus.TabIndex = 14;
-            lbInvoiceStatus.Text = "Trạng thái:";
+            lbInvoiceStatus.Text = "...";
             // 
             // lbInvoiceDate
             // 
@@ -187,9 +186,9 @@
             lbInvoiceDate.ForeColor = Color.Black;
             lbInvoiceDate.Location = new Point(112, 91);
             lbInvoiceDate.Name = "lbInvoiceDate";
-            lbInvoiceDate.Size = new Size(82, 23);
+            lbInvoiceDate.Size = new Size(22, 23);
             lbInvoiceDate.TabIndex = 13;
-            lbInvoiceDate.Text = "Ngày lập:";
+            lbInvoiceDate.Text = "...";
             // 
             // lbInvoiceId
             // 
@@ -198,9 +197,9 @@
             lbInvoiceId.ForeColor = Color.Black;
             lbInvoiceId.Location = new Point(112, 56);
             lbInvoiceId.Name = "lbInvoiceId";
-            lbInvoiceId.Size = new Size(107, 23);
+            lbInvoiceId.Size = new Size(22, 23);
             lbInvoiceId.TabIndex = 12;
-            lbInvoiceId.Text = "Mã hóa đơn:";
+            lbInvoiceId.Text = "...";
             // 
             // label7
             // 
@@ -262,7 +261,7 @@
             panel4.Dock = DockStyle.Fill;
             panel4.Location = new Point(400, 3);
             panel4.Name = "panel4";
-            panel4.Size = new Size(376, 255);
+            panel4.Size = new Size(376, 293);
             panel4.TabIndex = 1;
             // 
             // txtPatientAddress
@@ -274,9 +273,9 @@
             txtPatientAddress.Multiline = true;
             txtPatientAddress.Name = "txtPatientAddress";
             txtPatientAddress.ReadOnly = true;
-            txtPatientAddress.Size = new Size(196, 68);
+            txtPatientAddress.Size = new Size(196, 60);
             txtPatientAddress.TabIndex = 34;
-            txtPatientAddress.Text = "Địa chỉ";
+            txtPatientAddress.Text = "...";
             // 
             // lbPatientDateOfBirth
             // 
@@ -284,9 +283,9 @@
             lbPatientDateOfBirth.Font = new Font("Segoe UI", 10F);
             lbPatientDateOfBirth.Location = new Point(156, 170);
             lbPatientDateOfBirth.Name = "lbPatientDateOfBirth";
-            lbPatientDateOfBirth.Size = new Size(90, 23);
+            lbPatientDateOfBirth.Size = new Size(22, 23);
             lbPatientDateOfBirth.TabIndex = 32;
-            lbPatientDateOfBirth.Text = "Ngày sinh:";
+            lbPatientDateOfBirth.Text = "...";
             // 
             // lbPatientPhone
             // 
@@ -294,9 +293,9 @@
             lbPatientPhone.Font = new Font("Segoe UI", 10F);
             lbPatientPhone.Location = new Point(156, 132);
             lbPatientPhone.Name = "lbPatientPhone";
-            lbPatientPhone.Size = new Size(115, 23);
+            lbPatientPhone.Size = new Size(22, 23);
             lbPatientPhone.TabIndex = 31;
-            lbPatientPhone.Text = "Số điện thoại:";
+            lbPatientPhone.Text = "...";
             // 
             // lbPatientName
             // 
@@ -304,9 +303,9 @@
             lbPatientName.Font = new Font("Segoe UI", 10F);
             lbPatientName.Location = new Point(156, 94);
             lbPatientName.Name = "lbPatientName";
-            lbPatientName.Size = new Size(88, 23);
+            lbPatientName.Size = new Size(22, 23);
             lbPatientName.TabIndex = 30;
-            lbPatientName.Text = "Họ và tên:";
+            lbPatientName.Text = "...";
             // 
             // lbPatientId
             // 
@@ -314,9 +313,9 @@
             lbPatientId.Font = new Font("Segoe UI", 10F);
             lbPatientId.Location = new Point(156, 56);
             lbPatientId.Name = "lbPatientId";
-            lbPatientId.Size = new Size(126, 23);
+            lbPatientId.Size = new Size(22, 23);
             lbPatientId.TabIndex = 29;
-            lbPatientId.Text = "Mã bệnh nhân:";
+            lbPatientId.Text = "...";
             // 
             // label38
             // 
@@ -400,7 +399,7 @@
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(782, 3);
             panel5.Name = "panel5";
-            panel5.Size = new Size(525, 255);
+            panel5.Size = new Size(525, 293);
             panel5.TabIndex = 2;
             // 
             // lbDiagnosis
@@ -409,9 +408,9 @@
             lbDiagnosis.Font = new Font("Segoe UI", 10F);
             lbDiagnosis.Location = new Point(228, 170);
             lbDiagnosis.Name = "lbDiagnosis";
-            lbDiagnosis.Size = new Size(98, 23);
+            lbDiagnosis.Size = new Size(22, 23);
             lbDiagnosis.TabIndex = 49;
-            lbDiagnosis.Text = "Chẩn đoán:";
+            lbDiagnosis.Text = "...";
             // 
             // txtConclusion
             // 
@@ -422,9 +421,9 @@
             txtConclusion.Multiline = true;
             txtConclusion.Name = "txtConclusion";
             txtConclusion.ReadOnly = true;
-            txtConclusion.Size = new Size(258, 68);
+            txtConclusion.Size = new Size(258, 60);
             txtConclusion.TabIndex = 35;
-            txtConclusion.Text = "Kết luận /  Hướng điều trị";
+            txtConclusion.Text = "...";
             // 
             // lbDoctorName
             // 
@@ -432,9 +431,9 @@
             lbDoctorName.Font = new Font("Segoe UI", 10F);
             lbDoctorName.Location = new Point(228, 132);
             lbDoctorName.Name = "lbDoctorName";
-            lbDoctorName.Size = new Size(104, 23);
+            lbDoctorName.Size = new Size(22, 23);
             lbDoctorName.TabIndex = 48;
-            lbDoctorName.Text = "Bác sĩ khám:";
+            lbDoctorName.Text = "...";
             // 
             // lbExaminationDate
             // 
@@ -442,9 +441,9 @@
             lbExaminationDate.Font = new Font("Segoe UI", 10F);
             lbExaminationDate.Location = new Point(228, 94);
             lbExaminationDate.Name = "lbExaminationDate";
-            lbExaminationDate.Size = new Size(101, 23);
+            lbExaminationDate.Size = new Size(22, 23);
             lbExaminationDate.TabIndex = 47;
-            lbExaminationDate.Text = "Ngày khám:";
+            lbExaminationDate.Text = "...";
             // 
             // lbVisitId
             // 
@@ -452,9 +451,9 @@
             lbVisitId.Font = new Font("Segoe UI", 10F);
             lbVisitId.Location = new Point(228, 56);
             lbVisitId.Name = "lbVisitId";
-            lbVisitId.Size = new Size(120, 23);
+            lbVisitId.Size = new Size(22, 23);
             lbVisitId.TabIndex = 46;
-            lbVisitId.Text = "Mã lượt khám:";
+            lbVisitId.Text = "...";
             // 
             // label35
             // 
@@ -529,9 +528,9 @@
             lbCancelledBy.ForeColor = Color.Black;
             lbCancelledBy.Location = new Point(619, 95);
             lbCancelledBy.Name = "lbCancelledBy";
-            lbCancelledBy.Size = new Size(94, 23);
+            lbCancelledBy.Size = new Size(22, 23);
             lbCancelledBy.TabIndex = 17;
-            lbCancelledBy.Text = "Người hủy:";
+            lbCancelledBy.Text = "...";
             // 
             // lbCancelledDate
             // 
@@ -540,9 +539,9 @@
             lbCancelledDate.ForeColor = Color.Black;
             lbCancelledDate.Location = new Point(619, 60);
             lbCancelledDate.Name = "lbCancelledDate";
-            lbCancelledDate.Size = new Size(87, 23);
+            lbCancelledDate.Size = new Size(22, 23);
             lbCancelledDate.TabIndex = 16;
-            lbCancelledDate.Text = "Ngày hủy:";
+            lbCancelledDate.Text = "...";
             // 
             // lbCancellationReason
             // 
@@ -551,9 +550,9 @@
             lbCancellationReason.ForeColor = Color.Black;
             lbCancellationReason.Location = new Point(619, 25);
             lbCancellationReason.Name = "lbCancellationReason";
-            lbCancellationReason.Size = new Size(87, 23);
+            lbCancellationReason.Size = new Size(22, 23);
             lbCancellationReason.TabIndex = 15;
-            lbCancellationReason.Text = "Lý do hủy:";
+            lbCancellationReason.Text = "...";
             // 
             // label10
             // 
@@ -635,7 +634,6 @@
             // 
             // panel6
             // 
-            panel6.Controls.Add(btnClose);
             panel6.Controls.Add(btnPrinInvoice);
             panel6.Controls.Add(lbCancelledBy);
             panel6.Controls.Add(btnCancelInvoice);
@@ -658,34 +656,34 @@
             panel6.Size = new Size(1310, 169);
             panel6.TabIndex = 1;
             // 
-            // btnClose
-            // 
-            btnClose.Location = new Point(1174, 83);
-            btnClose.Name = "btnClose";
-            btnClose.Size = new Size(94, 29);
-            btnClose.TabIndex = 18;
-            btnClose.Text = "Đóng";
-            btnClose.UseVisualStyleBackColor = true;
-            btnClose.Click += btnClose_Click;
-            // 
             // btnPrinInvoice
             // 
-            btnPrinInvoice.Location = new Point(1046, 83);
+            btnPrinInvoice.BackColor = Color.Green;
+            btnPrinInvoice.FlatAppearance.BorderSize = 0;
+            btnPrinInvoice.FlatStyle = FlatStyle.Flat;
+            btnPrinInvoice.Font = new Font("Segoe UI Semibold", 10F);
+            btnPrinInvoice.ForeColor = Color.White;
+            btnPrinInvoice.Location = new Point(1167, 103);
             btnPrinInvoice.Name = "btnPrinInvoice";
-            btnPrinInvoice.Size = new Size(94, 29);
+            btnPrinInvoice.Size = new Size(101, 40);
             btnPrinInvoice.TabIndex = 17;
             btnPrinInvoice.Text = "In HĐ";
-            btnPrinInvoice.UseVisualStyleBackColor = true;
+            btnPrinInvoice.UseVisualStyleBackColor = false;
             btnPrinInvoice.Click += btnPrinInvoice_Click;
             // 
             // btnCancelInvoice
             // 
-            btnCancelInvoice.Location = new Point(923, 83);
+            btnCancelInvoice.BackColor = Color.Red;
+            btnCancelInvoice.FlatAppearance.BorderSize = 0;
+            btnCancelInvoice.FlatStyle = FlatStyle.Flat;
+            btnCancelInvoice.Font = new Font("Segoe UI Semibold", 10F);
+            btnCancelInvoice.ForeColor = Color.White;
+            btnCancelInvoice.Location = new Point(1049, 103);
             btnCancelInvoice.Name = "btnCancelInvoice";
-            btnCancelInvoice.Size = new Size(94, 29);
+            btnCancelInvoice.Size = new Size(101, 40);
             btnCancelInvoice.TabIndex = 16;
             btnCancelInvoice.Text = "Hủy HĐ";
-            btnCancelInvoice.UseVisualStyleBackColor = true;
+            btnCancelInvoice.UseVisualStyleBackColor = false;
             btnCancelInvoice.Click += btnCancelInvoice_Click;
             // 
             // lbTotalAmount
@@ -695,9 +693,9 @@
             lbTotalAmount.ForeColor = Color.Black;
             lbTotalAmount.Location = new Point(236, 25);
             lbTotalAmount.Name = "lbTotalAmount";
-            lbTotalAmount.Size = new Size(87, 23);
+            lbTotalAmount.Size = new Size(22, 23);
             lbTotalAmount.TabIndex = 12;
-            lbTotalAmount.Text = "Tổng tiền:";
+            lbTotalAmount.Text = "...";
             // 
             // lbAmountGiven
             // 
@@ -706,9 +704,9 @@
             lbAmountGiven.ForeColor = Color.Black;
             lbAmountGiven.Location = new Point(236, 54);
             lbAmountGiven.Name = "lbAmountGiven";
-            lbAmountGiven.Size = new Size(130, 23);
+            lbAmountGiven.Size = new Size(22, 23);
             lbAmountGiven.TabIndex = 13;
-            lbAmountGiven.Text = "Tiền khách đưa:";
+            lbAmountGiven.Text = "...";
             // 
             // lbPaymentMethod
             // 
@@ -718,9 +716,9 @@
             lbPaymentMethod.ForeColor = Color.Black;
             lbPaymentMethod.Location = new Point(238, 112);
             lbPaymentMethod.Name = "lbPaymentMethod";
-            lbPaymentMethod.Size = new Size(203, 23);
+            lbPaymentMethod.Size = new Size(22, 23);
             lbPaymentMethod.TabIndex = 15;
-            lbPaymentMethod.Text = "Phương thức thanh toán:";
+            lbPaymentMethod.Text = "...";
             // 
             // lbChangeAmount
             // 
@@ -729,18 +727,18 @@
             lbChangeAmount.ForeColor = Color.Black;
             lbChangeAmount.Location = new Point(238, 83);
             lbChangeAmount.Name = "lbChangeAmount";
-            lbChangeAmount.Size = new Size(81, 23);
+            lbChangeAmount.Size = new Size(22, 23);
             lbChangeAmount.TabIndex = 14;
-            lbChangeAmount.Text = "Tiền thối:";
+            lbChangeAmount.Text = "...";
             // 
             // panel7
             // 
             panel7.Controls.Add(dgvInvoiceDetail);
             panel7.Controls.Add(panel8);
             panel7.Dock = DockStyle.Fill;
-            panel7.Location = new Point(0, 271);
+            panel7.Location = new Point(0, 309);
             panel7.Name = "panel7";
-            panel7.Size = new Size(1310, 294);
+            panel7.Size = new Size(1310, 256);
             panel7.TabIndex = 2;
             // 
             // dgvInvoiceDetail
@@ -781,7 +779,7 @@
             dgvInvoiceDetail.RowHeadersWidth = 51;
             dgvInvoiceDetail.RowTemplate.Height = 38;
             dgvInvoiceDetail.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInvoiceDetail.Size = new Size(1310, 241);
+            dgvInvoiceDetail.Size = new Size(1310, 203);
             dgvInvoiceDetail.TabIndex = 5;
             // 
             // panel8
@@ -806,6 +804,7 @@
             // 
             // Dialog_InvoiceDetail
             // 
+            AcceptButton = btnPrinInvoice;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
@@ -817,7 +816,6 @@
             Name = "Dialog_InvoiceDetail";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dialog_InvoiceDetail";
             Load += Dialog_InvoiceDetail_Load;
             panel1.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
@@ -899,7 +897,6 @@
         private TextBox txtConclusion;
         private DataGridView dgvInvoiceDetail;
         private Label lbDiagnosis;
-        private Button btnClose;
         private Button btnPrinInvoice;
         private Button btnCancelInvoice;
         private Label lbTotalAmount;

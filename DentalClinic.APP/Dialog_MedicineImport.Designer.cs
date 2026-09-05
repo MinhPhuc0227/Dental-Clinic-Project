@@ -96,19 +96,19 @@
             lbImportDate.Font = new Font("Segoe UI", 10F);
             lbImportDate.Location = new Point(184, 117);
             lbImportDate.Name = "lbImportDate";
-            lbImportDate.Size = new Size(91, 23);
+            lbImportDate.Size = new Size(22, 23);
             lbImportDate.TabIndex = 26;
-            lbImportDate.Text = "ngày nhập";
+            lbImportDate.Text = "...";
             // 
             // lbAccountName
             // 
             lbAccountName.AutoSize = true;
             lbAccountName.Font = new Font("Segoe UI", 10F);
-            lbAccountName.Location = new Point(753, 65);
+            lbAccountName.Location = new Point(629, 70);
             lbAccountName.Name = "lbAccountName";
-            lbAccountName.Size = new Size(98, 23);
+            lbAccountName.Size = new Size(22, 23);
             lbAccountName.TabIndex = 25;
-            lbAccountName.Text = "người nhập";
+            lbAccountName.Text = "...";
             // 
             // lbImportId
             // 
@@ -116,9 +116,9 @@
             lbImportId.Font = new Font("Segoe UI", 10F);
             lbImportId.Location = new Point(184, 73);
             lbImportId.Name = "lbImportId";
-            lbImportId.Size = new Size(126, 23);
+            lbImportId.Size = new Size(22, 23);
             lbImportId.TabIndex = 24;
-            lbImportId.Text = "mã phiếu nhập";
+            lbImportId.Text = "...";
             // 
             // cbSupplier
             // 
@@ -127,24 +127,24 @@
             cbSupplier.Location = new Point(184, 164);
             cbSupplier.Name = "cbSupplier";
             cbSupplier.Size = new Size(248, 31);
-            cbSupplier.TabIndex = 23;
+            cbSupplier.TabIndex = 1;
             // 
             // txtNote
             // 
             txtNote.BorderStyle = BorderStyle.FixedSingle;
             txtNote.Font = new Font("Segoe UI", 10F);
-            txtNote.Location = new Point(753, 110);
+            txtNote.Location = new Point(629, 115);
             txtNote.Multiline = true;
             txtNote.Name = "txtNote";
             txtNote.Size = new Size(274, 82);
-            txtNote.TabIndex = 22;
+            txtNote.TabIndex = 2;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 10F);
             label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(596, 112);
+            label6.Location = new Point(472, 117);
             label6.Name = "label6";
             label6.Size = new Size(73, 23);
             label6.TabIndex = 16;
@@ -155,7 +155,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 10F);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(596, 65);
+            label5.Location = new Point(472, 70);
             label5.Name = "label5";
             label5.Size = new Size(106, 23);
             label5.TabIndex = 15;
@@ -199,7 +199,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(456, 12);
+            label1.Location = new Point(16, 9);
             label1.Name = "label1";
             label1.Size = new Size(133, 28);
             label1.TabIndex = 9;
@@ -298,7 +298,7 @@
             cbPaymentMethod.Location = new Point(184, 66);
             cbPaymentMethod.Name = "cbPaymentMethod";
             cbPaymentMethod.Size = new Size(248, 31);
-            cbPaymentMethod.TabIndex = 24;
+            cbPaymentMethod.TabIndex = 7;
             // 
             // label13
             // 
@@ -324,22 +324,32 @@
             // 
             // btConfirmImport
             // 
-            btConfirmImport.Location = new Point(909, 66);
+            btConfirmImport.BackColor = Color.FromArgb(0, 184, 148);
+            btConfirmImport.FlatAppearance.BorderSize = 0;
+            btConfirmImport.FlatStyle = FlatStyle.Flat;
+            btConfirmImport.Font = new Font("Segoe UI Semibold", 10F);
+            btConfirmImport.ForeColor = Color.White;
+            btConfirmImport.Location = new Point(885, 62);
             btConfirmImport.Name = "btConfirmImport";
             btConfirmImport.Size = new Size(142, 49);
-            btConfirmImport.TabIndex = 17;
+            btConfirmImport.TabIndex = 9;
             btConfirmImport.Text = "Xác nhận nhập";
-            btConfirmImport.UseVisualStyleBackColor = true;
+            btConfirmImport.UseVisualStyleBackColor = false;
             btConfirmImport.Click += btConfirmImport_Click;
             // 
             // btCancel
             // 
-            btCancel.Location = new Point(812, 66);
+            btCancel.BackColor = Color.Red;
+            btCancel.FlatAppearance.BorderSize = 0;
+            btCancel.FlatStyle = FlatStyle.Flat;
+            btCancel.Font = new Font("Segoe UI Semibold", 10F);
+            btCancel.ForeColor = Color.White;
+            btCancel.Location = new Point(788, 62);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(91, 49);
-            btCancel.TabIndex = 16;
+            btCancel.TabIndex = 8;
             btCancel.Text = "Hủy";
-            btCancel.UseVisualStyleBackColor = true;
+            btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
             // 
             // panel3
@@ -362,12 +372,17 @@
             // 
             // btAddMedicine
             // 
-            btAddMedicine.Location = new Point(475, 122);
+            btAddMedicine.BackColor = Color.ForestGreen;
+            btAddMedicine.FlatAppearance.BorderSize = 0;
+            btAddMedicine.FlatStyle = FlatStyle.Flat;
+            btAddMedicine.Font = new Font("Segoe UI Semibold", 10F);
+            btAddMedicine.ForeColor = Color.White;
+            btAddMedicine.Location = new Point(936, 113);
             btAddMedicine.Name = "btAddMedicine";
             btAddMedicine.Size = new Size(91, 49);
-            btAddMedicine.TabIndex = 27;
+            btAddMedicine.TabIndex = 6;
             btAddMedicine.Text = "Thêm";
-            btAddMedicine.UseVisualStyleBackColor = true;
+            btAddMedicine.UseVisualStyleBackColor = false;
             btAddMedicine.Click += btAddMedicine_Click;
             // 
             // txtCurrentStock
@@ -383,19 +398,19 @@
             // 
             txtImportPrice.BorderStyle = BorderStyle.FixedSingle;
             txtImportPrice.Font = new Font("Segoe UI", 10F);
-            txtImportPrice.Location = new Point(753, 132);
+            txtImportPrice.Location = new Point(629, 132);
             txtImportPrice.Name = "txtImportPrice";
             txtImportPrice.Size = new Size(274, 30);
-            txtImportPrice.TabIndex = 24;
+            txtImportPrice.TabIndex = 5;
             // 
             // txtQuantity
             // 
             txtQuantity.BorderStyle = BorderStyle.FixedSingle;
             txtQuantity.Font = new Font("Segoe UI", 10F);
-            txtQuantity.Location = new Point(753, 82);
+            txtQuantity.Location = new Point(629, 82);
             txtQuantity.Name = "txtQuantity";
             txtQuantity.Size = new Size(274, 30);
-            txtQuantity.TabIndex = 23;
+            txtQuantity.TabIndex = 5;
             // 
             // cbMedicine
             // 
@@ -404,7 +419,7 @@
             cbMedicine.Location = new Point(184, 81);
             cbMedicine.Name = "cbMedicine";
             cbMedicine.Size = new Size(254, 31);
-            cbMedicine.TabIndex = 17;
+            cbMedicine.TabIndex = 3;
             cbMedicine.SelectedIndexChanged += cbMedicine_SelectedIndexChanged;
             // 
             // label11
@@ -434,7 +449,7 @@
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Semibold", 10F);
             label9.ForeColor = Color.DarkCyan;
-            label9.Location = new Point(595, 82);
+            label9.Location = new Point(471, 82);
             label9.Name = "label9";
             label9.Size = new Size(127, 23);
             label9.TabIndex = 14;
@@ -445,7 +460,7 @@
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 10F);
             label8.ForeColor = Color.DarkCyan;
-            label8.Location = new Point(595, 132);
+            label8.Location = new Point(471, 132);
             label8.Name = "label8";
             label8.Size = new Size(83, 23);
             label8.TabIndex = 13;
@@ -456,24 +471,27 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label7.ForeColor = Color.DarkCyan;
-            label7.Location = new Point(423, 20);
+            label7.Location = new Point(19, 20);
             label7.Name = "label7";
             label7.Size = new Size(206, 28);
             label7.TabIndex = 10;
             label7.Text = "THÊM THUỐC NHẬP";
+            label7.Click += label7_Click;
             // 
             // Dialog_MedicineImport
             // 
+            AcceptButton = btConfirmImport;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btCancel;
             ClientSize = new Size(1088, 701);
             Controls.Add(panel3);
             Controls.Add(panel1);
             Controls.Add(panel2);
             Name = "Dialog_MedicineImport";
             Padding = new Padding(10);
-            Text = "Dialog_MedicineImport";
+            ShowIcon = false;
             Load += Dialog_MedicineImport_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

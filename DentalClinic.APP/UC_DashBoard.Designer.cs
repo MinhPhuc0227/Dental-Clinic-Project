@@ -295,9 +295,9 @@
             lbMedicineStock.ForeColor = Color.DarkBlue;
             lbMedicineStock.Location = new Point(13, 55);
             lbMedicineStock.Name = "lbMedicineStock";
-            lbMedicineStock.Size = new Size(169, 28);
+            lbMedicineStock.Size = new Size(27, 28);
             lbMedicineStock.TabIndex = 5;
-            lbMedicineStock.Text = "lbMedicineStock";
+            lbMedicineStock.Text = "...";
             // 
             // label4
             // 
@@ -339,9 +339,9 @@
             lbTodayRevenue.ForeColor = Color.Crimson;
             lbTodayRevenue.Location = new Point(14, 55);
             lbTodayRevenue.Name = "lbTodayRevenue";
-            lbTodayRevenue.Size = new Size(167, 28);
+            lbTodayRevenue.Size = new Size(27, 28);
             lbTodayRevenue.TabIndex = 2;
-            lbTodayRevenue.Text = "lbTodayRevenue";
+            lbTodayRevenue.Text = "...";
             // 
             // panel4
             // 
@@ -361,9 +361,9 @@
             lbWaiting.ForeColor = Color.Indigo;
             lbWaiting.Location = new Point(14, 55);
             lbWaiting.Name = "lbWaiting";
-            lbWaiting.Size = new Size(104, 28);
+            lbWaiting.Size = new Size(27, 28);
             lbWaiting.TabIndex = 3;
-            lbWaiting.Text = "lbWaiting";
+            lbWaiting.Text = "...";
             // 
             // label6
             // 
@@ -394,9 +394,9 @@
             lbWaitingPayment.ForeColor = Color.Chocolate;
             lbWaitingPayment.Location = new Point(13, 55);
             lbWaitingPayment.Name = "lbWaitingPayment";
-            lbWaitingPayment.Size = new Size(187, 28);
+            lbWaitingPayment.Size = new Size(27, 28);
             lbWaitingPayment.TabIndex = 4;
-            lbWaitingPayment.Text = "lbWaitingPayment";
+            lbWaitingPayment.Text = "...";
             // 
             // label5
             // 
@@ -438,9 +438,9 @@
             lbTodayVisits.ForeColor = SystemColors.MenuHighlight;
             lbTodayVisits.Location = new Point(16, 55);
             lbTodayVisits.Name = "lbTodayVisits";
-            lbTodayVisits.Size = new Size(137, 28);
+            lbTodayVisits.Size = new Size(27, 28);
             lbTodayVisits.TabIndex = 1;
-            lbTodayVisits.Text = "lbTodayVisits";
+            lbTodayVisits.Text = "...";
             // 
             // panel2
             // 
@@ -471,9 +471,9 @@
             lbTodayPatients.ForeColor = Color.Green;
             lbTodayPatients.Location = new Point(20, 55);
             lbTodayPatients.Name = "lbTodayPatients";
-            lbTodayPatients.Size = new Size(163, 28);
+            lbTodayPatients.Size = new Size(27, 28);
             lbTodayPatients.TabIndex = 0;
-            lbTodayPatients.Text = "lbTodayPatients";
+            lbTodayPatients.Text = "...";
             // 
             // tabPage2
             // 
@@ -651,9 +651,9 @@
             lbTotalStock.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             lbTotalStock.Location = new Point(20, 55);
             lbTotalStock.Name = "lbTotalStock";
-            lbTotalStock.Size = new Size(129, 28);
+            lbTotalStock.Size = new Size(27, 28);
             lbTotalStock.TabIndex = 0;
-            lbTotalStock.Text = "lbTotalStock";
+            lbTotalStock.Text = "...";
             // 
             // panel11
             // 
@@ -683,9 +683,9 @@
             lbTotalMedicines.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             lbTotalMedicines.Location = new Point(20, 55);
             lbTotalMedicines.Name = "lbTotalMedicines";
-            lbTotalMedicines.Size = new Size(173, 28);
+            lbTotalMedicines.Size = new Size(27, 28);
             lbTotalMedicines.TabIndex = 0;
-            lbTotalMedicines.Text = "lbTotalMedicines";
+            lbTotalMedicines.Text = "...";
             // 
             // tabPage3
             // 

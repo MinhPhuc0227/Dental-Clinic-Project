@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Admin));
             panel1 = new Panel();
             panel2 = new Panel();
             btLogout = new Button();
             panel3 = new Panel();
+            rbSupplier = new RadioButton();
             rbMedicine = new RadioButton();
             rbService = new RadioButton();
             rbDoctor = new RadioButton();
@@ -41,7 +43,7 @@
             rbAccount = new RadioButton();
             rbDashBoard = new RadioButton();
             pnContent = new Panel();
-            rbSupplier = new RadioButton();
+            panel4 = new Panel();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
             SuspendLayout();
@@ -54,6 +56,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1019, 56);
             panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
             // 
             // panel2
             // 
@@ -67,12 +70,15 @@
             // 
             // btLogout
             // 
-            btLogout.Font = new Font("Segoe UI", 12F);
-            btLogout.Location = new Point(25, 10);
+            btLogout.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btLogout.Image = APP.Properties.Resources.logout;
+            btLogout.ImageAlign = ContentAlignment.MiddleLeft;
+            btLogout.Location = new Point(12, 10);
             btLogout.Name = "btLogout";
-            btLogout.Size = new Size(120, 41);
+            btLogout.Size = new Size(156, 41);
             btLogout.TabIndex = 0;
-            btLogout.Text = "Đăng xuất";
+            btLogout.Text = "Đăng Xuất";
+            btLogout.TextAlign = ContentAlignment.MiddleRight;
             btLogout.UseVisualStyleBackColor = true;
             btLogout.Click += btLogout_Click;
             // 
@@ -93,6 +99,25 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(200, 568);
             panel3.TabIndex = 2;
+            // 
+            // rbSupplier
+            // 
+            rbSupplier.Appearance = Appearance.Button;
+            rbSupplier.BackColor = Color.DarkCyan;
+            rbSupplier.FlatAppearance.BorderSize = 0;
+            rbSupplier.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
+            rbSupplier.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
+            rbSupplier.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
+            rbSupplier.FlatStyle = FlatStyle.Flat;
+            rbSupplier.Font = new Font("Segoe UI Semibold", 12F);
+            rbSupplier.ForeColor = Color.White;
+            rbSupplier.Location = new Point(0, 450);
+            rbSupplier.Name = "rbSupplier";
+            rbSupplier.Size = new Size(200, 60);
+            rbSupplier.TabIndex = 9;
+            rbSupplier.Text = "Nhà Cung Cấp";
+            rbSupplier.UseVisualStyleBackColor = false;
+            rbSupplier.CheckedChanged += rbSupplier_CheckedChanged;
             // 
             // rbMedicine
             // 
@@ -250,31 +275,21 @@
             // 
             // pnContent
             // 
-            pnContent.BackColor = SystemColors.Control;
+            pnContent.BackColor = Color.White;
             pnContent.Dock = DockStyle.Fill;
             pnContent.Location = new Point(200, 56);
             pnContent.Name = "pnContent";
-            pnContent.Size = new Size(819, 568);
+            pnContent.Size = new Size(763, 568);
             pnContent.TabIndex = 3;
             // 
-            // rbSupplier
+            // panel4
             // 
-            rbSupplier.Appearance = Appearance.Button;
-            rbSupplier.BackColor = Color.DarkCyan;
-            rbSupplier.FlatAppearance.BorderSize = 0;
-            rbSupplier.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
-            rbSupplier.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
-            rbSupplier.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
-            rbSupplier.FlatStyle = FlatStyle.Flat;
-            rbSupplier.Font = new Font("Segoe UI Semibold", 12F);
-            rbSupplier.ForeColor = Color.White;
-            rbSupplier.Location = new Point(0, 450);
-            rbSupplier.Name = "rbSupplier";
-            rbSupplier.Size = new Size(200, 60);
-            rbSupplier.TabIndex = 9;
-            rbSupplier.Text = "Nhà Cung Cấp";
-            rbSupplier.UseVisualStyleBackColor = false;
-            rbSupplier.CheckedChanged += rbSupplier_CheckedChanged;
+            panel4.BackColor = Color.DarkCyan;
+            panel4.Dock = DockStyle.Right;
+            panel4.Location = new Point(963, 56);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(56, 568);
+            panel4.TabIndex = 4;
             // 
             // Form_Admin
             // 
@@ -282,11 +297,13 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1019, 687);
             Controls.Add(pnContent);
+            Controls.Add(panel4);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form_Admin";
-            Text = "Dental Clinic Management System - Admin";
+            Text = "Nha Khoa Gia An - Admin";
             WindowState = FormWindowState.Maximized;
             Load += Admin_Form_Load;
             panel2.ResumeLayout(false);
@@ -310,5 +327,6 @@
         private RadioButton rbPatient;
         private Button btLogout;
         private RadioButton rbSupplier;
+        private Panel panel4;
     }
 }

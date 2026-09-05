@@ -118,7 +118,7 @@
             txtSupplierName.Location = new Point(197, 92);
             txtSupplierName.Name = "txtSupplierName";
             txtSupplierName.Size = new Size(314, 30);
-            txtSupplierName.TabIndex = 7;
+            txtSupplierName.TabIndex = 1;
             // 
             // txtAddress
             // 
@@ -127,7 +127,7 @@
             txtAddress.Location = new Point(197, 238);
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(314, 30);
-            txtAddress.TabIndex = 8;
+            txtAddress.TabIndex = 4;
             // 
             // txtEmail
             // 
@@ -136,7 +136,7 @@
             txtEmail.Location = new Point(197, 193);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(314, 30);
-            txtEmail.TabIndex = 9;
+            txtEmail.TabIndex = 3;
             // 
             // txtNote
             // 
@@ -146,7 +146,7 @@
             txtNote.Multiline = true;
             txtNote.Name = "txtNote";
             txtNote.Size = new Size(314, 82);
-            txtNote.TabIndex = 10;
+            txtNote.TabIndex = 5;
             // 
             // txtPhone
             // 
@@ -155,26 +155,36 @@
             txtPhone.Location = new Point(197, 144);
             txtPhone.Name = "txtPhone";
             txtPhone.Size = new Size(314, 30);
-            txtPhone.TabIndex = 11;
+            txtPhone.TabIndex = 2;
             // 
             // btCancel
             // 
+            btCancel.BackColor = Color.Red;
+            btCancel.FlatAppearance.BorderSize = 0;
+            btCancel.FlatStyle = FlatStyle.Flat;
+            btCancel.Font = new Font("Segoe UI Semibold", 10F);
+            btCancel.ForeColor = Color.White;
             btCancel.Location = new Point(317, 468);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(94, 38);
-            btCancel.TabIndex = 12;
+            btCancel.TabIndex = 7;
             btCancel.Text = "Hủy";
-            btCancel.UseVisualStyleBackColor = true;
+            btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
             // 
             // btSave
             // 
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
+            btSave.FlatAppearance.BorderSize = 0;
+            btSave.FlatStyle = FlatStyle.Flat;
+            btSave.Font = new Font("Segoe UI Semibold", 10F);
+            btSave.ForeColor = Color.White;
             btSave.Location = new Point(417, 468);
             btSave.Name = "btSave";
             btSave.Size = new Size(94, 38);
-            btSave.TabIndex = 13;
+            btSave.TabIndex = 8;
             btSave.Text = "Lưu";
-            btSave.UseVisualStyleBackColor = true;
+            btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
             // 
             // label7
@@ -195,13 +205,15 @@
             cbStatus.Location = new Point(197, 388);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(314, 31);
-            cbStatus.TabIndex = 15;
+            cbStatus.TabIndex = 6;
             // 
             // Dialog_Supplier
             // 
+            AcceptButton = btSave;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btCancel;
             ClientSize = new Size(535, 536);
             Controls.Add(cbStatus);
             Controls.Add(label7);
@@ -221,7 +233,6 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Dialog_Supplier";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dialog_Supplier";
             Load += Dialog_Supplier_Load;
             ResumeLayout(false);
             PerformLayout();

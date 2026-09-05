@@ -75,7 +75,7 @@
             // btSave
             // 
             btSave.AutoSize = true;
-            btSave.BackColor = Color.DarkCyan;
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
@@ -159,13 +159,13 @@
             // lbPaymentMethodId
             // 
             lbPaymentMethodId.AutoSize = true;
-            lbPaymentMethodId.Font = new Font("Segoe UI Semibold", 12F);
-            lbPaymentMethodId.ForeColor = Color.DarkCyan;
+            lbPaymentMethodId.Font = new Font("Segoe UI", 12F);
+            lbPaymentMethodId.ForeColor = Color.Black;
             lbPaymentMethodId.Location = new Point(65, 18);
             lbPaymentMethodId.Name = "lbPaymentMethodId";
-            lbPaymentMethodId.Size = new Size(89, 28);
+            lbPaymentMethodId.Size = new Size(24, 28);
             lbPaymentMethodId.TabIndex = 8;
-            lbPaymentMethodId.Text = "Tự động";
+            lbPaymentMethodId.Text = "...";
             // 
             // Dialog_PaymentMethod
             // 
@@ -175,7 +175,6 @@
             BackColor = Color.White;
             CancelButton = btCancel;
             ClientSize = new Size(404, 482);
-            ControlBox = false;
             Controls.Add(lbPaymentMethodId);
             Controls.Add(label4);
             Controls.Add(cbStatus);
@@ -191,7 +190,6 @@
             Name = "Dialog_PaymentMethod";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Phương thức thanh toán";
             Load += Dialog_PaymentMethod_Load;
             ResumeLayout(false);
             PerformLayout();

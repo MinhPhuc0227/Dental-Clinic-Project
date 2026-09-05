@@ -98,7 +98,7 @@
             txtSearch.Location = new Point(742, 165);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(233, 30);
-            txtSearch.TabIndex = 42;
+            txtSearch.TabIndex = 4;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // cbSupplier
@@ -108,7 +108,7 @@
             cbSupplier.Location = new Point(215, 164);
             cbSupplier.Name = "cbSupplier";
             cbSupplier.Size = new Size(226, 31);
-            cbSupplier.TabIndex = 41;
+            cbSupplier.TabIndex = 3;
             cbSupplier.SelectedIndexChanged += cbSupplier_SelectedIndexChanged;
             // 
             // dtpEnd
@@ -120,7 +120,7 @@
             dtpEnd.Location = new Point(742, 118);
             dtpEnd.Name = "dtpEnd";
             dtpEnd.Size = new Size(233, 30);
-            dtpEnd.TabIndex = 40;
+            dtpEnd.TabIndex = 2;
             dtpEnd.ValueChanged += dtpEnd_ValueChanged;
             // 
             // dtpStart
@@ -131,7 +131,7 @@
             dtpStart.Location = new Point(215, 120);
             dtpStart.Name = "dtpStart";
             dtpStart.Size = new Size(226, 30);
-            dtpStart.TabIndex = 39;
+            dtpStart.TabIndex = 1;
             dtpStart.ValueChanged += dtpStart_ValueChanged;
             // 
             // label5
@@ -401,9 +401,9 @@
             lbAccount.Font = new Font("Segoe UI", 10F);
             lbAccount.Location = new Point(174, 150);
             lbAccount.Name = "lbAccount";
-            lbAccount.Size = new Size(98, 23);
+            lbAccount.Size = new Size(22, 23);
             lbAccount.TabIndex = 20;
-            lbAccount.Text = "người nhập";
+            lbAccount.Text = "...";
             // 
             // lbSupplier
             // 
@@ -411,9 +411,9 @@
             lbSupplier.Font = new Font("Segoe UI", 10F);
             lbSupplier.Location = new Point(174, 106);
             lbSupplier.Name = "lbSupplier";
-            lbSupplier.Size = new Size(114, 23);
+            lbSupplier.Size = new Size(22, 23);
             lbSupplier.TabIndex = 19;
-            lbSupplier.Text = "nhà cung cấp";
+            lbSupplier.Text = "...";
             // 
             // lbImportDate
             // 
@@ -421,9 +421,9 @@
             lbImportDate.Font = new Font("Segoe UI", 10F);
             lbImportDate.Location = new Point(174, 62);
             lbImportDate.Name = "lbImportDate";
-            lbImportDate.Size = new Size(91, 23);
+            lbImportDate.Size = new Size(22, 23);
             lbImportDate.TabIndex = 18;
-            lbImportDate.Text = "ngày nhập";
+            lbImportDate.Text = "...";
             // 
             // label10
             // 
@@ -490,7 +490,7 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "Dialog_MedicineImportHistory";
-            Text = "Dialog_ImportHistory";
+            ShowIcon = false;
             Load += Dialog_MedicineImportHistory_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

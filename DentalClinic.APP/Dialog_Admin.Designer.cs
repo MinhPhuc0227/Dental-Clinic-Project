@@ -70,7 +70,7 @@
             txtUserName.Location = new Point(189, 78);
             txtUserName.Name = "txtUserName";
             txtUserName.Size = new Size(222, 30);
-            txtUserName.TabIndex = 2;
+            txtUserName.TabIndex = 1;
             // 
             // cbRole
             // 
@@ -79,16 +79,21 @@
             cbRole.Location = new Point(189, 205);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(222, 31);
-            cbRole.TabIndex = 3;
+            cbRole.TabIndex = 4;
             // 
             // btCancel
             // 
+            btCancel.BackColor = Color.Red;
+            btCancel.FlatAppearance.BorderSize = 0;
+            btCancel.FlatStyle = FlatStyle.Flat;
+            btCancel.Font = new Font("Segoe UI Semibold", 10F);
+            btCancel.ForeColor = Color.White;
             btCancel.Location = new Point(217, 334);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(94, 40);
-            btCancel.TabIndex = 4;
+            btCancel.TabIndex = 6;
             btCancel.Text = "Hủy";
-            btCancel.UseVisualStyleBackColor = true;
+            btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
             // 
             // label3
@@ -126,12 +131,17 @@
             // 
             // btSave
             // 
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
+            btSave.FlatAppearance.BorderSize = 0;
+            btSave.FlatStyle = FlatStyle.Flat;
+            btSave.Font = new Font("Segoe UI Semibold", 10F);
+            btSave.ForeColor = Color.White;
             btSave.Location = new Point(317, 334);
             btSave.Name = "btSave";
             btSave.Size = new Size(94, 40);
-            btSave.TabIndex = 8;
+            btSave.TabIndex = 7;
             btSave.Text = "Lưu";
-            btSave.UseVisualStyleBackColor = true;
+            btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
             // 
             // chkShowPassword
@@ -142,7 +152,7 @@
             chkShowPassword.Location = new Point(34, 164);
             chkShowPassword.Name = "chkShowPassword";
             chkShowPassword.Size = new Size(144, 27);
-            chkShowPassword.TabIndex = 65;
+            chkShowPassword.TabIndex = 3;
             chkShowPassword.Text = "Hiện mật khẩu";
             chkShowPassword.UseVisualStyleBackColor = true;
             chkShowPassword.CheckedChanged += chkShowPassword_CheckedChanged;
@@ -153,7 +163,7 @@
             txtPassword.Location = new Point(189, 119);
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(222, 30);
-            txtPassword.TabIndex = 66;
+            txtPassword.TabIndex = 2;
             // 
             // cbStatus
             // 
@@ -162,13 +172,15 @@
             cbStatus.Location = new Point(189, 246);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(222, 31);
-            cbStatus.TabIndex = 67;
+            cbStatus.TabIndex = 5;
             // 
             // Dialog_Admin
             // 
+            AcceptButton = btSave;
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btCancel;
             ClientSize = new Size(447, 399);
             Controls.Add(cbStatus);
             Controls.Add(txtPassword);
@@ -186,7 +198,6 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Dialog_Admin";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dialog_Admin";
             Load += Dialog_Admin_Load;
             ResumeLayout(false);
             PerformLayout();

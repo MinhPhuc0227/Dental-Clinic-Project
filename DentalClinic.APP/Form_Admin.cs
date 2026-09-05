@@ -178,5 +178,10 @@ namespace DentalClinic.App
                 supplierUC.LoadData();
             }
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

@@ -211,9 +211,9 @@
             lbAppointmentNote.ForeColor = Color.Black;
             lbAppointmentNote.Location = new Point(268, 249);
             lbAppointmentNote.Name = "lbAppointmentNote";
-            lbAppointmentNote.Size = new Size(190, 28);
+            lbAppointmentNote.Size = new Size(24, 28);
             lbAppointmentNote.TabIndex = 38;
-            lbAppointmentNote.Text = "lbAppointmentNote";
+            lbAppointmentNote.Text = "...";
             // 
             // label10
             // 
@@ -233,9 +233,9 @@
             lbReasonForVisit.ForeColor = Color.Black;
             lbReasonForVisit.Location = new Point(268, 205);
             lbReasonForVisit.Name = "lbReasonForVisit";
-            lbReasonForVisit.Size = new Size(157, 28);
+            lbReasonForVisit.Size = new Size(24, 28);
             lbReasonForVisit.TabIndex = 36;
-            lbReasonForVisit.Text = "lbReasonForVisit";
+            lbReasonForVisit.Text = "...";
             // 
             // label8
             // 
@@ -255,9 +255,9 @@
             lbPatientNote.ForeColor = Color.Black;
             lbPatientNote.Location = new Point(268, 161);
             lbPatientNote.Name = "lbPatientNote";
-            lbPatientNote.Size = new Size(133, 28);
+            lbPatientNote.Size = new Size(24, 28);
             lbPatientNote.TabIndex = 34;
-            lbPatientNote.Text = "lbPatientNote";
+            lbPatientNote.Text = "...";
             // 
             // label5
             // 
@@ -277,9 +277,9 @@
             lbPhone.ForeColor = Color.Black;
             lbPhone.Location = new Point(268, 117);
             lbPhone.Name = "lbPhone";
-            lbPhone.Size = new Size(84, 28);
+            lbPhone.Size = new Size(24, 28);
             lbPhone.TabIndex = 32;
-            lbPhone.Text = "lbPhone";
+            lbPhone.Text = "...";
             // 
             // label3
             // 
@@ -310,9 +310,9 @@
             lbFullName.ForeColor = Color.Black;
             lbFullName.Location = new Point(268, 73);
             lbFullName.Name = "lbFullName";
-            lbFullName.Size = new Size(112, 28);
+            lbFullName.Size = new Size(24, 28);
             lbFullName.TabIndex = 29;
-            lbFullName.Text = "lbFullName";
+            lbFullName.Text = "...";
             // 
             // label7
             // 
@@ -859,9 +859,9 @@
             lbMedicineAmount.ForeColor = Color.Black;
             lbMedicineAmount.Location = new Point(223, 63);
             lbMedicineAmount.Name = "lbMedicineAmount";
-            lbMedicineAmount.Size = new Size(180, 28);
+            lbMedicineAmount.Size = new Size(24, 28);
             lbMedicineAmount.TabIndex = 44;
-            lbMedicineAmount.Text = "lbMedicineAmount";
+            lbMedicineAmount.Text = "...";
             // 
             // label24
             // 
@@ -881,9 +881,9 @@
             lbTotalAmount.ForeColor = Color.Black;
             lbTotalAmount.Location = new Point(451, 63);
             lbTotalAmount.Name = "lbTotalAmount";
-            lbTotalAmount.Size = new Size(142, 28);
+            lbTotalAmount.Size = new Size(24, 28);
             lbTotalAmount.TabIndex = 42;
-            lbTotalAmount.Text = "lbTotalAmount";
+            lbTotalAmount.Text = "...";
             // 
             // label22
             // 
@@ -927,9 +927,9 @@
             lbServiceAmount.ForeColor = Color.Black;
             lbServiceAmount.Location = new Point(14, 63);
             lbServiceAmount.Name = "lbServiceAmount";
-            lbServiceAmount.Size = new Size(162, 28);
+            lbServiceAmount.Size = new Size(24, 28);
             lbServiceAmount.TabIndex = 40;
-            lbServiceAmount.Text = "lbServiceAmount";
+            lbServiceAmount.Text = "...";
             // 
             // label2
             // 

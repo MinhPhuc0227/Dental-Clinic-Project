@@ -34,12 +34,12 @@
             label4 = new Label();
             rbPermanent = new RadioButton();
             rbModifyMedicalRecord = new RadioButton();
-            label5 = new Label();
             txtOtherReason = new TextBox();
             lbCancelledDate = new Label();
             lbCancelledBy = new Label();
             btConfirm = new Button();
             btClose = new Button();
+            label5 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -93,7 +93,7 @@
             rbPermanent.Location = new Point(185, 119);
             rbPermanent.Name = "rbPermanent";
             rbPermanent.Size = new Size(214, 27);
-            rbPermanent.TabIndex = 17;
+            rbPermanent.TabIndex = 1;
             rbPermanent.TabStop = true;
             rbPermanent.Text = "Hủy hoàn toàn hóa đơn";
             rbPermanent.UseVisualStyleBackColor = true;
@@ -105,10 +105,68 @@
             rbModifyMedicalRecord.Location = new Point(185, 166);
             rbModifyMedicalRecord.Name = "rbModifyMedicalRecord";
             rbModifyMedicalRecord.Size = new Size(212, 27);
-            rbModifyMedicalRecord.TabIndex = 18;
+            rbModifyMedicalRecord.TabIndex = 2;
             rbModifyMedicalRecord.TabStop = true;
             rbModifyMedicalRecord.Text = "Thay đổi thuốc/dịch vụ ";
             rbModifyMedicalRecord.UseVisualStyleBackColor = true;
+            // 
+            // txtOtherReason
+            // 
+            txtOtherReason.BorderStyle = BorderStyle.FixedSingle;
+            txtOtherReason.Location = new Point(185, 251);
+            txtOtherReason.Name = "txtOtherReason";
+            txtOtherReason.Size = new Size(208, 30);
+            txtOtherReason.TabIndex = 3;
+            // 
+            // lbCancelledDate
+            // 
+            lbCancelledDate.AutoSize = true;
+            lbCancelledDate.Font = new Font("Segoe UI", 10F);
+            lbCancelledDate.Location = new Point(185, 379);
+            lbCancelledDate.Name = "lbCancelledDate";
+            lbCancelledDate.Size = new Size(22, 23);
+            lbCancelledDate.TabIndex = 21;
+            lbCancelledDate.Text = "...";
+            // 
+            // lbCancelledBy
+            // 
+            lbCancelledBy.AutoSize = true;
+            lbCancelledBy.Font = new Font("Segoe UI", 10F);
+            lbCancelledBy.Location = new Point(185, 326);
+            lbCancelledBy.Name = "lbCancelledBy";
+            lbCancelledBy.Size = new Size(22, 23);
+            lbCancelledBy.TabIndex = 22;
+            lbCancelledBy.Text = "...";
+            // 
+            // btConfirm
+            // 
+            btConfirm.BackColor = Color.FromArgb(0, 184, 148);
+            btConfirm.FlatAppearance.BorderSize = 0;
+            btConfirm.FlatStyle = FlatStyle.Flat;
+            btConfirm.Font = new Font("Segoe UI Semibold", 10F);
+            btConfirm.ForeColor = Color.White;
+            btConfirm.Location = new Point(252, 450);
+            btConfirm.Name = "btConfirm";
+            btConfirm.Size = new Size(141, 38);
+            btConfirm.TabIndex = 23;
+            btConfirm.Text = "Xác nhận Hủy";
+            btConfirm.UseVisualStyleBackColor = false;
+            btConfirm.Click += btConfirm_Click;
+            // 
+            // btClose
+            // 
+            btClose.BackColor = Color.Red;
+            btClose.FlatAppearance.BorderSize = 0;
+            btClose.FlatStyle = FlatStyle.Flat;
+            btClose.Font = new Font("Segoe UI Semibold", 10F);
+            btClose.ForeColor = Color.White;
+            btClose.Location = new Point(144, 450);
+            btClose.Name = "btClose";
+            btClose.Size = new Size(91, 38);
+            btClose.TabIndex = 24;
+            btClose.Text = "Hủy";
+            btClose.UseVisualStyleBackColor = false;
+            btClose.Click += btClose_Click;
             // 
             // label5
             // 
@@ -120,59 +178,13 @@
             label5.TabIndex = 19;
             label5.Text = "Khác:";
             // 
-            // txtOtherReason
-            // 
-            txtOtherReason.BorderStyle = BorderStyle.FixedSingle;
-            txtOtherReason.Location = new Point(185, 251);
-            txtOtherReason.Name = "txtOtherReason";
-            txtOtherReason.Size = new Size(208, 30);
-            txtOtherReason.TabIndex = 20;
-            // 
-            // lbCancelledDate
-            // 
-            lbCancelledDate.AutoSize = true;
-            lbCancelledDate.Font = new Font("Segoe UI", 10F);
-            lbCancelledDate.Location = new Point(185, 379);
-            lbCancelledDate.Name = "lbCancelledDate";
-            lbCancelledDate.Size = new Size(111, 23);
-            lbCancelledDate.TabIndex = 21;
-            lbCancelledDate.Text = "thời gian hủy";
-            // 
-            // lbCancelledBy
-            // 
-            lbCancelledBy.AutoSize = true;
-            lbCancelledBy.Font = new Font("Segoe UI", 10F);
-            lbCancelledBy.Location = new Point(185, 326);
-            lbCancelledBy.Name = "lbCancelledBy";
-            lbCancelledBy.Size = new Size(87, 23);
-            lbCancelledBy.TabIndex = 22;
-            lbCancelledBy.Text = "người hủy";
-            // 
-            // btConfirm
-            // 
-            btConfirm.Location = new Point(252, 450);
-            btConfirm.Name = "btConfirm";
-            btConfirm.Size = new Size(141, 38);
-            btConfirm.TabIndex = 23;
-            btConfirm.Text = "Xác nhận Hủy";
-            btConfirm.UseVisualStyleBackColor = true;
-            btConfirm.Click += btConfirm_Click;
-            // 
-            // btClose
-            // 
-            btClose.Location = new Point(144, 450);
-            btClose.Name = "btClose";
-            btClose.Size = new Size(91, 38);
-            btClose.TabIndex = 24;
-            btClose.Text = "Hủy";
-            btClose.UseVisualStyleBackColor = true;
-            btClose.Click += btClose_Click;
-            // 
             // Dialog_CancelInvoice
             // 
+            AcceptButton = btConfirm;
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btClose;
             ClientSize = new Size(416, 518);
             Controls.Add(btClose);
             Controls.Add(btConfirm);
@@ -190,7 +202,6 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Dialog_CancelInvoice";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Xác nhận hủy hóa đơn";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -203,11 +214,11 @@
         private Label label4;
         private RadioButton rbPermanent;
         private RadioButton rbModifyMedicalRecord;
-        private Label label5;
         private TextBox txtOtherReason;
         private Label lbCancelledDate;
         private Label lbCancelledBy;
         private Button btConfirm;
         private Button btClose;
+        private Label label5;
     }
 }

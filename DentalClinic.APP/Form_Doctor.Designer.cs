@@ -28,14 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Doctor));
             pnContent = new Panel();
             panel2 = new Panel();
             rbExamination = new RadioButton();
-            btLogout = new Button();
             rbMedicalRecord = new RadioButton();
             rbDoctorAppointment = new RadioButton();
+            btLogout = new Button();
             panel1 = new Panel();
+            panel3 = new Panel();
+            panel4 = new Panel();
             panel2.SuspendLayout();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // pnContent
@@ -43,25 +47,25 @@
             pnContent.Dock = DockStyle.Fill;
             pnContent.Location = new Point(210, 66);
             pnContent.Name = "pnContent";
-            pnContent.Size = new Size(802, 543);
+            pnContent.Size = new Size(746, 487);
             pnContent.TabIndex = 7;
             // 
             // panel2
             // 
             panel2.BackColor = Color.DarkCyan;
             panel2.Controls.Add(rbExamination);
-            panel2.Controls.Add(btLogout);
             panel2.Controls.Add(rbMedicalRecord);
             panel2.Controls.Add(rbDoctorAppointment);
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(10, 66);
             panel2.Name = "panel2";
-            panel2.Size = new Size(200, 543);
+            panel2.Size = new Size(200, 487);
             panel2.TabIndex = 6;
             // 
             // rbExamination
             // 
             rbExamination.Appearance = Appearance.Button;
+            rbExamination.Checked = true;
             rbExamination.FlatAppearance.BorderSize = 0;
             rbExamination.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
             rbExamination.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
@@ -73,21 +77,10 @@
             rbExamination.Name = "rbExamination";
             rbExamination.Size = new Size(200, 60);
             rbExamination.TabIndex = 8;
+            rbExamination.TabStop = true;
             rbExamination.Text = "Khám Bệnh";
             rbExamination.UseVisualStyleBackColor = true;
             rbExamination.CheckedChanged += rbExamination_CheckedChanged;
-            // 
-            // btLogout
-            // 
-            btLogout.Font = new Font("Segoe UI", 12F);
-            btLogout.Location = new Point(13, 487);
-            btLogout.Margin = new Padding(4);
-            btLogout.Name = "btLogout";
-            btLogout.Size = new Size(172, 43);
-            btLogout.TabIndex = 1;
-            btLogout.Text = "Đăng xuất";
-            btLogout.UseVisualStyleBackColor = true;
-            btLogout.Click += btLogout_Click_1;
             // 
             // rbMedicalRecord
             // 
@@ -99,7 +92,7 @@
             rbMedicalRecord.FlatStyle = FlatStyle.Flat;
             rbMedicalRecord.Font = new Font("Segoe UI Semibold", 12F);
             rbMedicalRecord.ForeColor = Color.White;
-            rbMedicalRecord.Location = new Point(0, 120);
+            rbMedicalRecord.Location = new Point(0, 112);
             rbMedicalRecord.Name = "rbMedicalRecord";
             rbMedicalRecord.Size = new Size(200, 60);
             rbMedicalRecord.TabIndex = 5;
@@ -117,13 +110,32 @@
             rbDoctorAppointment.FlatStyle = FlatStyle.Flat;
             rbDoctorAppointment.Font = new Font("Segoe UI Semibold", 12F);
             rbDoctorAppointment.ForeColor = Color.White;
-            rbDoctorAppointment.Location = new Point(0, 60);
+            rbDoctorAppointment.Location = new Point(0, 56);
             rbDoctorAppointment.Name = "rbDoctorAppointment";
             rbDoctorAppointment.Size = new Size(200, 60);
             rbDoctorAppointment.TabIndex = 4;
             rbDoctorAppointment.Text = "Lịch Hẹn Của Tôi";
             rbDoctorAppointment.UseVisualStyleBackColor = true;
             rbDoctorAppointment.CheckedChanged += rbDoctorAppointment_CheckedChanged;
+            // 
+            // btLogout
+            // 
+            btLogout.BackColor = Color.White;
+            btLogout.FlatAppearance.BorderSize = 0;
+            btLogout.FlatStyle = FlatStyle.Flat;
+            btLogout.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btLogout.ForeColor = Color.Black;
+            btLogout.Image = Properties.Resources.logout;
+            btLogout.ImageAlign = ContentAlignment.MiddleLeft;
+            btLogout.Location = new Point(20, 10);
+            btLogout.Margin = new Padding(4);
+            btLogout.Name = "btLogout";
+            btLogout.Size = new Size(156, 41);
+            btLogout.TabIndex = 1;
+            btLogout.Text = "Đăng xuất";
+            btLogout.TextAlign = ContentAlignment.MiddleRight;
+            btLogout.UseVisualStyleBackColor = false;
+            btLogout.Click += btLogout_Click_1;
             // 
             // panel1
             // 
@@ -134,6 +146,25 @@
             panel1.Size = new Size(1002, 56);
             panel1.TabIndex = 5;
             // 
+            // panel3
+            // 
+            panel3.BackColor = Color.DarkCyan;
+            panel3.Controls.Add(btLogout);
+            panel3.Dock = DockStyle.Bottom;
+            panel3.Location = new Point(10, 553);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(1002, 56);
+            panel3.TabIndex = 8;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.DarkCyan;
+            panel4.Dock = DockStyle.Right;
+            panel4.Location = new Point(956, 66);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(56, 487);
+            panel4.TabIndex = 9;
+            // 
             // Form_Doctor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -141,13 +172,17 @@
             BackColor = Color.White;
             ClientSize = new Size(1022, 619);
             Controls.Add(pnContent);
+            Controls.Add(panel4);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            Controls.Add(panel3);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form_Doctor";
             Padding = new Padding(10);
-            Text = "Form_Doctor";
+            Text = "Nha Khoa Gia An - Bác sĩ";
             WindowState = FormWindowState.Maximized;
             panel2.ResumeLayout(false);
+            panel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -160,5 +195,7 @@
         private RadioButton rbMedicalRecord;
         private RadioButton rbDoctorAppointment;
         private Panel panel1;
+        private Panel panel3;
+        private Panel panel4;
     }
 }

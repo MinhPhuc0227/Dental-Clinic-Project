@@ -44,6 +44,7 @@
             panel5 = new Panel();
             label2 = new Label();
             panel2 = new Panel();
+            btCompleteTreatment = new Button();
             btSave = new Button();
             btCancel = new Button();
             btEditTreatment = new Button();
@@ -69,11 +70,8 @@
             label4 = new Label();
             label3 = new Label();
             panel3 = new Panel();
-            btCompleteTreatment = new Button();
             panel6 = new Panel();
             label1 = new Label();
-            pnBottom = new Panel();
-            btClose = new Button();
             pnCenter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTreatmentSession).BeginInit();
             panel4.SuspendLayout();
@@ -84,9 +82,7 @@
             panel5.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudPlannedSessions).BeginInit();
-            panel3.SuspendLayout();
             panel6.SuspendLayout();
-            pnBottom.SuspendLayout();
             SuspendLayout();
             // 
             // pnCenter
@@ -96,7 +92,7 @@
             pnCenter.Dock = DockStyle.Fill;
             pnCenter.Location = new Point(10, 636);
             pnCenter.Name = "pnCenter";
-            pnCenter.Size = new Size(1163, 247);
+            pnCenter.Size = new Size(1254, 317);
             pnCenter.TabIndex = 0;
             // 
             // dgvTreatmentSession
@@ -137,7 +133,7 @@
             dgvTreatmentSession.RowHeadersWidth = 51;
             dgvTreatmentSession.RowTemplate.Height = 38;
             dgvTreatmentSession.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTreatmentSession.Size = new Size(1163, 181);
+            dgvTreatmentSession.Size = new Size(1254, 251);
             dgvTreatmentSession.TabIndex = 7;
             dgvTreatmentSession.CellClick += dgvTreatmentSession_CellClick;
             // 
@@ -148,17 +144,22 @@
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
             panel4.Name = "panel4";
-            panel4.Size = new Size(1163, 66);
+            panel4.Size = new Size(1254, 66);
             panel4.TabIndex = 0;
             // 
             // btAddSession
             // 
-            btAddSession.Location = new Point(963, 16);
+            btAddSession.BackColor = Color.ForestGreen;
+            btAddSession.FlatAppearance.BorderSize = 0;
+            btAddSession.FlatStyle = FlatStyle.Flat;
+            btAddSession.Font = new Font("Segoe UI Semibold", 10F);
+            btAddSession.ForeColor = Color.White;
+            btAddSession.Location = new Point(1065, 16);
             btAddSession.Name = "btAddSession";
             btAddSession.Size = new Size(152, 36);
-            btAddSession.TabIndex = 55;
+            btAddSession.TabIndex = 9;
             btAddSession.Text = "Thêm buổi khám";
-            btAddSession.UseVisualStyleBackColor = true;
+            btAddSession.UseVisualStyleBackColor = false;
             btAddSession.Click += btAddSession_Click;
             // 
             // label9
@@ -179,7 +180,7 @@
             pnTop.Location = new Point(10, 10);
             pnTop.Name = "pnTop";
             pnTop.Padding = new Padding(0, 0, 0, 5);
-            pnTop.Size = new Size(1163, 626);
+            pnTop.Size = new Size(1254, 626);
             pnTop.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -197,7 +198,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.5771809F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 88.42282F));
-            tableLayoutPanel1.Size = new Size(1163, 621);
+            tableLayoutPanel1.Size = new Size(1254, 621);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -207,7 +208,7 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(3, 74);
             panel1.Name = "panel1";
-            panel1.Size = new Size(506, 544);
+            panel1.Size = new Size(546, 544);
             panel1.TabIndex = 1;
             // 
             // dgvTreatments
@@ -248,7 +249,7 @@
             dgvTreatments.RowHeadersWidth = 51;
             dgvTreatments.RowTemplate.Height = 38;
             dgvTreatments.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTreatments.Size = new Size(506, 499);
+            dgvTreatments.Size = new Size(546, 499);
             dgvTreatments.TabIndex = 8;
             dgvTreatments.CellClick += dgvTreatments_CellClick;
             // 
@@ -258,7 +259,7 @@
             panel5.Dock = DockStyle.Top;
             panel5.Location = new Point(0, 0);
             panel5.Name = "panel5";
-            panel5.Size = new Size(506, 45);
+            panel5.Size = new Size(546, 45);
             panel5.TabIndex = 0;
             // 
             // label2
@@ -274,6 +275,7 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(btCompleteTreatment);
             panel2.Controls.Add(btSave);
             panel2.Controls.Add(btCancel);
             panel2.Controls.Add(btEditTreatment);
@@ -299,39 +301,69 @@
             panel2.Controls.Add(label4);
             panel2.Controls.Add(label3);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(515, 74);
+            panel2.Location = new Point(555, 74);
             panel2.Name = "panel2";
-            panel2.Size = new Size(645, 544);
+            panel2.Size = new Size(696, 544);
             panel2.TabIndex = 2;
+            // 
+            // btCompleteTreatment
+            // 
+            btCompleteTreatment.BackColor = SystemColors.HotTrack;
+            btCompleteTreatment.FlatAppearance.BorderSize = 0;
+            btCompleteTreatment.FlatStyle = FlatStyle.Flat;
+            btCompleteTreatment.Font = new Font("Segoe UI Semibold", 10F);
+            btCompleteTreatment.ForeColor = Color.White;
+            btCompleteTreatment.Location = new Point(534, 15);
+            btCompleteTreatment.Name = "btCompleteTreatment";
+            btCompleteTreatment.Size = new Size(128, 36);
+            btCompleteTreatment.TabIndex = 0;
+            btCompleteTreatment.Text = "Hoàn thành";
+            btCompleteTreatment.UseVisualStyleBackColor = false;
+            btCompleteTreatment.Click += btCompleteTreatment_Click;
             // 
             // btSave
             // 
-            btSave.Location = new Point(508, 490);
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
+            btSave.FlatAppearance.BorderSize = 0;
+            btSave.FlatStyle = FlatStyle.Flat;
+            btSave.Font = new Font("Segoe UI Semibold", 10F);
+            btSave.ForeColor = Color.White;
+            btSave.Location = new Point(549, 490);
             btSave.Name = "btSave";
             btSave.Size = new Size(113, 36);
-            btSave.TabIndex = 54;
+            btSave.TabIndex = 8;
             btSave.Text = "Lưu";
-            btSave.UseVisualStyleBackColor = true;
+            btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
             // 
             // btCancel
             // 
-            btCancel.Location = new Point(389, 490);
+            btCancel.BackColor = Color.DimGray;
+            btCancel.FlatAppearance.BorderSize = 0;
+            btCancel.FlatStyle = FlatStyle.Flat;
+            btCancel.Font = new Font("Segoe UI Semibold", 10F);
+            btCancel.ForeColor = Color.White;
+            btCancel.Location = new Point(430, 490);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(113, 36);
-            btCancel.TabIndex = 53;
+            btCancel.TabIndex = 7;
             btCancel.Text = "Hủy";
-            btCancel.UseVisualStyleBackColor = true;
+            btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
             // 
             // btEditTreatment
             // 
-            btEditTreatment.Location = new Point(497, 14);
+            btEditTreatment.BackColor = Color.DarkOrange;
+            btEditTreatment.FlatAppearance.BorderSize = 0;
+            btEditTreatment.FlatStyle = FlatStyle.Flat;
+            btEditTreatment.Font = new Font("Segoe UI Semibold", 10F);
+            btEditTreatment.ForeColor = Color.White;
+            btEditTreatment.Location = new Point(408, 15);
             btEditTreatment.Name = "btEditTreatment";
             btEditTreatment.Size = new Size(113, 36);
             btEditTreatment.TabIndex = 26;
             btEditTreatment.Text = "Chỉnh sửa ";
-            btEditTreatment.UseVisualStyleBackColor = true;
+            btEditTreatment.UseVisualStyleBackColor = false;
             btEditTreatment.Click += btEditTreatment_Click;
             // 
             // nudPlannedSessions
@@ -339,7 +371,7 @@
             nudPlannedSessions.Location = new Point(179, 435);
             nudPlannedSessions.Name = "nudPlannedSessions";
             nudPlannedSessions.Size = new Size(59, 30);
-            nudPlannedSessions.TabIndex = 52;
+            nudPlannedSessions.TabIndex = 6;
             // 
             // textBox1
             // 
@@ -347,8 +379,8 @@
             textBox1.Location = new Point(230, 324);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(391, 85);
-            textBox1.TabIndex = 50;
+            textBox1.Size = new Size(432, 85);
+            textBox1.TabIndex = 5;
             // 
             // dtpEndDate
             // 
@@ -357,26 +389,26 @@
             dtpEndDate.Format = DateTimePickerFormat.Custom;
             dtpEndDate.Location = new Point(230, 199);
             dtpEndDate.Name = "dtpEndDate";
-            dtpEndDate.Size = new Size(391, 30);
-            dtpEndDate.TabIndex = 49;
+            dtpEndDate.Size = new Size(432, 30);
+            dtpEndDate.TabIndex = 3;
             // 
             // lbCompletedSessions
             // 
             lbCompletedSessions.AutoSize = true;
             lbCompletedSessions.Location = new Point(378, 437);
             lbCompletedSessions.Name = "lbCompletedSessions";
-            lbCompletedSessions.Size = new Size(55, 23);
+            lbCompletedSessions.Size = new Size(22, 23);
             lbCompletedSessions.TabIndex = 47;
-            lbCompletedSessions.Text = "label9";
+            lbCompletedSessions.Text = "...";
             // 
             // lbProgress
             // 
             lbProgress.AutoSize = true;
             lbProgress.Location = new Point(566, 437);
             lbProgress.Name = "lbProgress";
-            lbProgress.Size = new Size(55, 23);
+            lbProgress.Size = new Size(22, 23);
             lbProgress.TabIndex = 46;
-            lbProgress.Text = "label9";
+            lbProgress.Text = "...";
             // 
             // label14
             // 
@@ -438,26 +470,26 @@
             lbDoctorName.AutoSize = true;
             lbDoctorName.Location = new Point(230, 112);
             lbDoctorName.Name = "lbDoctorName";
-            lbDoctorName.Size = new Size(64, 23);
+            lbDoctorName.Size = new Size(22, 23);
             lbDoctorName.TabIndex = 23;
-            lbDoctorName.Text = "label10";
+            lbDoctorName.Text = "...";
             // 
             // cbStatus
             // 
             cbStatus.FormattingEnabled = true;
             cbStatus.Location = new Point(230, 278);
             cbStatus.Name = "cbStatus";
-            cbStatus.Size = new Size(391, 31);
-            cbStatus.TabIndex = 22;
+            cbStatus.Size = new Size(432, 31);
+            cbStatus.TabIndex = 4;
             // 
             // lbTotalAmount
             // 
             lbTotalAmount.AutoSize = true;
             lbTotalAmount.Location = new Point(230, 240);
             lbTotalAmount.Name = "lbTotalAmount";
-            lbTotalAmount.Size = new Size(55, 23);
+            lbTotalAmount.Size = new Size(22, 23);
             lbTotalAmount.TabIndex = 21;
-            lbTotalAmount.Text = "label9";
+            lbTotalAmount.Text = "...";
             // 
             // dtpStartDate
             // 
@@ -466,16 +498,16 @@
             dtpStartDate.Format = DateTimePickerFormat.Custom;
             dtpStartDate.Location = new Point(230, 150);
             dtpStartDate.Name = "dtpStartDate";
-            dtpStartDate.Size = new Size(391, 30);
-            dtpStartDate.TabIndex = 20;
+            dtpStartDate.Size = new Size(432, 30);
+            dtpStartDate.TabIndex = 2;
             // 
             // cbService
             // 
             cbService.FormattingEnabled = true;
             cbService.Location = new Point(230, 66);
             cbService.Name = "cbService";
-            cbService.Size = new Size(391, 31);
-            cbService.TabIndex = 8;
+            cbService.Size = new Size(432, 31);
+            cbService.TabIndex = 1;
             cbService.SelectedIndexChanged += cbService_SelectedIndexChanged;
             // 
             // label8
@@ -546,22 +578,11 @@
             // 
             // panel3
             // 
-            panel3.Controls.Add(btCompleteTreatment);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(515, 3);
+            panel3.Location = new Point(555, 3);
             panel3.Name = "panel3";
-            panel3.Size = new Size(645, 65);
+            panel3.Size = new Size(696, 65);
             panel3.TabIndex = 3;
-            // 
-            // btCompleteTreatment
-            // 
-            btCompleteTreatment.Location = new Point(374, 16);
-            btCompleteTreatment.Name = "btCompleteTreatment";
-            btCompleteTreatment.Size = new Size(128, 29);
-            btCompleteTreatment.TabIndex = 0;
-            btCompleteTreatment.Text = "Hoàn thành";
-            btCompleteTreatment.UseVisualStyleBackColor = true;
-            btCompleteTreatment.Click += btCompleteTreatment_Click;
             // 
             // panel6
             // 
@@ -569,7 +590,7 @@
             panel6.Dock = DockStyle.Fill;
             panel6.Location = new Point(3, 3);
             panel6.Name = "panel6";
-            panel6.Size = new Size(506, 65);
+            panel6.Size = new Size(546, 65);
             panel6.TabIndex = 4;
             // 
             // label1
@@ -583,41 +604,21 @@
             label1.TabIndex = 1;
             label1.Text = "KẾ HOẠCH ĐIỀU TRỊ";
             // 
-            // pnBottom
-            // 
-            pnBottom.Controls.Add(btClose);
-            pnBottom.Dock = DockStyle.Bottom;
-            pnBottom.Location = new Point(10, 883);
-            pnBottom.Name = "pnBottom";
-            pnBottom.Size = new Size(1163, 70);
-            pnBottom.TabIndex = 2;
-            // 
-            // btClose
-            // 
-            btClose.Location = new Point(1033, 19);
-            btClose.Name = "btClose";
-            btClose.Size = new Size(113, 36);
-            btClose.TabIndex = 54;
-            btClose.Text = "Đóng";
-            btClose.UseVisualStyleBackColor = true;
-            btClose.Click += btClose_Click;
-            // 
             // Dialog_Treatment
             // 
+            AcceptButton = btSave;
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.White;
-            ClientSize = new Size(1183, 963);
+            ClientSize = new Size(1274, 963);
             Controls.Add(pnCenter);
             Controls.Add(pnTop);
-            Controls.Add(pnBottom);
             Font = new Font("Segoe UI", 10F);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Dialog_Treatment";
             Padding = new Padding(10);
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dialog_Treatment";
             Load += Dialog_Treatment_Load;
             pnCenter.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvTreatmentSession).EndInit();
@@ -632,10 +633,8 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudPlannedSessions).EndInit();
-            panel3.ResumeLayout(false);
             panel6.ResumeLayout(false);
             panel6.PerformLayout();
-            pnBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -665,7 +664,6 @@
         private Label label2;
         private TextBox textBox3;
         private Label label12;
-        private Panel pnBottom;
         private Label label14;
         private Label label13;
         private Label label11;
@@ -685,6 +683,5 @@
         private NumericUpDown nudPlannedSessions;
         private Button btAddSession;
         private Button btCompleteTreatment;
-        private Button btClose;
     }
 }

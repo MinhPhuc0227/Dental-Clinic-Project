@@ -256,7 +256,6 @@
             Name = "Dialog_PatientHistory";
             Padding = new Padding(10);
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Dialog_PatientHistory";
             Load += Dialog_PatientHistory_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

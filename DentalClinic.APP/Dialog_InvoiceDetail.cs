@@ -1549,10 +1549,5 @@ namespace DentalClinic.APP
 
             e.HasMorePages = false;
         }
-
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }

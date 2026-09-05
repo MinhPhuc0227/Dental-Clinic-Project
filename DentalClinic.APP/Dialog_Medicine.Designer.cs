@@ -53,7 +53,7 @@
             cbStatus.FormattingEnabled = true;
             cbStatus.Location = new Point(143, 229);
             cbStatus.Name = "cbStatus";
-            cbStatus.Size = new Size(270, 36);
+            cbStatus.Size = new Size(378, 36);
             cbStatus.TabIndex = 4;
             // 
             // txtDescription
@@ -107,7 +107,7 @@
             // btSave
             // 
             btSave.AutoSize = true;
-            btSave.BackColor = Color.DarkCyan;
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
@@ -208,9 +208,9 @@
             lbQuantityInStock.ForeColor = Color.Black;
             lbQuantityInStock.Location = new Point(143, 288);
             lbQuantityInStock.Name = "lbQuantityInStock";
-            lbQuantityInStock.Size = new Size(80, 28);
+            lbQuantityInStock.Size = new Size(24, 28);
             lbQuantityInStock.TabIndex = 26;
-            lbQuantityInStock.Text = "tồn kho";
+            lbQuantityInStock.Text = "...";
             // 
             // lbMedicineId
             // 
@@ -219,9 +219,9 @@
             lbMedicineId.ForeColor = Color.Black;
             lbMedicineId.Location = new Point(143, 28);
             lbMedicineId.Name = "lbMedicineId";
-            lbMedicineId.Size = new Size(94, 28);
+            lbMedicineId.Size = new Size(24, 28);
             lbMedicineId.TabIndex = 27;
-            lbMedicineId.Text = "mã thuốc";
+            lbMedicineId.Text = "...";
             // 
             // Dialog_Medicine
             // 
@@ -231,7 +231,6 @@
             BackColor = Color.White;
             CancelButton = btCancel;
             ClientSize = new Size(544, 606);
-            ControlBox = false;
             Controls.Add(lbMedicineId);
             Controls.Add(lbQuantityInStock);
             Controls.Add(txtMedicineName);
@@ -254,7 +253,6 @@
             Name = "Dialog_Medicine";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Thuốc";
             Load += Dialog_Medicine_Load;
             ResumeLayout(false);
             PerformLayout();

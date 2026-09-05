@@ -52,24 +52,24 @@
             // lbCheckInDateTime
             // 
             lbCheckInDateTime.AutoSize = true;
-            lbCheckInDateTime.Font = new Font("Segoe UI Semibold", 12F);
-            lbCheckInDateTime.ForeColor = Color.DarkCyan;
-            lbCheckInDateTime.Location = new Point(230, 358);
+            lbCheckInDateTime.Font = new Font("Segoe UI", 12F);
+            lbCheckInDateTime.ForeColor = Color.Black;
+            lbCheckInDateTime.Location = new Point(243, 364);
             lbCheckInDateTime.Name = "lbCheckInDateTime";
-            lbCheckInDateTime.Size = new Size(186, 28);
+            lbCheckInDateTime.Size = new Size(24, 28);
             lbCheckInDateTime.TabIndex = 95;
-            lbCheckInDateTime.Text = "thời gian tiếp nhận";
+            lbCheckInDateTime.Text = "...";
             // 
             // lbStatus
             // 
             lbStatus.AutoSize = true;
-            lbStatus.Font = new Font("Segoe UI Semibold", 12F);
-            lbStatus.ForeColor = Color.DarkCyan;
-            lbStatus.Location = new Point(230, 400);
+            lbStatus.Font = new Font("Segoe UI", 12F);
+            lbStatus.ForeColor = Color.Black;
+            lbStatus.Location = new Point(243, 412);
             lbStatus.Name = "lbStatus";
-            lbStatus.Size = new Size(193, 28);
+            lbStatus.Size = new Size(24, 28);
             lbStatus.TabIndex = 94;
-            lbStatus.Text = "trạng thái tiếp nhận";
+            lbStatus.Text = "...";
             // 
             // btCreatePatient
             // 
@@ -79,7 +79,7 @@
             btCreatePatient.Location = new Point(491, 55);
             btCreatePatient.Name = "btCreatePatient";
             btCreatePatient.Size = new Size(48, 41);
-            btCreatePatient.TabIndex = 89;
+            btCreatePatient.TabIndex = 2;
             btCreatePatient.TextAlign = ContentAlignment.MiddleRight;
             btCreatePatient.UseVisualStyleBackColor = true;
             btCreatePatient.Click += btCreatePatient_Click;
@@ -92,7 +92,7 @@
             cbPatient.Location = new Point(194, 60);
             cbPatient.Name = "cbPatient";
             cbPatient.Size = new Size(291, 31);
-            cbPatient.TabIndex = 88;
+            cbPatient.TabIndex = 1;
             // 
             // label11
             // 
@@ -132,11 +132,11 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 12F);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(32, 358);
+            label4.Location = new Point(32, 364);
             label4.Name = "label4";
-            label4.Size = new Size(190, 28);
+            label4.Size = new Size(195, 28);
             label4.TabIndex = 82;
-            label4.Text = "Thời gian tiếp nhận";
+            label4.Text = "Thời gian tiếp nhận:";
             // 
             // txtReasonForVisit
             // 
@@ -147,7 +147,7 @@
             txtReasonForVisit.Name = "txtReasonForVisit";
             txtReasonForVisit.ScrollBars = ScrollBars.Vertical;
             txtReasonForVisit.Size = new Size(355, 119);
-            txtReasonForVisit.TabIndex = 76;
+            txtReasonForVisit.TabIndex = 3;
             // 
             // btCancel
             // 
@@ -159,7 +159,7 @@
             btCancel.Location = new Point(335, 522);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
-            btCancel.TabIndex = 77;
+            btCancel.TabIndex = 5;
             btCancel.Text = "Hủy";
             btCancel.UseVisualStyleBackColor = false;
             btCancel.Click += btCancel_Click;
@@ -180,23 +180,23 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(32, 400);
+            label2.Location = new Point(32, 412);
             label2.Name = "label2";
-            label2.Size = new Size(102, 28);
+            label2.Size = new Size(107, 28);
             label2.TabIndex = 80;
-            label2.Text = "Trạng thái";
+            label2.Text = "Trạng thái:";
             // 
             // btSave
             // 
             btSave.AutoSize = true;
-            btSave.BackColor = Color.DarkCyan;
+            btSave.BackColor = Color.FromArgb(0, 184, 148);
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
             btSave.Location = new Point(442, 522);
             btSave.Name = "btSave";
             btSave.Size = new Size(107, 40);
-            btSave.TabIndex = 78;
+            btSave.TabIndex = 6;
             btSave.Text = "Xác nhận";
             btSave.UseVisualStyleBackColor = false;
             btSave.Click += btSave_Click;
@@ -204,13 +204,13 @@
             // lbAppointmentId
             // 
             lbAppointmentId.AutoSize = true;
-            lbAppointmentId.Font = new Font("Segoe UI Semibold", 12F);
-            lbAppointmentId.ForeColor = Color.DarkCyan;
-            lbAppointmentId.Location = new Point(230, 316);
+            lbAppointmentId.Font = new Font("Segoe UI", 12F);
+            lbAppointmentId.ForeColor = Color.Black;
+            lbAppointmentId.Location = new Point(243, 316);
             lbAppointmentId.Name = "lbAppointmentId";
-            lbAppointmentId.Size = new Size(84, 28);
+            lbAppointmentId.Size = new Size(24, 28);
             lbAppointmentId.TabIndex = 96;
-            lbAppointmentId.Text = "lịch hẹn";
+            lbAppointmentId.Text = "...";
             // 
             // lbVisitId
             // 
@@ -219,31 +219,31 @@
             lbVisitId.ForeColor = Color.DarkCyan;
             lbVisitId.Location = new Point(32, 316);
             lbVisitId.Name = "lbVisitId";
-            lbVisitId.Size = new Size(139, 28);
+            lbVisitId.Size = new Size(205, 28);
             lbVisitId.TabIndex = 85;
-            lbVisitId.Text = "Mã lượt khám";
+            lbVisitId.Text = "Mã lịch hẹn (nếu có):";
             // 
             // lbQueueNumber
             // 
             lbQueueNumber.AutoSize = true;
-            lbQueueNumber.Font = new Font("Segoe UI Semibold", 12F);
-            lbQueueNumber.ForeColor = Color.DarkCyan;
-            lbQueueNumber.Location = new Point(230, 461);
+            lbQueueNumber.Font = new Font("Segoe UI", 12F);
+            lbQueueNumber.ForeColor = Color.Black;
+            lbQueueNumber.Location = new Point(243, 460);
             lbQueueNumber.Name = "lbQueueNumber";
-            lbQueueNumber.Size = new Size(95, 28);
+            lbQueueNumber.Size = new Size(24, 28);
             lbQueueNumber.TabIndex = 98;
-            lbQueueNumber.Text = "số thứ tự";
+            lbQueueNumber.Text = "...";
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 12F);
             label8.ForeColor = Color.DarkCyan;
-            label8.Location = new Point(32, 461);
+            label8.Location = new Point(32, 460);
             label8.Name = "label8";
-            label8.Size = new Size(97, 28);
+            label8.Size = new Size(102, 28);
             label8.TabIndex = 97;
-            label8.Text = "Số thứ tự";
+            label8.Text = "Số thứ tự:";
             // 
             // cbDoctor
             // 
@@ -253,7 +253,7 @@
             cbDoctor.Location = new Point(194, 251);
             cbDoctor.Name = "cbDoctor";
             cbDoctor.Size = new Size(355, 31);
-            cbDoctor.TabIndex = 100;
+            cbDoctor.TabIndex = 4;
             // 
             // label9
             // 
@@ -268,9 +268,11 @@
             // 
             // Dialog_Visit
             // 
+            AcceptButton = btSave;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btCancel;
             ClientSize = new Size(585, 588);
             Controls.Add(cbDoctor);
             Controls.Add(label9);
@@ -294,7 +296,6 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Dialog_Visit";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Thông tin tiếp nhận";
             Load += Dialog_Visit_Load;
             ResumeLayout(false);
             PerformLayout();

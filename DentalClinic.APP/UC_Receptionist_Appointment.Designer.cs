@@ -67,7 +67,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(976, 228);
+            panel1.Size = new Size(1364, 228);
             panel1.TabIndex = 0;
             // 
             // cbStatus
@@ -167,21 +167,22 @@
             // 
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F);
+            label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(591, 20);
+            label3.Location = new Point(1064, 112);
             label3.Name = "label3";
-            label3.Size = new Size(91, 28);
+            label3.Size = new Size(97, 28);
             label3.TabIndex = 15;
             label3.Text = "Tìm kiếm";
             // 
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(688, 17);
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
+            txtSearch.Font = new Font("Segoe UI", 10F);
+            txtSearch.Location = new Point(1064, 156);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(268, 34);
+            txtSearch.Size = new Size(268, 30);
             txtSearch.TabIndex = 14;
             // 
             // btAdd
@@ -247,7 +248,7 @@
             dgvAppointment.RowHeadersWidth = 51;
             dgvAppointment.RowTemplate.Height = 38;
             dgvAppointment.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAppointment.Size = new Size(976, 386);
+            dgvAppointment.Size = new Size(1364, 386);
             dgvAppointment.TabIndex = 5;
             dgvAppointment.CellContentClick += DgvAppointment_CellClick;
             // 
@@ -262,7 +263,7 @@
             Margin = new Padding(4);
             Name = "UC_Receptionist_Appointment";
             Padding = new Padding(10);
-            Size = new Size(996, 634);
+            Size = new Size(1384, 634);
             Load += UC_Receptionist_Appointment_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

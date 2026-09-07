@@ -53,7 +53,6 @@
             // 
             // panel1
             // 
-            panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(txtAddress);
             panel1.Controls.Add(label14);
             panel1.Controls.Add(txtEmail);

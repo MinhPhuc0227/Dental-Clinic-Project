@@ -39,10 +39,10 @@ namespace DentalClinic.APP
         {
             VisitStatus? selectedStatus = null;
 
-            if (cbStatus.SelectedIndex > 0)
-            {
-                selectedStatus = (VisitStatus?)cbStatus.SelectedValue;
-            }
+            //if (cbStatus.SelectedIndex > 0)
+            //{
+            //    selectedStatus = (VisitStatus?)cbStatus.SelectedValue;
+            //}
 
             dgvExaminedList.DataSource = _bll.GetExaminedRecords(
                 _currentDoctorId,
@@ -141,6 +141,11 @@ namespace DentalClinic.APP
         }
 
         private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvService_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

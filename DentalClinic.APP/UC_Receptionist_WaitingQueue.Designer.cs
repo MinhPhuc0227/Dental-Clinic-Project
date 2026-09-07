@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             panel1 = new Panel();
             label3 = new Label();
             txtSearch = new TextBox();
@@ -57,26 +57,27 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(998, 153);
+            panel1.Size = new Size(1422, 153);
             panel1.TabIndex = 0;
             // 
             // label3
             // 
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F);
+            label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(286, 24);
+            label3.Location = new Point(947, 81);
             label3.Name = "label3";
-            label3.Size = new Size(91, 28);
+            label3.Size = new Size(97, 28);
             label3.TabIndex = 30;
             label3.Text = "Tìm kiếm";
             // 
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
             txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(383, 21);
+            txtSearch.Location = new Point(1044, 81);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(268, 34);
             txtSearch.TabIndex = 29;
@@ -85,7 +86,7 @@
             // 
             cbStatus.Font = new Font("Segoe UI", 10F);
             cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(711, 68);
+            cbStatus.Location = new Point(695, 81);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(200, 31);
             cbStatus.TabIndex = 28;
@@ -95,7 +96,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 12F);
             label7.ForeColor = Color.DarkCyan;
-            label7.Location = new Point(603, 68);
+            label7.Location = new Point(587, 81);
             label7.Name = "label7";
             label7.Size = new Size(102, 28);
             label7.TabIndex = 27;
@@ -106,7 +107,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 12F);
             label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(263, 84);
+            label6.Location = new Point(248, 81);
             label6.Name = "label6";
             label6.Size = new Size(63, 28);
             label6.TabIndex = 26;
@@ -116,7 +117,7 @@
             // 
             cbDoctor.Font = new Font("Segoe UI", 10F);
             cbDoctor.FormattingEnabled = true;
-            cbDoctor.Location = new Point(332, 87);
+            cbDoctor.Location = new Point(317, 81);
             cbDoctor.Name = "cbDoctor";
             cbDoctor.Size = new Size(190, 31);
             cbDoctor.TabIndex = 25;
@@ -126,7 +127,7 @@
             dtpDate.CustomFormat = "dd/MM/yyyy";
             dtpDate.Font = new Font("Segoe UI", 10F);
             dtpDate.Format = DateTimePickerFormat.Custom;
-            dtpDate.Location = new Point(52, 88);
+            dtpDate.Location = new Point(37, 81);
             dtpDate.Name = "dtpDate";
             dtpDate.Size = new Size(138, 30);
             dtpDate.TabIndex = 20;
@@ -152,23 +153,23 @@
             dgvWaitingQueue.BorderStyle = BorderStyle.None;
             dgvWaitingQueue.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvWaitingQueue.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvWaitingQueue.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvWaitingQueue.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvWaitingQueue.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvWaitingQueue.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvWaitingQueue.DefaultCellStyle = dataGridViewCellStyle4;
             dgvWaitingQueue.Dock = DockStyle.Fill;
             dgvWaitingQueue.EnableHeadersVisualStyles = false;
             dgvWaitingQueue.GridColor = Color.DarkCyan;
@@ -180,7 +181,7 @@
             dgvWaitingQueue.RowHeadersWidth = 51;
             dgvWaitingQueue.RowTemplate.Height = 38;
             dgvWaitingQueue.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvWaitingQueue.Size = new Size(998, 386);
+            dgvWaitingQueue.Size = new Size(1422, 386);
             dgvWaitingQueue.TabIndex = 6;
             dgvWaitingQueue.CellFormatting += dgvWaitingQueue_CellFormatting;
             // 
@@ -195,7 +196,7 @@
             Margin = new Padding(4);
             Name = "UC_Receptionist_WaitingQueue";
             Padding = new Padding(10);
-            Size = new Size(1018, 559);
+            Size = new Size(1442, 559);
             Load += UC_Receptionist_WaitingQueue_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

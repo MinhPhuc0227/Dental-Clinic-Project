@@ -79,7 +79,7 @@ namespace DentalClinic.APP
                 dtpAppointmentTime.Value = DateTime.Now;
                 lbCreatedDate.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 _currentStatus = AppointmentStatus.Scheduled;
-                lbStatus.Text = "Chờ khám (Pending)";
+                //lbStatus.Text = "...";
             }
         }
 

@@ -293,7 +293,7 @@
             btCancel.FlatStyle = FlatStyle.Flat;
             btCancel.Font = new Font("Segoe UI Semibold", 12F);
             btCancel.ForeColor = Color.White;
-            btCancel.Location = new Point(304, 12);
+            btCancel.Location = new Point(20, 555);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
             btCancel.TabIndex = 10;
@@ -308,7 +308,7 @@
             btCheckIn.FlatStyle = FlatStyle.Flat;
             btCheckIn.Font = new Font("Segoe UI Semibold", 12F);
             btCheckIn.ForeColor = Color.White;
-            btCheckIn.Location = new Point(421, 12);
+            btCheckIn.Location = new Point(137, 555);
             btCheckIn.Name = "btCheckIn";
             btCheckIn.Size = new Size(115, 40);
             btCheckIn.TabIndex = 11;

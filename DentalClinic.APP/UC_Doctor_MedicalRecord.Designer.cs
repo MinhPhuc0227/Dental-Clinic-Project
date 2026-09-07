@@ -38,7 +38,6 @@
             pnLeft = new Panel();
             dgvExaminedList = new DataGridView();
             panel1 = new Panel();
-            cbStatus = new ComboBox();
             label2 = new Label();
             txtSearch = new TextBox();
             dtpEnd = new DateTimePicker();
@@ -93,7 +92,7 @@
             pnLeft.Location = new Point(14, 14);
             pnLeft.Name = "pnLeft";
             pnLeft.Padding = new Padding(0, 0, 10, 0);
-            pnLeft.Size = new Size(564, 789);
+            pnLeft.Size = new Size(631, 789);
             pnLeft.TabIndex = 1;
             // 
             // dgvExaminedList
@@ -133,13 +132,12 @@
             dgvExaminedList.RowHeadersWidth = 51;
             dgvExaminedList.RowTemplate.Height = 38;
             dgvExaminedList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvExaminedList.Size = new Size(554, 636);
+            dgvExaminedList.Size = new Size(621, 636);
             dgvExaminedList.TabIndex = 15;
             dgvExaminedList.CellClick += dgvExaminedList_CellClick;
             // 
             // panel1
             // 
-            panel1.Controls.Add(cbStatus);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(txtSearch);
             panel1.Controls.Add(dtpEnd);
@@ -150,17 +148,8 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(554, 153);
+            panel1.Size = new Size(621, 153);
             panel1.TabIndex = 14;
-            // 
-            // cbStatus
-            // 
-            cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(298, 13);
-            cbStatus.Name = "cbStatus";
-            cbStatus.Size = new Size(151, 36);
-            cbStatus.TabIndex = 46;
-            cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -233,10 +222,10 @@
             pnRight.Controls.Add(pnMedicine);
             pnRight.Controls.Add(pnInfo);
             pnRight.Dock = DockStyle.Fill;
-            pnRight.Location = new Point(578, 14);
+            pnRight.Location = new Point(645, 14);
             pnRight.Name = "pnRight";
             pnRight.Padding = new Padding(10, 0, 0, 0);
-            pnRight.Size = new Size(728, 789);
+            pnRight.Size = new Size(820, 789);
             pnRight.TabIndex = 2;
             // 
             // pnService
@@ -246,7 +235,7 @@
             pnService.Location = new Point(10, 253);
             pnService.Name = "pnService";
             pnService.Padding = new Padding(0, 0, 0, 10);
-            pnService.Size = new Size(718, 352);
+            pnService.Size = new Size(810, 261);
             pnService.TabIndex = 2;
             // 
             // dgvService
@@ -286,17 +275,18 @@
             dgvService.RowHeadersWidth = 51;
             dgvService.RowTemplate.Height = 38;
             dgvService.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvService.Size = new Size(718, 342);
+            dgvService.Size = new Size(810, 251);
             dgvService.TabIndex = 16;
+            dgvService.CellContentClick += dgvService_CellContentClick;
             // 
             // pnMedicine
             // 
             pnMedicine.Controls.Add(dgvMedicine);
             pnMedicine.Dock = DockStyle.Bottom;
-            pnMedicine.Location = new Point(10, 605);
+            pnMedicine.Location = new Point(10, 514);
             pnMedicine.Name = "pnMedicine";
             pnMedicine.Padding = new Padding(0, 10, 0, 0);
-            pnMedicine.Size = new Size(718, 184);
+            pnMedicine.Size = new Size(810, 275);
             pnMedicine.TabIndex = 1;
             // 
             // dgvMedicine
@@ -336,7 +326,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMedicine.Size = new Size(718, 174);
+            dgvMedicine.Size = new Size(810, 265);
             dgvMedicine.TabIndex = 16;
             // 
             // pnInfo
@@ -356,7 +346,7 @@
             pnInfo.Dock = DockStyle.Top;
             pnInfo.Location = new Point(10, 0);
             pnInfo.Name = "pnInfo";
-            pnInfo.Size = new Size(718, 253);
+            pnInfo.Size = new Size(810, 253);
             pnInfo.TabIndex = 0;
             // 
             // txtNote
@@ -366,7 +356,7 @@
             txtNote.Location = new Point(297, 197);
             txtNote.Name = "txtNote";
             txtNote.ReadOnly = true;
-            txtNote.Size = new Size(303, 30);
+            txtNote.Size = new Size(486, 30);
             txtNote.TabIndex = 61;
             // 
             // label3
@@ -432,7 +422,7 @@
             txtConclusion.Location = new Point(297, 148);
             txtConclusion.Name = "txtConclusion";
             txtConclusion.ReadOnly = true;
-            txtConclusion.Size = new Size(303, 30);
+            txtConclusion.Size = new Size(486, 30);
             txtConclusion.TabIndex = 55;
             // 
             // txtDiagnosis
@@ -442,7 +432,7 @@
             txtDiagnosis.Location = new Point(297, 104);
             txtDiagnosis.Name = "txtDiagnosis";
             txtDiagnosis.ReadOnly = true;
-            txtDiagnosis.Size = new Size(303, 30);
+            txtDiagnosis.Size = new Size(486, 30);
             txtDiagnosis.TabIndex = 54;
             // 
             // lbExaminationDateTime
@@ -500,7 +490,7 @@
             Margin = new Padding(4);
             Name = "UC_Doctor_MedicalRecord";
             Padding = new Padding(14);
-            Size = new Size(1320, 817);
+            Size = new Size(1479, 817);
             Load += UC_Doctor_MedicalRecord_Load;
             pnLeft.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvExaminedList).EndInit();
@@ -543,7 +533,6 @@
         private Label label18;
         private Label lbPatientName;
         private Label label6;
-        private ComboBox cbStatus;
         private TextBox txtNote;
         private Label label3;
     }

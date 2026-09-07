@@ -27,7 +27,7 @@ namespace DentalClinic.BLL
                 var dtoList = list.Select(p => new PatientDto
                 {
                     PatientId = p.PatientId,
-                    AccountId = p.AccountId,
+                    //AccountId = p.AccountId,
                     FullName = p.FullName,
                     Gender = p.Gender,
                     DateOfBirth = p.DateOfBirth,
@@ -155,8 +155,8 @@ namespace DentalClinic.BLL
                     Phone = patient.Phone,
                     Email = patient.Email,
                     Address = patient.Address,
-                    Note = patient.Note,
-                    AccountId = patient.AccountId
+                    Note = patient.Note
+                    //AccountId = patient.AccountId
                 };
 
                 return Result<PatientDto>.Success(dto);

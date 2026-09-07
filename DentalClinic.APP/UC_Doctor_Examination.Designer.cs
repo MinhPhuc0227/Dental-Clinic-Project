@@ -137,7 +137,7 @@
             // 
             // pnLeft
             // 
-            pnLeft.BackColor = Color.FromArgb(255, 192, 192);
+            pnLeft.BackColor = Color.FromArgb(26, 188, 156);
             pnLeft.Controls.Add(pnPatientInfo);
             pnLeft.Controls.Add(pnWaitingQueue);
             pnLeft.Dock = DockStyle.Left;
@@ -454,7 +454,7 @@
             // 
             // pnRight
             // 
-            pnRight.BackColor = Color.FromArgb(255, 192, 192);
+            pnRight.BackColor = Color.FromArgb(22, 160, 133);
             pnRight.Controls.Add(pnServiceMedicine);
             pnRight.Controls.Add(pnAction);
             pnRight.Controls.Add(pnMedicalRecordInfo);
@@ -467,7 +467,7 @@
             // 
             // pnServiceMedicine
             // 
-            pnServiceMedicine.BackColor = Color.FromArgb(255, 192, 192);
+            pnServiceMedicine.BackColor = Color.FromArgb(22, 160, 133);
             pnServiceMedicine.Controls.Add(tabControl1);
             pnServiceMedicine.Dock = DockStyle.Fill;
             pnServiceMedicine.Location = new Point(10, 266);
@@ -505,7 +505,7 @@
             dgvService.AllowUserToDeleteRows = false;
             dgvService.AllowUserToOrderColumns = true;
             dgvService.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvService.BackgroundColor = Color.FromArgb(192, 255, 192);
+            dgvService.BackgroundColor = Color.White;
             dgvService.BorderStyle = BorderStyle.None;
             dgvService.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvService.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
@@ -614,7 +614,7 @@
             tpMedicine.Location = new Point(4, 29);
             tpMedicine.Name = "tpMedicine";
             tpMedicine.Padding = new Padding(3);
-            tpMedicine.Size = new Size(922, 376);
+            tpMedicine.Size = new Size(942, 396);
             tpMedicine.TabIndex = 1;
             tpMedicine.Text = "Thuốc";
             // 
@@ -624,7 +624,7 @@
             dgvMedicine.AllowUserToDeleteRows = false;
             dgvMedicine.AllowUserToOrderColumns = true;
             dgvMedicine.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvMedicine.BackgroundColor = Color.FromArgb(192, 255, 192);
+            dgvMedicine.BackgroundColor = Color.White;
             dgvMedicine.BorderStyle = BorderStyle.None;
             dgvMedicine.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvMedicine.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
@@ -655,7 +655,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvMedicine.Size = new Size(916, 147);
+            dgvMedicine.Size = new Size(936, 167);
             dgvMedicine.TabIndex = 8;
             dgvMedicine.CellClick += dgvMedicine_CellClick;
             dgvMedicine.CellEndEdit += dgvMedicine_CellEndEdit;
@@ -681,7 +681,7 @@
             panel8.Dock = DockStyle.Top;
             panel8.Location = new Point(3, 3);
             panel8.Name = "panel8";
-            panel8.Size = new Size(916, 223);
+            panel8.Size = new Size(936, 223);
             panel8.TabIndex = 0;
             // 
             // label25

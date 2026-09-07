@@ -57,27 +57,37 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(984, 240);
+            panel1.Size = new Size(1386, 140);
             panel1.TabIndex = 0;
             // 
             // btImportHistory
             // 
-            btImportHistory.Location = new Point(312, 162);
+            btImportHistory.BackColor = Color.DarkOrange;
+            btImportHistory.FlatAppearance.BorderSize = 0;
+            btImportHistory.FlatStyle = FlatStyle.Flat;
+            btImportHistory.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btImportHistory.ForeColor = Color.White;
+            btImportHistory.Location = new Point(316, 63);
             btImportHistory.Name = "btImportHistory";
-            btImportHistory.Size = new Size(161, 49);
+            btImportHistory.Size = new Size(169, 49);
             btImportHistory.TabIndex = 15;
-            btImportHistory.Text = "Lịch sử nhập kho";
-            btImportHistory.UseVisualStyleBackColor = true;
+            btImportHistory.Text = "Lịch sử nhập thuốc";
+            btImportHistory.UseVisualStyleBackColor = false;
             btImportHistory.Click += btImportHistory_Click;
             // 
             // btImport
             // 
-            btImport.Location = new Point(163, 162);
+            btImport.BackColor = Color.ForestGreen;
+            btImport.FlatAppearance.BorderSize = 0;
+            btImport.FlatStyle = FlatStyle.Flat;
+            btImport.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btImport.ForeColor = Color.White;
+            btImport.Location = new Point(182, 63);
             btImport.Name = "btImport";
             btImport.Size = new Size(118, 49);
             btImport.TabIndex = 14;
-            btImport.Text = "Nhập kho";
-            btImport.UseVisualStyleBackColor = true;
+            btImport.Text = "Nhập thuốc";
+            btImport.UseVisualStyleBackColor = false;
             btImport.Click += btImport_Click;
             // 
             // cbStatus
@@ -85,7 +95,7 @@
             cbStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbStatus.Font = new Font("Segoe UI", 10F);
             cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(727, 103);
+            cbStatus.Location = new Point(671, 81);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(226, 31);
             cbStatus.TabIndex = 13;
@@ -97,7 +107,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(619, 103);
+            label2.Location = new Point(563, 81);
             label2.Name = "label2";
             label2.Size = new Size(102, 28);
             label2.TabIndex = 12;
@@ -109,7 +119,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(18, 101);
+            label3.Location = new Point(960, 82);
             label3.Name = "label3";
             label3.Size = new Size(97, 28);
             label3.TabIndex = 11;
@@ -120,7 +130,7 @@
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(121, 101);
+            txtSearch.Location = new Point(1063, 82);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(296, 30);
             txtSearch.TabIndex = 10;
@@ -128,16 +138,20 @@
             // 
             // btAdd
             // 
+            btAdd.BackColor = SystemColors.HotTrack;
             btAdd.FlatAppearance.BorderSize = 0;
+            btAdd.FlatStyle = FlatStyle.Flat;
+            btAdd.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btAdd.ForeColor = Color.White;
             btAdd.Image = Properties.Resources.add;
             btAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btAdd.Location = new Point(23, 162);
+            btAdd.Location = new Point(27, 63);
             btAdd.Name = "btAdd";
-            btAdd.Size = new Size(118, 49);
+            btAdd.Size = new Size(134, 49);
             btAdd.TabIndex = 9;
             btAdd.Text = "Thêm mới";
             btAdd.TextAlign = ContentAlignment.MiddleRight;
-            btAdd.UseVisualStyleBackColor = true;
+            btAdd.UseVisualStyleBackColor = false;
             btAdd.Click += btAdd_Click;
             // 
             // label1
@@ -145,7 +159,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(364, 21);
+            label1.Location = new Point(23, 14);
             label1.Name = "label1";
             label1.Size = new Size(207, 32);
             label1.TabIndex = 8;
@@ -181,7 +195,7 @@
             dgvMedicine.Dock = DockStyle.Fill;
             dgvMedicine.EnableHeadersVisualStyles = false;
             dgvMedicine.GridColor = Color.DarkCyan;
-            dgvMedicine.Location = new Point(10, 250);
+            dgvMedicine.Location = new Point(10, 150);
             dgvMedicine.MultiSelect = false;
             dgvMedicine.Name = "dgvMedicine";
             dgvMedicine.ReadOnly = true;
@@ -189,7 +203,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMedicine.Size = new Size(984, 296);
+            dgvMedicine.Size = new Size(1386, 396);
             dgvMedicine.TabIndex = 4;
             dgvMedicine.CellContentClick += dgvMedicine_CellContentClick;
             // 
@@ -202,7 +216,7 @@
             Controls.Add(panel1);
             Name = "UC_Medicine";
             Padding = new Padding(10);
-            Size = new Size(1004, 556);
+            Size = new Size(1406, 556);
             Load += UC_Medicine_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

@@ -84,6 +84,7 @@ namespace DentalClinic.DTO
         public AccountStatus Status { get; set; } = AccountStatus.Active;
     }
 
+    // DTO dùng để tạo mới lễ tân
     public class CreateReceptionistDto : BaseReceptionistDto
     {
         [Required(ErrorMessage = "Mật khẩu không được để trống khi tạo tài khoản.")]
@@ -91,6 +92,8 @@ namespace DentalClinic.DTO
         public string Password { get; set; } = string.Empty;
     }
 
+    // DTO dùng để cập nhật lễ tân
+    // Mật khẩu có thể null nếu không có thay đổi
     public class UpdateReceptionistDto : BaseReceptionistDto
     {
         [Required(ErrorMessage = "Mã lễ tân không hợp lệ.")]

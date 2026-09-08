@@ -18,19 +18,16 @@ namespace DentalClinic.DAL
         // GetAll
         public List<Doctor> GetAll()
         {
-                return _context.Doctors
-                              .Include(d => d.Account)
-                              .ToList();
+            return _context.Doctors.Include(d => d.Account).ToList();
         }
 
         // GetById
         public Doctor? GetById(int doctorId)
         {
-                return _context.Doctors
-                              .Include(d => d.Account)
-                              .FirstOrDefault(d => d.DoctorId == doctorId);
+            return _context.Doctors.Include(d => d.Account).FirstOrDefault(d => d.DoctorId == doctorId);
         }
 
+        // GetDoctorByAccountId
         public Doctor? GetDoctorByAccountId(int accountId)
         {
                 return _context.Doctors.FirstOrDefault(d => d.AccountId == accountId);

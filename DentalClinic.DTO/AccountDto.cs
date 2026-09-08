@@ -56,7 +56,7 @@ namespace DentalClinic.DTO
         public string Password { get; set; } = string.Empty;
     }
 
-    // Use for status updating, password resetting, role changing
+    // Cập nhật tài khoản (trạng thái, vai trò, mật khẩu)
     public class UpdateAccountDto
     {
         [Required(ErrorMessage = "Mã tài khoản không hợp lệ.")]
@@ -67,8 +67,9 @@ namespace DentalClinic.DTO
         [StringLength(50, MinimumLength = 4, ErrorMessage = "Tên đăng nhập phải từ 4 đến 50 ký tự.")]
         public string UserName { get; set; } = string.Empty;
 
+        // Mật khẩu có thể null nếu không có thay đổi 
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu mới phải từ 6 ký tự trở lên.")]
-        public string? Password { get; set; } // Null if dont need to change password
+        public string? Password { get; set; } 
 
         [EnumDataType(typeof(AccountRole), ErrorMessage = "Vai trò không hợp lệ.")]
         public AccountRole Role { get; set; }

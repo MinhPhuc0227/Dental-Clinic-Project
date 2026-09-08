@@ -15,6 +15,7 @@ namespace DentalClinic.MODEL
         public MedicalRecord MedicalRecord { get; set; } = null!;
 
         // Navigation Property 
+        // Một đơn thuốc có thể có nhiều chi tiết đơn thuốc
         public ICollection<PrescriptionDetail> PrescriptionDetails { get; set; } = new List<PrescriptionDetail>();
     }
 }

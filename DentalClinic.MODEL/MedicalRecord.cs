@@ -17,7 +17,9 @@ namespace DentalClinic.MODEL
         public Visit Visit { get; set; } = null!;
 
         // Navigation Property 
+        // Bệnh án có thể có hoặc không có đơn thuốc 
         public Prescription? Prescription { get; set; }
+        // Bệnh án có thể có nhiều dịch vụ khám chữa bệnh
         public ICollection<MedicalRecordService> MedicalRecordServices { get; set; } = new List<MedicalRecordService>();
     }
 }

@@ -31,6 +31,7 @@ namespace DentalClinic.DTO
         public string StatusDisplay => Status == ServiceStatus.Active ? "Kinh doanh" : "Ngừng kinh doanh";
     }
 
+    // DTO dùng để tạo mới dịch vụ
     public class CreateServiceDto
     {
         [Required(ErrorMessage = "Tên dịch vụ không được để trống.")]
@@ -50,6 +51,7 @@ namespace DentalClinic.DTO
         public ServiceStatus Status { get; set; } = ServiceStatus.Active;
     }
 
+    // DTO dùng để cập nhật dịch vụ
     public class UpdateServiceDto : CreateServiceDto
     {
         [Required(ErrorMessage = "Mã dịch vụ không hợp lệ.")]
@@ -57,6 +59,7 @@ namespace DentalClinic.DTO
         public int ServiceId { get; set; }
     }
 
+    // DTO dùng để hiển thị dịch vụ đã chọn trong hóa đơn hoặc trong bệnh án
     public class SelectedServiceDto
     {
         public int ServiceId { get; set; }

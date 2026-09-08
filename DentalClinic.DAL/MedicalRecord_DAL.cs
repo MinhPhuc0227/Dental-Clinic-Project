@@ -59,7 +59,6 @@ namespace DentalClinic.DAL
                             Quantity = s.Quantity,
                             UnitPrice = s.UnitPrice,
                             TotalAmount = s.TotalPrice,
-                            Status = MedicalRecordServiceStatus.Pending,
                             Note = ""
                         }).ToList();
 

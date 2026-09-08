@@ -5,6 +5,7 @@ using System.Text;
 
 namespace DentalClinic.DTO
 {
+    // Hiển thị danh sách bệnh nhân đang chờ khám 
     public class WaitingQueueDto
     {
         public int VisitId { get; set; }

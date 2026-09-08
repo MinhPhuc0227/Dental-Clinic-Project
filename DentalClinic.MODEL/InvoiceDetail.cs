@@ -22,14 +22,13 @@ namespace DentalClinic.MODEL
         public int InvoiceId { get; set; }
         public Invoice Invoice { get; set; } = null!;
 
-        public int? MedicalRecordServiceId { get; set; }
+        public int? MedicalRecordServiceId { get; set; } // Nullable
         public MedicalRecordService? MedicalRecordService { get; set; }
 
-        public int? PrescriptionDetailId { get; set; }
+        public int? PrescriptionDetailId { get; set; } // Nullable
         public PrescriptionDetail? PrescriptionDetail { get; set; }
 
-        // Computed property (not mapped to DB)
-        public InvoiceItemType ItemType =>
-           MedicalRecordServiceId.HasValue ? InvoiceItemType.Service : InvoiceItemType.Medicine;
+        // Computed property (không lưu trong db)
+        public InvoiceItemType ItemType => MedicalRecordServiceId.HasValue ? InvoiceItemType.Service : InvoiceItemType.Medicine;
     }
 }

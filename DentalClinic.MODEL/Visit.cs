@@ -8,8 +8,8 @@ namespace DentalClinic.MODEL
     {
         Waiting, // Chờ khám
         InExamination, // Đang khám
-        WaitingForPayment, // Đã khám xong, chờ thanh toán
-        Completed, // Đã hoàn thành (đã thanh toán)
+        WaitingForPayment, // Chờ thanh toán
+        Completed, // Đã hoàn thành 
         Cancelled // Đã hủy
     }
 
@@ -20,13 +20,11 @@ namespace DentalClinic.MODEL
         public string ReasonForVisit { get; set; } = string.Empty;
         public VisitStatus Status { get; set; } = VisitStatus.Waiting;
         public int QueueNumber { get; set; }
+        public int? TreatmentSessionNumber { get; set; }
 
         // Foreign Key
         public int PatientId { get; set; }
         public Patient Patient { get; set; } = null!;
-
-        public int? AppointmentId { get; set; }
-        public Appointment? Appointment { get; set; }
 
         public int DoctorId { get; set; }
         public Doctor Doctor { get; set; } = null!;
@@ -34,14 +32,16 @@ namespace DentalClinic.MODEL
         public int ReceptionistId { get; set; }
         public Receptionist Receptionist { get; set; } = null!;
 
-        // Navigation Property
-        public MedicalRecord? MedicalRecord { get; set; }
-        public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
-
-        // For Treatment 
-        public int? TreatmentId { get; set; }
+        public int? TreatmentId { get; set; } // Nullable
         public Treatment? Treatment { get; set; }
 
-        public int? TreatmentSessionNumber { get; set; }
+        public int? AppointmentId { get; set; } // Nullable
+        public Appointment? Appointment { get; set; }
+
+        // Navigation Property
+        // Một lần khám có thể có hoặc không có bệnh án nào
+        public MedicalRecord? MedicalRecord { get; set; }
+        // Một lần khám có thể có nhiều hóa đơn, hoặc không có hóa đơn nào
+        public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();  
     }
 }

@@ -384,9 +384,6 @@ namespace DentalClinic.BLL
                         ? null
                         : dto.Note.Trim(),
 
-                    // Đặt lịch online → chưa có lễ tân
-                    ReceptionistId = null,
-
                     Status = AppointmentStatus.Scheduled,
                     CreatedDate = DateTime.Now
                 };
@@ -412,88 +409,6 @@ namespace DentalClinic.BLL
 
                 return Result.Failure(
                     "Lỗi hệ thống khi đặt lịch: " +
-                    (ex.InnerException?.Message ?? ex.Message));
-            }
-        }
-
-        // Lấy lịch online
-        public Result<List<AppointmentListDto>> GetByPatientId(int patientId)
-        {
-            if (patientId <= 0)
-            {
-                return Result<List<AppointmentListDto>>
-                    .Failure("Mã bệnh nhân không hợp lệ.");
-            }
-
-            try
-            {
-                var list = _appointmentDAL.GetByPatientId(patientId);
-
-                return Result<List<AppointmentListDto>>
-                    .Success(list);
-            }
-            catch (Exception ex)
-            {
-                return Result<List<AppointmentListDto>>
-                    .Failure(
-                        "Không thể tải lịch hẹn: " + ex.Message);
-            }
-        }
-
-        // Hủy lịch online
-        public Result CancelByPatient(
-    int appointmentId,
-    int patientId)
-        {
-            if (appointmentId <= 0)
-            {
-                return Result.Failure(
-                    "Mã lịch hẹn không hợp lệ.");
-            }
-
-            if (patientId <= 0)
-            {
-                return Result.Failure(
-                    "Mã bệnh nhân không hợp lệ.");
-            }
-
-            try
-            {
-                var appointment =
-                    _appointmentDAL.GetById(appointmentId);
-
-                if (appointment == null)
-                {
-                    return Result.Failure(
-                        "Không tìm thấy lịch hẹn.");
-                }
-
-                // Không cho bệnh nhân hủy lịch của người khác
-                if (appointment.PatientId != patientId)
-                {
-                    return Result.Failure(
-                        "Bạn không có quyền hủy lịch hẹn này.");
-                }
-
-                if (appointment.Status != AppointmentStatus.Scheduled)
-                {
-                    return Result.Failure(
-                        "Chỉ có thể hủy lịch hẹn đang ở trạng thái Đã đặt lịch.");
-                }
-
-                bool success =
-                    _appointmentDAL.CancelByPatient(
-                        appointmentId,
-                        patientId);
-
-                return success
-                    ? Result.Success("Hủy lịch hẹn thành công.")
-                    : Result.Failure("Hủy lịch hẹn thất bại.");
-            }
-            catch (Exception ex)
-            {
-                return Result.Failure(
-                    "Lỗi hệ thống khi hủy lịch: " +
                     (ex.InnerException?.Message ?? ex.Message));
             }
         }

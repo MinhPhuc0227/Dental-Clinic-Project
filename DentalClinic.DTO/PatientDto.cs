@@ -12,9 +12,6 @@ namespace DentalClinic.DTO
         [DisplayName("Mã BN")]
         public int PatientId { get; set; }
 
-        //[DisplayName("Mã TK")]
-        //public int? AccountId { get; set; }
-
         [DisplayName("Họ và tên")]
         public string FullName { get; set; } = string.Empty;
 
@@ -40,6 +37,7 @@ namespace DentalClinic.DTO
         public string? Note { get; set; }
     }
 
+    // DTO tạo mới bệnh nhân
     public class CreatePatientDto
     {
         [Required(ErrorMessage = "Họ tên bệnh nhân không được để trống.")]
@@ -74,6 +72,7 @@ namespace DentalClinic.DTO
         public string? Note { get; set; }
     }
 
+    // DTO cập nhật bệnh nhân
     public class UpdatePatientDto : CreatePatientDto
     {
         [Required(ErrorMessage = "Mã bệnh nhân không hợp lệ.")]

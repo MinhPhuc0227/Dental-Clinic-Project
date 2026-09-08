@@ -62,6 +62,7 @@ namespace DentalClinic.DTO
         public double ProgressPercent { get; set; }
     }
 
+    // DTO dùng để tạo kế hoạch điều trị mới
     public class CreateTreatmentDto
     {
         [Required(ErrorMessage = "Mã bệnh nhân không hợp lệ.")]
@@ -99,6 +100,7 @@ namespace DentalClinic.DTO
         }
     }
 
+    // DTO dùng để cập nhật kế hoạch điều trị
     public class UpdateTreatmentDto : CreateTreatmentDto
     {
         [Required(ErrorMessage = "Mã kế hoạch điều trị không hợp lệ.")]
@@ -106,10 +108,10 @@ namespace DentalClinic.DTO
         public int TreatmentId { get; set; }
 
         [EnumDataType(typeof(TreatmentStatus), ErrorMessage = "Trạng thái không hợp lệ.")]
-        public TreatmentStatus Status { get; set; }
-            = TreatmentStatus.InProgress;
+        public TreatmentStatus Status { get; set; } = TreatmentStatus.InProgress;
     }
 
+    // DTO dùng để hiển thị thông tin buổi điều trị (Visit)
     public class TreatmentSessionDto
     {
         [Browsable(false)]

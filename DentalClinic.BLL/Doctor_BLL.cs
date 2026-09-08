@@ -34,7 +34,6 @@ namespace DentalClinic.BLL
                     Phone = d.Phone,
                     Email = d.Email,
                     Description = d.Description,
-                    ProfileImage = d.ProfileImage,
                     AccountId = d.AccountId,
                     UserName = d.Account?.UserName ?? string.Empty,
                     Status = d.Account?.Status ?? AccountStatus.Active,
@@ -70,7 +69,6 @@ namespace DentalClinic.BLL
                     Phone = doctor.Phone,
                     Email = doctor.Email,
                     Description = doctor.Description,
-                    ProfileImage = doctor.ProfileImage,
 
                     AccountId = doctor.AccountId,
                     UserName = doctor.Account?.UserName ?? string.Empty,

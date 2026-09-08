@@ -7,6 +7,7 @@ using System.Text;
 
 namespace DentalClinic.DTO
 {
+    // Hiển thị danh sách thuốc (datagridview)
     public class MedicineDto
     {
         [DisplayName("Mã thuốc")]
@@ -34,6 +35,7 @@ namespace DentalClinic.DTO
         public string StatusDisplay => Status == MedicineStatus.Active ? "Hoạt động" : "Ngừng hoạt động";
     }
 
+    // DTO dùng để tạo mới thuốc
     public class CreateMedicineDto
     {
         [Required(ErrorMessage = "Tên thuốc không được để trống.")]
@@ -55,6 +57,7 @@ namespace DentalClinic.DTO
         public MedicineStatus Status { get; set; } = MedicineStatus.Active;
     }
 
+    // DTO dùng để cập nhật thuốc
     public class UpdateMedicineDto : CreateMedicineDto
     {
         [Required(ErrorMessage = "Mã thuốc không hợp lệ.")]
@@ -62,6 +65,7 @@ namespace DentalClinic.DTO
         public int MedicineId { get; set; }
     }
 
+    // DTO dùng để hiển thị chi tiết thuốc (PrescriptionDetail) trong đơn thuốc (Prescription)
     public class SelectedMedicineDto
     {
         public int MedicineId { get; set; }

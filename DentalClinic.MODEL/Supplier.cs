@@ -15,7 +15,7 @@ namespace DentalClinic.MODEL
         public bool IsActive { get; set; } = true;
 
         // Navigation property
-        public ICollection<MedicineImport> MedicineImports { get; set; }
-            = new List<MedicineImport>();
+        // Một nhà cung cấp có thể có nhiều phiếu nhập thuốc nhập từ nhà cung cấp đó
+        public ICollection<MedicineImport> MedicineImports { get; set; } = new List<MedicineImport>();
     }
 }

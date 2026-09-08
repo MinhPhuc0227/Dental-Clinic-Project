@@ -8,8 +8,7 @@ namespace DentalClinic.MODEL
     {
         Admin,
         Doctor,
-        Receptionist,
-        Patient
+        Receptionist
     }
 
     public enum AccountStatus
@@ -28,8 +27,7 @@ namespace DentalClinic.MODEL
         public DateTime CreatedDate { get; set; }
 
         // Navigation property
-        public virtual Doctor? Doctor { get; set; }
-        public virtual Receptionist? Receptionist { get; set; }
-        public virtual Patient? Patient { get; set; }
+        public Doctor? Doctor { get; set; }
+        public Receptionist? Receptionist { get; set; }
     }
 }

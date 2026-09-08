@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DentalClinic.DTO
 {
-    // Hiển thị danh sách hàng chờ thanh toán (pnLeft)
+    // Hiển thị danh sách các hóa đơn đang chờ thanh toán (pnLeft)
     public class WaitingPaymentDto
     {
         public int InvoiceId { get; set; }
@@ -13,13 +13,12 @@ namespace DentalClinic.DTO
         public string Phone { get; set; } = string.Empty;
         public string DoctorName { get; set; } = string.Empty;
         public DateTime InvoiceDateTime { get; set; }
-        //public DateTime CompletedTime { get; set; }
     }
 
-    // Hiển thị chi tiết hóa đơn dịch vụ + thuốc (pnRight)
+    // Hiển thị chi tiết của hóa đơn đang chờ thanh toán, gồm dịch vụ + thuốc (pnRight)
     public class InvoiceDetailDisplayDto
     {
-        public string ItemType { get; set; } = string.Empty; // Dịch vụ, Thuốc
+        public string ItemType { get; set; } = string.Empty; 
         public string ItemName { get; set; } = string.Empty;
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
@@ -29,6 +28,7 @@ namespace DentalClinic.DTO
         public int? PrescriptionDetailId { get; set; }
     }
 
+    // Hiển thị danh sách các hóa đơn (đã thanh toán, đã hủy, đang chờ thanh toán)
     public class InvoiceDisplayDto
     {
         public int InvoiceId { get; set; }
@@ -42,6 +42,7 @@ namespace DentalClinic.DTO
         public string Status { get; set; } = string.Empty;
     }
 
+    // Hiển thị chi tiết của một hóa đơn trong danh sách (đã thanh toán, đã hủy, đang chờ thanh toán)
     public class InvoiceDetailDto
     {
         // Invoice
@@ -83,25 +84,25 @@ namespace DentalClinic.DTO
         public string? Conclusion { get; set; }
     }
 
+
+    // Chi tiết dịch vụ, thuốc trong chi tiết hóa đơn của một hóa đơn trong danh sách
     public class InvoiceDetailItemDto
     {
+        // Chi tiết dịch vụ, thuốc
         public int InvoiceDetailId { get; set; }
-
         public string ItemType { get; set; } = string.Empty;
         public string ItemName { get; set; } = string.Empty;
-
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal TotalAmount { get; set; }
 
-        // Dành cho thuốc
+        // Dành cho riêng thuốc
         public int Morning { get; set; }
         public int Noon { get; set; }
         public int Afternoon { get; set; }
         public int Evening { get; set; }
         public int Days { get; set; }
         public string Instruction { get; set; } = string.Empty;
-
         public string? Note { get; set; }
     }
 }

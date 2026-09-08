@@ -20,7 +20,7 @@ namespace DentalClinic.MODEL
         public MedicineStatus Status { get; set; } = MedicineStatus.Active;
 
         // Navigation property
-        public ICollection<MedicineImportDetail> MedicineImportDetails { get; set; }
-            = new List<MedicineImportDetail>();
+        // Một loại thuốc có thể xuất hiện trong nhiều chi tiết đơn thuốc
+        public ICollection<MedicineImportDetail> MedicineImportDetails { get; set; } = new List<MedicineImportDetail>();
     }
 }

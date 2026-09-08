@@ -24,7 +24,7 @@ namespace DentalClinic.DAL
             if (!optionsBuilder.IsConfigured)
             {
                 string? conn = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"]?.ConnectionString;
-                optionsBuilder.UseSqlServer(conn ?? "Server=.\\SQLEXPRESS;Database=DentalClinicDB-demo1;Trusted_Connection=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer(conn ?? "Server=.\\SQLEXPRESS;Database=DentalClinicDB-demo2;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
 
@@ -171,7 +171,7 @@ namespace DentalClinic.DAL
                 // Relationship 3: Receptionist
                 entity.HasOne(a => a.Receptionist)
                       .WithMany()
-                      .IsRequired(false)
+                      .IsRequired()
                       .HasForeignKey(a => a.ReceptionistId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
@@ -215,11 +215,6 @@ namespace DentalClinic.DAL
                       .IsRequired(false)
                       .HasMaxLength(1000);
 
-                // ProfileImage
-                entity.Property(d => d.ProfileImage)
-                      .IsRequired(false)
-                      .HasMaxLength(255);
-
                 // Relationship: Account 
                 entity.HasOne(d => d.Account)
                       .WithOne(a => a.Doctor)
@@ -242,23 +237,23 @@ namespace DentalClinic.DAL
 
                 // TotalAmount
                 entity.Property(i => i.TotalAmount)
-                      .HasColumnType("decimal(18,2)")
+                      .HasColumnType("decimal(18,0)")
                       .HasDefaultValue(0)
                       .IsRequired();
 
                 // AmountGiven
                 entity.Property(i => i.AmountGiven)
-                      .HasColumnType("decimal(18,2)")
+                      .HasColumnType("decimal(18,0)")
                       .HasDefaultValue(0)
                       .IsRequired();
 
                 // ChangeAmount
                 entity.Property(i => i.ChangeAmount)
-                      .HasColumnType("decimal(18,2)")
+                      .HasColumnType("decimal(18,0)")
                       .HasDefaultValue(0)
                       .IsRequired();
 
-                // PaymentStatus
+                // Status 
                 entity.Property(i => i.Status)
                       .HasConversion<string>()
                       .HasMaxLength(50)
@@ -305,6 +300,8 @@ namespace DentalClinic.DAL
             // 5. InvoiceDetail
             modelBuilder.Entity<InvoiceDetail>(entity =>
             {
+                // Tạo check constrant để đảm bảo chỉ có 1 trong 2 cột MedicalRecordServiceId hoặc PrescriptionDetailId có giá trị 
+                // Không cho phép cả 2 cột đều có giá trị hoặc cả 2 cột đều null
                 entity.ToTable("InvoiceDetail", table =>
                 {
                     table.HasCheckConstraint(
@@ -328,12 +325,12 @@ namespace DentalClinic.DAL
 
                 // UnitPrice
                 entity.Property(id => id.UnitPrice)
-                      .HasColumnType("decimal(18,2)")
+                      .HasColumnType("decimal(18,0)")
                       .IsRequired();
 
-                // TotalAmount:
+                // TotalAmount
                 entity.Property(id => id.TotalAmount)
-                      .HasColumnType("decimal(18,2)")
+                      .HasColumnType("decimal(18,0)")
                       .IsRequired();
 
                 // Relationship 1: Invoice 
@@ -409,19 +406,12 @@ namespace DentalClinic.DAL
                 // UnitPrice
                 entity.Property(mrs => mrs.UnitPrice)
                       .IsRequired()
-                      .HasColumnType("decimal(18,2)");
+                      .HasColumnType("decimal(18,0)");
 
                 // TotalAmount
                 entity.Property(mrs => mrs.TotalAmount)
                       .IsRequired()
-                      .HasColumnType("decimal(18,2)");
-
-                // Status
-                entity.Property(mrs => mrs.Status)
-                      .IsRequired()
-                      .HasConversion<string>()
-                      .HasMaxLength(20)
-                      .HasDefaultValue(MedicalRecordServiceStatus.Pending);
+                      .HasColumnType("decimal(18,0)");
 
                 // Note
                 entity.Property(mrs => mrs.Note)
@@ -464,7 +454,7 @@ namespace DentalClinic.DAL
                 // UnitPrice
                 entity.Property(m => m.UnitPrice)
                       .IsRequired()
-                      .HasColumnType("decimal(18, 2)");
+                      .HasColumnType("decimal(18, 0)");
 
                 // QuantityInStock
                 entity.Property(m => m.QuantityInStock)
@@ -499,7 +489,7 @@ namespace DentalClinic.DAL
 
                 // TotalAmount
                 entity.Property(i => i.TotalAmount)
-                      .HasColumnType("decimal(18,2)")
+                      .HasColumnType("decimal(18,0)")
                       .HasDefaultValue(0)
                       .IsRequired();
 
@@ -551,12 +541,12 @@ namespace DentalClinic.DAL
 
                 // UnitImportPrice
                 entity.Property(d => d.UnitImportPrice)
-                      .HasColumnType("decimal(18,2)")
+                      .HasColumnType("decimal(18,0)")
                       .IsRequired();
 
                 // TotalAmount
                 entity.Property(d => d.TotalAmount)
-                      .HasColumnType("decimal(18,2)")
+                      .HasColumnType("decimal(18,0)")
                       .IsRequired();
 
                 // Relationship 1: MedicineImport
@@ -617,13 +607,6 @@ namespace DentalClinic.DAL
                 entity.Property(p => p.Note)
                       .IsRequired(false)
                       .HasMaxLength(1000);
-
-                // Relationship 1: Account
-                entity.HasOne(p => p.Account)
-                      .WithOne(a => a.Patient)
-                      .HasForeignKey<Patient>(p => p.AccountId)
-                      .IsRequired(false)
-                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // 12. PaymentMethod
@@ -787,7 +770,7 @@ namespace DentalClinic.DAL
                 // UnitPrice
                 entity.Property(s => s.UnitPrice)
                       .IsRequired()
-                      .HasColumnType("decimal(18, 2)");
+                      .HasColumnType("decimal(18, 0)");
 
                 // IsLongTerm
                 entity.Property(s => s.IsLongTerm)
@@ -860,13 +843,7 @@ namespace DentalClinic.DAL
 
                 entity.Property(t => t.TotalAmount)
                       .IsRequired()
-                      .HasColumnType("decimal(18,2)");
-
-                //entity.Property(t => t.PaymentStatus)
-                //      .IsRequired()
-                //      .HasConversion<string>()
-                //      .HasMaxLength(20)
-                //      .HasDefaultValue(TreatmentPaymentStatus.Unpaid);
+                      .HasColumnType("decimal(18,0)");
 
                 entity.Property(t => t.Status)
                       .IsRequired()
@@ -878,16 +855,19 @@ namespace DentalClinic.DAL
                       .IsRequired(false)
                       .HasMaxLength(1000);
 
+                // Relationship 1: Patient
                 entity.HasOne(t => t.Patient)
                       .WithMany(p => p.Treatments)
                       .HasForeignKey(t => t.PatientId)
                       .OnDelete(DeleteBehavior.Restrict);
 
+                // Relationship 2: Doctor
                 entity.HasOne(t => t.Doctor)
                       .WithMany(d => d.Treatments)
                       .HasForeignKey(t => t.DoctorId)
                       .OnDelete(DeleteBehavior.Restrict);
 
+                // Relationship 3: Service
                 entity.HasOne(t => t.Service)
                       .WithMany()
                       .HasForeignKey(t => t.ServiceId)
@@ -933,13 +913,6 @@ namespace DentalClinic.DAL
                       .HasForeignKey(v => v.PatientId)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Relationship 2: Appointment, nullable
-                entity.HasOne(v => v.Appointment)
-                      .WithOne(a => a.Visit)
-                      .HasForeignKey<Visit>(v => v.AppointmentId)
-                      .IsRequired(false)
-                      .OnDelete(DeleteBehavior.Restrict);
-
                 // Relationship 3: Doctor
                 entity.HasOne(v => v.Doctor)
                       .WithMany()
@@ -952,10 +925,17 @@ namespace DentalClinic.DAL
                       .HasForeignKey(v => v.ReceptionistId)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Relationship 5: Treatment
+                // Relationship 5: Treatment (Nullable)
                 entity.HasOne(v => v.Treatment)
                       .WithMany(t => t.Visits)
                       .HasForeignKey(v => v.TreatmentId)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship 2: Appointment (Nullable)
+                entity.HasOne(v => v.Appointment)
+                      .WithOne(a => a.Visit)
+                      .HasForeignKey<Visit>(v => v.AppointmentId)
                       .IsRequired(false)
                       .OnDelete(DeleteBehavior.Restrict);
             });

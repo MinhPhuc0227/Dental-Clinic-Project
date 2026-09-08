@@ -4,5 +4,4 @@
   <Project Path="DentalClinic.DAL/DentalClinic.DAL.csproj" />
   <Project Path="DentalClinic.DTO/DentalClinic.DTO.csproj" />
   <Project Path="DentalClinic.MODEL/DentalClinic.MODEL.csproj" />
-  <Project Path="DentalClinic.WEB/DentalClinic.WEB.csproj" Id="d05f42e1-1aa7-46b9-b551-53d92e04d9d3" />
 </Solution>

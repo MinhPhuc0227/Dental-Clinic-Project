@@ -31,6 +31,7 @@ namespace DentalClinic.DTO
         public string StatusDisplay => Status == PaymentMethodStatus.Active ? "Hoạt động" : "Ngừng hoạt động";
     }
 
+    // DTO dùng để tạo mới phương thức thanh toán
     public class CreatePaymentMethodDto
     {
         [Required(ErrorMessage = "Tên phương thức thanh toán không được để trống.")]
@@ -46,6 +47,7 @@ namespace DentalClinic.DTO
         public PaymentMethodStatus Status { get; set; } = PaymentMethodStatus.Active;
     }
 
+    // DTO dùng để cập nhật phương thức thanh toán
     public class UpdatePaymentMethodDto : CreatePaymentMethodDto
     {
         [Required(ErrorMessage = "Mã phương thức thanh toán không hợp lệ.")]

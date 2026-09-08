@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DentalClinic.DTO
 {
-    // 1. DTO dùng để hiển thị trên DataGridView (UC_Receptionist_Visit)
+    // DTO dùng để hiển thị thông tin lượt khám trên DataGridView (UC_Receptionist_Visit)
     public class VisitListDto
     {
         public int VisitId { get; set; }
@@ -33,7 +33,8 @@ namespace DentalClinic.DTO
         public string VisitType => AppointmentId.HasValue ? "Có hẹn trước" : "Khách vãng lai";
     }
 
-    // 2. DTO dùng để Tạo mới tiếp nhận vãng lai (Có Validation)
+    // DTO dùng để tiếp nhận Khách vãng lai (không có lịch hẹn)
+    // Không có AppointmentId (mặc định null) 
     public class VisitCreateDto
     {
         [Required(ErrorMessage = "Vui lòng chọn bệnh nhân.")]
@@ -49,7 +50,5 @@ namespace DentalClinic.DTO
         public string ReasonForVisit { get; set; } = string.Empty;
 
         public int ReceptionistId { get; set; }
-
-        // Không cần truyền AppointmentId vì đây là form tạo khách vãng lai (mặc định sẽ null)
     }
 }

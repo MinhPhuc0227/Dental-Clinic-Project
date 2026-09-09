@@ -97,8 +97,7 @@ namespace DentalClinic.APP
                 Status = selectedStatus
             };
 
-            if (updateDto.AccountId == _currentAccountId &&
-    updateDto.Status != AccountStatus.Active)
+            if (updateDto.AccountId == _currentAccountId && updateDto.Status != AccountStatus.Active)
             {
                 MessageBox.Show(
                     "Bạn không thể khóa hoặc ngừng hoạt động tài khoản đang đăng nhập.",

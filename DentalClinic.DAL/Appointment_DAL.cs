@@ -235,51 +235,5 @@ namespace DentalClinic.DAL
                 a.AppointmentDateTime.AddMinutes(durationMinutes) > startTime
             );
         }
-
-        // Lấy lịch online
-        public List<AppointmentListDto> GetByPatientId(int patientId)
-        {
-            return _context.Appointments
-                .Include(a => a.Doctor)
-                .Where(a => a.PatientId == patientId)
-                .OrderByDescending(a => a.AppointmentDateTime)
-                .AsNoTracking()
-                .Select(a => new AppointmentListDto
-                {
-                    AppointmentId = a.AppointmentId,
-                    PatientName = a.Patient.FullName,
-                    PatientPhone = a.Patient.Phone,
-                    DoctorId = a.DoctorId,
-                    DoctorName = a.Doctor.FullName,
-                    AppointmentDateTime = a.AppointmentDateTime,
-                    Status = a.Status,
-                    ReasonForVisit = a.ReasonForVisit,
-                    Note = a.Note,
-                    ReceptionistName = a.Receptionist != null
-                        ? a.Receptionist.FullName
-                        : "Đặt online",
-                    CreatedDate = a.CreatedDate
-                })
-                .ToList();
-        }
-
-        // Hủy lịch online
-        public bool CancelByPatient(int appointmentId, int patientId)
-        {
-            var appointment = _context.Appointments
-                .FirstOrDefault(a =>
-                    a.AppointmentId == appointmentId &&
-                    a.PatientId == patientId);
-
-            if (appointment == null)
-                return false;
-
-            if (appointment.Status != AppointmentStatus.Scheduled)
-                return false;
-
-            appointment.Status = AppointmentStatus.Cancelled;
-
-            return _context.SaveChanges() > 0;
-        }
     }
 }

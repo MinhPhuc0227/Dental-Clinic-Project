@@ -24,7 +24,7 @@ namespace DentalClinic.DAL
             if (!optionsBuilder.IsConfigured)
             {
                 string? conn = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"]?.ConnectionString;
-                optionsBuilder.UseSqlServer(conn ?? "Server=.\\SQLEXPRESS;Database=DentalClinicDB-demo2;Trusted_Connection=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer(conn ?? "Server=.\\SQLEXPRESS;Database=DentalClinicDB-demo4;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
 

@@ -402,10 +402,10 @@
             // tabPage2
             // 
             tabPage2.Controls.Add(dgvInExamination);
-            tabPage2.Location = new Point(4, 29);
+            tabPage2.Location = new Point(4, 37);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(611, 394);
+            tabPage2.Size = new Size(611, 386);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Đang khám";
             tabPage2.UseVisualStyleBackColor = true;
@@ -448,7 +448,7 @@
             dgvInExamination.RowHeadersWidth = 51;
             dgvInExamination.RowTemplate.Height = 38;
             dgvInExamination.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInExamination.Size = new Size(605, 388);
+            dgvInExamination.Size = new Size(605, 380);
             dgvInExamination.TabIndex = 8;
             dgvInExamination.CellContentClick += dgvInExamination_CellContentClick;
             // 
@@ -614,7 +614,7 @@
             tpMedicine.Location = new Point(4, 29);
             tpMedicine.Name = "tpMedicine";
             tpMedicine.Padding = new Padding(3);
-            tpMedicine.Size = new Size(942, 396);
+            tpMedicine.Size = new Size(922, 376);
             tpMedicine.TabIndex = 1;
             tpMedicine.Text = "Thuốc";
             // 
@@ -655,7 +655,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvMedicine.Size = new Size(936, 167);
+            dgvMedicine.Size = new Size(916, 147);
             dgvMedicine.TabIndex = 8;
             dgvMedicine.CellClick += dgvMedicine_CellClick;
             dgvMedicine.CellEndEdit += dgvMedicine_CellEndEdit;
@@ -681,7 +681,7 @@
             panel8.Dock = DockStyle.Top;
             panel8.Location = new Point(3, 3);
             panel8.Name = "panel8";
-            panel8.Size = new Size(936, 223);
+            panel8.Size = new Size(916, 223);
             panel8.TabIndex = 0;
             // 
             // label25

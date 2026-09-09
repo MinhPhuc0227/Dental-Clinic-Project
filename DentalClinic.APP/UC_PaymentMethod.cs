@@ -129,5 +129,10 @@ namespace DentalClinic.App
                                                                  || (pm.Description != null && pm.Description.ToLower().Contains(keyword))).ToList();
             }
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -70,7 +70,7 @@
             dgvPaymentMethod.Dock = DockStyle.Fill;
             dgvPaymentMethod.EnableHeadersVisualStyles = false;
             dgvPaymentMethod.GridColor = Color.DarkCyan;
-            dgvPaymentMethod.Location = new Point(10, 85);
+            dgvPaymentMethod.Location = new Point(10, 149);
             dgvPaymentMethod.MultiSelect = false;
             dgvPaymentMethod.Name = "dgvPaymentMethod";
             dgvPaymentMethod.ReadOnly = true;
@@ -78,7 +78,7 @@
             dgvPaymentMethod.RowHeadersWidth = 51;
             dgvPaymentMethod.RowTemplate.Height = 38;
             dgvPaymentMethod.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPaymentMethod.Size = new Size(1045, 384);
+            dgvPaymentMethod.Size = new Size(1045, 320);
             dgvPaymentMethod.TabIndex = 0;
             dgvPaymentMethod.CellContentClick += dgvPaymentMethod_CellContentClick;
             // 
@@ -92,34 +92,37 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1045, 75);
+            panel1.Size = new Size(1045, 139);
             panel1.TabIndex = 1;
             // 
             // btAdd
             // 
+            btAdd.BackColor = SystemColors.HotTrack;
             btAdd.FlatAppearance.BorderSize = 0;
-            btAdd.Image = APP.Properties.Resources.add;
+            btAdd.FlatStyle = FlatStyle.Flat;
+            btAdd.Font = new Font("Segoe UI Semibold", 10F);
+            btAdd.ForeColor = Color.White;
             btAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btAdd.Location = new Point(320, 10);
+            btAdd.Location = new Point(21, 72);
             btAdd.Name = "btAdd";
             btAdd.Size = new Size(118, 49);
             btAdd.TabIndex = 3;
             btAdd.Text = "Thêm mới";
-            btAdd.TextAlign = ContentAlignment.MiddleRight;
-            btAdd.UseVisualStyleBackColor = true;
+            btAdd.UseVisualStyleBackColor = false;
             btAdd.Click += btAdd_Click;
             // 
             // label2
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F);
+            label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(660, 17);
+            label2.Location = new Point(760, 47);
             label2.Name = "label2";
-            label2.Size = new Size(91, 28);
+            label2.Size = new Size(97, 28);
             label2.TabIndex = 2;
             label2.Text = "Tìm kiếm";
+            label2.Click += label2_Click;
             // 
             // label1
             // 
@@ -135,8 +138,9 @@
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
             txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(757, 14);
+            txtSearch.Location = new Point(760, 87);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(268, 34);
             txtSearch.TabIndex = 0;

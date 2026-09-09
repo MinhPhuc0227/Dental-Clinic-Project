@@ -105,7 +105,9 @@ namespace DentalClinic.APP
             if (rbExamination.Checked)
             {
                 ShowUC(ExaminationUC);
-                //ExaminationUC.LoadData();
+
+                ExaminationUC.LoadWaitingQueue();
+                ExaminationUC.LoadInExamination();
             }
         }
 

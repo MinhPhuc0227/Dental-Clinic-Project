@@ -340,9 +340,6 @@ namespace DentalClinic.APP
 
             dgvAccount.DataSource = filtered.ToList();
 
-            if (dgvAccount.Columns.Contains("PatientId"))
-                dgvAccount.Columns["PatientId"].HeaderText = "Mã Bệnh Nhân";
-
             if (dgvAccount.Columns.Contains("DoctorId"))
                 dgvAccount.Columns["DoctorId"].HeaderText = "Mã Bác Sĩ";
 

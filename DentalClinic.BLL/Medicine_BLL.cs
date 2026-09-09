@@ -18,15 +18,12 @@ namespace DentalClinic.BLL
             _dal = dal;
         }
 
-        // 1. Lấy tất cả thuốc (Dùng Result<T> để trả về danh sách DTO)
-        public Result<List<MedicineDto>> GetAll(
-    string keyword = "",
-    MedicineStatus? status = null)
+        // GetAll
+        public Result<List<MedicineDto>> GetAll(string keyword = "", MedicineStatus? status = null)
         {
             try
             {
-                var list =
-                    _dal.GetAll(keyword, status);
+                var list = _dal.GetAll(keyword, status);
 
                 var dtoList = list
                     .Select(m => new MedicineDto
@@ -41,24 +38,21 @@ namespace DentalClinic.BLL
                     })
                     .ToList();
 
-                return Result<List<MedicineDto>>
-                    .Success(dtoList);
+                return Result<List<MedicineDto>>.Success(dtoList);
             }
             catch (Exception ex)
             {
                 return Result<List<MedicineDto>>
-                    .Failure(
-                        "Lỗi khi tải danh sách thuốc: " +
-                        ex.Message);
+                    .Failure("Lỗi khi tải danh sách thuốc: " + ex.Message);
             }
         }
 
+        // GetById
         public Result<MedicineDto> GetById(int medicineId)
         {
             if (medicineId <= 0)
             {
-                return Result<MedicineDto>.Failure(
-                    "Mã thuốc không hợp lệ.");
+                return Result<MedicineDto>.Failure("Mã thuốc không hợp lệ.");
             }
 
             try
@@ -67,8 +61,7 @@ namespace DentalClinic.BLL
 
                 if (medicine == null)
                 {
-                    return Result<MedicineDto>.Failure(
-                        "Không tìm thấy thuốc.");
+                    return Result<MedicineDto>.Failure("Không tìm thấy thuốc.");
                 }
 
                 var dto = new MedicineDto
@@ -86,12 +79,11 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
-                return Result<MedicineDto>.Failure(
-                    "Lỗi khi lấy thông tin thuốc: " + ex.Message);
+                return Result<MedicineDto>.Failure("Lỗi khi lấy thông tin thuốc: " + ex.Message);
             }
         }
 
-        // 2. Thêm thuốc mới (Dùng Result không tham số data)
+        // ADD
         public Result Add(CreateMedicineDto dto)
         {
             var validationError = dto.Validate();
@@ -128,7 +120,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // 3. Cập nhật thông tin thuốc
+        // UPDATE
         public Result Update(UpdateMedicineDto dto)
         {
             var validationError = dto.Validate();
@@ -165,7 +157,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // 4. Xóa thuốc
+        // DELETE
         public Result Delete(int medicineId)
         {
             if (medicineId <= 0)

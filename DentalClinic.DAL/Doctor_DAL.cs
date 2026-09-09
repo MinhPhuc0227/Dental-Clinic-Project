@@ -30,115 +30,115 @@ namespace DentalClinic.DAL
         // GetDoctorByAccountId
         public Doctor? GetDoctorByAccountId(int accountId)
         {
-                return _context.Doctors.FirstOrDefault(d => d.AccountId == accountId);
+            return _context.Doctors.FirstOrDefault(d => d.AccountId == accountId);
         }
 
-        // Check if UserName exists (excluding a specific AccountId) - for Updating 
+        // Kiểm tra trùng username 
         public bool IsUserNameExists(string userName, int excludeAccountId = 0)
         {
-                return _context.Accounts.Any(a => a.UserName.ToLower() == userName.ToLower()
+            return _context.Accounts.Any(a => a.UserName.ToLower() == userName.ToLower()
                                               && a.AccountId != excludeAccountId);
         }
 
-        // Check if Phone exists (excluding a specific DoctorId) - for Updating
+        // Kiểm tra trùng sđt
         public bool IsPhoneExists(string phone, int excludeDoctorId = 0)
         {
-                bool isDoctorPhoneExist = _context.Doctors.Any(d => d.Phone == phone && d.DoctorId != excludeDoctorId);
-                bool isReceptionistPhoneExist = _context.Receptionists.Any(r => r.Phone == phone);
-                return isDoctorPhoneExist || isReceptionistPhoneExist;
+            bool isDoctorPhoneExist = _context.Doctors.Any(d => d.Phone == phone && d.DoctorId != excludeDoctorId);
+            bool isReceptionistPhoneExist = _context.Receptionists.Any(r => r.Phone == phone);
+            return isDoctorPhoneExist || isReceptionistPhoneExist;
         }
 
         // ADD Doctor + Account with DbContextTransaction
         public bool AddWithAccount(Account accountEntity, Doctor doctorEntity)
         {
-                using (var transaction = _context.Database.BeginTransaction())
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
                 {
-                    try
-                    {
-                        _context.Accounts.Add(accountEntity);
-                        _context.SaveChanges();
+                   _context.Accounts.Add(accountEntity);
+                   _context.SaveChanges();
 
-                        doctorEntity.AccountId = accountEntity.AccountId;
-                        _context.Doctors.Add(doctorEntity);
-                        _context.SaveChanges();
+                   doctorEntity.AccountId = accountEntity.AccountId;
+                   _context.Doctors.Add(doctorEntity);
+                   _context.SaveChanges();
 
-                        transaction.Commit();
-                        return true;
-                    }
-                    catch
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
+                   transaction.Commit();
+                   return true;
                 }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
         }
 
         // UPDATE Doctor + Account with DbContextTransaction
         public bool UpdateWithAccount(Doctor doctorEntity, Account accountEntity, bool updatePassword)
         {
-                using (var transaction = _context.Database.BeginTransaction())
-                {
-                    try
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                 try
+                 {
+                     var existingDoctor = _context.Doctors.FirstOrDefault(d => d.DoctorId == doctorEntity.DoctorId);
+                     var existingAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == accountEntity.AccountId);
+
+                     if (existingDoctor == null || existingAccount == null) return false;
+
+                     existingDoctor.FullName = doctorEntity.FullName;
+                     existingDoctor.Gender = doctorEntity.Gender;
+                     existingDoctor.DateOfBirth = doctorEntity.DateOfBirth;
+                     existingDoctor.Phone = doctorEntity.Phone;
+                     existingDoctor.Email = doctorEntity.Email;
+                     existingDoctor.Description = doctorEntity.Description;
+                     existingAccount.UserName = accountEntity.UserName;
+                     
+                    existingAccount.Status = accountEntity.Status;
+                    if (updatePassword)
                     {
-                        var existingDoctor = _context.Doctors.FirstOrDefault(d => d.DoctorId == doctorEntity.DoctorId);
-                        var existingAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == accountEntity.AccountId);
-
-                        if (existingDoctor == null || existingAccount == null) return false;
-
-                        existingDoctor.FullName = doctorEntity.FullName;
-                        existingDoctor.Gender = doctorEntity.Gender;
-                        existingDoctor.DateOfBirth = doctorEntity.DateOfBirth;
-                        existingDoctor.Phone = doctorEntity.Phone;
-                        existingDoctor.Email = doctorEntity.Email;
-                        existingDoctor.Description = doctorEntity.Description;
-
-                        existingAccount.UserName = accountEntity.UserName;
-                        existingAccount.Status = accountEntity.Status;
-                        if (updatePassword)
-                        {
-                            existingAccount.Password = accountEntity.Password;
-                        }
-
-                        _context.SaveChanges();
-                        transaction.Commit();
-                        return true;
+                       existingAccount.Password = accountEntity.Password;
                     }
-                    catch
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
-                }
+
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    return true;
+                 }
+                 catch
+                 {
+                    transaction.Rollback();
+                    throw;
+                 }
+            }
         }
 
         // DELETE Doctor + Account with DbContextTransaction
         public bool DeleteWithAccount(int doctorId)
         {
-                using (var transaction = _context.Database.BeginTransaction())
-                {
-                    try
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                 try
+                 {
+                    var doctor = _context.Doctors.FirstOrDefault(d => d.DoctorId == doctorId);
+                    if (doctor == null) return false;
+
+                    var account = _context.Accounts.FirstOrDefault(a => a.AccountId == doctor.AccountId);
+
+                    _context.Doctors.Remove(doctor);
+                    if (account != null)
                     {
-                        var doctor = _context.Doctors.FirstOrDefault(d => d.DoctorId == doctorId);
-                        if (doctor == null) return false;
-
-                        var account = _context.Accounts.FirstOrDefault(a => a.AccountId == doctor.AccountId);
-
-                        _context.Doctors.Remove(doctor);
-                        if (account != null)
-                        {
-                            _context.Accounts.Remove(account);
-                        }
-
-                        _context.SaveChanges();
-                        transaction.Commit();
-                        return true;
+                        _context.Accounts.Remove(account);
                     }
-                    catch
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
-                }
+
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    return true;
+                 }
+                 catch
+                 {
+                    transaction.Rollback();
+                    throw;
+                 }
+            }
         }
     }
 }

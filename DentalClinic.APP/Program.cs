@@ -15,20 +15,14 @@ namespace DentalClinic.APP
             // Khởi tạo dữ liệu mặc định
             DbInitializer.Seed();
 
-            // =========================
             // 1. Tạo DI container
-            // =========================
             var services = new ServiceCollection();
             services.AddSingleton<IServiceProvider>(sp => sp);
 
-            // =========================
             // 2. Database
-            // =========================
             services.AddScoped<AppDbContext>();
 
-            // =========================
             // 3. DAL
-            // =========================
             services.AddScoped<Account_DAL>();
             services.AddScoped<Appointment_DAL>();
             services.AddScoped<Dashboard_DAL>();
@@ -45,9 +39,7 @@ namespace DentalClinic.APP
             services.AddScoped<Treatment_DAL>();
             services.AddScoped<Visit_DAL>();
 
-            // =========================
             // 4. BLL
-            // =========================
             services.AddScoped<Account_BLL>();
             services.AddScoped<Appointment_BLL>();
             services.AddScoped<Dashboard_BLL>();
@@ -64,14 +56,11 @@ namespace DentalClinic.APP
             services.AddScoped<Treatment_BLL>();
             services.AddScoped<Visit_BLL>();
 
-            // =========================
             // 5. Form
-            // =========================
             services.AddTransient<Form_Login>();
             services.AddTransient<Form_Admin>();
             services.AddTransient<Form_Doctor>();
             services.AddTransient<Form_Receptionist>();
-
             services.AddTransient<UC_Account>();
             services.AddTransient<Dialog_Account>();
             services.AddTransient<Dialog_Admin>();
@@ -80,18 +69,17 @@ namespace DentalClinic.APP
             services.AddTransient<Dialog_MedicineImport>();
             services.AddTransient<Dialog_MedicineImportHistory>();
             services.AddTransient<UC_Supplier>();
-            // =========================
+
             // 6. Build DI container
-            // =========================
             using var serviceProvider = services.BuildServiceProvider();
 
             // Tạo scope cho ứng dụng WinForms
             using var scope = serviceProvider.CreateScope();
 
             // Lấy Form_Login từ DI
-            var loginForm = scope.ServiceProvider
-                .GetRequiredService<Form_Login>();
+            var loginForm = scope.ServiceProvider.GetRequiredService<Form_Login>();
 
+            // Chạy ứng dụng 
             Application.Run(loginForm);
         }
     }

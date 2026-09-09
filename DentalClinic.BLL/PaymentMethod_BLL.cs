@@ -40,10 +40,10 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Add
+        // ADD
         public Result Add(CreatePaymentMethodDto dto)
         {
-            // Sử dụng ValidationHelper extension method
+            // Xác thực dữ liệu bằng DataAnnotations (trong dto)
             var validationError = dto.Validate();
             if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
 
@@ -69,7 +69,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Update
+        // UPDATE
         public Result Update(UpdatePaymentMethodDto dto)
         {
             var validationError = dto.Validate();
@@ -98,7 +98,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Delete
+        // DELETE
         public Result Delete(int id)
         {
             if (id <= 0) return Result.Failure("Mã phương thức thanh toán không hợp lệ.");

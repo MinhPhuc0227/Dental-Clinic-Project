@@ -13,7 +13,6 @@ namespace DentalClinic.BLL
     public class Doctor_BLL
     {
         private readonly Doctor_DAL _dal;
-
         public Doctor_BLL(Doctor_DAL dal)
         {
             _dal = dal;
@@ -48,6 +47,7 @@ namespace DentalClinic.BLL
             }
         }
 
+        // GetById
         public Result<DoctorDto> GetById(int doctorId)
         {
             try
@@ -56,8 +56,7 @@ namespace DentalClinic.BLL
 
                 if (doctor == null)
                 {
-                    return Result<DoctorDto>.Failure(
-                        "Không tìm thấy hồ sơ bác sĩ.");
+                    return Result<DoctorDto>.Failure("Không tìm thấy hồ sơ bác sĩ.");
                 }
 
                 var dto = new DoctorDto
@@ -80,11 +79,11 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
-                return Result<DoctorDto>.Failure(
-                    "Lỗi tải hồ sơ bác sĩ: " + ex.Message);
+                return Result<DoctorDto>.Failure("Lỗi tải hồ sơ bác sĩ: " + ex.Message);
             }
         }
 
+        // GetDoctorByAccountId
         public Doctor? GetDoctorByAccountId(int accountId)
         {
             return _dal.GetDoctorByAccountId(accountId);
@@ -150,6 +149,7 @@ namespace DentalClinic.BLL
         public Result Update(UpdateDoctorDto dto)
         {
             var validationError = dto.Validate();
+
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);

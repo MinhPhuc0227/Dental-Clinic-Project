@@ -48,6 +48,7 @@ namespace DentalClinic.BLL
             }
         }
 
+        // GetById
         public Result<ReceptionistDto> GetById(int receptionistId)
         {
             try
@@ -56,8 +57,7 @@ namespace DentalClinic.BLL
 
                 if (receptionist == null)
                 {
-                    return Result<ReceptionistDto>.Failure(
-                        "Không tìm thấy hồ sơ lễ tân.");
+                    return Result<ReceptionistDto>.Failure("Không tìm thấy hồ sơ lễ tân.");
                 }
 
                 var dto = new ReceptionistDto
@@ -80,17 +80,17 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
-                return Result<ReceptionistDto>.Failure(
-                    "Lỗi tải hồ sơ lễ tân: " + ex.Message);
+                return Result<ReceptionistDto>.Failure("Lỗi tải hồ sơ lễ tân: " + ex.Message);
             }
         }
 
+        // GetReceptionistByAccountId
         public Receptionist? GetReceptionistByAccountId(int accountId)
         {
             return _dal.GetReceptionistByAccountId(accountId);
         }
 
-        // Add
+        // ADD
         public Result Add(CreateReceptionistDto dto)
         {
             var validationError = dto.Validate();
@@ -135,7 +135,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Update
+        // UPDATE
         public Result Update(UpdateReceptionistDto dto)
         {
             var validationError = dto.Validate();
@@ -184,7 +184,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Delete
+        // DELETE
         public Result Delete(int receptionistId)
         {
             if (receptionistId <= 0) return Result.Failure("Mã lễ tân không hợp lệ.");

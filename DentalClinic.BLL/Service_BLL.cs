@@ -42,7 +42,43 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Add
+        // GetById
+        public Result<ServiceDto> GetById(int serviceId)
+        {
+            if (serviceId <= 0)
+            {
+                return Result<ServiceDto>.Failure("Mã dịch vụ không hợp lệ.");
+            }
+
+            try
+            {
+                var service = _dal.GetById(serviceId);
+
+                if (service == null)
+                {
+                    return Result<ServiceDto>.Failure("Không tìm thấy dịch vụ.");
+                }
+
+                var dto = new ServiceDto
+                {
+                    ServiceId = service.ServiceId,
+                    ServiceName = service.ServiceName,
+                    UnitPrice = service.UnitPrice,
+                    IsLongTerm = service.IsLongTerm,
+                    Description = service.Description,
+                    Status = service.Status
+                };
+
+                return Result<ServiceDto>.Success(dto);
+            }
+            catch (Exception ex)
+            {
+                return Result<ServiceDto>.Failure(
+                    "Lỗi khi tải thông tin dịch vụ: " + ex.Message);
+            }
+        }
+
+        // ADD
         public Result Add(CreateServiceDto dto)
         {
             var validationError = dto.Validate();
@@ -78,7 +114,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Update
+        // UPDATE
         public Result Update(UpdateServiceDto dto)
         {
             var validationError = dto.Validate();
@@ -115,7 +151,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Delete
+        // DELETE
         public Result Delete(int serviceId)
         {
             if (serviceId <= 0)
@@ -133,42 +169,6 @@ namespace DentalClinic.BLL
             catch (Exception)
             {
                 return Result.Failure("Không thể xóa do dịch vụ này đã phát sinh trong lịch khám hoặc hóa đơn.");
-            }
-        }
-
-        // GetById
-        public Result<ServiceDto> GetById(int serviceId)
-        {
-            if (serviceId <= 0)
-            {
-                return Result<ServiceDto>.Failure("Mã dịch vụ không hợp lệ.");
-            }
-
-            try
-            {
-                var service = _dal.GetById(serviceId);
-
-                if (service == null)
-                {
-                    return Result<ServiceDto>.Failure("Không tìm thấy dịch vụ.");
-                }
-
-                var dto = new ServiceDto
-                {
-                    ServiceId = service.ServiceId,
-                    ServiceName = service.ServiceName,
-                    UnitPrice = service.UnitPrice,
-                    IsLongTerm = service.IsLongTerm,
-                    Description = service.Description,
-                    Status = service.Status
-                };
-
-                return Result<ServiceDto>.Success(dto);
-            }
-            catch (Exception ex)
-            {
-                return Result<ServiceDto>.Failure(
-                    "Lỗi khi tải thông tin dịch vụ: " + ex.Message);
             }
         }
     }

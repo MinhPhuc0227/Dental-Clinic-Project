@@ -27,7 +27,6 @@ namespace DentalClinic.BLL
                 var dtoList = list.Select(p => new PatientDto
                 {
                     PatientId = p.PatientId,
-                    //AccountId = p.AccountId,
                     FullName = p.FullName,
                     Gender = p.Gender,
                     DateOfBirth = p.DateOfBirth,
@@ -45,7 +44,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Add
+        // ADD
         public Result<int> Add(CreatePatientDto dto)
         {
             var validationError = dto.Validate();
@@ -79,7 +78,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Update
+        // UPDATE
         public Result Update(UpdatePatientDto dto)
         {
             var validationError = dto.Validate();
@@ -111,7 +110,7 @@ namespace DentalClinic.BLL
             }
         }
 
-        // Delete
+        // DELETE
         public Result Delete(int patientId)
         {
             if (patientId <= 0) return Result.Failure("Mã bệnh nhân không hợp lệ.");
@@ -124,47 +123,6 @@ namespace DentalClinic.BLL
             catch
             {
                 return Result.Failure("Không thể xóa bệnh nhân đã có hồ sơ bệnh án hoặc hóa đơn điều trị.");
-            }
-        }
-
-        // Online
-        public Result<PatientDto> GetById(int patientId)
-        {
-            if (patientId <= 0)
-            {
-                return Result<PatientDto>.Failure(
-                    "Mã bệnh nhân không hợp lệ.");
-            }
-
-            try
-            {
-                var patient = _dal.GetById(patientId);
-
-                if (patient == null)
-                {
-                    return Result<PatientDto>.Failure(
-                        "Không tìm thấy bệnh nhân.");
-                }
-
-                var dto = new PatientDto
-                {
-                    PatientId = patient.PatientId,
-                    FullName = patient.FullName,
-                    Gender = patient.Gender,
-                    DateOfBirth = patient.DateOfBirth,
-                    Phone = patient.Phone,
-                    Email = patient.Email,
-                    Address = patient.Address,
-                    Note = patient.Note
-                    //AccountId = patient.AccountId
-                };
-
-                return Result<PatientDto>.Success(dto);
-            }
-            catch (Exception ex)
-            {
-                return Result<PatientDto>.Failure(
-                    "Lỗi khi lấy thông tin bệnh nhân: " + ex.Message);
             }
         }
     }

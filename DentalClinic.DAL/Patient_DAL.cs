@@ -18,77 +18,77 @@ namespace DentalClinic.DAL
         // GetAll 
         public List<Patient> GetAll()
         {
-                return _context.Patients.ToList();
+            return _context.Patients.ToList();
         }
 
         // GetById
         public Patient? GetById(int patientId)
         {
-                return _context.Patients.FirstOrDefault(p => p.PatientId == patientId);
+            return _context.Patients.FirstOrDefault(p => p.PatientId == patientId);
         }
 
-        // Check if phone exists (excludePatientId) - for Updating
+        // Kiểm tra số điện thoại đã tồn tại hay chưa (khi sửa)
         public bool IsPhoneExists(string phone, int excludePatientId = 0)
         {
-                return _context.Patients.Any(p => p.Phone == phone && p.PatientId != excludePatientId);
+            return _context.Patients.Any(p => p.Phone == phone && p.PatientId != excludePatientId);
         }
 
-        // Add 
+        // ADD
         public bool Add(Patient patientEntity)
         {
-                try
-                {
-                    _context.Patients.Add(patientEntity);
-                    _context.SaveChanges();
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+            try
+            {
+                _context.Patients.Add(patientEntity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        // Update
+        // UPDATE
         public bool Update(Patient patientEntity)
         {
-                try
-                {
-                    var existingPatient = _context.Patients.FirstOrDefault(p => p.PatientId == patientEntity.PatientId);
-                    if (existingPatient == null) return false;
+            try
+            {
+                var existingPatient = _context.Patients.FirstOrDefault(p => p.PatientId == patientEntity.PatientId);
+                if (existingPatient == null) return false;
 
-                    existingPatient.FullName = patientEntity.FullName;
-                    existingPatient.Gender = patientEntity.Gender;
-                    existingPatient.DateOfBirth = patientEntity.DateOfBirth;
-                    existingPatient.Phone = patientEntity.Phone;
-                    existingPatient.Email = patientEntity.Email;
-                    existingPatient.Address = patientEntity.Address;
-                    existingPatient.Note = patientEntity.Note;
+                existingPatient.FullName = patientEntity.FullName;
+                existingPatient.Gender = patientEntity.Gender;
+                existingPatient.DateOfBirth = patientEntity.DateOfBirth;
+                existingPatient.Phone = patientEntity.Phone;
+                existingPatient.Email = patientEntity.Email;
+                existingPatient.Address = patientEntity.Address;
+                existingPatient.Note = patientEntity.Note;
 
-                    _context.SaveChanges();
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        // Delete
+        // DELETE
         public bool Delete(int patientId)
         {
-                try
-                {
-                    var patient = _context.Patients.FirstOrDefault(p => p.PatientId == patientId);
-                    if (patient == null) return false;
+            try
+            {
+                var patient = _context.Patients.FirstOrDefault(p => p.PatientId == patientId);
+                if (patient == null) return false;
 
-                    _context.Patients.Remove(patient);
-                    _context.SaveChanges();
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                _context.Patients.Remove(patient);
+                _context.SaveChanges();
+                return true;
+             }
+             catch
+             {
+                return false;
+             }
         }
     }
 }

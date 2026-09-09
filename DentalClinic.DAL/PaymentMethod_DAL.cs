@@ -27,13 +27,13 @@ namespace DentalClinic.DAL
                 return _context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == id);
         }
 
-        // Check if name exists
+        // Kiểm tra tên phương thức thanh toán đã tồn tại chưa (khi update)
         public bool IsNameExists(string name, int excludeId = 0)
         {
                 return _context.PaymentMethods.Any(pm => pm.PaymentMethodName.ToLower() == name.ToLower() && pm.PaymentMethodId != excludeId);
         }
 
-        // Add
+        // ADD
         public bool Add(PaymentMethod entity)
         {
                 using (var transaction = _context.Database.BeginTransaction())
@@ -53,7 +53,7 @@ namespace DentalClinic.DAL
                 }
         }
 
-        // Update
+        // UPDATE
         public bool Update(PaymentMethod entity)
         {
                 using (var transaction = _context.Database.BeginTransaction())
@@ -80,7 +80,7 @@ namespace DentalClinic.DAL
                 }
         }
 
-        // Delete
+        // DELETE
         public bool Delete(int id)
         {
                 using (var transaction = _context.Database.BeginTransaction())

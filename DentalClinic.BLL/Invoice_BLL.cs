@@ -18,11 +18,11 @@ namespace DentalClinic.BLL
             _dal = dal;
         }
 
-        public List<WaitingPaymentDto> GetWaitingPayments(string keyword = "")
+        public List<WaitingPaymentDto> GetWaitingPayments(DateTime startDate, DateTime endDate, string keyword = "")
         {
             try
             {
-                return _dal.GetWaitingPayments(keyword);
+                return _dal.GetWaitingPayments(startDate, endDate, keyword);
             }
             catch (Exception ex)
             {
@@ -189,13 +189,16 @@ namespace DentalClinic.BLL
             }
         }
 
-        public List<InvoiceDisplayDto> GetAllInvoices(DateTime from, DateTime to, InvoiceStatus? status)
+        public List<InvoiceDisplayDto> GetAllInvoices(DateTime from, DateTime to, string keyword = "", InvoiceStatus? status = null)
         {
             try
             {
-                return _dal.GetAllInvoices(from, to, status);
+                return _dal.GetAllInvoices(from, to, keyword, status);
             }
-            catch { return new List<InvoiceDisplayDto>(); }
+            catch
+            {
+                return new List<InvoiceDisplayDto>();
+            }
         }
 
         public InvoiceDetailDto? GetInvoiceDetail(int invoiceId)

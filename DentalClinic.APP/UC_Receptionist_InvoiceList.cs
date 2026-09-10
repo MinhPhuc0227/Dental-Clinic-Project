@@ -30,18 +30,11 @@ namespace DentalClinic.APP
         private void UC_Receptionist_InvoiceList_Load(object sender, EventArgs e)
         {
             SetupGrid();
-
             dgvInvoiceList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvInvoiceList.MultiSelect = false;
             dgvInvoiceList.ReadOnly = true;
-
-            dtpStart.Value = new DateTime(
-                DateTime.Now.Year,
-                DateTime.Now.Month,
-                1);
-
+            dtpStart.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             dtpEnd.Value = DateTime.Now;
-
             LoadStatusComboBox();
             LoadData();
         }
@@ -58,7 +51,7 @@ namespace DentalClinic.APP
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AmountGiven", HeaderText = "Tiền Khách Đưa", Width = 110, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ChangeAmount", HeaderText = "Tiền Thối", Width = 90, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Status", HeaderText = "Trạng Thái", Width = 100 });
-            
+
             // Xem
             var viewColumn = new DataGridViewButtonColumn
             {
@@ -72,33 +65,15 @@ namespace DentalClinic.APP
             dgvInvoiceList.Columns.Add(viewColumn);
         }
 
+        // LOAD CB TRẠNG THÁI
         private void LoadStatusComboBox()
         {
             var statusList = new[]
-    {
-        new
-        {
-            Text = "Tất cả",
-            Value = (InvoiceStatus?)null
-        },
-
-        new
-        {
-            Text = "Chưa thanh toán",
-            Value = (InvoiceStatus?)InvoiceStatus.Unpaid
-        },
-
-        new
-        {
-            Text = "Đã thanh toán",
-            Value = (InvoiceStatus?)InvoiceStatus.Paid
-        },
-
-        new
-        {
-            Text = "Đã hủy",
-            Value = (InvoiceStatus?)InvoiceStatus.Cancelled
-        }
+            {
+        new { Text = "Tất cả", Value = (InvoiceStatus?)null },
+        new { Text = "Chưa thanh toán", Value = (InvoiceStatus?)InvoiceStatus.Unpaid },
+        new { Text = "Đã thanh toán", Value = (InvoiceStatus?)InvoiceStatus.Paid },
+        new { Text = "Đã hủy", Value = (InvoiceStatus?)InvoiceStatus.Cancelled }
     };
 
             cbStatus.DataSource = statusList;
@@ -107,6 +82,7 @@ namespace DentalClinic.APP
             cbStatus.SelectedIndex = 0;
         }
 
+        // LOAD DỮ LIỆU LÊN DGV
         public void LoadData()
         {
             InvoiceStatus? status = null;
@@ -118,11 +94,13 @@ namespace DentalClinic.APP
             else if (cbStatus.SelectedIndex == 3)
                 status = InvoiceStatus.Cancelled;
 
-            dgvInvoiceList.DataSource =
-                _invoiceBLL.GetAllInvoices(
-                    dtpStart.Value,
-                    dtpEnd.Value,
-                    status);
+            string keyword = txtSearch.Text.Trim();
+
+            dgvInvoiceList.DataSource = _invoiceBLL.GetAllInvoices(
+                dtpStart.Value,
+                dtpEnd.Value,
+                keyword,
+                status);
         }
 
         private void dgvInvoiceList_CellContentClick(
@@ -159,6 +137,26 @@ namespace DentalClinic.APP
                     this,
                     EventArgs.Empty);
             }
+        }
+
+        private void dtpStart_ValueChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

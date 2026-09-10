@@ -65,7 +65,6 @@
             // rbExamination
             // 
             rbExamination.Appearance = Appearance.Button;
-            rbExamination.Checked = true;
             rbExamination.FlatAppearance.BorderSize = 0;
             rbExamination.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
             rbExamination.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
@@ -77,7 +76,6 @@
             rbExamination.Name = "rbExamination";
             rbExamination.Size = new Size(200, 60);
             rbExamination.TabIndex = 8;
-            rbExamination.TabStop = true;
             rbExamination.Text = "Khám Bệnh";
             rbExamination.UseVisualStyleBackColor = true;
             rbExamination.CheckedChanged += rbExamination_CheckedChanged;
@@ -181,6 +179,7 @@
             Padding = new Padding(10);
             Text = "Nha Khoa Gia An - Bác sĩ";
             WindowState = FormWindowState.Maximized;
+            Load += Form_Doctor_Load;
             panel2.ResumeLayout(false);
             panel3.ResumeLayout(false);
             ResumeLayout(false);

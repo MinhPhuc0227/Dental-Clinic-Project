@@ -55,6 +55,7 @@ namespace DentalClinic.App
 
         private void Admin_Form_Load(object sender, EventArgs e)
         {
+            rbDashBoard.Checked = true;
             ShowUC(dashboardUC);
             dashboardUC.LoadDashboard();
         }

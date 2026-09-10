@@ -51,14 +51,16 @@ namespace DentalClinic.APP
 
         private void InitFilterControls()
         {
-            dtpStart.Value = DateTime.Today;
-            dtpEnd.Value = DateTime.Today.AddDays(7);
+            // Mặc định DateTimePicker lấy tháng hiện tại
+            DateTime today = DateTime.Today;
+            dtpStart.Value = new DateTime(today.Year, today.Month, 1);
+            dtpEnd.Value = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
 
             // Nạp danh sách bác sĩ vào ComboBox
             var doctorRes = _appointmentBLL.GetDoctorsLookup();
             if (doctorRes.IsSuccess && doctorRes.Data != null)
             {
-                var doctors = new List<LookupItemDto> { new LookupItemDto { Id = 0, Name = "-- Tất cả Bác sĩ --" } };
+                var doctors = new List<LookupItemDto> { new LookupItemDto { Id = 0, Name = "Tất cả Bác sĩ" } };
                 doctors.AddRange(doctorRes.Data);
                 cbDoctor.DataSource = doctors;
                 cbDoctor.DisplayMember = "Name";
@@ -68,7 +70,7 @@ namespace DentalClinic.APP
             // Nạp danh sách Trạng thái
             var statusList = new List<object>
             {
-                new { Value = (AppointmentStatus?)null, Text = "-- Tất cả Trạng thái --" },
+                new { Value = (AppointmentStatus?)null, Text = "Tất cả Trạng thái" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Scheduled, Text = "Đã đặt lịch" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.CheckedIn, Text = "Đã tiếp nhận" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Cancelled, Text = "Đã hủy" }
@@ -76,13 +78,6 @@ namespace DentalClinic.APP
             cbStatus.DataSource = statusList;
             cbStatus.DisplayMember = "Text";
             cbStatus.ValueMember = "Value";
-
-            // Sự kiện tự động lọc
-            txtSearch.TextChanged += (s, e) => LoadData();
-            dtpStart.ValueChanged += (s, e) => LoadData();
-            dtpEnd.ValueChanged += (s, e) => LoadData();
-            cbDoctor.SelectedIndexChanged += (s, e) => LoadData();
-            cbStatus.SelectedIndexChanged += (s, e) => LoadData();
         }
 
         private void SetupDataGridView()
@@ -242,6 +237,31 @@ namespace DentalClinic.APP
                     }
                 }
             }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void cbDoctor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void dtpStart_ValueChanged(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

@@ -59,45 +59,46 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(913, 192);
+            panel1.Size = new Size(964, 171);
             panel1.TabIndex = 0;
             // 
             // label1
             // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F);
+            label1.Font = new Font("Segoe UI Semibold", 12F);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(510, 23);
+            label1.Location = new Point(665, 81);
             label1.Name = "label1";
-            label1.Size = new Size(91, 28);
+            label1.Size = new Size(97, 28);
             label1.TabIndex = 42;
             label1.Text = "Tìm kiếm";
             // 
             // txtSearch
             // 
-            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(607, 20);
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
+            txtSearch.Font = new Font("Segoe UI", 10F);
+            txtSearch.Location = new Point(665, 112);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(268, 34);
+            txtSearch.Size = new Size(268, 30);
             txtSearch.TabIndex = 41;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // cbStatus
             // 
             cbStatus.Font = new Font("Segoe UI", 10F);
             cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(675, 79);
+            cbStatus.Location = new Point(410, 112);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(200, 31);
             cbStatus.TabIndex = 40;
+            cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 12F);
             label7.ForeColor = Color.DarkCyan;
-            label7.Location = new Point(567, 78);
+            label7.Location = new Point(410, 81);
             label7.Name = "label7";
             label7.Size = new Size(102, 28);
             label7.TabIndex = 39;
@@ -108,27 +109,29 @@
             dtpEnd.CustomFormat = "dd/MM/yyyy";
             dtpEnd.Font = new Font("Segoe UI", 10F);
             dtpEnd.Format = DateTimePickerFormat.Custom;
-            dtpEnd.Location = new Point(387, 76);
+            dtpEnd.Location = new Point(217, 112);
             dtpEnd.Name = "dtpEnd";
             dtpEnd.Size = new Size(138, 30);
             dtpEnd.TabIndex = 38;
+            dtpEnd.ValueChanged += dtpEnd_ValueChanged;
             // 
             // dtpStart
             // 
             dtpStart.CustomFormat = "dd/MM/yyyy";
             dtpStart.Font = new Font("Segoe UI", 10F);
             dtpStart.Format = DateTimePickerFormat.Custom;
-            dtpStart.Location = new Point(108, 76);
+            dtpStart.Location = new Point(24, 112);
             dtpStart.Name = "dtpStart";
             dtpStart.Size = new Size(138, 30);
             dtpStart.TabIndex = 37;
+            dtpStart.ValueChanged += dtpStart_ValueChanged;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 12F);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(282, 76);
+            label5.Location = new Point(217, 81);
             label5.Name = "label5";
             label5.Size = new Size(99, 28);
             label5.TabIndex = 36;
@@ -139,7 +142,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 12F);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(17, 76);
+            label4.Location = new Point(24, 81);
             label4.Name = "label4";
             label4.Size = new Size(85, 28);
             label4.TabIndex = 35;
@@ -148,11 +151,11 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label3.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label3.ForeColor = Color.DarkCyan;
             label3.Location = new Point(17, 20);
             label3.Name = "label3";
-            label3.Size = new Size(345, 28);
+            label3.Size = new Size(413, 32);
             label3.TabIndex = 34;
             label3.Text = "DANH SÁCH HÓA ĐƠN PHÁT SINH";
             // 
@@ -186,7 +189,7 @@
             dgvInvoiceList.Dock = DockStyle.Fill;
             dgvInvoiceList.EnableHeadersVisualStyles = false;
             dgvInvoiceList.GridColor = Color.DarkCyan;
-            dgvInvoiceList.Location = new Point(10, 202);
+            dgvInvoiceList.Location = new Point(10, 181);
             dgvInvoiceList.MultiSelect = false;
             dgvInvoiceList.Name = "dgvInvoiceList";
             dgvInvoiceList.ReadOnly = true;
@@ -194,7 +197,7 @@
             dgvInvoiceList.RowHeadersWidth = 51;
             dgvInvoiceList.RowTemplate.Height = 38;
             dgvInvoiceList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInvoiceList.Size = new Size(913, 357);
+            dgvInvoiceList.Size = new Size(964, 378);
             dgvInvoiceList.TabIndex = 6;
             dgvInvoiceList.CellContentClick += dgvInvoiceList_CellContentClick;
             // 
@@ -209,7 +212,7 @@
             Margin = new Padding(4);
             Name = "UC_Receptionist_InvoiceList";
             Padding = new Padding(10);
-            Size = new Size(933, 569);
+            Size = new Size(984, 569);
             Load += UC_Receptionist_InvoiceList_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

@@ -122,7 +122,6 @@
             // rbVisit
             // 
             rbVisit.Appearance = Appearance.Button;
-            rbVisit.Checked = true;
             rbVisit.FlatAppearance.BorderSize = 0;
             rbVisit.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
             rbVisit.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
@@ -134,7 +133,6 @@
             rbVisit.Name = "rbVisit";
             rbVisit.Size = new Size(200, 60);
             rbVisit.TabIndex = 8;
-            rbVisit.TabStop = true;
             rbVisit.Text = "Tiếp Nhận";
             rbVisit.UseVisualStyleBackColor = true;
             rbVisit.CheckedChanged += rbVisit_CheckedChanged;

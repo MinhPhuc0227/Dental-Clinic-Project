@@ -35,7 +35,7 @@ namespace DentalClinic.APP
             LoadExaminedList();
         }
 
-        private void LoadExaminedList()
+        public void LoadExaminedList()
         {
             VisitStatus? selectedStatus = null;
 
@@ -55,7 +55,7 @@ namespace DentalClinic.APP
             ClearDetails();
         }
 
-        private void ClearDetails()
+        public void ClearDetails()
         {
             lbMedicalRecordId.Text = "...";
             lbExaminationDateTime.Text = "...";

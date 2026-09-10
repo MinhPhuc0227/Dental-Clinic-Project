@@ -16,14 +16,17 @@ namespace DentalClinic.DAL
             _context = context;
         }
 
-        public List<WaitingQueueDto> GetWaitingQueue(DateTime date, string keyword, int? doctorId, VisitStatus? status)
+        public List<WaitingQueueDto> GetWaitingQueue(DateTime startDate, DateTime endDate, string keyword, int? doctorId, VisitStatus? status)
         {
+            DateTime start = startDate.Date;
+            DateTime end = endDate.Date.AddDays(1);
+
             var query = _context.Visits
                 .Include(v => v.Patient)
                 .Include(v => v.Doctor)
                 .Include(v => v.Appointment)
                 .AsNoTracking()
-                .Where(v => v.CheckInDateTime.Date == date.Date);
+                .Where(v => v.CheckInDateTime >= start && v.CheckInDateTime < end);
 
             // Lọc theo trạng thái
             if (status.HasValue)
@@ -41,8 +44,10 @@ namespace DentalClinic.DAL
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 string kw = keyword.Trim().ToLower();
-                query = query.Where(v => v.Patient.FullName.ToLower().Contains(kw) ||
-                                         v.Patient.Phone.Contains(kw));
+
+                query = query.Where(v =>
+                    v.Patient.FullName.ToLower().Contains(kw) ||
+                    v.Patient.Phone.Contains(kw));
             }
 
             var rawList = query
@@ -63,8 +68,8 @@ namespace DentalClinic.DAL
                 })
                 .ToList();
 
-            // Ưu tiên 1: Khách có lịch hẹn (IsAppointment = true) lên trên đầu.
-            // Ưu tiên 2: Ai check-in sớm hơn (CheckInDateTime) được khám trước.
+            // Ưu tiên 1: Khách có lịch hẹn lên trước.
+            // Ưu tiên 2: Ai check-in sớm hơn được khám trước.
             return rawList
                 .OrderByDescending(x => x.IsAppointment)
                 .ThenBy(x => x.CheckInDateTime)
@@ -87,22 +92,47 @@ namespace DentalClinic.DAL
                 .ToList();
         }
 
-        public List<VisitListDto> GetAllVisits(DateTime date, string keyword)
+        public List<VisitListDto> GetAllVisits(
+    DateTime startDate,
+    DateTime endDate,
+    string keyword = "",
+    int? doctorId = null,
+    VisitStatus? status = null)
         {
+            DateTime start = startDate.Date;
+            DateTime end = endDate.Date.AddDays(1);
+
             var query = _context.Visits
                 .Include(v => v.Patient)
                 .Include(v => v.Doctor)
                 .AsNoTracking()
-                .Where(v => v.CheckInDateTime.Date == date.Date);
+                .Where(v => v.CheckInDateTime >= start &&
+                            v.CheckInDateTime < end);
 
+            // Tìm kiếm theo tên bệnh nhân hoặc SĐT
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                string kw = keyword.Trim().ToLower();
-                query = query.Where(v => v.Patient.FullName.ToLower().Contains(kw) ||
-                                         v.Patient.Phone.Contains(kw));
+                string kw = keyword.Trim();
+
+                query = query.Where(v =>
+                    v.Patient.FullName.Contains(kw) ||
+                    v.Patient.Phone.Contains(kw));
             }
 
-            return query.OrderByDescending(v => v.CheckInDateTime)
+            // Lọc theo bác sĩ
+            if (doctorId.HasValue && doctorId.Value > 0)
+            {
+                query = query.Where(v => v.DoctorId == doctorId.Value);
+            }
+
+            // Lọc theo trạng thái
+            if (status.HasValue)
+            {
+                query = query.Where(v => v.Status == status.Value);
+            }
+
+            return query
+                .OrderByDescending(v => v.CheckInDateTime)
                 .Select(v => new VisitListDto
                 {
                     VisitId = v.VisitId,
@@ -114,7 +144,8 @@ namespace DentalClinic.DAL
                     Status = v.Status,
                     AppointmentId = v.AppointmentId,
                     QueueNumber = v.QueueNumber
-                }).ToList();
+                })
+                .ToList();
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using DentalClinic.BLL;
+using DentalClinic.DTO.Common;
 using DentalClinic.MODEL;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -33,15 +34,76 @@ namespace DentalClinic.APP
         private void UC_Receptionist_Visit_Load(object sender, EventArgs e)
         {
             SetupDataGridView();
-            dtpDate.Value = DateTime.Today;
-
-            // Đăng ký sự kiện tự động tìm kiếm
-            dtpDate.ValueChanged += (s, ev) => LoadData();
-            txtSearch.TextChanged += (s, ev) => LoadData();
-
+            InitFilterControls();
             LoadData();
         }
 
+        private void InitFilterControls()
+        {
+            // Đặt dtp mặc định
+            DateTime today = DateTime.Today;
+            dtpStart.Value = today;
+            dtpEnd.Value = today;
+            //dtpStart.Value = new DateTime(today.Year, today.Month, 1);
+            //dtpEnd.Value = new DateTime(
+            //    today.Year,
+            //    today.Month,
+            //    DateTime.DaysInMonth(today.Year, today.Month));
+
+            // Load bác sĩ
+            var doctorResult = _visitBLL.GetDoctorsLookup();
+
+            if (doctorResult.IsSuccess && doctorResult.Data != null)
+            {
+                var doctors = new List<LookupItemDto>
+        {
+            new LookupItemDto
+            {
+                Id = 0,
+                Name = "Tất cả Bác sĩ"
+            }
+        };
+
+                doctors.AddRange(doctorResult.Data);
+
+                cbDoctor.DataSource = doctors;
+                cbDoctor.DisplayMember = "Name";
+                cbDoctor.ValueMember = "Id";
+                cbDoctor.SelectedIndex = 0;
+            }
+
+            // Load trạng thái
+            var statusList = new[]
+            {
+        new { Value = (VisitStatus?)null, Text = "Tất cả Trạng thái" },
+        new { Value = (VisitStatus?)VisitStatus.Waiting, Text = "Chờ khám" },
+        new { Value = (VisitStatus?)VisitStatus.InExamination, Text = "Đang khám" },
+        new { Value = (VisitStatus?)VisitStatus.WaitingForPayment, Text = "Chờ thanh toán" },
+        new { Value = (VisitStatus?)VisitStatus.Completed, Text = "Khám xong" },
+        new { Value = (VisitStatus?)VisitStatus.Cancelled, Text = "Đã hủy" }
+    };
+
+            cbStatus.DataSource = statusList;
+            cbStatus.DisplayMember = "Text";
+            cbStatus.ValueMember = "Value";
+            cbStatus.SelectedIndex = 0;
+
+            // Load sắp xếp
+            var sortList = new List<object>
+    {
+        new { Value = "VisitIdAsc", Text = "Mã tiếp nhận tăng dần" },
+        new { Value = "VisitIdDesc", Text = "Mã tiếp nhận giảm dần" },
+        new { Value = "QueueAsc", Text = "STT tăng dần" },
+        new { Value = "QueueDesc", Text = "STT giảm dần" }
+    };
+
+            cbSort.DataSource = sortList;
+            cbSort.DisplayMember = "Text";
+            cbSort.ValueMember = "Value";
+            cbSort.SelectedIndex = 0;
+        }
+
+        // set up 
         private void SetupDataGridView()
         {
             dgvVisit.AutoGenerateColumns = false;
@@ -52,7 +114,19 @@ namespace DentalClinic.APP
             dgvVisit.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientName", HeaderText = "Bệnh Nhân", Width = 150 });
             dgvVisit.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientPhone", HeaderText = "SĐT", Width = 100 });
             dgvVisit.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "DoctorName", HeaderText = "Bác Sĩ", Width = 150 });
-            dgvVisit.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "CheckInDateTime", HeaderText = "Giờ Đến", Width = 120 });
+
+            dgvVisit.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "CheckInDateTime",
+                HeaderText = "Ngày Đến",
+                Width = 130,
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    Format = "dd/MM/yyyy HH:mm",
+                    Alignment = DataGridViewContentAlignment.MiddleCenter
+                }
+            });
+
             dgvVisit.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ReasonForVisit", HeaderText = "Lý Do Khám", Width = 150 });
             dgvVisit.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "StatusText", HeaderText = "Trạng Thái", Width = 100 });
             dgvVisit.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "VisitType", HeaderText = "Loại", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
@@ -60,11 +134,61 @@ namespace DentalClinic.APP
 
         public void LoadData()
         {
-            var result = _visitBLL.GetAllVisits(dtpDate.Value, txtSearch.Text);
-            if (result.IsSuccess)
+            int? doctorId = null;
+
+            if (cbDoctor.SelectedValue is int dId && dId > 0)
             {
-                dgvVisit.DataSource = result.Data;
+                doctorId = dId;
             }
+
+            VisitStatus? status = null;
+
+            if (cbStatus.SelectedValue is VisitStatus selectedStatus)
+            {
+                status = selectedStatus;
+            }
+
+            var result = _visitBLL.GetAllVisits(
+                dtpStart.Value.Date,
+                dtpEnd.Value.Date,
+                txtSearch.Text.Trim(),
+                doctorId,
+                status);
+
+            if (!result.IsSuccess || result.Data == null)
+            {
+                dgvVisit.DataSource = null;
+                MessageBox.Show(
+                    result.Message,
+                    "Thông báo lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            var visits = result.Data;
+
+            switch (cbSort.SelectedValue?.ToString())
+            {
+                case "VisitIdAsc":
+                    visits = visits.OrderBy(v => v.VisitId).ToList();
+                    break;
+
+                case "VisitIdDesc":
+                    visits = visits.OrderByDescending(v => v.VisitId).ToList();
+                    break;
+
+                case "QueueAsc":
+                    visits = visits.OrderBy(v => v.QueueNumber).ToList();
+                    break;
+
+                case "QueueDesc":
+                    visits = visits.OrderByDescending(v => v.QueueNumber).ToList();
+                    break;
+            }
+
+            dgvVisit.DataSource = null;
+            dgvVisit.DataSource = visits;
         }
 
         private void btCreateVisit_Click(object sender, EventArgs e)
@@ -78,6 +202,36 @@ namespace DentalClinic.APP
                     LoadData();
                 }
             }
+        }
+
+        private void dtpStart_ValueChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void cbDoctor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

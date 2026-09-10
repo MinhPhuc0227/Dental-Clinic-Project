@@ -38,6 +38,11 @@ namespace DentalClinic.APP
             SetupInvoiceDetailGrid();
             ClearPatientInfo();
             LoadPaymentMethods();
+
+            DateTime today = DateTime.Today;
+            dtpStart.Value = today;
+            dtpEnd.Value = today;
+
             LoadWaitingList();
         }
 
@@ -64,9 +69,17 @@ namespace DentalClinic.APP
         }
 
         // Load dữ liệu lên dgvWaitingList
-        public void LoadWaitingList(string keyword = "")
+        public void LoadWaitingList()
         {
-            var waitingList = _invoiceBLL.GetWaitingPayments(keyword);
+            DateTime startDate = dtpStart.Value.Date;
+            DateTime endDate = dtpEnd.Value.Date;
+            string keyword = txtSearch.Text.Trim();
+
+            var waitingList = _invoiceBLL.GetWaitingPayments(
+                startDate,
+                endDate,
+                keyword);
+
             dgvWaitingList.DataSource = waitingList;
         }
 
@@ -104,7 +117,7 @@ namespace DentalClinic.APP
             dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "InvoiceDateTime",
-                HeaderText = "Giờ tạo HĐ", 
+                HeaderText = "Giờ tạo HĐ",
                 Width = 60,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm" }
             });
@@ -176,7 +189,7 @@ namespace DentalClinic.APP
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            LoadWaitingList(txtSearch.Text.Trim());
+            LoadWaitingList();
         }
 
         private void btPayment_Click(object sender, EventArgs e)
@@ -335,7 +348,7 @@ namespace DentalClinic.APP
             }
 
             // 10. Load lại danh sách
-            LoadWaitingList(txtSearch.Text.Trim());
+            LoadWaitingList();
 
             // 11. Reset giao diện
             ClearPatientInfo();
@@ -461,8 +474,18 @@ namespace DentalClinic.APP
             // Chỉ cho phép nhập số và phím Backspace (xóa)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                e.Handled = true; 
+                e.Handled = true;
             }
+        }
+
+        private void dtpStart_ValueChanged(object sender, EventArgs e)
+        {
+            LoadWaitingList();
+        }
+
+        private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            LoadWaitingList();
         }
     }
 }

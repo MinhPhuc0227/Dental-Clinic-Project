@@ -34,12 +34,12 @@ namespace DentalClinic.APP
         private readonly IServiceProvider _serviceProvider;
 
         public Form_Receptionist(
-    int accountId,
-    string receptionistName,
-    Receptionist_BLL receptionistBLL,
-    Visit_BLL visitBLL,
-    Appointment_BLL appointmentBLL,
-    IServiceProvider serviceProvider)
+            int accountId,
+            string receptionistName,
+            Receptionist_BLL receptionistBLL,
+            Visit_BLL visitBLL,
+            Appointment_BLL appointmentBLL,
+            IServiceProvider serviceProvider)
         {
             InitializeComponent();
 
@@ -63,44 +63,44 @@ namespace DentalClinic.APP
             }
 
             AppointmentUC = new UC_Receptionist_Appointment(
-    _appointmentBLL,
-    _visitBLL,
-    _serviceProvider,
-    _currentReceptionistId,
-    _currentReceptionistName);
+                _appointmentBLL,
+                _visitBLL,
+                _serviceProvider,
+                _currentReceptionistId,
+                _currentReceptionistName);
 
-            WaitingQueueUC =
-                new UC_Receptionist_WaitingQueue(
-                    _visitBLL);
+            WaitingQueueUC = new UC_Receptionist_WaitingQueue(
+                _visitBLL);
 
             VisitUC = new UC_Receptionist_Visit(
-    _visitBLL,
-    _serviceProvider,
-    _currentReceptionistId);
+                _visitBLL,
+                _serviceProvider,
+                _currentReceptionistId);
 
             InvoiceUC = ActivatorUtilities.CreateInstance<UC_Receptionist_Invoice>(
-    _serviceProvider,
-    _currentReceptionistId,
-    _currentReceptionistName);
+                _serviceProvider,
+                _currentReceptionistId,
+                _currentReceptionistName);
 
             InvoiceListUC = ActivatorUtilities.CreateInstance<UC_Receptionist_InvoiceList>(
-    _serviceProvider,
-    _currentReceptionistId,
-    _currentReceptionistName);
+                _serviceProvider,
+                _currentReceptionistId,
+                _currentReceptionistName);
 
-            InvoiceListUC.InvoiceChanged +=
-                InvoiceListUC_InvoiceChanged;
+            InvoiceListUC.InvoiceChanged += InvoiceListUC_InvoiceChanged;
 
             this.Text = $"Lễ tân: {_currentReceptionistName}";
-
+            rbVisit.Checked = true;
             ShowUC(VisitUC);
         }
 
+        // SỰ KIỆN 
         private void InvoiceListUC_InvoiceChanged(object? sender, EventArgs e)
         {
             InvoiceUC?.LoadWaitingList();
         }
 
+        // HÀM MỞ UC
         private void ShowUC(UserControl uc)
         {
             if (uc == null) return;
@@ -114,6 +114,7 @@ namespace DentalClinic.APP
             uc.BringToFront();
         }
 
+        // VISIT
         private void rbVisit_CheckedChanged(object sender, EventArgs e)
         {
             if (rbVisit.Checked)
@@ -123,6 +124,7 @@ namespace DentalClinic.APP
             }
         }
 
+        // APPOINTMENT
         private void rbAppointment_CheckedChanged(object sender, EventArgs e)
         {
             if (rbAppointment.Checked)
@@ -132,6 +134,7 @@ namespace DentalClinic.APP
             }
         }
 
+        // WAITING QUEUE
         private void rbWaitingQueue_CheckedChanged(object sender, EventArgs e)
         {
             if (rbWaitingQueue.Checked)
@@ -141,6 +144,7 @@ namespace DentalClinic.APP
             }
         }
 
+        // INVOICE
         private void rbInvoice_CheckedChanged(object sender, EventArgs e)
         {
             if (rbInvoice.Checked)
@@ -150,11 +154,7 @@ namespace DentalClinic.APP
             }
         }
 
-        private void btLogout_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
+        // INVOCIE LIST
         private void rbInvoiceList_CheckedChanged(object sender, EventArgs e)
         {
             if (rbInvoiceList.Checked)
@@ -162,6 +162,12 @@ namespace DentalClinic.APP
                 ShowUC(InvoiceListUC);
                 InvoiceListUC?.LoadData();
             }
+        }
+
+        // LOG OUT
+        private void btLogout_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

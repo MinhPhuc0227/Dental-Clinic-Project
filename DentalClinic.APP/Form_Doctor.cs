@@ -35,13 +35,13 @@ namespace DentalClinic.APP
         private readonly IServiceProvider _serviceProvider;
 
         public Form_Doctor(
-    int accountId,
-    string userName,
-    Doctor_BLL doctorBll,
-    MedicalRecord_BLL medicalRecordBLL,
-    Visit_BLL visitBLL,
-    Appointment_BLL appointmentBLL,
-    IServiceProvider serviceProvider)
+            int accountId,
+            string userName,
+            Doctor_BLL doctorBll,
+            MedicalRecord_BLL medicalRecordBLL,
+            Visit_BLL visitBLL,
+            Appointment_BLL appointmentBLL,
+            IServiceProvider serviceProvider)
         {
             InitializeComponent();
 
@@ -67,21 +67,14 @@ namespace DentalClinic.APP
 
             this.Text = $"Bác sĩ: {_currentDoctorName}";
 
-            ExaminationUC = ActivatorUtilities.CreateInstance<UC_Doctor_Examination>(
-                _serviceProvider,
-                _currentDoctorId);
+            ExaminationUC = ActivatorUtilities.CreateInstance<UC_Doctor_Examination>(_serviceProvider, _currentDoctorId);
 
-            DoctorAppointmentUC =
-                new UC_Doctor_Appointment(
-                    _appointmentBLL,
-                    _currentDoctorId);
+            DoctorAppointmentUC = new UC_Doctor_Appointment(_appointmentBLL, _currentDoctorId);
 
-            MedicalRecordUC =
-                new UC_Doctor_MedicalRecord(
-                    _medicalRecordBLL,
-                    _currentDoctorId);
+            MedicalRecordUC = new UC_Doctor_MedicalRecord(_medicalRecordBLL, _currentDoctorId);
         }
 
+        // HÀM MỞ UC
         private void ShowUC(UserControl uc)
         {
             if (uc == null) return;
@@ -95,11 +88,7 @@ namespace DentalClinic.APP
             uc.BringToFront();
         }
 
-        private void btLogout_Click_1(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
+        // EXAMINATION
         private void rbExamination_CheckedChanged(object sender, EventArgs e)
         {
             if (rbExamination.Checked)
@@ -111,22 +100,36 @@ namespace DentalClinic.APP
             }
         }
 
+        // APPOINTMENT
         private void rbDoctorAppointment_CheckedChanged(object sender, EventArgs e)
         {
             if (rbDoctorAppointment.Checked)
             {
                 ShowUC(DoctorAppointmentUC);
-                //DoctorAppointmentUC.LoadData();
+                DoctorAppointmentUC.LoadData();
             }
         }
 
+        // MEDICAL RECORD
         private void rbMedicalRecord_CheckedChanged(object sender, EventArgs e)
         {
             if (rbMedicalRecord.Checked)
             {
                 ShowUC(MedicalRecordUC);
-                //MedicalRecordUC.LoadData();
+                MedicalRecordUC.LoadExaminedList();
+                MedicalRecordUC.ClearDetails();
             }
+        }
+
+        // LOG OUT
+        private void btLogout_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Form_Doctor_Load(object sender, EventArgs e)
+        {
+            rbExamination.Checked = true;
         }
     }
 }

@@ -17,21 +17,25 @@ namespace DentalClinic.DAL
         }
 
         // 1. Lấy danh sách những người đã khám xong nhưng chưa xuất hóa đơn Paid
-        public List<WaitingPaymentDto> GetWaitingPayments(string keyword)
+        public List<WaitingPaymentDto> GetWaitingPayments(DateTime startDate, DateTime endDate, string keyword)
         {
+            DateTime start = startDate.Date;
+            DateTime end = endDate.Date.AddDays(1);
+
             var query = _context.Invoices
                 .Include(i => i.Visit)
                     .ThenInclude(v => v.Patient)
                 .Include(i => i.Visit)
                     .ThenInclude(v => v.Doctor)
-                .Where(i => i.Status == InvoiceStatus.Unpaid);
+                .Where(i => i.Status == InvoiceStatus.Unpaid)
+                .Where(i => i.InvoiceDateTime >= start && i.InvoiceDateTime < end);
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                string kw = keyword.Trim();
+                string kw = keyword.Trim().ToLower();
 
                 query = query.Where(i =>
-                    i.Visit.Patient.FullName.Contains(kw) ||
+                    i.Visit.Patient.FullName.ToLower().Contains(kw) ||
                     i.Visit.Patient.Phone.Contains(kw));
             }
 
@@ -479,17 +483,13 @@ namespace DentalClinic.DAL
             return _context.PaymentMethods.ToList();
         }
 
-        public List<InvoiceDisplayDto> GetAllInvoices(
-    DateTime fromDate,
-    DateTime toDate,
-    InvoiceStatus? status)
+        public List<InvoiceDisplayDto> GetAllInvoices(DateTime fromDate, DateTime toDate, string keyword = "", InvoiceStatus? status = null)
         {
             var query = _context.Invoices.AsQueryable();
 
             // Lọc theo khoảng thời gian
-            query = query.Where(i =>
-                i.InvoiceDateTime >= fromDate.Date &&
-                i.InvoiceDateTime <= toDate.Date.AddDays(1).AddTicks(-1));
+            query = query.Where(i => i.InvoiceDateTime >= fromDate.Date &&
+                                     i.InvoiceDateTime < toDate.Date.AddDays(1));
 
             // Lọc theo trạng thái
             if (status.HasValue)
@@ -497,31 +497,32 @@ namespace DentalClinic.DAL
                 query = query.Where(i => i.Status == status.Value);
             }
 
+            // Lọc theo từ khóa: Mã HĐ, tên bệnh nhân, SĐT
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                string kw = keyword.Trim().ToLower();
+
+                query = query.Where(i =>
+                    i.InvoiceId.ToString().Contains(kw) ||
+                    i.Visit.Patient.FullName.ToLower().Contains(kw) ||
+                    i.Visit.Patient.Phone.Contains(kw));
+            }
+
             return query
                 .Select(i => new InvoiceDisplayDto
                 {
                     InvoiceId = i.InvoiceId,
                     InvoiceDateTime = i.InvoiceDateTime,
-
                     PatientName = i.Visit.Patient.FullName,
-
                     ReceptionistName = i.Receptionist.FullName,
-
-                    PaymentMethodName = i.PaymentMethod != null
-                        ? i.PaymentMethod.PaymentMethodName
-                        : "Chưa thanh toán",
-
+                    PaymentMethodName = i.PaymentMethod.PaymentMethodName,
                     TotalAmount = i.TotalAmount,
                     AmountGiven = i.AmountGiven,
                     ChangeAmount = i.ChangeAmount,
-
-                    Status = i.Status == InvoiceStatus.Unpaid
-                        ? "Chưa thanh toán"
-                        : i.Status == InvoiceStatus.Paid
-                            ? "Đã thanh toán"
-                            : i.Status == InvoiceStatus.Cancelled
-                                ? "Đã hủy"
-                                : "Khác"
+                    Status = i.Status == InvoiceStatus.Paid
+                        ? "Đã thanh toán" : i.Status == InvoiceStatus.Cancelled
+                        ? "Đã hủy"
+                        : "Chưa thanh toán"
                 })
                 .OrderByDescending(i => i.InvoiceDateTime)
                 .ToList();

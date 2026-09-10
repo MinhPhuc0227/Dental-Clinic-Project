@@ -255,7 +255,6 @@
             // 
             rbDashBoard.Appearance = Appearance.Button;
             rbDashBoard.BackColor = Color.DarkCyan;
-            rbDashBoard.Checked = true;
             rbDashBoard.FlatAppearance.BorderSize = 0;
             rbDashBoard.FlatAppearance.CheckedBackColor = Color.LightSeaGreen;
             rbDashBoard.FlatAppearance.MouseDownBackColor = Color.LightSeaGreen;
@@ -267,7 +266,6 @@
             rbDashBoard.Name = "rbDashBoard";
             rbDashBoard.Size = new Size(200, 60);
             rbDashBoard.TabIndex = 0;
-            rbDashBoard.TabStop = true;
             rbDashBoard.Text = "DashBoard";
             rbDashBoard.UseVisualStyleBackColor = false;
             rbDashBoard.CheckedChanged += rbDashBoard_CheckedChanged;

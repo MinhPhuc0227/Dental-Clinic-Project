@@ -31,12 +31,14 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            dtpEnd = new DateTimePicker();
+            label5 = new Label();
+            dtpStart = new DateTimePicker();
+            label3 = new Label();
             label2 = new Label();
             txtSearch = new TextBox();
             cbAppointmentStatus = new ComboBox();
             label7 = new Label();
-            dtpAppointmentDate = new DateTimePicker();
-            label4 = new Label();
             label1 = new Label();
             dgvAppointment = new DataGridView();
             panel1.SuspendLayout();
@@ -45,25 +47,72 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(dtpEnd);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(dtpStart);
+            panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(txtSearch);
             panel1.Controls.Add(cbAppointmentStatus);
             panel1.Controls.Add(label7);
-            panel1.Controls.Add(dtpAppointmentDate);
-            panel1.Controls.Add(label4);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(14, 14);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1037, 146);
+            panel1.Size = new Size(1273, 168);
             panel1.TabIndex = 0;
+            // 
+            // dtpEnd
+            // 
+            dtpEnd.CustomFormat = "dd/MM/yyyy";
+            dtpEnd.Font = new Font("Segoe UI", 10F);
+            dtpEnd.Format = DateTimePickerFormat.Custom;
+            dtpEnd.Location = new Point(214, 115);
+            dtpEnd.Name = "dtpEnd";
+            dtpEnd.Size = new Size(152, 30);
+            dtpEnd.TabIndex = 37;
+            dtpEnd.ValueChanged += dtpEnd_ValueChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI Semibold", 12F);
+            label5.ForeColor = Color.DarkCyan;
+            label5.Location = new Point(24, 83);
+            label5.Name = "label5";
+            label5.Size = new Size(85, 28);
+            label5.TabIndex = 36;
+            label5.Text = "Từ ngày";
+            // 
+            // dtpStart
+            // 
+            dtpStart.CustomFormat = "dd/MM/yyyy";
+            dtpStart.Font = new Font("Segoe UI", 10F);
+            dtpStart.Format = DateTimePickerFormat.Custom;
+            dtpStart.Location = new Point(24, 115);
+            dtpStart.Name = "dtpStart";
+            dtpStart.Size = new Size(152, 30);
+            dtpStart.TabIndex = 35;
+            dtpStart.ValueChanged += dtpStart_ValueChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI Semibold", 12F);
+            label3.ForeColor = Color.DarkCyan;
+            label3.Location = new Point(214, 83);
+            label3.Name = "label3";
+            label3.Size = new Size(99, 28);
+            label3.TabIndex = 34;
+            label3.Text = "Đến ngày";
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(616, 66);
+            label2.Location = new Point(980, 83);
             label2.Name = "label2";
             label2.Size = new Size(97, 28);
             label2.TabIndex = 33;
@@ -72,63 +121,47 @@
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(624, 97);
+            txtSearch.Location = new Point(980, 115);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(268, 30);
             txtSearch.TabIndex = 32;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // cbAppointmentStatus
             // 
+            cbAppointmentStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbAppointmentStatus.Font = new Font("Segoe UI", 10F);
             cbAppointmentStatus.FormattingEnabled = true;
-            cbAppointmentStatus.Location = new Point(357, 97);
+            cbAppointmentStatus.Location = new Point(678, 114);
             cbAppointmentStatus.Name = "cbAppointmentStatus";
-            cbAppointmentStatus.Size = new Size(200, 31);
+            cbAppointmentStatus.Size = new Size(268, 31);
             cbAppointmentStatus.TabIndex = 31;
+            cbAppointmentStatus.SelectedIndexChanged += cbAppointmentStatus_SelectedIndexChanged;
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 12F);
             label7.ForeColor = Color.DarkCyan;
-            label7.Location = new Point(351, 66);
+            label7.Location = new Point(678, 83);
             label7.Name = "label7";
             label7.Size = new Size(102, 28);
             label7.TabIndex = 30;
             label7.Text = "Trạng thái";
-            // 
-            // dtpAppointmentDate
-            // 
-            dtpAppointmentDate.CustomFormat = "dd/MM/yyyy";
-            dtpAppointmentDate.Font = new Font("Segoe UI", 10F);
-            dtpAppointmentDate.Format = DateTimePickerFormat.Custom;
-            dtpAppointmentDate.Location = new Point(146, 98);
-            dtpAppointmentDate.Name = "dtpAppointmentDate";
-            dtpAppointmentDate.Size = new Size(138, 30);
-            dtpAppointmentDate.TabIndex = 29;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI Semibold", 12F);
-            label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(140, 66);
-            label4.Name = "label4";
-            label4.Size = new Size(59, 28);
-            label4.TabIndex = 28;
-            label4.Text = "Ngày";
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(394, 18);
+            label1.Location = new Point(24, 18);
             label1.Name = "label1";
-            label1.Size = new Size(288, 32);
+            label1.Size = new Size(226, 32);
             label1.TabIndex = 27;
-            label1.Text = "LỊCH HẸN TRONG NGÀY";
+            label1.Text = "LỊCH HẸN CỦA TÔI";
             // 
             // dgvAppointment
             // 
@@ -160,7 +193,7 @@
             dgvAppointment.Dock = DockStyle.Fill;
             dgvAppointment.EnableHeadersVisualStyles = false;
             dgvAppointment.GridColor = Color.DarkCyan;
-            dgvAppointment.Location = new Point(14, 160);
+            dgvAppointment.Location = new Point(14, 182);
             dgvAppointment.MultiSelect = false;
             dgvAppointment.Name = "dgvAppointment";
             dgvAppointment.ReadOnly = true;
@@ -168,7 +201,7 @@
             dgvAppointment.RowHeadersWidth = 51;
             dgvAppointment.RowTemplate.Height = 38;
             dgvAppointment.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAppointment.Size = new Size(1037, 353);
+            dgvAppointment.Size = new Size(1273, 331);
             dgvAppointment.TabIndex = 6;
             // 
             // UC_Doctor_Appointment
@@ -182,7 +215,7 @@
             Margin = new Padding(4);
             Name = "UC_Doctor_Appointment";
             Padding = new Padding(14);
-            Size = new Size(1065, 527);
+            Size = new Size(1301, 527);
             Load += UC_Doctor_Appointment_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -197,9 +230,11 @@
         private TextBox txtSearch;
         private ComboBox cbAppointmentStatus;
         private Label label7;
-        private DateTimePicker dtpAppointmentDate;
-        private Label label4;
         private Label label1;
         private DataGridView dgvAppointment;
+        private DateTimePicker dtpEnd;
+        private Label label5;
+        private DateTimePicker dtpStart;
+        private Label label3;
     }
 }

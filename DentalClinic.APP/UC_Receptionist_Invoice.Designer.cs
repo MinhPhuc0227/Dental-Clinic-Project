@@ -28,13 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             pnLeft = new Panel();
             dgvWaitingList = new DataGridView();
             panel2 = new Panel();
+            dtpEnd = new DateTimePicker();
+            dtpStart = new DateTimePicker();
+            label15 = new Label();
+            label16 = new Label();
             label3 = new Label();
             txtSearch = new TextBox();
             label1 = new Label();
@@ -93,27 +97,27 @@
             dgvWaitingList.BackgroundColor = Color.White;
             dgvWaitingList.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvWaitingList.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvWaitingList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvWaitingList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvWaitingList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvWaitingList.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvWaitingList.DefaultCellStyle = dataGridViewCellStyle6;
             dgvWaitingList.Dock = DockStyle.Fill;
             dgvWaitingList.EnableHeadersVisualStyles = false;
             dgvWaitingList.GridColor = Color.DarkCyan;
-            dgvWaitingList.Location = new Point(0, 124);
+            dgvWaitingList.Location = new Point(0, 191);
             dgvWaitingList.MultiSelect = false;
             dgvWaitingList.Name = "dgvWaitingList";
             dgvWaitingList.ReadOnly = true;
@@ -121,29 +125,81 @@
             dgvWaitingList.RowHeadersWidth = 51;
             dgvWaitingList.RowTemplate.Height = 38;
             dgvWaitingList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvWaitingList.Size = new Size(588, 625);
+            dgvWaitingList.Size = new Size(588, 558);
             dgvWaitingList.TabIndex = 7;
             dgvWaitingList.CellClick += dgvWaitingList_CellClick;
             // 
             // panel2
             // 
+            panel2.Controls.Add(dtpEnd);
+            panel2.Controls.Add(dtpStart);
+            panel2.Controls.Add(label15);
+            panel2.Controls.Add(label16);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(txtSearch);
             panel2.Controls.Add(label1);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(588, 124);
+            panel2.Size = new Size(588, 191);
             panel2.TabIndex = 0;
+            // 
+            // dtpEnd
+            // 
+            dtpEnd.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            dtpEnd.CustomFormat = "dd/MM/yyyy";
+            dtpEnd.Font = new Font("Segoe UI", 10F);
+            dtpEnd.Format = DateTimePickerFormat.Custom;
+            dtpEnd.Location = new Point(399, 131);
+            dtpEnd.Name = "dtpEnd";
+            dtpEnd.Size = new Size(138, 30);
+            dtpEnd.TabIndex = 37;
+            dtpEnd.ValueChanged += dtpEnd_ValueChanged;
+            // 
+            // dtpStart
+            // 
+            dtpStart.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            dtpStart.CustomFormat = "dd/MM/yyyy";
+            dtpStart.Font = new Font("Segoe UI", 10F);
+            dtpStart.Format = DateTimePickerFormat.Custom;
+            dtpStart.Location = new Point(113, 130);
+            dtpStart.Name = "dtpStart";
+            dtpStart.Size = new Size(138, 30);
+            dtpStart.TabIndex = 36;
+            dtpStart.ValueChanged += dtpStart_ValueChanged;
+            // 
+            // label15
+            // 
+            label15.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI Semibold", 12F);
+            label15.ForeColor = Color.DarkCyan;
+            label15.Location = new Point(294, 130);
+            label15.Name = "label15";
+            label15.Size = new Size(99, 28);
+            label15.TabIndex = 35;
+            label15.Text = "Đến ngày";
+            // 
+            // label16
+            // 
+            label16.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI Semibold", 12F);
+            label16.ForeColor = Color.DarkCyan;
+            label16.Location = new Point(22, 131);
+            label16.Name = "label16";
+            label16.Size = new Size(85, 28);
+            label16.TabIndex = 34;
+            label16.Text = "Từ ngày";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label3.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(14, 76);
+            label3.Location = new Point(21, 23);
             label3.Name = "label3";
-            label3.Size = new Size(319, 28);
+            label3.Size = new Size(382, 32);
             label3.TabIndex = 33;
             label3.Text = "DANH SÁCH CHỜ THANH TOÁN";
             // 
@@ -151,7 +207,7 @@
             // 
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(231, 29);
+            txtSearch.Location = new Point(234, 78);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(303, 30);
             txtSearch.TabIndex = 32;
@@ -160,11 +216,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label1.Font = new Font("Segoe UI Semibold", 12F);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(14, 27);
+            label1.Location = new Point(21, 78);
             label1.Name = "label1";
-            label1.Size = new Size(211, 28);
+            label1.Size = new Size(207, 28);
             label1.TabIndex = 31;
             label1.Text = "Tìm kiếm bệnh nhân:";
             // 
@@ -190,23 +246,23 @@
             dgvInvoiceDetail.BackgroundColor = Color.White;
             dgvInvoiceDetail.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvInvoiceDetail.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle3.ForeColor = Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvInvoiceDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle7.ForeColor = Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle7.SelectionForeColor = Color.White;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dgvInvoiceDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dgvInvoiceDetail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvInvoiceDetail.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.White;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle8.ForeColor = Color.Black;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            dgvInvoiceDetail.DefaultCellStyle = dataGridViewCellStyle8;
             dgvInvoiceDetail.Dock = DockStyle.Fill;
             dgvInvoiceDetail.EnableHeadersVisualStyles = false;
             dgvInvoiceDetail.GridColor = Color.DarkCyan;
@@ -545,5 +601,9 @@
         private TextBox txtAmountGiven;
         private Label label12;
         private Label label10;
+        private DateTimePicker dtpEnd;
+        private DateTimePicker dtpStart;
+        private Label label15;
+        private Label label16;
     }
 }

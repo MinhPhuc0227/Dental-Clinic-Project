@@ -205,7 +205,7 @@ namespace DentalClinic.APP
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
-                return;
+                this.Close();
             }
 
             dgvHistory.DataSource = history;

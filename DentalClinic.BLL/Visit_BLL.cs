@@ -18,54 +18,44 @@ namespace DentalClinic.BLL
             _visitDAL = visitDAL;
         }
 
-        public Result<List<WaitingQueueDto>> GetWaitingQueue(DateTime date, string keyword, int? doctorId, VisitStatus? status)
-
+        public Result<List<WaitingQueueDto>> GetWaitingQueue(DateTime startDate, DateTime endDate, string keyword, int? doctorId, VisitStatus? status)
         {
-
             try
-
             {
-
-                var data = _visitDAL.GetWaitingQueue(date, keyword, doctorId, status);
-
+                var data = _visitDAL.GetWaitingQueue(startDate, endDate, keyword, doctorId, status);
                 return Result<List<WaitingQueueDto>>.Success(data);
-
             }
-
             catch (Exception ex)
-
             {
-
                 return Result<List<WaitingQueueDto>>.Failure("Lỗi khi tải danh sách hàng chờ: " + ex.Message);
-
             }
-
         }
 
 
 
-        public Result<List<VisitListDto>> GetAllVisits(DateTime date, string keyword)
-
+        public Result<List<VisitListDto>> GetAllVisits(
+    DateTime startDate,
+    DateTime endDate,
+    string keyword = "",
+    int? doctorId = null,
+    VisitStatus? status = null)
         {
-
             try
-
             {
-
-                var data = _visitDAL.GetAllVisits(date, keyword);
+                var data = _visitDAL.GetAllVisits(
+                    startDate,
+                    endDate,
+                    keyword,
+                    doctorId,
+                    status);
 
                 return Result<List<VisitListDto>>.Success(data);
-
             }
-
             catch (Exception ex)
-
             {
-
-                return Result<List<VisitListDto>>.Failure("Lỗi khi tải danh sách: " + ex.Message);
-
+                return Result<List<VisitListDto>>.Failure(
+                    "Lỗi khi tải danh sách lượt khám: " + ex.Message);
             }
-
         }
 
 

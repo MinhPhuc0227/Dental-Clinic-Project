@@ -83,40 +83,71 @@ namespace DentalClinic.APP
         {
             dgv.AutoGenerateColumns = false;
             dgv.Columns.Clear();
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
-            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "VisitId", Name = "VisitId", Visible = false });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "VisitId",
+                Name = "VisitId",
+                Visible = false
+            });
 
-            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "QueueNumber", HeaderText = "STT", Width = 40, DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 9, FontStyle.Bold) } });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "CheckInDateTime", HeaderText = "Giờ", Width = 60, DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm", Alignment = DataGridViewContentAlignment.MiddleCenter } });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientName", HeaderText = "Bệnh Nhân", Width = 140 });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AppointmentBadge", HeaderText = "Loại", Width = 100 });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ReasonForVisit", HeaderText = "Lý Do Khám", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "QueueNumber",
+                HeaderText = "STT",
+                Width = 50
+            });
 
-            // THÊM CỘT NÚT BẤM VÀO CUỐI
-            DataGridViewButtonColumn btnCol = new DataGridViewButtonColumn
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "CheckInDateTime",
+                HeaderText = "Giờ",
+                Width = 60
+            });
+
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "PatientName",
+                HeaderText = "Bệnh Nhân",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "AppointmentBadge",
+                HeaderText = "Loại",
+                Width = 110
+            });
+
+            DataGridViewButtonColumn btnCol = new DataGridViewButtonColumn
             {
                 Name = btnColName,
                 HeaderText = "Thao tác",
                 Text = btnText,
                 UseColumnTextForButtonValue = true,
-                Width = 80,
+                Width = 90,
                 FlatStyle = FlatStyle.Flat
             };
+
             btnCol.DefaultCellStyle.BackColor = Color.FromArgb(0, 122, 204);
             btnCol.DefaultCellStyle.ForeColor = Color.White;
+
             dgv.Columns.Add(btnCol);
 
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.ReadOnly = true;
             dgv.AllowUserToAddRows = false;
             dgv.RowHeadersVisible = false;
+
+            dgv.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
         }
 
         public void LoadWaitingQueue()
         {
             try
             {
-                var result = _visitBLL.GetWaitingQueue(DateTime.Today, "", _doctorId, VisitStatus.Waiting);
+                var result = _visitBLL.GetWaitingQueue(DateTime.Today, DateTime.Today, "", _doctorId, VisitStatus.Waiting);
 
                 if (result.IsSuccess && result.Data != null)
                 {
@@ -139,7 +170,7 @@ namespace DentalClinic.APP
         {
             try
             {
-                var result = _visitBLL.GetWaitingQueue(DateTime.Today, "", _doctorId, VisitStatus.InExamination);
+                var result = _visitBLL.GetWaitingQueue(DateTime.Today, DateTime.Today, "", _doctorId, VisitStatus.InExamination);
 
                 if (result.IsSuccess && result.Data != null)
                 {
@@ -353,7 +384,7 @@ namespace DentalClinic.APP
             }
 
             // 2. Load Thuốc từ Medicine_BLL
-            var medicineResult = _medicineBLL.GetAll();
+            var medicineResult = _medicineBLL.GetAll("", MedicineStatus.Active);
             if (medicineResult.IsSuccess && medicineResult.Data != null)
             {
                 _medicinePrices.Clear();
@@ -1042,6 +1073,11 @@ namespace DentalClinic.APP
     GetCurrentDoctorName());
 
             dialog.ShowDialog();
+        }
+
+        private void pnRight_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

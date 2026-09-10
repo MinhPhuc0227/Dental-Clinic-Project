@@ -33,13 +33,15 @@ namespace DentalClinic.APP
 
         private void InitFilterControls()
         {
-            // 1. Mặc định DateTimePicker chọn ngày hôm nay
-            dtpAppointmentDate.Value = DateTime.Today;
+            // 1. Mặc định DateTimePicker lấy tháng hiện tại
+            DateTime today = DateTime.Today;
+            dtpStart.Value = new DateTime(today.Year, today.Month, 1);
+            dtpEnd.Value = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
 
             // 2. Nạp danh sách Trạng thái vào ComboBox (giống mẫu Lễ tân)
             var statusList = new List<object>
             {
-                new { Value = (AppointmentStatus?)null, Text = "-- Tất cả Trạng thái --" },
+                new { Value = (AppointmentStatus?)null, Text = "Tất cả" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Scheduled, Text = "Đã đặt lịch" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.CheckedIn, Text = "Đã tiếp nhận" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Cancelled, Text = "Đã hủy" }
@@ -47,11 +49,6 @@ namespace DentalClinic.APP
             cbAppointmentStatus.DataSource = statusList;
             cbAppointmentStatus.DisplayMember = "Text";
             cbAppointmentStatus.ValueMember = "Value";
-
-            // 3. Đăng ký sự kiện tự động lọc khi thay đổi giá trị
-            txtSearch.TextChanged += (s, e) => LoadData();
-            dtpAppointmentDate.ValueChanged += (s, e) => LoadData();
-            cbAppointmentStatus.SelectedIndexChanged += (s, e) => LoadData();
         }
 
         private void SetupDataGridView()
@@ -84,9 +81,9 @@ namespace DentalClinic.APP
             var filter = new AppointmentFilterDto
             {
                 Keyword = txtSearch.Text.Trim(),
-                // Lọc trọn vẹn trong ngày mà bác sĩ chọn trên dtpAppointmentDate
-                StartDate = dtpAppointmentDate.Value.Date,
-                EndDate = dtpAppointmentDate.Value.Date,
+                // Lọc trọn vẹn trong ngày mà bác sĩ chọn trên dtp
+                StartDate = dtpStart.Value.Date,
+                EndDate = dtpEnd.Value.Date,
                 DoctorId = _doctorId, // Cố định đúng mã của Bác sĩ đang đăng nhập
                 Status = cbAppointmentStatus.SelectedValue as AppointmentStatus?
             };
@@ -100,6 +97,26 @@ namespace DentalClinic.APP
             {
                 MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void cbAppointmentStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void dtpStart_ValueChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

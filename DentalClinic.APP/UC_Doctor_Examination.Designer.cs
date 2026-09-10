@@ -137,14 +137,14 @@
             // 
             // pnLeft
             // 
-            pnLeft.BackColor = Color.FromArgb(26, 188, 156);
+            pnLeft.BackColor = Color.DarkCyan;
             pnLeft.Controls.Add(pnPatientInfo);
             pnLeft.Controls.Add(pnWaitingQueue);
             pnLeft.Dock = DockStyle.Left;
-            pnLeft.Location = new Point(10, 10);
+            pnLeft.Location = new Point(5, 5);
             pnLeft.Name = "pnLeft";
             pnLeft.Padding = new Padding(10);
-            pnLeft.Size = new Size(639, 819);
+            pnLeft.Size = new Size(688, 829);
             pnLeft.TabIndex = 0;
             // 
             // pnPatientInfo
@@ -167,41 +167,55 @@
             pnPatientInfo.Dock = DockStyle.Fill;
             pnPatientInfo.Location = new Point(10, 447);
             pnPatientInfo.Name = "pnPatientInfo";
-            pnPatientInfo.Size = new Size(619, 362);
+            pnPatientInfo.Size = new Size(668, 372);
             pnPatientInfo.TabIndex = 1;
             // 
             // btTreatment
             // 
-            btTreatment.Font = new Font("Segoe UI", 10F);
-            btTreatment.Location = new Point(438, 73);
+            btTreatment.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btTreatment.BackColor = SystemColors.HotTrack;
+            btTreatment.FlatAppearance.BorderSize = 0;
+            btTreatment.FlatStyle = FlatStyle.Flat;
+            btTreatment.Font = new Font("Segoe UI Semibold", 10F);
+            btTreatment.ForeColor = Color.White;
+            btTreatment.Location = new Point(343, 314);
             btTreatment.Name = "btTreatment";
-            btTreatment.Size = new Size(156, 50);
+            btTreatment.Size = new Size(156, 46);
             btTreatment.TabIndex = 47;
             btTreatment.Text = "Kế hoạch điều trị";
-            btTreatment.UseVisualStyleBackColor = true;
+            btTreatment.UseVisualStyleBackColor = false;
             btTreatment.Click += btTreatment_Click;
             // 
             // btCancelVisit
             // 
-            btCancelVisit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btCancelVisit.Font = new Font("Segoe UI", 10F);
-            btCancelVisit.Location = new Point(471, 293);
+            btCancelVisit.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btCancelVisit.BackColor = Color.DimGray;
+            btCancelVisit.FlatAppearance.BorderSize = 0;
+            btCancelVisit.FlatStyle = FlatStyle.Flat;
+            btCancelVisit.Font = new Font("Segoe UI Semibold", 10F);
+            btCancelVisit.ForeColor = Color.White;
+            btCancelVisit.Location = new Point(15, 314);
             btCancelVisit.Name = "btCancelVisit";
             btCancelVisit.Size = new Size(112, 46);
             btCancelVisit.TabIndex = 46;
             btCancelVisit.Text = "Hủy khám";
-            btCancelVisit.UseVisualStyleBackColor = true;
+            btCancelVisit.UseVisualStyleBackColor = false;
             btCancelVisit.Click += btCancelVisit_Click;
             // 
             // btViewMedicalHistory
             // 
-            btViewMedicalHistory.Font = new Font("Segoe UI", 10F);
-            btViewMedicalHistory.Location = new Point(438, 13);
+            btViewMedicalHistory.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btViewMedicalHistory.BackColor = Color.ForestGreen;
+            btViewMedicalHistory.FlatAppearance.BorderSize = 0;
+            btViewMedicalHistory.FlatStyle = FlatStyle.Flat;
+            btViewMedicalHistory.Font = new Font("Segoe UI Semibold", 10F);
+            btViewMedicalHistory.ForeColor = Color.White;
+            btViewMedicalHistory.Location = new Point(505, 314);
             btViewMedicalHistory.Name = "btViewMedicalHistory";
-            btViewMedicalHistory.Size = new Size(156, 50);
+            btViewMedicalHistory.Size = new Size(156, 46);
             btViewMedicalHistory.TabIndex = 39;
-            btViewMedicalHistory.Text = "Xem lịch sử khám";
-            btViewMedicalHistory.UseVisualStyleBackColor = true;
+            btViewMedicalHistory.Text = "Lịch sử khám";
+            btViewMedicalHistory.UseVisualStyleBackColor = false;
             btViewMedicalHistory.Click += btViewMedicalHistory_Click;
             // 
             // lbAppointmentNote
@@ -332,7 +346,7 @@
             pnWaitingQueue.Location = new Point(10, 10);
             pnWaitingQueue.Name = "pnWaitingQueue";
             pnWaitingQueue.Padding = new Padding(0, 0, 0, 10);
-            pnWaitingQueue.Size = new Size(619, 437);
+            pnWaitingQueue.Size = new Size(668, 437);
             pnWaitingQueue.TabIndex = 0;
             // 
             // tabControl2
@@ -343,7 +357,7 @@
             tabControl2.Location = new Point(0, 0);
             tabControl2.Name = "tabControl2";
             tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new Size(619, 427);
+            tabControl2.Size = new Size(668, 427);
             tabControl2.TabIndex = 0;
             // 
             // tabPage1
@@ -352,7 +366,7 @@
             tabPage1.Location = new Point(4, 37);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(611, 386);
+            tabPage1.Size = new Size(660, 386);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Hàng chờ";
             tabPage1.UseVisualStyleBackColor = true;
@@ -395,17 +409,17 @@
             dgvWaitingQueue.RowHeadersWidth = 51;
             dgvWaitingQueue.RowTemplate.Height = 38;
             dgvWaitingQueue.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvWaitingQueue.Size = new Size(605, 380);
+            dgvWaitingQueue.Size = new Size(654, 380);
             dgvWaitingQueue.TabIndex = 7;
             dgvWaitingQueue.CellContentClick += dgvWaitingQueue_CellContentClick;
             // 
             // tabPage2
             // 
             tabPage2.Controls.Add(dgvInExamination);
-            tabPage2.Location = new Point(4, 37);
+            tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(611, 386);
+            tabPage2.Size = new Size(812, 394);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Đang khám";
             tabPage2.UseVisualStyleBackColor = true;
@@ -448,32 +462,33 @@
             dgvInExamination.RowHeadersWidth = 51;
             dgvInExamination.RowTemplate.Height = 38;
             dgvInExamination.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInExamination.Size = new Size(605, 380);
+            dgvInExamination.Size = new Size(806, 388);
             dgvInExamination.TabIndex = 8;
             dgvInExamination.CellContentClick += dgvInExamination_CellContentClick;
             // 
             // pnRight
             // 
-            pnRight.BackColor = Color.FromArgb(22, 160, 133);
+            pnRight.BackColor = Color.DarkCyan;
             pnRight.Controls.Add(pnServiceMedicine);
             pnRight.Controls.Add(pnAction);
             pnRight.Controls.Add(pnMedicalRecordInfo);
             pnRight.Dock = DockStyle.Fill;
-            pnRight.Location = new Point(649, 10);
+            pnRight.Location = new Point(693, 5);
             pnRight.Name = "pnRight";
             pnRight.Padding = new Padding(10);
-            pnRight.Size = new Size(950, 819);
+            pnRight.Size = new Size(979, 829);
             pnRight.TabIndex = 1;
+            pnRight.Paint += pnRight_Paint;
             // 
             // pnServiceMedicine
             // 
-            pnServiceMedicine.BackColor = Color.FromArgb(22, 160, 133);
+            pnServiceMedicine.BackColor = Color.DarkCyan;
             pnServiceMedicine.Controls.Add(tabControl1);
             pnServiceMedicine.Dock = DockStyle.Fill;
             pnServiceMedicine.Location = new Point(10, 266);
             pnServiceMedicine.Name = "pnServiceMedicine";
             pnServiceMedicine.Padding = new Padding(0, 10, 0, 10);
-            pnServiceMedicine.Size = new Size(930, 429);
+            pnServiceMedicine.Size = new Size(959, 439);
             pnServiceMedicine.TabIndex = 1;
             // 
             // tabControl1
@@ -484,7 +499,7 @@
             tabControl1.Location = new Point(0, 10);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(930, 409);
+            tabControl1.Size = new Size(959, 419);
             tabControl1.TabIndex = 0;
             // 
             // tpService
@@ -495,7 +510,7 @@
             tpService.Location = new Point(4, 37);
             tpService.Name = "tpService";
             tpService.Padding = new Padding(3);
-            tpService.Size = new Size(922, 368);
+            tpService.Size = new Size(951, 378);
             tpService.TabIndex = 0;
             tpService.Text = "Dịch vụ";
             // 
@@ -536,7 +551,7 @@
             dgvService.RowHeadersWidth = 51;
             dgvService.RowTemplate.Height = 38;
             dgvService.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvService.Size = new Size(916, 245);
+            dgvService.Size = new Size(945, 255);
             dgvService.TabIndex = 7;
             dgvService.CellClick += dgvService_CellClick;
             dgvService.CellEndEdit += dgvService_CellEndEdit;
@@ -552,7 +567,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(916, 117);
+            panel1.Size = new Size(945, 117);
             panel1.TabIndex = 1;
             // 
             // label20
@@ -568,13 +583,17 @@
             // 
             // btAddService
             // 
-            btAddService.Font = new Font("Segoe UI", 10F);
+            btAddService.BackColor = Color.FromArgb(255, 118, 117);
+            btAddService.FlatAppearance.BorderSize = 0;
+            btAddService.FlatStyle = FlatStyle.Flat;
+            btAddService.Font = new Font("Segoe UI Semibold", 10F);
+            btAddService.ForeColor = Color.White;
             btAddService.Location = new Point(473, 56);
             btAddService.Name = "btAddService";
             btAddService.Size = new Size(126, 45);
             btAddService.TabIndex = 42;
             btAddService.Text = "Thêm dịch vụ";
-            btAddService.UseVisualStyleBackColor = true;
+            btAddService.UseVisualStyleBackColor = false;
             btAddService.Click += btAddService_Click;
             // 
             // nudServiceQuantity
@@ -614,7 +633,7 @@
             tpMedicine.Location = new Point(4, 29);
             tpMedicine.Name = "tpMedicine";
             tpMedicine.Padding = new Padding(3);
-            tpMedicine.Size = new Size(922, 376);
+            tpMedicine.Size = new Size(799, 386);
             tpMedicine.TabIndex = 1;
             tpMedicine.Text = "Thuốc";
             // 
@@ -655,7 +674,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvMedicine.Size = new Size(916, 147);
+            dgvMedicine.Size = new Size(793, 157);
             dgvMedicine.TabIndex = 8;
             dgvMedicine.CellClick += dgvMedicine_CellClick;
             dgvMedicine.CellEndEdit += dgvMedicine_CellEndEdit;
@@ -681,7 +700,7 @@
             panel8.Dock = DockStyle.Top;
             panel8.Location = new Point(3, 3);
             panel8.Name = "panel8";
-            panel8.Size = new Size(916, 223);
+            panel8.Size = new Size(793, 223);
             panel8.TabIndex = 0;
             // 
             // label25
@@ -701,7 +720,7 @@
             cbInstruction.FormattingEnabled = true;
             cbInstruction.Location = new Point(129, 160);
             cbInstruction.Name = "cbInstruction";
-            cbInstruction.Size = new Size(221, 31);
+            cbInstruction.Size = new Size(495, 31);
             cbInstruction.TabIndex = 70;
             // 
             // label23
@@ -817,13 +836,17 @@
             // 
             // btAddMedicine
             // 
-            btAddMedicine.Font = new Font("Segoe UI", 10F);
+            btAddMedicine.BackColor = Color.FromArgb(255, 118, 117);
+            btAddMedicine.FlatAppearance.BorderSize = 0;
+            btAddMedicine.FlatStyle = FlatStyle.Flat;
+            btAddMedicine.Font = new Font("Segoe UI Semibold", 10F);
+            btAddMedicine.ForeColor = Color.White;
             btAddMedicine.Location = new Point(661, 152);
             btAddMedicine.Name = "btAddMedicine";
             btAddMedicine.Size = new Size(126, 45);
             btAddMedicine.TabIndex = 52;
             btAddMedicine.Text = "Thêm thuốc";
-            btAddMedicine.UseVisualStyleBackColor = true;
+            btAddMedicine.UseVisualStyleBackColor = false;
             btAddMedicine.Click += btAddMedicine_Click;
             // 
             // cbMedicine
@@ -847,9 +870,9 @@
             pnAction.Controls.Add(lbServiceAmount);
             pnAction.Controls.Add(label2);
             pnAction.Dock = DockStyle.Bottom;
-            pnAction.Location = new Point(10, 695);
+            pnAction.Location = new Point(10, 705);
             pnAction.Name = "pnAction";
-            pnAction.Size = new Size(930, 114);
+            pnAction.Size = new Size(959, 114);
             pnAction.TabIndex = 1;
             // 
             // lbMedicineAmount
@@ -857,7 +880,7 @@
             lbMedicineAmount.AutoSize = true;
             lbMedicineAmount.Font = new Font("Segoe UI", 12F);
             lbMedicineAmount.ForeColor = Color.Black;
-            lbMedicineAmount.Location = new Point(223, 63);
+            lbMedicineAmount.Location = new Point(219, 63);
             lbMedicineAmount.Name = "lbMedicineAmount";
             lbMedicineAmount.Size = new Size(24, 28);
             lbMedicineAmount.TabIndex = 44;
@@ -868,7 +891,7 @@
             label24.AutoSize = true;
             label24.Font = new Font("Segoe UI Semibold", 12F);
             label24.ForeColor = Color.DarkCyan;
-            label24.Location = new Point(223, 23);
+            label24.Location = new Point(219, 23);
             label24.Name = "label24";
             label24.Size = new Size(114, 28);
             label24.TabIndex = 45;
@@ -879,7 +902,7 @@
             lbTotalAmount.AutoSize = true;
             lbTotalAmount.Font = new Font("Segoe UI", 12F);
             lbTotalAmount.ForeColor = Color.Black;
-            lbTotalAmount.Location = new Point(451, 63);
+            lbTotalAmount.Location = new Point(415, 63);
             lbTotalAmount.Name = "lbTotalAmount";
             lbTotalAmount.Size = new Size(24, 28);
             lbTotalAmount.TabIndex = 42;
@@ -890,7 +913,7 @@
             label22.AutoSize = true;
             label22.Font = new Font("Segoe UI Semibold", 12F);
             label22.ForeColor = Color.DarkCyan;
-            label22.Location = new Point(451, 23);
+            label22.Location = new Point(415, 23);
             label22.Name = "label22";
             label22.Size = new Size(115, 28);
             label22.TabIndex = 43;
@@ -898,26 +921,34 @@
             // 
             // btComplete
             // 
-            btComplete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btComplete.Font = new Font("Segoe UI", 10F);
-            btComplete.Location = new Point(758, 45);
+            btComplete.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btComplete.BackColor = Color.FromArgb(0, 184, 148);
+            btComplete.FlatAppearance.BorderSize = 0;
+            btComplete.FlatStyle = FlatStyle.Flat;
+            btComplete.Font = new Font("Segoe UI Semibold", 10F);
+            btComplete.ForeColor = Color.White;
+            btComplete.Location = new Point(787, 45);
             btComplete.Name = "btComplete";
             btComplete.Size = new Size(165, 46);
             btComplete.TabIndex = 41;
             btComplete.Text = "Hoàn thành khám";
-            btComplete.UseVisualStyleBackColor = true;
+            btComplete.UseVisualStyleBackColor = false;
             btComplete.Click += btComplete_Click;
             // 
             // btSaveDraft
             // 
-            btSaveDraft.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btSaveDraft.Font = new Font("Segoe UI", 10F);
-            btSaveDraft.Location = new Point(634, 45);
+            btSaveDraft.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btSaveDraft.BackColor = Color.DarkOrange;
+            btSaveDraft.FlatAppearance.BorderSize = 0;
+            btSaveDraft.FlatStyle = FlatStyle.Flat;
+            btSaveDraft.Font = new Font("Segoe UI Semibold", 10F);
+            btSaveDraft.ForeColor = Color.White;
+            btSaveDraft.Location = new Point(663, 45);
             btSaveDraft.Name = "btSaveDraft";
             btSaveDraft.Size = new Size(112, 46);
             btSaveDraft.TabIndex = 40;
             btSaveDraft.Text = "Lưu tạm";
-            btSaveDraft.UseVisualStyleBackColor = true;
+            btSaveDraft.UseVisualStyleBackColor = false;
             btSaveDraft.Click += btSaveDraft_Click;
             // 
             // lbServiceAmount
@@ -959,7 +990,7 @@
             pnMedicalRecordInfo.Dock = DockStyle.Top;
             pnMedicalRecordInfo.Location = new Point(10, 10);
             pnMedicalRecordInfo.Name = "pnMedicalRecordInfo";
-            pnMedicalRecordInfo.Size = new Size(930, 256);
+            pnMedicalRecordInfo.Size = new Size(959, 256);
             pnMedicalRecordInfo.TabIndex = 0;
             // 
             // txtNote
@@ -1081,14 +1112,14 @@
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
+            BackColor = Color.DarkCyan;
             Controls.Add(pnRight);
             Controls.Add(pnLeft);
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
             Name = "UC_Doctor_Examination";
-            Padding = new Padding(10);
-            Size = new Size(1609, 839);
+            Padding = new Padding(5);
+            Size = new Size(1677, 839);
             Load += UC_Doctor_Examination_Load;
             pnLeft.ResumeLayout(false);
             pnPatientInfo.ResumeLayout(false);

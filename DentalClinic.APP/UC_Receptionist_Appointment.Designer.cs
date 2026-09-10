@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
             panel1 = new Panel();
             cbStatus = new ComboBox();
             label7 = new Label();
@@ -67,24 +67,27 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1364, 228);
+            panel1.Size = new Size(1393, 203);
             panel1.TabIndex = 0;
             // 
             // cbStatus
             // 
+            cbStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbStatus.Font = new Font("Segoe UI", 10F);
             cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(741, 157);
+            cbStatus.Location = new Point(808, 138);
             cbStatus.Name = "cbStatus";
-            cbStatus.Size = new Size(200, 31);
+            cbStatus.Size = new Size(269, 31);
             cbStatus.TabIndex = 24;
+            cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 12F);
             label7.ForeColor = Color.DarkCyan;
-            label7.Location = new Point(741, 112);
+            label7.Location = new Point(808, 106);
             label7.Name = "label7";
             label7.Size = new Size(102, 28);
             label7.TabIndex = 23;
@@ -92,10 +95,11 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 12F);
             label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(465, 112);
+            label6.Location = new Point(511, 107);
             label6.Name = "label6";
             label6.Size = new Size(63, 28);
             label6.TabIndex = 22;
@@ -103,39 +107,46 @@
             // 
             // cbDoctor
             // 
+            cbDoctor.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbDoctor.Font = new Font("Segoe UI", 10F);
             cbDoctor.FormattingEnabled = true;
-            cbDoctor.Location = new Point(465, 155);
+            cbDoctor.Location = new Point(511, 138);
             cbDoctor.Name = "cbDoctor";
-            cbDoctor.Size = new Size(190, 31);
+            cbDoctor.Size = new Size(269, 31);
             cbDoctor.TabIndex = 21;
+            cbDoctor.SelectedIndexChanged += cbDoctor_SelectedIndexChanged;
             // 
             // dtpEnd
             // 
+            dtpEnd.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             dtpEnd.CustomFormat = "dd/MM/yyyy";
             dtpEnd.Font = new Font("Segoe UI", 10F);
             dtpEnd.Format = DateTimePickerFormat.Custom;
-            dtpEnd.Location = new Point(246, 154);
+            dtpEnd.Location = new Point(345, 138);
             dtpEnd.Name = "dtpEnd";
             dtpEnd.Size = new Size(138, 30);
             dtpEnd.TabIndex = 20;
+            dtpEnd.ValueChanged += dtpEnd_ValueChanged;
             // 
             // dtpStart
             // 
+            dtpStart.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             dtpStart.CustomFormat = "dd/MM/yyyy";
             dtpStart.Font = new Font("Segoe UI", 10F);
             dtpStart.Format = DateTimePickerFormat.Custom;
-            dtpStart.Location = new Point(13, 155);
+            dtpStart.Location = new Point(179, 138);
             dtpStart.Name = "dtpStart";
             dtpStart.Size = new Size(138, 30);
             dtpStart.TabIndex = 19;
+            dtpStart.ValueChanged += dtpStart_ValueChanged;
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 12F);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(246, 112);
+            label5.Location = new Point(336, 107);
             label5.Name = "label5";
             label5.Size = new Size(99, 28);
             label5.TabIndex = 18;
@@ -143,10 +154,11 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 12F);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(10, 112);
+            label4.Location = new Point(179, 106);
             label4.Name = "label4";
             label4.Size = new Size(85, 28);
             label4.TabIndex = 17;
@@ -169,7 +181,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(1064, 112);
+            label3.Location = new Point(1106, 107);
             label3.Name = "label3";
             label3.Size = new Size(97, 28);
             label3.TabIndex = 15;
@@ -180,23 +192,26 @@
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(1064, 156);
+            txtSearch.Location = new Point(1105, 138);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(268, 30);
+            txtSearch.Size = new Size(269, 30);
             txtSearch.TabIndex = 14;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // btAdd
             // 
+            btAdd.BackColor = SystemColors.HotTrack;
             btAdd.FlatAppearance.BorderSize = 0;
-            btAdd.Image = Properties.Resources.add;
+            btAdd.FlatStyle = FlatStyle.Flat;
+            btAdd.Font = new Font("Segoe UI Semibold", 10F);
+            btAdd.ForeColor = Color.White;
             btAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btAdd.Location = new Point(329, 20);
+            btAdd.Location = new Point(13, 119);
             btAdd.Name = "btAdd";
-            btAdd.Size = new Size(162, 49);
+            btAdd.Size = new Size(130, 49);
             btAdd.TabIndex = 13;
             btAdd.Text = "Tạo lịch hẹn";
-            btAdd.TextAlign = ContentAlignment.MiddleRight;
-            btAdd.UseVisualStyleBackColor = true;
+            btAdd.UseVisualStyleBackColor = false;
             btAdd.Click += btAdd_Click;
             // 
             // label1
@@ -206,9 +221,9 @@
             label1.ForeColor = Color.DarkCyan;
             label1.Location = new Point(13, 19);
             label1.Name = "label1";
-            label1.Size = new Size(108, 32);
+            label1.Size = new Size(235, 32);
             label1.TabIndex = 12;
-            label1.Text = "Lịch hẹn";
+            label1.Text = "QUẢN LÝ LỊCH HẸN";
             // 
             // dgvAppointment
             // 
@@ -220,27 +235,27 @@
             dgvAppointment.BorderStyle = BorderStyle.None;
             dgvAppointment.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvAppointment.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvAppointment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle9.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle9.ForeColor = Color.White;
+            dataGridViewCellStyle9.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle9.SelectionForeColor = Color.White;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dgvAppointment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dgvAppointment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvAppointment.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = Color.White;
+            dataGridViewCellStyle10.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle10.ForeColor = Color.Black;
+            dataGridViewCellStyle10.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle10.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.False;
+            dgvAppointment.DefaultCellStyle = dataGridViewCellStyle10;
             dgvAppointment.Dock = DockStyle.Fill;
             dgvAppointment.EnableHeadersVisualStyles = false;
             dgvAppointment.GridColor = Color.DarkCyan;
-            dgvAppointment.Location = new Point(10, 238);
+            dgvAppointment.Location = new Point(10, 213);
             dgvAppointment.MultiSelect = false;
             dgvAppointment.Name = "dgvAppointment";
             dgvAppointment.ReadOnly = true;
@@ -248,7 +263,7 @@
             dgvAppointment.RowHeadersWidth = 51;
             dgvAppointment.RowTemplate.Height = 38;
             dgvAppointment.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAppointment.Size = new Size(1364, 386);
+            dgvAppointment.Size = new Size(1393, 411);
             dgvAppointment.TabIndex = 5;
             dgvAppointment.CellContentClick += DgvAppointment_CellClick;
             // 
@@ -263,7 +278,7 @@
             Margin = new Padding(4);
             Name = "UC_Receptionist_Appointment";
             Padding = new Padding(10);
-            Size = new Size(1384, 634);
+            Size = new Size(1413, 634);
             Load += UC_Receptionist_Appointment_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

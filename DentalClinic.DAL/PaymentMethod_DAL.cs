@@ -16,9 +16,27 @@ namespace DentalClinic.DAL
         }
 
         // GetAll
-        public List<PaymentMethod> GetAll()
+        public List<PaymentMethod> GetAll(string keyword = "", PaymentMethodStatus? status = null)
         {
-                return _context.PaymentMethods.ToList();
+            var query = _context.PaymentMethods.AsQueryable();
+
+            // Tìm kiếm
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                keyword = keyword.Trim();
+
+                query = query.Where(pm =>
+                    pm.PaymentMethodName.Contains(keyword) ||
+                    (pm.Description != null && pm.Description.Contains(keyword)));
+            }
+
+            // Lọc trạng thái
+            if (status.HasValue)
+            {
+                query = query.Where(pm => pm.Status == status.Value);
+            }
+
+            return query.ToList();
         }
 
         // GetById

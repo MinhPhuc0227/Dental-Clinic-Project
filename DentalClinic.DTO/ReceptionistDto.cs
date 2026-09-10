@@ -46,7 +46,7 @@ namespace DentalClinic.DTO
         public AccountStatus Status { get; set; }
 
         [DisplayName("Trạng thái TK")]
-        public string StatusDisplay => Status == AccountStatus.Active ? "Hoạt động" : (Status == AccountStatus.Inactive ? "Ngừng hoạt động" : "Khóa");
+        public string StatusDisplay => Status == AccountStatus.Active ? "Hoạt động" : (Status == AccountStatus.Inactive ? "Ngừng hoạt động" : "Đã khóa");
 
         [DisplayName("Ngày tạo TK")]
         public DateTime CreatedAt { get; set; }

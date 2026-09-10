@@ -19,18 +19,19 @@ namespace DentalClinic.BLL
         }
 
         // GetAll
-        public Result<List<ServiceDto>> GetAll()
+        public Result<List<ServiceDto>> GetAll(string keyword = "", bool? isLongTerm = null, ServiceStatus? status = null)
         {
             try
             {
-                var list = _dal.GetAll();
+                var list = _dal.GetAll(keyword, isLongTerm, status);
+
                 var dtoList = list.Select(s => new ServiceDto
                 {
                     ServiceId = s.ServiceId,
                     ServiceName = s.ServiceName,
+                    Description = s.Description,
                     UnitPrice = s.UnitPrice,
                     IsLongTerm = s.IsLongTerm,
-                    Description = s.Description,
                     Status = s.Status
                 }).ToList();
 
@@ -38,7 +39,7 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
-                return Result<List<ServiceDto>>.Failure("Lỗi khi tải danh sách dịch vụ: " + ex.Message);
+                return Result<List<ServiceDto>>.Failure("Lỗi tải danh sách dịch vụ: " + ex.Message);
             }
         }
 

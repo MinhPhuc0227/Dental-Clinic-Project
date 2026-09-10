@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -7,13 +8,28 @@ namespace DentalClinic.DTO
 {
     public class SupplierDto
     {
+        [DisplayName("Mã")]
         public int SupplierId { get; set; }
+
+        [DisplayName("Nhà cung cấp")]
         public string SupplierName { get; set; } = string.Empty;
+
+        [DisplayName("SĐT")]
         public string? Phone { get; set; }
+
+        [DisplayName("Địa chỉ")]
         public string? Address { get; set; }
+
+        [DisplayName("Email")]
         public string? Email { get; set; }
+
+        [DisplayName("Ghi chú")]
         public string? Note { get; set; }
+
+        [Browsable(false)]
         public bool IsActive { get; set; }
+
+        [DisplayName("Trạng thái")]
         public string StatusText => IsActive ? "Đang hoạt động" : "Ngừng hoạt động";
     }
 

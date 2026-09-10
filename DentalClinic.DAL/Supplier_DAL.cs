@@ -40,7 +40,7 @@ namespace DentalClinic.DAL
                 query = query.Where(s => s.IsActive == isActive.Value);
             }
 
-            return query.OrderBy(s => s.SupplierName).ToList();
+            return query.OrderBy(s => s.SupplierId).ToList();
         }
 
         // GetById

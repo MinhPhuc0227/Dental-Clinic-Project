@@ -2,6 +2,7 @@
 using DentalClinic.BLL;
 using DentalClinic.DAL;
 using DentalClinic.DTO;
+using DentalClinic.MODEL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,6 @@ namespace DentalClinic.APP
     public partial class UC_Doctor : UserControl
     {
         private readonly Doctor_BLL _bll;
-        private List<DoctorDto> _fullList = new List<DoctorDto>();
 
         public UC_Doctor(Doctor_BLL bll)
         {
@@ -25,64 +25,147 @@ namespace DentalClinic.APP
 
         private void UC_Doctor_Load(object sender, EventArgs e)
         {
-            ConfigureDataGridView();
+            dgvDoctor.AutoGenerateColumns = true;
+            LoadSortComboBox();
+            LoadStatusComboBox();
             LoadDataToGridView();
         }
 
-        // Config datagridview
-        private void ConfigureDataGridView()
-        {
-            dgvDoctor.AutoGenerateColumns = true;
-        }
-
-        // Load data to datagridview
+        // LOAD DỮ LIỆU LÊN DGV DANH SÁCH BÁC SĨ
         public void LoadDataToGridView()
         {
-            var result = _bll.GetAll();
+            AccountStatus? status = null;
 
-            if (result.IsSuccess && result.Data != null)
+            if (cbStatus.SelectedValue is AccountStatus selectedStatus)
             {
-                _fullList = result.Data;
-                dgvDoctor.DataSource = _fullList;
-                AddActionImageColumns();
+                status = selectedStatus;
             }
-            else
+
+            var result = _bll.GetAll(txtSearch.Text.Trim(), status);
+
+            if (!result.IsSuccess || result.Data == null)
             {
-                MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message,"Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var receptionists = result.Data;
+
+            switch (cbSort.SelectedValue?.ToString())
+            {
+                case "IdAsc":
+                    receptionists = receptionists.OrderBy(r => r.DoctorId).ToList();
+                    break;
+
+                case "IdDesc":
+                    receptionists = receptionists.OrderByDescending(r => r.DoctorId).ToList();
+                    break;
+
+                case "NameAsc":
+                    receptionists = receptionists.OrderBy(r => r.FullName).ToList();
+                    break;
+
+                case "NameDesc":
+                    receptionists = receptionists.OrderByDescending(r => r.FullName).ToList();
+                    break;
+
+                case "CreatedAsc":
+                    receptionists = receptionists.OrderBy(r => r.CreatedAt).ToList();
+                    break;
+
+                case "CreatedDesc":
+                    receptionists = receptionists.OrderByDescending(r => r.CreatedAt).ToList();
+                    break;
+            }
+
+            dgvDoctor.DataSource = null;
+            dgvDoctor.DataSource = receptionists;
+
+            AddActionImageColumns();
+
+            // Đưa Sửa và Xóa về cuối
+            var deleteColumn = dgvDoctor.Columns["DeleteCol"];
+
+            if (deleteColumn != null)
+            {
+                deleteColumn.DisplayIndex = dgvDoctor.Columns.Count - 1;
+            }
+
+            var editColumn = dgvDoctor.Columns["EditCol"];
+
+            if (editColumn != null && deleteColumn != null)
+            {
+                editColumn.DisplayIndex = deleteColumn.DisplayIndex - 1;
             }
         }
 
-        // Add edit and delete image columns 
+        // THÊM CỘT SỬA VÀ CỘT XÓA CHO DGV
         private void AddActionImageColumns()
         {
             if (!dgvDoctor.Columns.Contains("EditCol"))
             {
-                var imgEdit = new DataGridViewImageColumn
+                var imgEdit = new DataGridViewButtonColumn
                 {
                     Name = "EditCol",
                     HeaderText = "Sửa",
-                    Image = Resources.edit,
-                    Width = 50,
-                    ImageLayout = DataGridViewImageCellLayout.Zoom
+                    Text = "Sửa",
+                    UseColumnTextForButtonValue = true
                 };
                 dgvDoctor.Columns.Add(imgEdit);
             }
 
             if (!dgvDoctor.Columns.Contains("DeleteCol"))
             {
-                var imgDelete = new DataGridViewImageColumn
+                var imgDelete = new DataGridViewButtonColumn
                 {
                     Name = "DeleteCol",
                     HeaderText = "Xóa",
-                    Image = Resources.delete,
-                    Width = 50,
-                    ImageLayout = DataGridViewImageCellLayout.Zoom
+                    Text = "Xóa",
+                    UseColumnTextForButtonValue = true
                 };
                 dgvDoctor.Columns.Add(imgDelete);
             }
         }
 
-        // Add button
+        // LOAD CB SẮP XẾP
+        private void LoadSortComboBox()
+        {
+            var sortList = new List<object>
+            {
+                new { Value = "IdAsc", Text = "Mã tăng dần" },
+                new { Value = "IdDesc", Text = "Mã giảm dần" },
+                new { Value = "NameAsc", Text = "Tên A-Z" },
+                new { Value = "NameDesc", Text = "Tên Z-A" },
+                new { Value = "CreatedAsc", Text = "Ngày tạo cũ → mới" },
+                new { Value = "CreatedDesc", Text = "Ngày tạo mới → cũ" }
+            };
+
+            cbSort.DataSource = sortList;
+            cbSort.DisplayMember = "Text";
+            cbSort.ValueMember = "Value";
+            cbSort.SelectedIndex = 0;
+        }
+
+        // LOAD CB TRẠNG THÁI
+        private void LoadStatusComboBox()
+        {
+            var statusList = new[]
+            {
+                new {Value = (AccountStatus?)null, Text = "Tất cả"},
+                new {Value = (AccountStatus?)AccountStatus.Active, Text = "Đang hoạt động"},
+                new {Value = (AccountStatus?)AccountStatus.Inactive, Text = "Ngừng hoạt động"},
+                new { Value = (AccountStatus?)AccountStatus.Locked, Text = "Đã khóa" }
+            };
+
+            cbStatus.DataSource = statusList;
+            cbStatus.DisplayMember = "Text";
+            cbStatus.ValueMember = "Value";
+            cbStatus.SelectedIndex = 0;
+        }
+
+        // ===================================================
+
+        // SỰ KIỆN NÚT THÊM
         private void btAdd_Click(object sender, EventArgs e)
         {
             using (var dialog = new Dialog_Doctor(_bll))
@@ -94,7 +177,7 @@ namespace DentalClinic.APP
             }
         }
 
-        // Cellcontentclick (Edit/Delete)
+        // SỰ KIỆN NHẤN NÚT SỬA HOẶC XÓA TRONG DGV
         private void dgvDoctor_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -104,7 +187,7 @@ namespace DentalClinic.APP
 
             string colName = dgvDoctor.Columns[e.ColumnIndex].Name;
 
-            // EDIT
+            // Cột sửa
             if (colName == "EditCol")
             {
                 using (var dialog = new Dialog_Doctor(_bll, selectedDto))
@@ -115,7 +198,7 @@ namespace DentalClinic.APP
                     }
                 }
             }
-            // DELETE
+            // Cột xóa
             else if (colName == "DeleteCol")
             {
                 var confirm = MessageBox.Show(
@@ -142,20 +225,27 @@ namespace DentalClinic.APP
             }
         }
 
-        // Search
+        // SỰ KIỆN TÌM KIẾM
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            string keyword = txtSearch.Text.Trim().ToLower();
-            if (string.IsNullOrEmpty(keyword))
+            LoadDataToGridView();
+        }
+
+        // SỰ KIỆN CB SẮP XẾP
+        private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (IsHandleCreated)
             {
-                dgvDoctor.DataSource = _fullList;
+                LoadDataToGridView();
             }
-            else
+        }
+
+        // SỰ KIỆN CB TRẠNG THÁI
+        private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (IsHandleCreated)
             {
-                var filtered = _fullList.Where(d => d.FullName.ToLower().Contains(keyword)
-                                                 || d.Phone.Contains(keyword)
-                                                 || d.UserName.ToLower().Contains(keyword)).ToList();
-                dgvDoctor.DataSource = filtered;
+                LoadDataToGridView();
             }
         }
     }

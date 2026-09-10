@@ -20,11 +20,12 @@ namespace DentalClinic.BLL
         }
 
         // GetAll
-        public Result<List<ReceptionistDto>> GetAll()
+        public Result<List<ReceptionistDto>> GetAll(string keyword = "", AccountStatus? status = null)
         {
             try
             {
-                var list = _dal.GetAll();
+                var list = _dal.GetAll(keyword, status);
+
                 var dtoList = list.Select(r => new ReceptionistDto
                 {
                     ReceptionistId = r.ReceptionistId,

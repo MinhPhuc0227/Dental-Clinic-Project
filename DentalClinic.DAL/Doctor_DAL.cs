@@ -16,9 +16,26 @@ namespace DentalClinic.DAL
         }
 
         // GetAll
-        public List<Doctor> GetAll()
+        public List<Doctor> GetAll(string keyword = "", AccountStatus? status = null)
         {
-            return _context.Doctors.Include(d => d.Account).ToList();
+            var query = _context.Doctors.Include(r => r.Account).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                keyword = keyword.Trim();
+
+                query = query.Where(r =>
+                    r.FullName.Contains(keyword) ||
+                    r.Phone.Contains(keyword) ||
+                    r.Account.UserName.Contains(keyword));
+            }
+
+            if (status.HasValue)
+            {
+                query = query.Where(r => r.Account.Status == status.Value);
+            }
+
+            return query.ToList();
         }
 
         // GetById

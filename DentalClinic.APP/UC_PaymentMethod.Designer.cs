@@ -32,6 +32,10 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dgvPaymentMethod = new DataGridView();
             panel1 = new Panel();
+            label4 = new Label();
+            cbSort = new ComboBox();
+            label3 = new Label();
+            cbStatus = new ComboBox();
             btAdd = new Button();
             label2 = new Label();
             label1 = new Label();
@@ -78,13 +82,17 @@
             dgvPaymentMethod.RowHeadersWidth = 51;
             dgvPaymentMethod.RowTemplate.Height = 38;
             dgvPaymentMethod.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPaymentMethod.Size = new Size(1045, 320);
+            dgvPaymentMethod.Size = new Size(1206, 320);
             dgvPaymentMethod.TabIndex = 0;
             dgvPaymentMethod.CellContentClick += dgvPaymentMethod_CellContentClick;
             // 
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(cbSort);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(cbStatus);
             panel1.Controls.Add(btAdd);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
@@ -92,8 +100,54 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1045, 139);
+            panel1.Size = new Size(1206, 139);
             panel1.TabIndex = 1;
+            // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Semibold", 12F);
+            label4.ForeColor = Color.DarkCyan;
+            label4.Location = new Point(302, 56);
+            label4.Name = "label4";
+            label4.Size = new Size(84, 28);
+            label4.TabIndex = 18;
+            label4.Text = "Sắp xếp";
+            // 
+            // cbSort
+            // 
+            cbSort.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cbSort.Font = new Font("Segoe UI", 10F);
+            cbSort.FormattingEnabled = true;
+            cbSort.Location = new Point(302, 87);
+            cbSort.Name = "cbSort";
+            cbSort.Size = new Size(268, 31);
+            cbSort.TabIndex = 17;
+            cbSort.SelectedIndexChanged += cbSort_SelectedIndexChanged;
+            // 
+            // label3
+            // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI Semibold", 12F);
+            label3.ForeColor = Color.DarkCyan;
+            label3.Location = new Point(614, 56);
+            label3.Name = "label3";
+            label3.Size = new Size(102, 28);
+            label3.TabIndex = 16;
+            label3.Text = "Trạng thái";
+            // 
+            // cbStatus
+            // 
+            cbStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cbStatus.Font = new Font("Segoe UI", 10F);
+            cbStatus.FormattingEnabled = true;
+            cbStatus.Location = new Point(614, 87);
+            cbStatus.Name = "cbStatus";
+            cbStatus.Size = new Size(268, 31);
+            cbStatus.TabIndex = 15;
+            cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
             // 
             // btAdd
             // 
@@ -103,7 +157,7 @@
             btAdd.Font = new Font("Segoe UI Semibold", 10F);
             btAdd.ForeColor = Color.White;
             btAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btAdd.Location = new Point(21, 72);
+            btAdd.Location = new Point(21, 68);
             btAdd.Name = "btAdd";
             btAdd.Size = new Size(118, 49);
             btAdd.TabIndex = 3;
@@ -117,12 +171,11 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(760, 47);
+            label2.Location = new Point(921, 56);
             label2.Name = "label2";
             label2.Size = new Size(97, 28);
             label2.TabIndex = 2;
             label2.Text = "Tìm kiếm";
-            label2.Click += label2_Click;
             // 
             // label1
             // 
@@ -131,18 +184,18 @@
             label1.ForeColor = Color.DarkCyan;
             label1.Location = new Point(21, 14);
             label1.Name = "label1";
-            label1.Size = new Size(293, 32);
+            label1.Size = new Size(472, 32);
             label1.TabIndex = 1;
-            label1.Text = "Phương thức thanh toán";
+            label1.Text = "QUẢN LÝ PHƯƠNG THỨC THANH TOÁN";
             // 
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
-            txtSearch.Font = new Font("Segoe UI", 12F);
-            txtSearch.Location = new Point(760, 87);
+            txtSearch.Font = new Font("Segoe UI", 10F);
+            txtSearch.Location = new Point(921, 87);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(268, 34);
+            txtSearch.Size = new Size(268, 30);
             txtSearch.TabIndex = 0;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
@@ -155,7 +208,7 @@
             Controls.Add(panel1);
             Name = "UC_PaymentMethod";
             Padding = new Padding(10);
-            Size = new Size(1065, 479);
+            Size = new Size(1226, 479);
             Load += UC_Payment_Load;
             ((System.ComponentModel.ISupportInitialize)dgvPaymentMethod).EndInit();
             panel1.ResumeLayout(false);
@@ -171,5 +224,9 @@
         private Label label2;
         private Label label1;
         private Button btAdd;
+        private Label label3;
+        private ComboBox cbStatus;
+        private Label label4;
+        private ComboBox cbSort;
     }
 }

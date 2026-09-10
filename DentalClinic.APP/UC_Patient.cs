@@ -14,7 +14,6 @@ namespace DentalClinic.APP
     public partial class UC_Patient : UserControl
     {
         private readonly Patient_BLL _patientBLL;
-        private List<PatientDto> _fullList = new List<PatientDto>();
 
         public UC_Patient(Patient_BLL patientBLL)
         {
@@ -25,56 +24,118 @@ namespace DentalClinic.APP
         private void UC_Patient_Load(object sender, EventArgs e)
         {
             dgvPatient.AutoGenerateColumns = true;
+            LoadSortComboBox();
             LoadDataToGridView();
         }
 
-        // Load data to datagridview
+        // LOAD DỮ LIỆU LÊN DGV DANH SÁCH BỆNH NHÂN
         public void LoadDataToGridView()
         {
-            var result = _patientBLL.GetAll();
-            if (result.IsSuccess && result.Data != null)
+            var result = _patientBLL.GetAll(txtSearch.Text.Trim());
+
+            if (!result.IsSuccess || result.Data == null)
             {
-                _fullList = result.Data;
-                dgvPatient.DataSource = _fullList;
-                AddActionImageColumns();
+                MessageBox.Show(
+                    result.Message,
+                    "Thông báo lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
             }
-            else
+
+            var patients = result.Data;
+
+            switch (cbSort.SelectedValue?.ToString())
             {
-                MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                case "IdAsc":
+                    patients = patients
+                        .OrderBy(p => p.PatientId)
+                        .ToList();
+                    break;
+
+                case "IdDesc":
+                    patients = patients
+                        .OrderByDescending(p => p.PatientId)
+                        .ToList();
+                    break;
+
+                case "NameAsc":
+                    patients = patients
+                        .OrderBy(p => p.FullName)
+                        .ToList();
+                    break;
+
+                case "NameDesc":
+                    patients = patients
+                        .OrderByDescending(p => p.FullName)
+                        .ToList();
+                    break;
             }
+
+            dgvPatient.DataSource = null;
+            dgvPatient.DataSource = patients;
+
+            AddActionImageColumns();
         }
 
-        // Add Edit and Delete image columns 
+        // THÊM CỘT SỬA VÀ XÓA VÀO DGV 
         private void AddActionImageColumns()
         {
             if (!dgvPatient.Columns.Contains("EditCol"))
             {
-                var imgEdit = new DataGridViewImageColumn
+                var imgEdit = new DataGridViewButtonColumn
                 {
                     Name = "EditCol",
                     HeaderText = "Sửa",
-                    Image = Resources.edit,
-                    Width = 50,
-                    ImageLayout = DataGridViewImageCellLayout.Zoom
+                    Text = "Sửa",
+                    UseColumnTextForButtonValue = true
                 };
                 dgvPatient.Columns.Add(imgEdit);
             }
 
             if (!dgvPatient.Columns.Contains("DeleteCol"))
             {
-                var imgDelete = new DataGridViewImageColumn
+                var imgDelete = new DataGridViewButtonColumn
                 {
                     Name = "DeleteCol",
                     HeaderText = "Xóa",
-                    Image = Resources.delete,
-                    Width = 50,
-                    ImageLayout = DataGridViewImageCellLayout.Zoom
+                    Text = "Xóa",
+                    UseColumnTextForButtonValue = true
                 };
                 dgvPatient.Columns.Add(imgDelete);
             }
+
+            // Đưa cột Xóa xuống cuối và cột Sửa ngay trước cột Xóa
+            var deleteColumn = dgvPatient.Columns["DeleteCol"];
+            var editColumn = dgvPatient.Columns["EditCol"];
+
+            if (deleteColumn != null)
+                deleteColumn.DisplayIndex = dgvPatient.Columns.Count - 1;
+         
+            if (editColumn != null)
+                editColumn.DisplayIndex = deleteColumn != null ? deleteColumn.DisplayIndex - 1 : dgvPatient.Columns.Count - 1;
         }
 
-        // Add button
+        // LOAD CB SẮP XẾP
+        private void LoadSortComboBox()
+        {
+            var sortList = new List<object>
+            {
+                new {Value = "IdAsc", Text = "Mã tăng dần"},
+                new {Value = "IdDesc", Text = "Mã giảm dần"},
+                new {Value = "NameAsc", Text = "Tên A-Z"},
+                new {Value = "NameDesc",Text = "Tên Z-A"}
+            };
+
+            cbSort.DataSource = sortList;
+            cbSort.DisplayMember = "Text";
+            cbSort.ValueMember = "Value";
+            cbSort.SelectedIndex = 0;
+        }
+
+        // =========================================================
+        // SỰ KIỆN NÚT THÊM
         private void btAdd_Click(object sender, EventArgs e)
         {
             using (var dialog = new Dialog_Patient(_patientBLL))
@@ -83,7 +144,7 @@ namespace DentalClinic.APP
             }
         }
 
-        // Cellcontentclick (Edit/Delete)
+        // SỰ KIỆN KHI NHẤN CỘT SỬA HOẶC XÓA TRONG DGV
         private void dgvPatient_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -93,6 +154,7 @@ namespace DentalClinic.APP
 
             string colName = dgvPatient.Columns[e.ColumnIndex].Name;
 
+            // Cột sửa
             if (colName == "EditCol")
             {
                 using (var dialog = new Dialog_Patient(_patientBLL, selectedDto))
@@ -100,6 +162,7 @@ namespace DentalClinic.APP
                     if (dialog.ShowDialog() == DialogResult.OK) LoadDataToGridView();
                 }
             }
+            // Cột xóa
             else if (colName == "DeleteCol")
             {
                 var confirm = MessageBox.Show($"Bạn có chắc muốn xóa bệnh nhân '{selectedDto.FullName}'?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -119,19 +182,16 @@ namespace DentalClinic.APP
             }
         }
 
-        // Search
+        // SỰ KIỆN TÌM KIẾM
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            string keyword = txtSearch.Text.Trim().ToLower();
-            if (string.IsNullOrEmpty(keyword))
-            {
-                dgvPatient.DataSource = _fullList;
-            }
-            else
-            {
-                dgvPatient.DataSource = _fullList.Where(p => p.FullName.ToLower().Contains(keyword)
-                                                          || p.Phone.Contains(keyword)).ToList();
-            }
+            LoadDataToGridView();
+        }
+
+        // SỰ KIỆN CB SẮP XẾP
+        private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (IsHandleCreated) LoadDataToGridView();
         }
     }
 }

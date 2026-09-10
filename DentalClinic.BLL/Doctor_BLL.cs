@@ -19,31 +19,32 @@ namespace DentalClinic.BLL
         }
 
         // GetAll
-        public Result<List<DoctorDto>> GetAll()
+        public Result<List<DoctorDto>> GetAll(string keyword = "", AccountStatus? status = null)
         {
             try
             {
-                var list = _dal.GetAll();
-                var dtoList = list.Select(d => new DoctorDto
+                var list = _dal.GetAll(keyword, status);
+
+                var dtoList = list.Select(r => new DoctorDto
                 {
-                    DoctorId = d.DoctorId,
-                    FullName = d.FullName,
-                    Gender = d.Gender,
-                    DateOfBirth = d.DateOfBirth,
-                    Phone = d.Phone,
-                    Email = d.Email,
-                    Description = d.Description,
-                    AccountId = d.AccountId,
-                    UserName = d.Account?.UserName ?? string.Empty,
-                    Status = d.Account?.Status ?? AccountStatus.Active,
-                    CreatedAt = d.Account?.CreatedDate ?? DateTime.Now
+                    DoctorId = r.DoctorId,
+                    FullName = r.FullName,
+                    Gender = r.Gender,
+                    DateOfBirth = r.DateOfBirth,
+                    Phone = r.Phone,
+                    Email = r.Email,
+                    Description = r.Description,
+                    AccountId = r.AccountId,
+                    UserName = r.Account?.UserName ?? string.Empty,
+                    Status = r.Account?.Status ?? AccountStatus.Active,
+                    CreatedAt = r.Account?.CreatedDate ?? DateTime.Now
                 }).ToList();
 
                 return Result<List<DoctorDto>>.Success(dtoList);
             }
             catch (Exception ex)
             {
-                return Result<List<DoctorDto>>.Failure("Lỗi tải danh sách bác sĩ: " + ex.Message);
+                return Result<List<DoctorDto>>.Failure("Lỗi tải danh sách lễ tân: " + ex.Message);
             }
         }
 

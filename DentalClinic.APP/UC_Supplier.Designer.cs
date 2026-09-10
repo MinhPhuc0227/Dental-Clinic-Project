@@ -32,12 +32,14 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             panel1 = new Panel();
+            label4 = new Label();
+            cbSort = new ComboBox();
+            label2 = new Label();
+            label3 = new Label();
             btAdd = new Button();
             txtSearch = new TextBox();
             cbStatus = new ComboBox();
             dgvSupplier = new DataGridView();
-            label3 = new Label();
-            label2 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSupplier).BeginInit();
             SuspendLayout();
@@ -47,7 +49,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(356, 15);
+            label1.Location = new Point(12, 25);
             label1.Name = "label1";
             label1.Size = new Size(308, 32);
             label1.TabIndex = 0;
@@ -55,6 +57,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(cbSort);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(btAdd);
@@ -66,8 +70,55 @@
             panel1.ForeColor = Color.White;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1001, 184);
+            panel1.Size = new Size(1319, 159);
             panel1.TabIndex = 1;
+            // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Semibold", 12F);
+            label4.ForeColor = Color.DarkCyan;
+            label4.Location = new Point(331, 77);
+            label4.Name = "label4";
+            label4.Size = new Size(84, 28);
+            label4.TabIndex = 19;
+            label4.Text = "Sắp xếp";
+            // 
+            // cbSort
+            // 
+            cbSort.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cbSort.Font = new Font("Segoe UI", 10F);
+            cbSort.FormattingEnabled = true;
+            cbSort.Location = new Point(331, 108);
+            cbSort.Name = "cbSort";
+            cbSort.Size = new Size(274, 31);
+            cbSort.TabIndex = 18;
+            cbSort.SelectedIndexChanged += cbSort_SelectedIndexChanged;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Semibold", 12F);
+            label2.ForeColor = Color.DarkCyan;
+            label2.Location = new Point(673, 77);
+            label2.Name = "label2";
+            label2.Size = new Size(102, 28);
+            label2.TabIndex = 17;
+            label2.Text = "Trạng thái";
+            // 
+            // label3
+            // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI Semibold", 12F);
+            label3.ForeColor = Color.DarkCyan;
+            label3.Location = new Point(1015, 77);
+            label3.Name = "label3";
+            label3.Size = new Size(97, 28);
+            label3.TabIndex = 16;
+            label3.Text = "Tìm kiếm";
             // 
             // btAdd
             // 
@@ -75,7 +126,7 @@
             btAdd.FlatAppearance.BorderSize = 0;
             btAdd.FlatStyle = FlatStyle.Flat;
             btAdd.Font = new Font("Segoe UI Semibold", 10F);
-            btAdd.Location = new Point(12, 105);
+            btAdd.Location = new Point(11, 93);
             btAdd.Name = "btAdd";
             btAdd.Size = new Size(175, 45);
             btAdd.TabIndex = 3;
@@ -87,7 +138,7 @@
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
-            txtSearch.Location = new Point(699, 123);
+            txtSearch.Location = new Point(1015, 108);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(274, 30);
             txtSearch.TabIndex = 2;
@@ -95,8 +146,10 @@
             // 
             // cbStatus
             // 
+            cbStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cbStatus.Font = new Font("Segoe UI", 10F);
             cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(356, 123);
+            cbStatus.Location = new Point(673, 108);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(274, 31);
             cbStatus.TabIndex = 1;
@@ -132,7 +185,7 @@
             dgvSupplier.Dock = DockStyle.Fill;
             dgvSupplier.EnableHeadersVisualStyles = false;
             dgvSupplier.GridColor = Color.DarkCyan;
-            dgvSupplier.Location = new Point(10, 194);
+            dgvSupplier.Location = new Point(10, 169);
             dgvSupplier.MultiSelect = false;
             dgvSupplier.Name = "dgvSupplier";
             dgvSupplier.ReadOnly = true;
@@ -140,32 +193,9 @@
             dgvSupplier.RowHeadersWidth = 51;
             dgvSupplier.RowTemplate.Height = 38;
             dgvSupplier.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvSupplier.Size = new Size(1001, 285);
+            dgvSupplier.Size = new Size(1319, 310);
             dgvSupplier.TabIndex = 6;
             dgvSupplier.CellContentClick += dgvSupplier_CellContentClick;
-            // 
-            // label3
-            // 
-            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI Semibold", 12F);
-            label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(699, 83);
-            label3.Name = "label3";
-            label3.Size = new Size(97, 28);
-            label3.TabIndex = 16;
-            label3.Text = "Tìm kiếm";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 12F);
-            label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(356, 84);
-            label2.Name = "label2";
-            label2.Size = new Size(102, 28);
-            label2.TabIndex = 17;
-            label2.Text = "Trạng thái";
             // 
             // UC_Supplier
             // 
@@ -176,7 +206,7 @@
             Controls.Add(panel1);
             Name = "UC_Supplier";
             Padding = new Padding(10);
-            Size = new Size(1021, 489);
+            Size = new Size(1339, 489);
             Load += UC_Supplier_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -194,5 +224,7 @@
         private DataGridView dgvSupplier;
         private Label label2;
         private Label label3;
+        private Label label4;
+        private ComboBox cbSort;
     }
 }

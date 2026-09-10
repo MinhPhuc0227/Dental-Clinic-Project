@@ -18,11 +18,12 @@ namespace DentalClinic.BLL
         }
 
         // GetAll
-        public Result<List<PaymentMethodDto>> GetAll()
+        public Result<List<PaymentMethodDto>> GetAll(string keyword = "", PaymentMethodStatus? status = null)
         {
             try
             {
-                var list = _dal.GetAll();
+                var list = _dal.GetAll(keyword, status);
+
                 var dtoList = list.Select(pm => new PaymentMethodDto
                 {
                     PaymentMethodId = pm.PaymentMethodId,

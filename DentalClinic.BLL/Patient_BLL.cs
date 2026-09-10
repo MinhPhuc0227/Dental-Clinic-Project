@@ -19,11 +19,12 @@ namespace DentalClinic.BLL
         }
 
         // GetAll
-        public Result<List<PatientDto>> GetAll()
+        public Result<List<PatientDto>> GetAll(string keyword = "")
         {
             try
             {
-                var list = _dal.GetAll();
+                var list = _dal.GetAll(keyword);
+
                 var dtoList = list.Select(p => new PatientDto
                 {
                     PatientId = p.PatientId,
@@ -40,7 +41,8 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
-                return Result<List<PatientDto>>.Failure("Lỗi tải danh sách bệnh nhân: " + ex.Message);
+                return Result<List<PatientDto>>.Failure(
+                    "Lỗi tải danh sách bệnh nhân: " + ex.Message);
             }
         }
 

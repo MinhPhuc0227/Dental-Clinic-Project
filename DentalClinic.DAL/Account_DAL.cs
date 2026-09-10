@@ -17,12 +17,37 @@ namespace DentalClinic.DAL
         }
 
         // GetAll
-        public List<Account> GetAll()
-        {   
-                return _context.Accounts
-                    .Include(a => a.Doctor)
-                    .Include(a => a.Receptionist)
-                    .ToList();
+        public List<Account> GetAll(string keyword = "", AccountRole? role = null, AccountStatus? status = null)
+        {
+            var query = _context.Accounts
+                .Include(a => a.Doctor)
+                .Include(a => a.Receptionist)
+                .AsQueryable();
+
+            // Tìm kiếm
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                keyword = keyword.Trim();
+
+                query = query.Where(a =>
+                    a.UserName.Contains(keyword) ||
+                    (a.Doctor != null && a.Doctor.FullName.Contains(keyword)) ||
+                    (a.Receptionist != null && a.Receptionist.FullName.Contains(keyword)));
+            }
+
+            // Lọc vai trò
+            if (role.HasValue)
+            {
+                query = query.Where(a => a.Role == role.Value);
+            }
+
+            // Lọc trạng thái
+            if (status.HasValue)
+            {
+                query = query.Where(a => a.Status == status.Value);
+            }
+
+            return query.ToList();
         }
 
         // GetById

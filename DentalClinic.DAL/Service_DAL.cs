@@ -15,9 +15,33 @@ namespace DentalClinic.DAL
         }
 
         // GetAll
-        public List<Service> GetAll()
+        public List<Service> GetAll(string keyword = "", bool? isLongTerm = null, ServiceStatus? status = null)
         {
-                return _context.Services.ToList();
+            var query = _context.Services.AsQueryable();
+
+            // Tìm kiếm
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                keyword = keyword.Trim();
+
+                query = query.Where(s =>
+                    s.ServiceName.Contains(keyword) ||
+                    (s.Description != null && s.Description.Contains(keyword)));
+            }
+
+            // Lọc loại dịch vụ
+            if (isLongTerm.HasValue)
+            {
+                query = query.Where(s => s.IsLongTerm == isLongTerm.Value);
+            }
+
+            // Lọc trạng thái
+            if (status.HasValue)
+            {
+                query = query.Where(s => s.Status == status.Value);
+            }
+
+            return query.ToList();
         }
 
         // GetById

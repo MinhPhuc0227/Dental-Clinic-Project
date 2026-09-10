@@ -11,7 +11,6 @@ namespace DentalClinic.DTO
     {
         [DisplayName("Mã TK")]
         public int AccountId { get; set; }
-        public int? PatientId { get; set; }
         public int? DoctorId { get; set; }
         public int? ReceptionistId { get; set; }
         public string FullName { get; set; } = string.Empty;

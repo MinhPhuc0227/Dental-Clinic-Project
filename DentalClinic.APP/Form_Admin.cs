@@ -33,11 +33,7 @@ namespace DentalClinic.App
         private readonly Dashboard_BLL _dashboardBLL;
         private readonly Account_BLL _accountBLL;
 
-        public Form_Admin(
-    int accountId,
-    Dashboard_BLL dashboardBLL,
-    Account_BLL accountBLL,
-    IServiceProvider serviceProvider)
+        public Form_Admin(int accountId, Dashboard_BLL dashboardBLL, Account_BLL accountBLL, IServiceProvider serviceProvider)
         {
             InitializeComponent();
 
@@ -47,32 +43,14 @@ namespace DentalClinic.App
             _serviceProvider = serviceProvider;
 
             dashboardUC = new UC_DashBoard(_dashboardBLL);
-
-            accountUC = ActivatorUtilities.CreateInstance<UC_Account>(
-    _serviceProvider,
-    _currentAccountId);
-
-            doctorUC = ActivatorUtilities.CreateInstance<UC_Doctor>(
-    _serviceProvider);
-
-            receptionistUC = ActivatorUtilities.CreateInstance<UC_Receptionist>(
-                _serviceProvider);
-
-            patientUC = ActivatorUtilities.CreateInstance<UC_Patient>(
-                _serviceProvider);
-
-            serviceUC = ActivatorUtilities.CreateInstance<UC_Service>(
-                _serviceProvider);
-
-            medicineUC = ActivatorUtilities.CreateInstance<UC_Medicine>(
-                _serviceProvider,
-                _currentAccountId);
-
-            paymentUC = ActivatorUtilities.CreateInstance<UC_PaymentMethod>(
-                _serviceProvider);
-
-            supplierUC = ActivatorUtilities.CreateInstance<UC_Supplier>(
-                _serviceProvider);
+            accountUC = ActivatorUtilities.CreateInstance<UC_Account>(_serviceProvider, _currentAccountId);
+            doctorUC = ActivatorUtilities.CreateInstance<UC_Doctor>(_serviceProvider);
+            receptionistUC = ActivatorUtilities.CreateInstance<UC_Receptionist>(_serviceProvider);
+            patientUC = ActivatorUtilities.CreateInstance<UC_Patient>(_serviceProvider);
+            serviceUC = ActivatorUtilities.CreateInstance<UC_Service>(_serviceProvider);
+            medicineUC = ActivatorUtilities.CreateInstance<UC_Medicine>(_serviceProvider, _currentAccountId);
+            paymentUC = ActivatorUtilities.CreateInstance<UC_PaymentMethod>(_serviceProvider);
+            supplierUC = ActivatorUtilities.CreateInstance<UC_Supplier>(_serviceProvider);
         }
 
         private void Admin_Form_Load(object sender, EventArgs e)
@@ -81,6 +59,7 @@ namespace DentalClinic.App
             dashboardUC.LoadDashboard();
         }
 
+        // HÀM MỞ UC
         private void ShowUC(UserControl uc)
         {
             if (!pnContent.Controls.Contains(uc))
@@ -92,16 +71,17 @@ namespace DentalClinic.App
             uc.BringToFront();
         }
 
+        // DASHBOARD
         private void rbDashBoard_CheckedChanged(object sender, EventArgs e)
         {
             if (rbDashBoard.Checked)
             {
                 ShowUC(dashboardUC);
-
                 dashboardUC.LoadDashboard();
             }
         }
 
+        // ACCOUNT
         private void rbAccount_CheckedChanged(object sender, EventArgs e)
         {
             if (rbAccount.Checked)
@@ -111,6 +91,7 @@ namespace DentalClinic.App
             }
         }
 
+        // SERVICE
         private void rbService_CheckedChanged(object sender, EventArgs e)
         {
             if (rbService.Checked)
@@ -120,6 +101,7 @@ namespace DentalClinic.App
             }
         }
 
+        // MEDICINE
         private void rbMedicine_CheckedChanged(object sender, EventArgs e)
         {
             if (rbMedicine.Checked)
@@ -129,6 +111,7 @@ namespace DentalClinic.App
             }
         }
 
+        // PAYMENTMETHOD
         private void rbPayment_CheckedChanged(object sender, EventArgs e)
         {
             if (rbPayment.Checked)
@@ -138,6 +121,7 @@ namespace DentalClinic.App
             }
         }
 
+        // DOCTOR
         private void rbDoctor_CheckedChanged(object sender, EventArgs e)
         {
             if (rbDoctor.Checked)
@@ -147,6 +131,7 @@ namespace DentalClinic.App
             }
         }
 
+        // RECEPTIONIST
         private void rbReceptionist_CheckedChanged(object sender, EventArgs e)
         {
             if (rbReceptionist.Checked)
@@ -156,6 +141,7 @@ namespace DentalClinic.App
             }
         }
 
+        // PATIENT
         private void rbPatient_CheckedChanged(object sender, EventArgs e)
         {
             if (rbPatient.Checked)
@@ -165,11 +151,7 @@ namespace DentalClinic.App
             }
         }
 
-        private void btLogout_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
+        // SUPPLIER
         private void rbSupplier_CheckedChanged(object sender, EventArgs e)
         {
             if (rbSupplier.Checked)
@@ -179,9 +161,10 @@ namespace DentalClinic.App
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        // LOG OUT
+        private void btLogout_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 }

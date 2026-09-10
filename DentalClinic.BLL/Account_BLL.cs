@@ -20,11 +20,12 @@ namespace DentalClinic.BLL
         }
 
         // GetAll
-        public Result<List<AccountDto>> GetAll()
+        public Result<List<AccountDto>> GetAll(string keyword = "", AccountRole? role = null, AccountStatus? status = null)
         {
             try
             {
-                var list = _dal.GetAll();
+                var list = _dal.GetAll(keyword, role, status);
+
                 var dtoList = list.Select(a => new AccountDto
                 {
                     AccountId = a.AccountId,

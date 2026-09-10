@@ -32,7 +32,7 @@ namespace DentalClinic.DTO
         public MedicineStatus Status { get; set; } = MedicineStatus.Active;
 
         [DisplayName("Trạng thái")]
-        public string StatusDisplay => Status == MedicineStatus.Active ? "Hoạt động" : "Ngừng hoạt động";
+        public string StatusText => Status == MedicineStatus.Active ? "Kinh doanh" : "Ngừng kinh doanh";
     }
 
     // DTO dùng để tạo mới thuốc

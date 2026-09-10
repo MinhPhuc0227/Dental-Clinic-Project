@@ -15,8 +15,6 @@ namespace DentalClinic.APP
 {
     public partial class UC_Account : UserControl
     {
-        // Khai báo biến lưu danh sách đầy đủ các tài khoản
-        private List<AccountDto> _fullList = new List<AccountDto>();
         private readonly int _currentAccountId;
 
         // Khởi tạo BLL
@@ -24,14 +22,9 @@ namespace DentalClinic.APP
         private readonly Doctor_BLL _doctorBLL;
         private readonly Receptionist_BLL _receptionistBLL;
 
-        public UC_Account(
-    int currentAccountId,
-    Account_BLL accountBLL,
-    Receptionist_BLL receptionistBLL,
-    Doctor_BLL doctorBLL)
+        public UC_Account(int currentAccountId, Account_BLL accountBLL, Receptionist_BLL receptionistBLL, Doctor_BLL doctorBLL)
         {
             InitializeComponent();
-
             _currentAccountId = currentAccountId;
             _accountBLL = accountBLL;
             _receptionistBLL = receptionistBLL;
@@ -40,85 +33,208 @@ namespace DentalClinic.APP
 
         private void UC_Account_Load(object sender, EventArgs e)
         {
-            ConfigureDataGridView();
+            dgvAccount.AutoGenerateColumns = true;
             LoadRoleComboBox();
+            LoadStatusComboBox();
+            LoadSortComboBox();
             LoadDataToGridView();
         }
 
-        // Config datagridview 
-        private void ConfigureDataGridView()
+        // LOAD CB TRẠNG THÁI
+        private void LoadStatusComboBox()
         {
-            dgvAccount.AutoGenerateColumns = true;
+            var statusList = new[]
+            {
+                new {Value = (AccountStatus?)null, Text = "Tất cả"},
+                new {Value = (AccountStatus?)AccountStatus.Active, Text = "Đang hoạt động"},
+                new {Value = (AccountStatus?)AccountStatus.Inactive, Text = "Ngừng hoạt động"},
+                new {Value = (AccountStatus?)AccountStatus.Locked, Text = "Đã khóa"}
+            };
+
+            cbStatus.DataSource = statusList;
+            cbStatus.DisplayMember = "Text";
+            cbStatus.ValueMember = "Value";
+            cbStatus.SelectedIndex = 0;
         }
 
-        // Load data to datagridview
+        // LOAD CB VAI TRÒ
+        private void LoadRoleComboBox()
+        {
+            var roleList = new[]
+            {
+                new {Value = (AccountRole?)null, Text = "Tất cả"},
+                new {Value = (AccountRole?)AccountRole.Admin, Text = "Quản trị viên"},
+                new {Value = (AccountRole?)AccountRole.Doctor, Text = "Bác sĩ"},
+                new {Value = (AccountRole?)AccountRole.Receptionist, Text = "Lễ tân"}
+            };
+
+            cbRole.DataSource = roleList;
+            cbRole.DisplayMember = "Text";
+            cbRole.ValueMember = "Value";
+            cbRole.SelectedIndex = 0;
+        }
+
+        // LOAD CB SẮP XẾP
+        private void LoadSortComboBox()
+        {
+            var sortList = new List<object>
+            {
+                new { Value = "IdAsc", Text = "Mã tăng dần" },
+                new { Value = "IdDesc", Text = "Mã giảm dần" },
+                new { Value = "NameAsc", Text = "Tên A-Z" },
+                new { Value = "NameDesc", Text = "Tên Z-A" },
+                new { Value = "CreatedAsc", Text = "Ngày tạo cũ → mới" },
+                new { Value = "CreatedDesc", Text = "Ngày tạo mới → cũ" }
+            };
+
+            cbSort.DataSource = sortList;
+            cbSort.DisplayMember = "Text";
+            cbSort.ValueMember = "Value";
+            cbSort.SelectedIndex = 0;
+        }
+
+        // LOAD DỮ LIỆU LÊN DGV DANH SÁCH TÀI KHOẢN
         public void LoadDataToGridView()
         {
-            var result = _accountBLL.GetAll();
+            AccountRole? role = null;
 
-            if (result.IsSuccess && result.Data != null)
+            if (cbRole.SelectedIndex == 1)
             {
-                _fullList = result.Data;
-
-                AddActionImageColumns();
-
-                ApplyFilter();
+                role = AccountRole.Admin;
             }
-            else
+            else if (cbRole.SelectedIndex == 2)
             {
-                MessageBox.Show(
-                    result.Message,
-                    "Thông báo lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                role = AccountRole.Doctor;
+            }
+            else if (cbRole.SelectedIndex == 3)
+            {
+                role = AccountRole.Receptionist;
+            }
+
+            AccountStatus? status = null;
+
+            if (cbStatus.SelectedIndex == 1)
+            {
+                status = AccountStatus.Active;
+            }
+            else if (cbStatus.SelectedIndex == 2)
+            {
+                status = AccountStatus.Inactive;
+            }
+            else if (cbStatus.SelectedIndex == 3)
+            {
+                status = AccountStatus.Locked;
+            }
+
+            var result = _accountBLL.GetAll(txtSearch.Text.Trim(), role, status);
+
+            if (!result.IsSuccess || result.Data == null)
+            {
+                MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var accounts = result.Data;
+
+            switch (cbSort.SelectedValue?.ToString())
+            {
+                case "IdAsc":
+                    accounts = accounts.OrderBy(a => a.AccountId).ToList();
+                    break;
+
+                case "IdDesc":
+                    accounts = accounts.OrderByDescending(a => a.AccountId).ToList();
+                    break;
+
+                case "NameAsc":
+                    accounts = accounts.OrderBy(a => a.FullName).ToList();
+                    break;
+
+                case "NameDesc":
+                    accounts = accounts.OrderByDescending(a => a.FullName).ToList();
+                    break;
+
+                case "CreatedAsc":
+                    accounts = accounts.OrderBy(a => a.CreatedAt).ToList();
+                    break;
+
+                case "CreatedDesc":
+                    accounts = accounts.OrderByDescending(a => a.CreatedAt).ToList();
+                    break;
+            }
+
+            dgvAccount.DataSource = null;
+            dgvAccount.DataSource = accounts;
+
+            AddActionImageColumns();
+
+            // Đưa Xóa về cuối
+            var deleteColumn = dgvAccount.Columns["DeleteCol"];
+
+            if (deleteColumn != null)
+            {
+                deleteColumn.DisplayIndex = dgvAccount.Columns.Count - 1;
+            }
+
+            // Đưa Sửa ngay trước Xóa
+            var editColumn = dgvAccount.Columns["EditCol"];
+
+            if (editColumn != null && deleteColumn != null)
+            {
+                editColumn.DisplayIndex = deleteColumn.DisplayIndex - 1;
+            }
+
+            // Đặt tên hiển thị cho một số cột
+            var doctorIdColumn = dgvAccount.Columns["DoctorId"];
+            if (doctorIdColumn != null)
+            {
+                doctorIdColumn.HeaderText = "Mã Bác Sĩ";
+            }
+
+            var receptionistIdColumn = dgvAccount.Columns["ReceptionistId"];
+            if (receptionistIdColumn != null)
+            {
+                receptionistIdColumn.HeaderText = "Mã Lễ Tân";
+            }
+
+            var fullNameColumn = dgvAccount.Columns["FullName"];
+            if (fullNameColumn != null)
+            {
+                fullNameColumn.HeaderText = "Họ và Tên";
             }
         }
 
-        // Add edit and delete image columns 
+        // THÊM CỘT SỬA VÀ XÓA CHO DGV
         private void AddActionImageColumns()
         {
-            //if (!dgvAccount.Columns.Contains("ViewCol"))
-            //{
-            //    var viewCol = new DataGridViewButtonColumn
-            //    {
-            //        Name = "ViewCol",
-            //        HeaderText = "Xem hồ sơ",
-            //        Text = "Xem",
-            //        UseColumnTextForButtonValue = true,
-            //        Width = 80
-            //    };
-
-            //    dgvAccount.Columns.Add(viewCol);
-            //}
-
             if (!dgvAccount.Columns.Contains("EditCol"))
             {
-                var imgEdit = new DataGridViewImageColumn
+                var imgEdit = new DataGridViewButtonColumn
                 {
                     Name = "EditCol",
-                    HeaderText = "Sửa / Đổi MK",
-                    Image = Resources.edit,
-                    Width = 80,
-                    ImageLayout = DataGridViewImageCellLayout.Zoom
+                    HeaderText = "Sửa",
+                    Text = "Sửa",
+                    UseColumnTextForButtonValue = true
                 };
                 dgvAccount.Columns.Add(imgEdit);
             }
 
             if (!dgvAccount.Columns.Contains("DeleteCol"))
             {
-                var imgDelete = new DataGridViewImageColumn
+                var imgDelete = new DataGridViewButtonColumn
                 {
                     Name = "DeleteCol",
                     HeaderText = "Xóa",
-                    Image = Resources.delete,
-                    Width = 50,
-                    ImageLayout = DataGridViewImageCellLayout.Zoom
+                    Text = "Xóa",
+                    UseColumnTextForButtonValue = true
                 };
                 dgvAccount.Columns.Add(imgDelete);
             }
         }
 
-        // Cellcontentclick (Edit/Delete) 
+        // =====================================================
+
+        // SỰ KIỆN CỘT SỬA, XÓA TRONG DGV 
         private void dgvAccount_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -128,76 +244,8 @@ namespace DentalClinic.APP
 
             string colName = dgvAccount.Columns[e.ColumnIndex].Name;
 
-            // XEM HỒ SƠ
-            if (colName == "ViewCol")
-            {
-                if (selectedDto.Role == AccountRole.Doctor &&
-                    selectedDto.DoctorId.HasValue)
-                {
-                    var result =
-                        _doctorBLL.GetById(
-                            selectedDto.DoctorId.Value);
-
-                    if (!result.IsSuccess ||
-                        result.Data == null)
-                    {
-                        MessageBox.Show(
-                            "Không tìm thấy hồ sơ bác sĩ.",
-                            "Thông báo",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
-
-                        return;
-                    }
-
-                    using var dialog = new Dialog_Doctor(
-    _doctorBLL,
-    result.Data,
-    true);
-
-                    dialog.ShowDialog(this);
-                }
-                else if (
-                    selectedDto.Role == AccountRole.Receptionist &&
-                    selectedDto.ReceptionistId.HasValue)
-                {
-                    var result =
-                        _receptionistBLL.GetById(
-                            selectedDto.ReceptionistId.Value);
-
-                    if (!result.IsSuccess ||
-                        result.Data == null)
-                    {
-                        MessageBox.Show(
-                            "Không tìm thấy hồ sơ lễ tân.",
-                            "Thông báo",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
-
-                        return;
-                    }
-
-                    using var dialog = new Dialog_Receptionist(
-    _receptionistBLL,
-    result.Data,
-    true);
-
-                    dialog.ShowDialog(this);
-                }
-                else
-                {
-                    MessageBox.Show(
-                        "Tài khoản Admin không có hồ sơ nhân sự riêng.",
-                        "Thông báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                }
-
-                return;
-            }
-
-            // EDIT
-            else if (colName == "EditCol")
+            // Cột sửa
+            if (colName == "EditCol")
             {
                 using (var dialog = new Dialog_Account(selectedDto, _currentAccountId, _accountBLL))
                 {
@@ -207,7 +255,7 @@ namespace DentalClinic.APP
                     }
                 }
             }
-            // DELETE
+            // Cột xóa
             else if (colName == "DeleteCol")
             {
                 // Không cho xóa chính tài khoản đang đăng nhập
@@ -235,32 +283,19 @@ namespace DentalClinic.APP
 
                     if (result.IsSuccess)
                     {
-                        MessageBox.Show(
-                            result.Message,
-                            "Thông báo",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
+                        MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         LoadDataToGridView();
                     }
                     else
                     {
-                        MessageBox.Show(
-                            result.Message,
-                            "Thông báo lỗi",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                        MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
-
-        // Search
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            ApplyFilter();
-        }
-
+        
+        // SỰ KIỆN NÚT THÊM ADMIN
         private void btCreateAdmin_Click(object sender, EventArgs e)
         {
             using (var dialog = new Dialog_Admin(_accountBLL))
@@ -272,82 +307,37 @@ namespace DentalClinic.APP
             }
         }
 
-        private void LoadRoleComboBox()
+        // SỰ KIỆN TÌM KIẾM
+        private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            cbRole.DataSource = new[]
-            {
-        new
-        {
-            Value = (AccountRole?)null,
-            Display = "-- Tất cả --"
-        },
-        new
-        {
-            Value = (AccountRole?)AccountRole.Admin,
-            Display = "Quản trị viên"
-        },
-        new
-        {
-            Value = (AccountRole?)AccountRole.Doctor,
-            Display = "Bác sĩ"
-        },
-        new
-        {
-            Value = (AccountRole?)AccountRole.Receptionist,
-            Display = "Lễ tân"
-        }
-    };
-
-            cbRole.DisplayMember = "Display";
-            cbRole.ValueMember = "Value";
-            cbRole.SelectedIndex = 0;
+            LoadDataToGridView();
         }
 
+        // SỰ KIỆN CB VAI TRÒ
         private void cbRole_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ApplyFilter();
+            if (IsHandleCreated)
+            {
+                LoadDataToGridView();
+            }
         }
 
-        private void ApplyFilter()
+        // SỰ KIỆN CB TRẠNG THÁI
+        private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string keyword = txtSearch.Text.Trim().ToLower();
-
-            AccountRole? selectedRole = null;
-
-            if (cbRole.SelectedValue is AccountRole role)
+            if (IsHandleCreated)
             {
-                selectedRole = role;
+                LoadDataToGridView();
             }
+        }
 
-            var filtered = _fullList.AsEnumerable();
-
-            // Lọc theo từ khóa
-            if (!string.IsNullOrEmpty(keyword))
+        // SỰ KIỆN CB SẮP XẾP
+        private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (IsHandleCreated)
             {
-                filtered = filtered.Where(a =>
-                    a.UserName.ToLower().Contains(keyword) ||
-                    a.FullName.ToLower().Contains(keyword) ||
-                    a.RoleDisplay.ToLower().Contains(keyword) ||
-                    a.StatusDisplay.ToLower().Contains(keyword));
+                LoadDataToGridView();
             }
-
-            // Lọc theo vai trò
-            if (selectedRole.HasValue)
-            {
-                filtered = filtered.Where(a =>
-                    a.Role == selectedRole.Value);
-            }
-
-            dgvAccount.DataSource = filtered.ToList();
-
-            if (dgvAccount.Columns.Contains("DoctorId"))
-                dgvAccount.Columns["DoctorId"].HeaderText = "Mã Bác Sĩ";
-
-            if (dgvAccount.Columns.Contains("ReceptionistId"))
-                dgvAccount.Columns["ReceptionistId"].HeaderText = "Mã Lễ Tân";
-
-            if (dgvAccount.Columns.Contains("FullName"))
-                dgvAccount.Columns["FullName"].HeaderText = "Họ và Tên";
         }
     }
 }

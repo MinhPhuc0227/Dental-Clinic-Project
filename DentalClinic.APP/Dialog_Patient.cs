@@ -135,7 +135,7 @@ namespace DentalClinic.APP
 
         private void Dialog_Patient_Load(object sender, EventArgs e)
         {
-            txtFullName.Focus();
+            BeginInvoke(new Action(() => txtFullName.Focus()));
         }
     }
 }

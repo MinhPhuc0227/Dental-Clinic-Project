@@ -192,7 +192,7 @@ namespace DentalClinic.APP
 
         private void Dialog_Doctor_Load(object sender, EventArgs e)
         {
-            txtFullName.Focus();
+            BeginInvoke(new Action(() => txtFullName.Focus()));
         }
 
         private void chkShowPassword_CheckedChanged(object sender, EventArgs e)

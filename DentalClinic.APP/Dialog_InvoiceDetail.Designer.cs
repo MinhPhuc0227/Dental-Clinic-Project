@@ -239,7 +239,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(83, 11);
+            label2.Location = new Point(85, 11);
             label2.Name = "label2";
             label2.Size = new Size(191, 23);
             label2.TabIndex = 1;
@@ -275,6 +275,7 @@
             txtPatientAddress.ReadOnly = true;
             txtPatientAddress.Size = new Size(196, 60);
             txtPatientAddress.TabIndex = 34;
+            txtPatientAddress.TabStop = false;
             txtPatientAddress.Text = "...";
             // 
             // lbPatientDateOfBirth
@@ -377,7 +378,7 @@
             label43.AutoSize = true;
             label43.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             label43.ForeColor = Color.DarkCyan;
-            label43.Location = new Point(95, 11);
+            label43.Location = new Point(86, 11);
             label43.Name = "label43";
             label43.Size = new Size(211, 23);
             label43.TabIndex = 22;
@@ -423,6 +424,7 @@
             txtConclusion.ReadOnly = true;
             txtConclusion.Size = new Size(258, 60);
             txtConclusion.TabIndex = 35;
+            txtConclusion.TabStop = false;
             txtConclusion.Text = "...";
             // 
             // lbDoctorName
@@ -515,7 +517,7 @@
             label48.AutoSize = true;
             label48.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             label48.ForeColor = Color.DarkCyan;
-            label48.Location = new Point(133, 11);
+            label48.Location = new Point(198, 11);
             label48.Name = "label48";
             label48.Size = new Size(161, 23);
             label48.TabIndex = 39;
@@ -634,6 +636,7 @@
             // 
             // panel6
             // 
+            panel6.BackColor = Color.WhiteSmoke;
             panel6.Controls.Add(btnPrinInvoice);
             panel6.Controls.Add(lbCancelledBy);
             panel6.Controls.Add(btnCancelInvoice);
@@ -746,7 +749,6 @@
             dgvInvoiceDetail.AllowUserToAddRows = false;
             dgvInvoiceDetail.AllowUserToDeleteRows = false;
             dgvInvoiceDetail.AllowUserToOrderColumns = true;
-            dgvInvoiceDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvInvoiceDetail.BackgroundColor = Color.White;
             dgvInvoiceDetail.BorderStyle = BorderStyle.None;
             dgvInvoiceDetail.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -771,7 +773,7 @@
             dgvInvoiceDetail.Dock = DockStyle.Fill;
             dgvInvoiceDetail.EnableHeadersVisualStyles = false;
             dgvInvoiceDetail.GridColor = Color.DarkCyan;
-            dgvInvoiceDetail.Location = new Point(0, 53);
+            dgvInvoiceDetail.Location = new Point(0, 54);
             dgvInvoiceDetail.MultiSelect = false;
             dgvInvoiceDetail.Name = "dgvInvoiceDetail";
             dgvInvoiceDetail.ReadOnly = true;
@@ -779,7 +781,7 @@
             dgvInvoiceDetail.RowHeadersWidth = 51;
             dgvInvoiceDetail.RowTemplate.Height = 38;
             dgvInvoiceDetail.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInvoiceDetail.Size = new Size(1310, 203);
+            dgvInvoiceDetail.Size = new Size(1310, 202);
             dgvInvoiceDetail.TabIndex = 5;
             // 
             // panel8
@@ -788,7 +790,7 @@
             panel8.Dock = DockStyle.Top;
             panel8.Location = new Point(0, 0);
             panel8.Name = "panel8";
-            panel8.Size = new Size(1310, 53);
+            panel8.Size = new Size(1310, 54);
             panel8.TabIndex = 0;
             // 
             // label1

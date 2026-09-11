@@ -87,7 +87,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1068, 217);
+            panel1.Size = new Size(1246, 165);
             panel1.TabIndex = 0;
             // 
             // lbImportDate
@@ -104,7 +104,7 @@
             // 
             lbAccountName.AutoSize = true;
             lbAccountName.Font = new Font("Segoe UI", 10F);
-            lbAccountName.Location = new Point(629, 70);
+            lbAccountName.Location = new Point(525, 118);
             lbAccountName.Name = "lbAccountName";
             lbAccountName.Size = new Size(22, 23);
             lbAccountName.TabIndex = 25;
@@ -114,7 +114,7 @@
             // 
             lbImportId.AutoSize = true;
             lbImportId.Font = new Font("Segoe UI", 10F);
-            lbImportId.Location = new Point(184, 73);
+            lbImportId.Location = new Point(184, 70);
             lbImportId.Name = "lbImportId";
             lbImportId.Size = new Size(22, 23);
             lbImportId.TabIndex = 24;
@@ -124,19 +124,20 @@
             // 
             cbSupplier.Font = new Font("Segoe UI", 10F);
             cbSupplier.FormattingEnabled = true;
-            cbSupplier.Location = new Point(184, 164);
+            cbSupplier.Location = new Point(529, 67);
             cbSupplier.Name = "cbSupplier";
-            cbSupplier.Size = new Size(248, 31);
+            cbSupplier.Size = new Size(285, 31);
             cbSupplier.TabIndex = 1;
+            cbSupplier.SelectedIndexChanged += cbSupplier_SelectedIndexChanged;
             // 
             // txtNote
             // 
             txtNote.BorderStyle = BorderStyle.FixedSingle;
             txtNote.Font = new Font("Segoe UI", 10F);
-            txtNote.Location = new Point(629, 115);
+            txtNote.Location = new Point(943, 63);
             txtNote.Multiline = true;
             txtNote.Name = "txtNote";
-            txtNote.Size = new Size(274, 82);
+            txtNote.Size = new Size(274, 77);
             txtNote.TabIndex = 2;
             // 
             // label6
@@ -144,7 +145,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 10F);
             label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(472, 117);
+            label6.Location = new Point(864, 70);
             label6.Name = "label6";
             label6.Size = new Size(73, 23);
             label6.TabIndex = 16;
@@ -155,7 +156,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 10F);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(472, 70);
+            label5.Location = new Point(361, 118);
             label5.Name = "label5";
             label5.Size = new Size(106, 23);
             label5.TabIndex = 15;
@@ -166,7 +167,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 10F);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(16, 164);
+            label4.Location = new Point(361, 71);
             label4.Name = "label4";
             label4.Size = new Size(121, 23);
             label4.TabIndex = 14;
@@ -197,11 +198,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
             label1.Location = new Point(16, 9);
             label1.Name = "label1";
-            label1.Size = new Size(133, 28);
+            label1.Size = new Size(161, 32);
             label1.TabIndex = 9;
             label1.Text = "PHIẾU NHẬP";
             // 
@@ -210,9 +211,9 @@
             panel2.Controls.Add(panel5);
             panel2.Controls.Add(panel4);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(10, 425);
+            panel2.Location = new Point(10, 372);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1068, 266);
+            panel2.Size = new Size(1246, 403);
             panel2.TabIndex = 1;
             // 
             // panel5
@@ -221,7 +222,7 @@
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(0, 0);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1068, 130);
+            panel5.Size = new Size(1246, 296);
             panel5.TabIndex = 1;
             // 
             // dgvImportDetail
@@ -261,8 +262,9 @@
             dgvImportDetail.RowHeadersWidth = 51;
             dgvImportDetail.RowTemplate.Height = 38;
             dgvImportDetail.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvImportDetail.Size = new Size(1068, 130);
+            dgvImportDetail.Size = new Size(1246, 296);
             dgvImportDetail.TabIndex = 5;
+            dgvImportDetail.TabStop = false;
             dgvImportDetail.CellContentClick += dgvImportDetail_CellContentClick;
             dgvImportDetail.CellEndEdit += dgvImportDetail_CellEndEdit;
             dgvImportDetail.CellValidating += dgvImportDetail_CellValidating;
@@ -270,6 +272,7 @@
             // 
             // panel4
             // 
+            panel4.BackColor = Color.WhiteSmoke;
             panel4.Controls.Add(lbTotalAmount);
             panel4.Controls.Add(cbPaymentMethod);
             panel4.Controls.Add(label13);
@@ -277,25 +280,26 @@
             panel4.Controls.Add(btConfirmImport);
             panel4.Controls.Add(btCancel);
             panel4.Dock = DockStyle.Bottom;
-            panel4.Location = new Point(0, 130);
+            panel4.Location = new Point(0, 296);
             panel4.Name = "panel4";
-            panel4.Size = new Size(1068, 136);
+            panel4.Size = new Size(1246, 107);
             panel4.TabIndex = 0;
             // 
             // lbTotalAmount
             // 
             lbTotalAmount.BorderStyle = BorderStyle.FixedSingle;
             lbTotalAmount.Font = new Font("Segoe UI", 10F);
-            lbTotalAmount.Location = new Point(184, 20);
+            lbTotalAmount.Location = new Point(173, 15);
             lbTotalAmount.Name = "lbTotalAmount";
             lbTotalAmount.Size = new Size(248, 30);
             lbTotalAmount.TabIndex = 26;
+            lbTotalAmount.TabStop = false;
             // 
             // cbPaymentMethod
             // 
             cbPaymentMethod.Font = new Font("Segoe UI", 10F);
             cbPaymentMethod.FormattingEnabled = true;
-            cbPaymentMethod.Location = new Point(184, 66);
+            cbPaymentMethod.Location = new Point(173, 61);
             cbPaymentMethod.Name = "cbPaymentMethod";
             cbPaymentMethod.Size = new Size(248, 31);
             cbPaymentMethod.TabIndex = 7;
@@ -305,7 +309,7 @@
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI Semibold", 10F);
             label13.ForeColor = Color.DarkCyan;
-            label13.Location = new Point(19, 74);
+            label13.Location = new Point(8, 69);
             label13.Name = "label13";
             label13.Size = new Size(51, 23);
             label13.TabIndex = 19;
@@ -316,7 +320,7 @@
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI Semibold", 10F);
             label12.ForeColor = Color.DarkCyan;
-            label12.Location = new Point(19, 27);
+            label12.Location = new Point(8, 22);
             label12.Name = "label12";
             label12.Size = new Size(87, 23);
             label12.TabIndex = 18;
@@ -329,7 +333,7 @@
             btConfirmImport.FlatStyle = FlatStyle.Flat;
             btConfirmImport.Font = new Font("Segoe UI Semibold", 10F);
             btConfirmImport.ForeColor = Color.White;
-            btConfirmImport.Location = new Point(885, 62);
+            btConfirmImport.Location = new Point(1075, 43);
             btConfirmImport.Name = "btConfirmImport";
             btConfirmImport.Size = new Size(142, 49);
             btConfirmImport.TabIndex = 9;
@@ -344,7 +348,7 @@
             btCancel.FlatStyle = FlatStyle.Flat;
             btCancel.Font = new Font("Segoe UI Semibold", 10F);
             btCancel.ForeColor = Color.White;
-            btCancel.Location = new Point(788, 62);
+            btCancel.Location = new Point(978, 43);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(91, 49);
             btCancel.TabIndex = 8;
@@ -365,9 +369,9 @@
             panel3.Controls.Add(label8);
             panel3.Controls.Add(label7);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(10, 227);
+            panel3.Location = new Point(10, 175);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1068, 198);
+            panel3.Size = new Size(1246, 197);
             panel3.TabIndex = 1;
             // 
             // btAddMedicine
@@ -379,9 +383,9 @@
             btAddMedicine.ForeColor = Color.White;
             btAddMedicine.Location = new Point(936, 113);
             btAddMedicine.Name = "btAddMedicine";
-            btAddMedicine.Size = new Size(91, 49);
+            btAddMedicine.Size = new Size(160, 49);
             btAddMedicine.TabIndex = 6;
-            btAddMedicine.Text = "Thêm";
+            btAddMedicine.Text = "Thêm thuốc nhập";
             btAddMedicine.UseVisualStyleBackColor = false;
             btAddMedicine.Click += btAddMedicine_Click;
             // 
@@ -393,6 +397,7 @@
             txtCurrentStock.Name = "txtCurrentStock";
             txtCurrentStock.Size = new Size(254, 30);
             txtCurrentStock.TabIndex = 25;
+            txtCurrentStock.TabStop = false;
             // 
             // txtImportPrice
             // 
@@ -410,7 +415,7 @@
             txtQuantity.Location = new Point(629, 82);
             txtQuantity.Name = "txtQuantity";
             txtQuantity.Size = new Size(274, 30);
-            txtQuantity.TabIndex = 5;
+            txtQuantity.TabIndex = 4;
             // 
             // cbMedicine
             // 
@@ -469,11 +474,11 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label7.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label7.ForeColor = Color.DarkCyan;
             label7.Location = new Point(19, 20);
             label7.Name = "label7";
-            label7.Size = new Size(206, 28);
+            label7.Size = new Size(247, 32);
             label7.TabIndex = 10;
             label7.Text = "THÊM THUỐC NHẬP";
             label7.Click += label7_Click;
@@ -485,13 +490,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             CancelButton = btCancel;
-            ClientSize = new Size(1088, 701);
+            ClientSize = new Size(1266, 785);
             Controls.Add(panel3);
             Controls.Add(panel1);
             Controls.Add(panel2);
             Name = "Dialog_MedicineImport";
             Padding = new Padding(10);
             ShowIcon = false;
+            StartPosition = FormStartPosition.CenterParent;
             Load += Dialog_MedicineImport_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

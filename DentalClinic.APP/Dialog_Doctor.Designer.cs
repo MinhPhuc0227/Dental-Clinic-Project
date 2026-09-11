@@ -47,6 +47,7 @@
             panel1 = new Panel();
             txtEmail = new TextBox();
             pnAccount = new Panel();
+            label9 = new Label();
             chkShowPassword = new CheckBox();
             lbCreatedDate = new Label();
             cbStatus = new ComboBox();
@@ -60,7 +61,6 @@
             label15 = new Label();
             txtUserName = new TextBox();
             label16 = new Label();
-            label9 = new Label();
             panel1.SuspendLayout();
             pnAccount.SuspendLayout();
             SuspendLayout();
@@ -70,7 +70,7 @@
             lbDoctorId.AutoSize = true;
             lbDoctorId.Font = new Font("Segoe UI", 12F);
             lbDoctorId.ForeColor = Color.Black;
-            lbDoctorId.Location = new Point(136, 27);
+            lbDoctorId.Location = new Point(138, 90);
             lbDoctorId.Name = "lbDoctorId";
             lbDoctorId.Size = new Size(24, 28);
             lbDoctorId.TabIndex = 44;
@@ -80,7 +80,7 @@
             // 
             txtFullName.BorderStyle = BorderStyle.FixedSingle;
             txtFullName.Font = new Font("Segoe UI", 12F);
-            txtFullName.Location = new Point(136, 75);
+            txtFullName.Location = new Point(138, 138);
             txtFullName.Name = "txtFullName";
             txtFullName.Size = new Size(378, 34);
             txtFullName.TabIndex = 1;
@@ -90,7 +90,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 12F);
             label7.ForeColor = Color.DarkCyan;
-            label7.Location = new Point(12, 27);
+            label7.Location = new Point(14, 90);
             label7.Name = "label7";
             label7.Size = new Size(97, 28);
             label7.TabIndex = 38;
@@ -101,7 +101,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 12F);
             label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(12, 284);
+            label6.Location = new Point(14, 347);
             label6.Name = "label6";
             label6.Size = new Size(60, 28);
             label6.TabIndex = 37;
@@ -112,7 +112,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 12F);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(12, 129);
+            label5.Location = new Point(14, 192);
             label5.Name = "label5";
             label5.Size = new Size(90, 28);
             label5.TabIndex = 36;
@@ -123,7 +123,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 12F);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(12, 180);
+            label4.Location = new Point(14, 243);
             label4.Name = "label4";
             label4.Size = new Size(103, 28);
             label4.TabIndex = 35;
@@ -133,7 +133,7 @@
             // 
             txtDescription.BorderStyle = BorderStyle.FixedSingle;
             txtDescription.Font = new Font("Segoe UI", 12F);
-            txtDescription.Location = new Point(136, 343);
+            txtDescription.Location = new Point(138, 406);
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
             txtDescription.ScrollBars = ScrollBars.Vertical;
@@ -147,7 +147,7 @@
             btCancel.FlatStyle = FlatStyle.Flat;
             btCancel.Font = new Font("Segoe UI Semibold", 12F);
             btCancel.ForeColor = Color.White;
-            btCancel.Location = new Point(880, 594);
+            btCancel.Location = new Point(904, 594);
             btCancel.Name = "btCancel";
             btCancel.Size = new Size(101, 40);
             btCancel.TabIndex = 12;
@@ -160,7 +160,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(12, 343);
+            label3.Location = new Point(14, 406);
             label3.Name = "label3";
             label3.Size = new Size(65, 28);
             label3.TabIndex = 31;
@@ -171,7 +171,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(12, 232);
+            label2.Location = new Point(14, 295);
             label2.Name = "label2";
             label2.Size = new Size(106, 28);
             label2.TabIndex = 30;
@@ -184,7 +184,7 @@
             btSave.FlatStyle = FlatStyle.Flat;
             btSave.Font = new Font("Segoe UI Semibold", 12F);
             btSave.ForeColor = Color.White;
-            btSave.Location = new Point(987, 594);
+            btSave.Location = new Point(1011, 594);
             btSave.Name = "btSave";
             btSave.Size = new Size(101, 40);
             btSave.TabIndex = 13;
@@ -197,7 +197,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 12F);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(12, 78);
+            label1.Location = new Point(14, 141);
             label1.Name = "label1";
             label1.Size = new Size(101, 28);
             label1.TabIndex = 28;
@@ -207,7 +207,7 @@
             // 
             txtPhone.BorderStyle = BorderStyle.FixedSingle;
             txtPhone.Font = new Font("Segoe UI", 12F);
-            txtPhone.Location = new Point(136, 232);
+            txtPhone.Location = new Point(138, 295);
             txtPhone.Name = "txtPhone";
             txtPhone.Size = new Size(378, 34);
             txtPhone.TabIndex = 4;
@@ -216,7 +216,7 @@
             // 
             cbGender.Font = new Font("Segoe UI", 12F);
             cbGender.FormattingEnabled = true;
-            cbGender.Location = new Point(136, 126);
+            cbGender.Location = new Point(138, 189);
             cbGender.Name = "cbGender";
             cbGender.Size = new Size(378, 36);
             cbGender.TabIndex = 2;
@@ -226,7 +226,7 @@
             dtpDateOfBirth.CustomFormat = "dd/MM/yyyy";
             dtpDateOfBirth.Font = new Font("Segoe UI", 12F);
             dtpDateOfBirth.Format = DateTimePickerFormat.Custom;
-            dtpDateOfBirth.Location = new Point(136, 182);
+            dtpDateOfBirth.Location = new Point(138, 245);
             dtpDateOfBirth.Name = "dtpDateOfBirth";
             dtpDateOfBirth.Size = new Size(378, 34);
             dtpDateOfBirth.TabIndex = 3;
@@ -234,20 +234,22 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI Semibold", 20F);
+            label8.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             label8.ForeColor = Color.DarkCyan;
-            label8.Location = new Point(17, 25);
+            label8.Location = new Point(14, 21);
             label8.Name = "label8";
-            label8.Size = new Size(395, 46);
+            label8.Size = new Size(390, 37);
             label8.TabIndex = 49;
-            label8.Text = "Thông tin cá nhân bác sĩ";
+            label8.Text = "THÔNG TIN CÁ NHÂN BÁC SĨ";
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(txtEmail);
             panel1.Controls.Add(txtDescription);
             panel1.Controls.Add(label1);
+            panel1.Controls.Add(label8);
             panel1.Controls.Add(dtpDateOfBirth);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(cbGender);
@@ -259,23 +261,25 @@
             panel1.Controls.Add(label6);
             panel1.Controls.Add(txtFullName);
             panel1.Controls.Add(label7);
-            panel1.Location = new Point(17, 91);
+            panel1.Location = new Point(17, 25);
             panel1.Name = "panel1";
-            panel1.Size = new Size(528, 543);
+            panel1.Size = new Size(528, 609);
             panel1.TabIndex = 50;
             // 
             // txtEmail
             // 
             txtEmail.BorderStyle = BorderStyle.FixedSingle;
             txtEmail.Font = new Font("Segoe UI", 12F);
-            txtEmail.Location = new Point(136, 284);
+            txtEmail.Location = new Point(138, 347);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(378, 34);
             txtEmail.TabIndex = 5;
             // 
             // pnAccount
             // 
+            pnAccount.BackColor = Color.White;
             pnAccount.BorderStyle = BorderStyle.FixedSingle;
+            pnAccount.Controls.Add(label9);
             pnAccount.Controls.Add(chkShowPassword);
             pnAccount.Controls.Add(lbCreatedDate);
             pnAccount.Controls.Add(cbStatus);
@@ -289,17 +293,28 @@
             pnAccount.Controls.Add(label15);
             pnAccount.Controls.Add(txtUserName);
             pnAccount.Controls.Add(label16);
-            pnAccount.Location = new Point(571, 91);
+            pnAccount.Location = new Point(571, 25);
             pnAccount.Name = "pnAccount";
-            pnAccount.Size = new Size(541, 377);
+            pnAccount.Size = new Size(541, 456);
             pnAccount.TabIndex = 51;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            label9.ForeColor = Color.DarkCyan;
+            label9.Location = new Point(16, 21);
+            label9.Name = "label9";
+            label9.Size = new Size(338, 37);
+            label9.TabIndex = 52;
+            label9.Text = "THÔNG TIN ĐĂNG NHẬP";
             // 
             // chkShowPassword
             // 
             chkShowPassword.AutoSize = true;
             chkShowPassword.Font = new Font("Segoe UI", 10F);
             chkShowPassword.ForeColor = Color.DarkCyan;
-            chkShowPassword.Location = new Point(168, 180);
+            chkShowPassword.Location = new Point(170, 246);
             chkShowPassword.Name = "chkShowPassword";
             chkShowPassword.Size = new Size(144, 27);
             chkShowPassword.TabIndex = 9;
@@ -312,7 +327,7 @@
             lbCreatedDate.AutoSize = true;
             lbCreatedDate.Font = new Font("Segoe UI", 12F);
             lbCreatedDate.ForeColor = Color.Black;
-            lbCreatedDate.Location = new Point(168, 328);
+            lbCreatedDate.Location = new Point(170, 394);
             lbCreatedDate.Name = "lbCreatedDate";
             lbCreatedDate.Size = new Size(24, 28);
             lbCreatedDate.TabIndex = 61;
@@ -323,7 +338,7 @@
             cbStatus.Enabled = false;
             cbStatus.Font = new Font("Segoe UI", 12F);
             cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(168, 276);
+            cbStatus.Location = new Point(170, 342);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(348, 36);
             cbStatus.TabIndex = 11;
@@ -332,7 +347,7 @@
             // 
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
             txtPassword.Font = new Font("Segoe UI", 12F);
-            txtPassword.Location = new Point(168, 129);
+            txtPassword.Location = new Point(170, 195);
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(348, 34);
             txtPassword.TabIndex = 8;
@@ -342,7 +357,7 @@
             cbRole.Enabled = false;
             cbRole.Font = new Font("Segoe UI", 12F);
             cbRole.FormattingEnabled = true;
-            cbRole.Location = new Point(168, 224);
+            cbRole.Location = new Point(170, 290);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(348, 36);
             cbRole.TabIndex = 10;
@@ -352,7 +367,7 @@
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI Semibold", 12F);
             label10.ForeColor = Color.DarkCyan;
-            label10.Location = new Point(14, 78);
+            label10.Location = new Point(16, 144);
             label10.Name = "label10";
             label10.Size = new Size(148, 28);
             label10.TabIndex = 49;
@@ -363,7 +378,7 @@
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI Semibold", 12F);
             label11.ForeColor = Color.DarkCyan;
-            label11.Location = new Point(14, 276);
+            label11.Location = new Point(16, 342);
             label11.Name = "label11";
             label11.Size = new Size(102, 28);
             label11.TabIndex = 50;
@@ -374,7 +389,7 @@
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI Semibold", 12F);
             label12.ForeColor = Color.DarkCyan;
-            label12.Location = new Point(14, 224);
+            label12.Location = new Point(16, 290);
             label12.Name = "label12";
             label12.Size = new Size(71, 28);
             label12.TabIndex = 51;
@@ -385,7 +400,7 @@
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI Semibold", 12F);
             label13.ForeColor = Color.DarkCyan;
-            label13.Location = new Point(14, 129);
+            label13.Location = new Point(16, 195);
             label13.Name = "label13";
             label13.Size = new Size(98, 28);
             label13.TabIndex = 52;
@@ -396,7 +411,7 @@
             lbAccountId.AutoSize = true;
             lbAccountId.Font = new Font("Segoe UI", 12F);
             lbAccountId.ForeColor = Color.Black;
-            lbAccountId.Location = new Point(168, 27);
+            lbAccountId.Location = new Point(170, 93);
             lbAccountId.Name = "lbAccountId";
             lbAccountId.Size = new Size(24, 28);
             lbAccountId.TabIndex = 56;
@@ -407,7 +422,7 @@
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI Semibold", 12F);
             label15.ForeColor = Color.DarkCyan;
-            label15.Location = new Point(14, 328);
+            label15.Location = new Point(16, 394);
             label15.Name = "label15";
             label15.Size = new Size(132, 28);
             label15.TabIndex = 53;
@@ -417,7 +432,7 @@
             // 
             txtUserName.BorderStyle = BorderStyle.FixedSingle;
             txtUserName.Font = new Font("Segoe UI", 12F);
-            txtUserName.Location = new Point(168, 75);
+            txtUserName.Location = new Point(170, 141);
             txtUserName.Name = "txtUserName";
             txtUserName.Size = new Size(348, 34);
             txtUserName.TabIndex = 7;
@@ -427,22 +442,11 @@
             label16.AutoSize = true;
             label16.Font = new Font("Segoe UI Semibold", 12F);
             label16.ForeColor = Color.DarkCyan;
-            label16.Location = new Point(14, 27);
+            label16.Location = new Point(16, 93);
             label16.Name = "label16";
             label16.Size = new Size(131, 28);
             label16.TabIndex = 54;
             label16.Text = "Mã tài khoản";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI Semibold", 20F);
-            label9.ForeColor = Color.DarkCyan;
-            label9.Location = new Point(571, 25);
-            label9.Name = "label9";
-            label9.Size = new Size(343, 46);
-            label9.TabIndex = 52;
-            label9.Text = "Tài khoản đăng nhập";
             // 
             // Dialog_Doctor
             // 
@@ -451,11 +455,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             CancelButton = btCancel;
-            ClientSize = new Size(1124, 672);
-            Controls.Add(label9);
+            ClientSize = new Size(1124, 662);
             Controls.Add(pnAccount);
             Controls.Add(panel1);
-            Controls.Add(label8);
             Controls.Add(btCancel);
             Controls.Add(btSave);
             FormBorderStyle = FormBorderStyle.FixedDialog;

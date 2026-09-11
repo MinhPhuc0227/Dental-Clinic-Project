@@ -87,7 +87,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1228, 237);
+            panel1.Size = new Size(1617, 147);
             panel1.TabIndex = 0;
             // 
             // txtSearch
@@ -95,7 +95,7 @@
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(742, 165);
+            txtSearch.Location = new Point(1354, 88);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(233, 30);
             txtSearch.TabIndex = 4;
@@ -105,7 +105,7 @@
             // 
             cbSupplier.Font = new Font("Segoe UI", 10F);
             cbSupplier.FormattingEnabled = true;
-            cbSupplier.Location = new Point(215, 164);
+            cbSupplier.Location = new Point(956, 88);
             cbSupplier.Name = "cbSupplier";
             cbSupplier.Size = new Size(226, 31);
             cbSupplier.TabIndex = 3;
@@ -117,7 +117,7 @@
             dtpEnd.CustomFormat = "dd/MM/yyyy";
             dtpEnd.Font = new Font("Segoe UI", 10F);
             dtpEnd.Format = DateTimePickerFormat.Custom;
-            dtpEnd.Location = new Point(742, 118);
+            dtpEnd.Location = new Point(578, 88);
             dtpEnd.Name = "dtpEnd";
             dtpEnd.Size = new Size(233, 30);
             dtpEnd.TabIndex = 2;
@@ -128,7 +128,7 @@
             dtpStart.CustomFormat = "dd/MM/yyyy";
             dtpStart.Font = new Font("Segoe UI", 10F);
             dtpStart.Format = DateTimePickerFormat.Custom;
-            dtpStart.Location = new Point(215, 120);
+            dtpStart.Location = new Point(123, 88);
             dtpStart.Name = "dtpStart";
             dtpStart.Size = new Size(226, 30);
             dtpStart.TabIndex = 1;
@@ -140,18 +140,18 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 12F);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(632, 166);
+            label5.Location = new Point(1244, 89);
             label5.Name = "label5";
-            label5.Size = new Size(97, 28);
+            label5.Size = new Size(102, 28);
             label5.TabIndex = 38;
-            label5.Text = "Tìm kiếm";
+            label5.Text = "Tìm kiếm:";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 12F);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(46, 164);
+            label4.Location = new Point(808, 89);
             label4.Name = "label4";
             label4.Size = new Size(142, 28);
             label4.TabIndex = 37;
@@ -162,7 +162,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(46, 120);
+            label2.Location = new Point(27, 89);
             label2.Name = "label2";
             label2.Size = new Size(90, 28);
             label2.TabIndex = 36;
@@ -174,31 +174,34 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(632, 118);
+            label3.Location = new Point(468, 89);
             label3.Name = "label3";
             label3.Size = new Size(104, 28);
             label3.TabIndex = 35;
             label3.Text = "Đến ngày:";
+            label3.Click += label3_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(421, 42);
+            label1.Location = new Point(25, 26);
             label1.Name = "label1";
-            label1.Size = new Size(241, 32);
+            label1.Size = new Size(272, 37);
             label1.TabIndex = 34;
             label1.Text = "LỊCH SỬ NHẬP KHO";
             // 
             // panel2
             // 
+            panel2.BorderStyle = BorderStyle.FixedSingle;
             panel2.Controls.Add(dgvImportHistory);
             panel2.Controls.Add(panel5);
             panel2.Dock = DockStyle.Left;
-            panel2.Location = new Point(0, 237);
+            panel2.Location = new Point(0, 147);
             panel2.Name = "panel2";
-            panel2.Size = new Size(582, 713);
+            panel2.Padding = new Padding(5);
+            panel2.Size = new Size(782, 693);
             panel2.TabIndex = 1;
             // 
             // dgvImportHistory
@@ -231,7 +234,7 @@
             dgvImportHistory.Dock = DockStyle.Fill;
             dgvImportHistory.EnableHeadersVisualStyles = false;
             dgvImportHistory.GridColor = Color.DarkCyan;
-            dgvImportHistory.Location = new Point(0, 58);
+            dgvImportHistory.Location = new Point(5, 71);
             dgvImportHistory.MultiSelect = false;
             dgvImportHistory.Name = "dgvImportHistory";
             dgvImportHistory.ReadOnly = true;
@@ -239,7 +242,7 @@
             dgvImportHistory.RowHeadersWidth = 51;
             dgvImportHistory.RowTemplate.Height = 38;
             dgvImportHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvImportHistory.Size = new Size(582, 655);
+            dgvImportHistory.Size = new Size(770, 615);
             dgvImportHistory.TabIndex = 7;
             dgvImportHistory.CellClick += dgvImportHistory_CellClick;
             // 
@@ -247,31 +250,33 @@
             // 
             panel5.Controls.Add(label13);
             panel5.Dock = DockStyle.Top;
-            panel5.Location = new Point(0, 0);
+            panel5.Location = new Point(5, 5);
             panel5.Name = "panel5";
-            panel5.Size = new Size(582, 58);
+            panel5.Size = new Size(770, 66);
             panel5.TabIndex = 1;
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label13.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label13.ForeColor = Color.DarkCyan;
-            label13.Location = new Point(198, 16);
+            label13.Location = new Point(20, 16);
             label13.Name = "label13";
-            label13.Size = new Size(133, 28);
+            label13.Size = new Size(161, 32);
             label13.TabIndex = 3;
             label13.Text = "PHIẾU NHẬP";
             // 
             // panel3
             // 
+            panel3.BorderStyle = BorderStyle.FixedSingle;
             panel3.Controls.Add(dgvImportDetail);
             panel3.Controls.Add(panel6);
             panel3.Controls.Add(panel4);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(582, 237);
+            panel3.Location = new Point(782, 147);
             panel3.Name = "panel3";
-            panel3.Size = new Size(646, 713);
+            panel3.Padding = new Padding(5);
+            panel3.Size = new Size(835, 693);
             panel3.TabIndex = 2;
             // 
             // dgvImportDetail
@@ -304,7 +309,7 @@
             dgvImportDetail.Dock = DockStyle.Fill;
             dgvImportDetail.EnableHeadersVisualStyles = false;
             dgvImportDetail.GridColor = Color.DarkCyan;
-            dgvImportDetail.Location = new Point(0, 235);
+            dgvImportDetail.Location = new Point(5, 242);
             dgvImportDetail.MultiSelect = false;
             dgvImportDetail.Name = "dgvImportDetail";
             dgvImportDetail.ReadOnly = true;
@@ -312,7 +317,7 @@
             dgvImportDetail.RowHeadersWidth = 51;
             dgvImportDetail.RowTemplate.Height = 38;
             dgvImportDetail.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvImportDetail.Size = new Size(646, 387);
+            dgvImportDetail.Size = new Size(823, 323);
             dgvImportDetail.TabIndex = 6;
             // 
             // panel6
@@ -322,16 +327,16 @@
             panel6.Controls.Add(label12);
             panel6.Controls.Add(label11);
             panel6.Dock = DockStyle.Bottom;
-            panel6.Location = new Point(0, 622);
+            panel6.Location = new Point(5, 565);
             panel6.Name = "panel6";
-            panel6.Size = new Size(646, 91);
+            panel6.Size = new Size(823, 121);
             panel6.TabIndex = 2;
             // 
             // lbTotalAmount
             // 
             lbTotalAmount.AutoSize = true;
             lbTotalAmount.Font = new Font("Segoe UI", 10F);
-            lbTotalAmount.Location = new Point(269, 14);
+            lbTotalAmount.Location = new Point(267, 28);
             lbTotalAmount.Name = "lbTotalAmount";
             lbTotalAmount.Size = new Size(80, 23);
             lbTotalAmount.TabIndex = 20;
@@ -341,7 +346,7 @@
             // 
             lbPaymentMethod.AutoSize = true;
             lbPaymentMethod.Font = new Font("Segoe UI", 10F);
-            lbPaymentMethod.Location = new Point(269, 50);
+            lbPaymentMethod.Location = new Point(267, 64);
             lbPaymentMethod.Name = "lbPaymentMethod";
             lbPaymentMethod.Size = new Size(199, 23);
             lbPaymentMethod.TabIndex = 19;
@@ -352,7 +357,7 @@
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI Semibold", 12F);
             label12.ForeColor = Color.DarkCyan;
-            label12.Location = new Point(24, 47);
+            label12.Location = new Point(22, 61);
             label12.Name = "label12";
             label12.Size = new Size(241, 28);
             label12.TabIndex = 16;
@@ -363,7 +368,7 @@
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI Semibold", 12F);
             label11.ForeColor = Color.DarkCyan;
-            label11.Location = new Point(24, 14);
+            label11.Location = new Point(22, 28);
             label11.Name = "label11";
             label11.Size = new Size(105, 28);
             label11.TabIndex = 15;
@@ -381,25 +386,26 @@
             panel4.Controls.Add(label7);
             panel4.Controls.Add(label6);
             panel4.Dock = DockStyle.Top;
-            panel4.Location = new Point(0, 0);
+            panel4.Location = new Point(5, 5);
             panel4.Name = "panel4";
-            panel4.Size = new Size(646, 235);
+            panel4.Size = new Size(823, 237);
             panel4.TabIndex = 1;
             // 
             // txtNote
             // 
-            txtNote.BorderStyle = BorderStyle.FixedSingle;
+            txtNote.BorderStyle = BorderStyle.None;
             txtNote.Font = new Font("Segoe UI", 10F);
-            txtNote.Location = new Point(174, 192);
+            txtNote.Location = new Point(495, 133);
+            txtNote.Multiline = true;
             txtNote.Name = "txtNote";
-            txtNote.Size = new Size(318, 30);
+            txtNote.Size = new Size(269, 79);
             txtNote.TabIndex = 43;
             // 
             // lbAccount
             // 
             lbAccount.AutoSize = true;
             lbAccount.Font = new Font("Segoe UI", 10F);
-            lbAccount.Location = new Point(174, 150);
+            lbAccount.Location = new Point(143, 138);
             lbAccount.Name = "lbAccount";
             lbAccount.Size = new Size(22, 23);
             lbAccount.TabIndex = 20;
@@ -409,7 +415,7 @@
             // 
             lbSupplier.AutoSize = true;
             lbSupplier.Font = new Font("Segoe UI", 10F);
-            lbSupplier.Location = new Point(174, 106);
+            lbSupplier.Location = new Point(495, 84);
             lbSupplier.Name = "lbSupplier";
             lbSupplier.Size = new Size(22, 23);
             lbSupplier.TabIndex = 19;
@@ -419,7 +425,7 @@
             // 
             lbImportDate.AutoSize = true;
             lbImportDate.Font = new Font("Segoe UI", 10F);
-            lbImportDate.Location = new Point(174, 62);
+            lbImportDate.Location = new Point(142, 84);
             lbImportDate.Name = "lbImportDate";
             lbImportDate.Size = new Size(22, 23);
             lbImportDate.TabIndex = 18;
@@ -430,7 +436,7 @@
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI Semibold", 12F);
             label10.ForeColor = Color.DarkCyan;
-            label10.Location = new Point(24, 57);
+            label10.Location = new Point(17, 79);
             label10.Name = "label10";
             label10.Size = new Size(116, 28);
             label10.TabIndex = 17;
@@ -441,7 +447,7 @@
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Semibold", 12F);
             label9.ForeColor = Color.DarkCyan;
-            label9.Location = new Point(24, 101);
+            label9.Location = new Point(345, 79);
             label9.Name = "label9";
             label9.Size = new Size(142, 28);
             label9.TabIndex = 16;
@@ -452,7 +458,7 @@
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 12F);
             label8.ForeColor = Color.DarkCyan;
-            label8.Location = new Point(24, 145);
+            label8.Location = new Point(18, 133);
             label8.Name = "label8";
             label8.Size = new Size(125, 28);
             label8.TabIndex = 15;
@@ -463,7 +469,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 12F);
             label7.ForeColor = Color.DarkCyan;
-            label7.Location = new Point(24, 189);
+            label7.Location = new Point(345, 133);
             label7.Name = "label7";
             label7.Size = new Size(87, 28);
             label7.TabIndex = 14;
@@ -472,11 +478,11 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label6.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(166, 16);
+            label6.Location = new Point(268, 16);
             label6.Name = "label6";
-            label6.Size = new Size(219, 28);
+            label6.Size = new Size(265, 32);
             label6.TabIndex = 2;
             label6.Text = "CHI TIẾT PHIẾU NHẬP";
             // 
@@ -485,12 +491,13 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1228, 950);
+            ClientSize = new Size(1617, 840);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "Dialog_MedicineImportHistory";
             ShowIcon = false;
+            StartPosition = FormStartPosition.CenterParent;
             Load += Dialog_MedicineImportHistory_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

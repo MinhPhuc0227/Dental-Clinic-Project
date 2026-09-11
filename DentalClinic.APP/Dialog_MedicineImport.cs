@@ -117,52 +117,41 @@ namespace DentalClinic.APP
 
         private void LoadSuppliers()
         {
-            var result =
-                _supplierBLL.GetAll("", true);
+            var result = _supplierBLL.GetAll("", true);
 
-            if (result.IsSuccess &&
-                result.Data != null)
+            if (result.IsSuccess && result.Data != null)
             {
-                cbSupplier.DataSource =
-                    result.Data;
+                cbSupplier.DataSource = result.Data;
+                cbSupplier.DisplayMember = "SupplierName";
+                cbSupplier.ValueMember = "SupplierId";
 
-                cbSupplier.DisplayMember =
-                    "SupplierName";
+                cbSupplier.DropDownStyle = ComboBoxStyle.DropDown;
+                cbSupplier.AutoCompleteSource = AutoCompleteSource.ListItems;
+                cbSupplier.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-                cbSupplier.ValueMember =
-                    "SupplierId";
-
-                cbSupplier.SelectedIndex =
-                    -1;
+                cbSupplier.SelectedIndex = -1;
             }
         }
 
         private void LoadMedicines()
         {
-            var result =
-                _medicineBLL.GetAll();
+            var result = _medicineBLL.GetAll();
 
-            if (result.IsSuccess &&
-                result.Data != null)
+            if (result.IsSuccess && result.Data != null)
             {
-                var medicines =
-                    result.Data
-                        .Where(m =>
-                            m.Status ==
-                            MedicineStatus.Active)
-                        .ToList();
+                var medicines = result.Data
+                    .Where(m => m.Status == MedicineStatus.Active)
+                    .ToList();
 
-                cbMedicine.DataSource =
-                    medicines;
+                cbMedicine.DataSource = medicines;
+                cbMedicine.DisplayMember = "MedicineName";
+                cbMedicine.ValueMember = "MedicineId";
 
-                cbMedicine.DisplayMember =
-                    "MedicineName";
+                cbMedicine.DropDownStyle = ComboBoxStyle.DropDown;
+                cbMedicine.AutoCompleteSource = AutoCompleteSource.ListItems;
+                cbMedicine.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-                cbMedicine.ValueMember =
-                    "MedicineId";
-
-                cbMedicine.SelectedIndex =
-                    -1;
+                cbMedicine.SelectedIndex = -1;
             }
         }
 
@@ -709,6 +698,11 @@ namespace DentalClinic.APP
         }
 
         private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbSupplier_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

@@ -137,33 +137,28 @@ namespace DentalClinic.BLL
 
         public Result CancelInvoice(
     int invoiceId,
-    int cancelledBy,
+    int receptionistId,
     string cancellationReason)
         {
             if (invoiceId <= 0)
-                return Result.Failure(
-                    "Mã hóa đơn không hợp lệ.");
+                return Result.Failure("Mã hóa đơn không hợp lệ.");
 
-            if (cancelledBy <= 0)
-                return Result.Failure(
-                    "Người hủy không hợp lệ.");
+            if (receptionistId <= 0)
+                return Result.Failure("Nhân viên hủy hóa đơn không hợp lệ.");
 
             if (string.IsNullOrWhiteSpace(cancellationReason))
-                return Result.Failure(
-                    "Vui lòng nhập lý do hủy.");
+                return Result.Failure("Lý do hủy hóa đơn không được để trống.");
 
             try
             {
                 bool success = _dal.CancelInvoice(
                     invoiceId,
-                    cancelledBy,
-                    cancellationReason);
+                    receptionistId,
+                    cancellationReason.Trim());
 
                 return success
-                    ? Result.Success(
-                        "Hủy hóa đơn thành công.")
-                    : Result.Failure(
-                        "Không thể hủy hóa đơn.");
+                    ? Result.Success("Hủy hóa đơn thành công.")
+                    : Result.Failure("Không thể hủy hóa đơn.");
             }
             catch (Exception ex)
             {
@@ -172,6 +167,7 @@ namespace DentalClinic.BLL
                     (ex.InnerException?.Message ?? ex.Message));
             }
         }
+
         public List<PaymentMethodDto> GetPaymentMethods()
         {
             try

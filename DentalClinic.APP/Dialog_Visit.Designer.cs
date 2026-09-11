@@ -86,7 +86,6 @@
             // 
             // cbPatient
             // 
-            cbPatient.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPatient.Font = new Font("Segoe UI", 10F);
             cbPatient.FormattingEnabled = true;
             cbPatient.Location = new Point(194, 60);

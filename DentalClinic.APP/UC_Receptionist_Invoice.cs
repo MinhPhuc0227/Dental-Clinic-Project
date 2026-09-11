@@ -369,21 +369,21 @@ namespace DentalClinic.APP
             dgvWaitingList.ClearSelection();
         }
 
-        private void btCancel_Click(object sender, EventArgs e)
+        private void btReset_Click(object sender, EventArgs e)
         {
-            if (_currentVisitId == 0)
-            {
-                return;
-            }
+            //if (_currentVisitId == 0)
+            //{
+            //    return;
+            //}
 
-            var confirm = MessageBox.Show("Bạn muốn hủy thao tác thanh toán cho bệnh nhân này?",
-                                          "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //var confirm = MessageBox.Show("Bạn muốn hủy thao tác thanh toán cho bệnh nhân này?",
+            //                              "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (confirm == DialogResult.Yes)
-            {
-                ClearPatientInfo();
-                dgvWaitingList.ClearSelection();
-            }
+            //if (confirm == DialogResult.Yes)
+            //{
+            //    ClearPatientInfo();
+            //    dgvWaitingList.ClearSelection();
+            //}
         }
 
         private void cbPaymentMethod_SelectedIndexChanged(
@@ -486,6 +486,65 @@ namespace DentalClinic.APP
         private void dtpEnd_ValueChanged(object sender, EventArgs e)
         {
             LoadWaitingList();
+        }
+
+        private void btCancelInvoice_Click(object sender, EventArgs e)
+        {
+            if (_currentInvoiceId <= 0)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn hóa đơn cần hủy.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            using var cancelDialog = new Dialog_CancelInvoice(
+                _currentReceptionistName,
+                GetTotalAmountFromLabel());
+
+            if (cancelDialog.ShowDialog(this) != DialogResult.OK)
+                return;
+
+            string confirmMessage =
+                $"Bạn có chắc chắn muốn hủy hóa đơn #{_currentInvoiceId}?\n\n" +
+                "Hóa đơn sẽ được hủy và ca khám sẽ kết thúc.";
+
+            var confirm = MessageBox.Show(
+                confirmMessage,
+                "Xác nhận hủy hóa đơn",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            var result = _invoiceBLL.CancelInvoice(
+                _currentInvoiceId,
+                _currentReceptionistId,
+                cancelDialog.CancellationReason);
+
+            if (!result.IsSuccess)
+            {
+                MessageBox.Show(
+                    result.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
+            MessageBox.Show(
+                result.Message,
+                "Thành công",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
+            LoadWaitingList();
+            ClearPatientInfo();
         }
     }
 }

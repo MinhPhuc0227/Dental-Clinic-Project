@@ -123,7 +123,7 @@ namespace DentalClinic.APP
 
         private void Dialog_Account_Load(object sender, EventArgs e)
         {
-            txtUserName.Focus();
+            BeginInvoke(new Action(() => txtUserName.Focus()));
         }
 
         private void chkShowPassword_CheckedChanged(object sender, EventArgs e)

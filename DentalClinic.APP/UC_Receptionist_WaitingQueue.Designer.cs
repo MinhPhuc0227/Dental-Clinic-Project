@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             panel1 = new Panel();
             label4 = new Label();
             dtpStart = new DateTimePicker();
@@ -41,7 +41,6 @@
             label7 = new Label();
             label6 = new Label();
             cbDoctor = new ComboBox();
-            dtpDate = new DateTimePicker();
             label1 = new Label();
             dgvWaitingQueue = new DataGridView();
             panel1.SuspendLayout();
@@ -60,7 +59,6 @@
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(cbDoctor);
-            panel1.Controls.Add(dtpDate);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(10, 10);
@@ -131,6 +129,7 @@
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(221, 30);
             txtSearch.TabIndex = 29;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // cbStatus
             // 
@@ -140,6 +139,7 @@
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(221, 31);
             cbStatus.TabIndex = 28;
+            cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
             // 
             // label7
             // 
@@ -171,16 +171,7 @@
             cbDoctor.Name = "cbDoctor";
             cbDoctor.Size = new Size(221, 31);
             cbDoctor.TabIndex = 25;
-            // 
-            // dtpDate
-            // 
-            dtpDate.CustomFormat = "dd/MM/yyyy";
-            dtpDate.Font = new Font("Segoe UI", 10F);
-            dtpDate.Format = DateTimePickerFormat.Custom;
-            dtpDate.Location = new Point(278, 12);
-            dtpDate.Name = "dtpDate";
-            dtpDate.Size = new Size(138, 30);
-            dtpDate.TabIndex = 20;
+            cbDoctor.SelectedIndexChanged += cbDoctor_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -203,23 +194,23 @@
             dgvWaitingQueue.BorderStyle = BorderStyle.None;
             dgvWaitingQueue.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvWaitingQueue.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvWaitingQueue.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvWaitingQueue.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvWaitingQueue.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvWaitingQueue.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvWaitingQueue.DefaultCellStyle = dataGridViewCellStyle6;
             dgvWaitingQueue.Dock = DockStyle.Fill;
             dgvWaitingQueue.EnableHeadersVisualStyles = false;
             dgvWaitingQueue.GridColor = Color.DarkCyan;
@@ -258,7 +249,6 @@
 
         private Panel panel1;
         private Label label1;
-        private DateTimePicker dtpDate;
         private ComboBox cbStatus;
         private Label label7;
         private Label label6;

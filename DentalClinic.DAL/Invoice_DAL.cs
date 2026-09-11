@@ -389,84 +389,75 @@ namespace DentalClinic.DAL
 
         public bool CancelInvoice(
     int invoiceId,
-    int cancelledBy,
+    int receptionistId,
     string cancellationReason)
         {
             using var trans = _context.Database.BeginTransaction();
 
             try
             {
-                // 1. Lấy hóa đơn
                 var invoice = _context.Invoices
                     .FirstOrDefault(i => i.InvoiceId == invoiceId);
 
                 if (invoice == null)
-                {
                     throw new InvalidOperationException(
                         "Không tìm thấy hóa đơn.");
-                }
 
-                // 2. Chỉ cho hủy hóa đơn đã thanh toán
-                if (invoice.Status != InvoiceStatus.Paid)
+                if (invoice.Status != InvoiceStatus.Paid &&
+                    invoice.Status != InvoiceStatus.Unpaid)
                 {
                     throw new InvalidOperationException(
-                        "Chỉ có thể hủy hóa đơn đã thanh toán.");
+                        "Chỉ có thể hủy hóa đơn chưa thanh toán hoặc đã thanh toán.");
                 }
 
-                // 3. Kiểm tra người hủy
-                var receptionist = _context.Receptionists
-                    .FirstOrDefault(r =>
-                        r.ReceptionistId == cancelledBy);
+                var visit = _context.Visits
+                    .FirstOrDefault(v => v.VisitId == invoice.VisitId);
 
-                if (receptionist == null)
-                {
+                if (visit == null)
                     throw new InvalidOperationException(
-                        "Không tìm thấy nhân viên thực hiện hủy.");
-                }
+                        "Không tìm thấy ca khám của hóa đơn.");
 
-                // 4. Cập nhật thông tin hủy
+                InvoiceStatus oldStatus = invoice.Status;
+
+                // 1. Hủy hóa đơn
                 invoice.Status = InvoiceStatus.Cancelled;
                 invoice.CancellationReason = cancellationReason;
+                invoice.CancelledBy = receptionistId;
                 invoice.CancelledDate = DateTime.Now;
-                invoice.CancelledBy = cancelledBy;
 
-                // 5. KHÔNG thay đổi Visit.Status
-                // Visit vẫn giữ Completed
+                // 2. Hủy hóa đơn = kết thúc ca khám
+                visit.Status = VisitStatus.Completed;
 
-                // 6. Hoàn lại thuốc vào kho
-                var invoiceDetails = _context.InvoiceDetails
-                    .Where(d =>
-                        d.InvoiceId == invoiceId &&
-                        d.PrescriptionDetailId.HasValue)
-                    .ToList();
-
-                foreach (var detail in invoiceDetails)
+                // 3. Chỉ hoàn kho nếu hóa đơn đã thanh toán
+                if (oldStatus == InvoiceStatus.Paid)
                 {
-                    if (!detail.PrescriptionDetailId.HasValue)
-                        continue;
+                    var invoiceDetails = _context.InvoiceDetails
+                        .Where(d => d.InvoiceId == invoiceId &&
+                                    d.PrescriptionDetailId.HasValue)
+                        .ToList();
 
-                    var prescriptionDetail =
-                        _context.PrescriptionDetails
-                            .FirstOrDefault(p =>
-                                p.PrescriptionDetailId ==
-                                detail.PrescriptionDetailId.Value);
-
-                    if (prescriptionDetail == null)
-                        continue;
-
-                    var medicine = _context.Medicines
-                        .FirstOrDefault(m =>
-                            m.MedicineId ==
-                            prescriptionDetail.MedicineId);
-
-                    if (medicine != null)
+                    foreach (var detail in invoiceDetails)
                     {
-                        medicine.QuantityInStock += detail.Quantity;
+                        if (!detail.PrescriptionDetailId.HasValue)
+                            continue;
+
+                        var prescriptionDetail = _context.PrescriptionDetails
+                            .FirstOrDefault(p =>
+                                p.PrescriptionDetailId == detail.PrescriptionDetailId.Value);
+
+                        if (prescriptionDetail == null)
+                            continue;
+
+                        var medicine = _context.Medicines
+                            .FirstOrDefault(m =>
+                                m.MedicineId == prescriptionDetail.MedicineId);
+
+                        if (medicine != null)
+                            medicine.QuantityInStock += detail.Quantity;
                     }
                 }
 
                 _context.SaveChanges();
-
                 trans.Commit();
 
                 return true;

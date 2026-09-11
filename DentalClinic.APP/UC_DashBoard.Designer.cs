@@ -833,10 +833,11 @@
             // 
             // dtpTo
             // 
+            dtpTo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             dtpTo.CustomFormat = "dd/MM/yyyy";
             dtpTo.Font = new Font("Segoe UI", 10F);
             dtpTo.Format = DateTimePickerFormat.Custom;
-            dtpTo.Location = new Point(1026, 15);
+            dtpTo.Location = new Point(1307, 17);
             dtpTo.Name = "dtpTo";
             dtpTo.Size = new Size(138, 30);
             dtpTo.TabIndex = 22;
@@ -844,10 +845,11 @@
             // 
             // label15
             // 
+            label15.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI Semibold", 12F);
             label15.ForeColor = Color.DarkCyan;
-            label15.Location = new Point(921, 14);
+            label15.Location = new Point(1202, 16);
             label15.Name = "label15";
             label15.Size = new Size(99, 28);
             label15.TabIndex = 21;
@@ -855,10 +857,11 @@
             // 
             // dtpFrom
             // 
+            dtpFrom.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             dtpFrom.CustomFormat = "dd/MM/yyyy";
             dtpFrom.Font = new Font("Segoe UI", 10F);
             dtpFrom.Format = DateTimePickerFormat.Custom;
-            dtpFrom.Location = new Point(705, 14);
+            dtpFrom.Location = new Point(1028, 16);
             dtpFrom.Name = "dtpFrom";
             dtpFrom.Size = new Size(138, 30);
             dtpFrom.TabIndex = 20;
@@ -866,10 +869,11 @@
             // 
             // label14
             // 
+            label14.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label14.AutoSize = true;
             label14.Font = new Font("Segoe UI Semibold", 12F);
             label14.ForeColor = Color.DarkCyan;
-            label14.Location = new Point(614, 15);
+            label14.Location = new Point(937, 16);
             label14.Name = "label14";
             label14.Size = new Size(85, 28);
             label14.TabIndex = 18;

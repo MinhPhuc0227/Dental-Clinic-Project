@@ -101,7 +101,7 @@
             dgvTreatmentSession.AllowUserToDeleteRows = false;
             dgvTreatmentSession.AllowUserToOrderColumns = true;
             dgvTreatmentSession.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvTreatmentSession.BackgroundColor = Color.White;
+            dgvTreatmentSession.BackgroundColor = Color.WhiteSmoke;
             dgvTreatmentSession.BorderStyle = BorderStyle.None;
             dgvTreatmentSession.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvTreatmentSession.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
@@ -404,9 +404,11 @@
             // lbProgress
             // 
             lbProgress.AutoSize = true;
-            lbProgress.Location = new Point(566, 437);
+            lbProgress.Font = new Font("Segoe UI Semibold", 12F);
+            lbProgress.ForeColor = Color.ForestGreen;
+            lbProgress.Location = new Point(566, 434);
             lbProgress.Name = "lbProgress";
-            lbProgress.Size = new Size(22, 23);
+            lbProgress.Size = new Size(27, 28);
             lbProgress.TabIndex = 46;
             lbProgress.Text = "...";
             // 

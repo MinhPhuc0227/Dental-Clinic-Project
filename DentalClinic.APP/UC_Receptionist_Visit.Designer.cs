@@ -196,7 +196,7 @@
             btCreateVisit.FlatStyle = FlatStyle.Flat;
             btCreateVisit.Font = new Font("Segoe UI Semibold", 10F);
             btCreateVisit.ForeColor = Color.White;
-            btCreateVisit.Location = new Point(28, 106);
+            btCreateVisit.Location = new Point(28, 99);
             btCreateVisit.Name = "btCreateVisit";
             btCreateVisit.Size = new Size(116, 44);
             btCreateVisit.TabIndex = 21;

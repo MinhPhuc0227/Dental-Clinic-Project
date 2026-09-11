@@ -35,7 +35,6 @@ namespace DentalClinic.APP
 
         private void InitFilterControls()
         {
-            dtpDate.Value = DateTime.Today;
 
             // 1. Nạp danh sách bác sĩ
             var doctorRes = _visitBLL.GetDoctorsLookup();
@@ -62,12 +61,6 @@ namespace DentalClinic.APP
 
             // Ép ComboBox chọn dòng "Đang chờ khám" làm mặc định
             cbStatus.SelectedIndex = 1;
-
-            // 3. Đăng ký sự kiện tự động lọc khi thay đổi
-            dtpDate.ValueChanged += (s, e) => LoadData();
-            cbDoctor.SelectedIndexChanged += (s, e) => LoadData();
-            cbStatus.SelectedIndexChanged += (s, e) => LoadData();
-            txtSearch.TextChanged += (s, e) => LoadData();
         }
 
         private void SetupDataGridView()
@@ -133,6 +126,21 @@ namespace DentalClinic.APP
         }
 
         private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void cbDoctor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             LoadData();
         }

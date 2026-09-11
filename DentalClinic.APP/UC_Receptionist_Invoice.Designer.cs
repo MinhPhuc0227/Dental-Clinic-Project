@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             pnLeft = new Panel();
             dgvWaitingList = new DataGridView();
             panel2 = new Panel();
@@ -45,6 +45,7 @@
             pnRight = new Panel();
             dgvInvoiceDetail = new DataGridView();
             panel5 = new Panel();
+            btCancelInvoice = new Button();
             label14 = new Label();
             label13 = new Label();
             txtChange = new TextBox();
@@ -53,7 +54,6 @@
             label10 = new Label();
             label11 = new Label();
             btPayment = new Button();
-            btCancel = new Button();
             cbPaymentMethod = new ComboBox();
             lbTotalAmount = new Label();
             label9 = new Label();
@@ -85,7 +85,7 @@
             pnLeft.Location = new Point(10, 10);
             pnLeft.Name = "pnLeft";
             pnLeft.Padding = new Padding(0, 0, 10, 0);
-            pnLeft.Size = new Size(600, 751);
+            pnLeft.Size = new Size(644, 751);
             pnLeft.TabIndex = 0;
             // 
             // dgvWaitingList
@@ -97,23 +97,23 @@
             dgvWaitingList.BackgroundColor = Color.White;
             dgvWaitingList.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvWaitingList.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvWaitingList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvWaitingList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvWaitingList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle6.ForeColor = Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvWaitingList.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvWaitingList.DefaultCellStyle = dataGridViewCellStyle2;
             dgvWaitingList.Dock = DockStyle.Fill;
             dgvWaitingList.EnableHeadersVisualStyles = false;
             dgvWaitingList.GridColor = Color.DarkCyan;
@@ -125,7 +125,7 @@
             dgvWaitingList.RowHeadersWidth = 51;
             dgvWaitingList.RowTemplate.Height = 38;
             dgvWaitingList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvWaitingList.Size = new Size(588, 558);
+            dgvWaitingList.Size = new Size(632, 558);
             dgvWaitingList.TabIndex = 7;
             dgvWaitingList.CellClick += dgvWaitingList_CellClick;
             // 
@@ -141,7 +141,7 @@
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(588, 191);
+            panel2.Size = new Size(632, 191);
             panel2.TabIndex = 0;
             // 
             // dtpEnd
@@ -150,7 +150,7 @@
             dtpEnd.CustomFormat = "dd/MM/yyyy";
             dtpEnd.Font = new Font("Segoe UI", 10F);
             dtpEnd.Format = DateTimePickerFormat.Custom;
-            dtpEnd.Location = new Point(399, 131);
+            dtpEnd.Location = new Point(463, 124);
             dtpEnd.Name = "dtpEnd";
             dtpEnd.Size = new Size(138, 30);
             dtpEnd.TabIndex = 37;
@@ -162,7 +162,7 @@
             dtpStart.CustomFormat = "dd/MM/yyyy";
             dtpStart.Font = new Font("Segoe UI", 10F);
             dtpStart.Format = DateTimePickerFormat.Custom;
-            dtpStart.Location = new Point(113, 130);
+            dtpStart.Location = new Point(101, 124);
             dtpStart.Name = "dtpStart";
             dtpStart.Size = new Size(138, 30);
             dtpStart.TabIndex = 36;
@@ -172,11 +172,11 @@
             // 
             label15.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label15.AutoSize = true;
-            label15.Font = new Font("Segoe UI Semibold", 12F);
+            label15.Font = new Font("Segoe UI Semibold", 10F);
             label15.ForeColor = Color.DarkCyan;
-            label15.Location = new Point(294, 130);
+            label15.Location = new Point(373, 130);
             label15.Name = "label15";
-            label15.Size = new Size(99, 28);
+            label15.Size = new Size(84, 23);
             label15.TabIndex = 35;
             label15.Text = "Đến ngày";
             // 
@@ -184,11 +184,11 @@
             // 
             label16.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI Semibold", 12F);
+            label16.Font = new Font("Segoe UI Semibold", 10F);
             label16.ForeColor = Color.DarkCyan;
-            label16.Location = new Point(22, 131);
+            label16.Location = new Point(22, 124);
             label16.Name = "label16";
-            label16.Size = new Size(85, 28);
+            label16.Size = new Size(73, 23);
             label16.TabIndex = 34;
             label16.Text = "Từ ngày";
             // 
@@ -207,20 +207,20 @@
             // 
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(234, 78);
+            txtSearch.Location = new Point(199, 71);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(303, 30);
+            txtSearch.Size = new Size(402, 30);
             txtSearch.TabIndex = 32;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 12F);
+            label1.Font = new Font("Segoe UI Semibold", 10F);
             label1.ForeColor = Color.DarkCyan;
             label1.Location = new Point(21, 78);
             label1.Name = "label1";
-            label1.Size = new Size(207, 28);
+            label1.Size = new Size(172, 23);
             label1.TabIndex = 31;
             label1.Text = "Tìm kiếm bệnh nhân:";
             // 
@@ -231,10 +231,10 @@
             pnRight.Controls.Add(panel5);
             pnRight.Controls.Add(panel4);
             pnRight.Dock = DockStyle.Fill;
-            pnRight.Location = new Point(610, 10);
+            pnRight.Location = new Point(654, 10);
             pnRight.Name = "pnRight";
             pnRight.Padding = new Padding(10, 0, 0, 0);
-            pnRight.Size = new Size(526, 751);
+            pnRight.Size = new Size(636, 751);
             pnRight.TabIndex = 1;
             // 
             // dgvInvoiceDetail
@@ -246,23 +246,23 @@
             dgvInvoiceDetail.BackgroundColor = Color.White;
             dgvInvoiceDetail.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvInvoiceDetail.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle7.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle7.ForeColor = Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle7.SelectionForeColor = Color.White;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dgvInvoiceDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvInvoiceDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvInvoiceDetail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle8.ForeColor = Color.Black;
-            dataGridViewCellStyle8.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
-            dgvInvoiceDetail.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvInvoiceDetail.DefaultCellStyle = dataGridViewCellStyle4;
             dgvInvoiceDetail.Dock = DockStyle.Fill;
             dgvInvoiceDetail.EnableHeadersVisualStyles = false;
             dgvInvoiceDetail.GridColor = Color.DarkCyan;
@@ -274,11 +274,12 @@
             dgvInvoiceDetail.RowHeadersWidth = 51;
             dgvInvoiceDetail.RowTemplate.Height = 38;
             dgvInvoiceDetail.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInvoiceDetail.Size = new Size(514, 233);
+            dgvInvoiceDetail.Size = new Size(624, 233);
             dgvInvoiceDetail.TabIndex = 8;
             // 
             // panel5
             // 
+            panel5.Controls.Add(btCancelInvoice);
             panel5.Controls.Add(label14);
             panel5.Controls.Add(label13);
             panel5.Controls.Add(txtChange);
@@ -287,7 +288,6 @@
             panel5.Controls.Add(label10);
             panel5.Controls.Add(label11);
             panel5.Controls.Add(btPayment);
-            panel5.Controls.Add(btCancel);
             panel5.Controls.Add(cbPaymentMethod);
             panel5.Controls.Add(lbTotalAmount);
             panel5.Controls.Add(label9);
@@ -295,39 +295,55 @@
             panel5.Dock = DockStyle.Bottom;
             panel5.Location = new Point(10, 483);
             panel5.Name = "panel5";
-            panel5.Size = new Size(514, 266);
+            panel5.Size = new Size(624, 266);
             panel5.TabIndex = 1;
+            // 
+            // btCancelInvoice
+            // 
+            btCancelInvoice.BackColor = Color.Red;
+            btCancelInvoice.FlatAppearance.BorderSize = 0;
+            btCancelInvoice.FlatStyle = FlatStyle.Flat;
+            btCancelInvoice.Font = new Font("Segoe UI Semibold", 10F);
+            btCancelInvoice.ForeColor = Color.White;
+            btCancelInvoice.Location = new Point(10, 211);
+            btCancelInvoice.Name = "btCancelInvoice";
+            btCancelInvoice.Size = new Size(100, 41);
+            btCancelInvoice.TabIndex = 53;
+            btCancelInvoice.Text = "Hủy HĐ";
+            btCancelInvoice.UseVisualStyleBackColor = false;
+            btCancelInvoice.Click += btCancelInvoice_Click;
             // 
             // label14
             // 
             label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 12F);
+            label14.Font = new Font("Segoe UI", 10F);
             label14.ForeColor = Color.Black;
-            label14.Location = new Point(454, 103);
+            label14.Location = new Point(527, 103);
             label14.Name = "label14";
-            label14.Size = new Size(53, 28);
+            label14.Size = new Size(46, 23);
             label14.TabIndex = 52;
             label14.Text = "VNĐ";
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 12F);
+            label13.Font = new Font("Segoe UI", 10F);
             label13.ForeColor = Color.Black;
-            label13.Location = new Point(454, 147);
+            label13.Location = new Point(527, 147);
             label13.Name = "label13";
-            label13.Size = new Size(53, 28);
+            label13.Size = new Size(46, 23);
             label13.TabIndex = 51;
             label13.Text = "VNĐ";
             // 
             // txtChange
             // 
+            txtChange.BackColor = Color.White;
             txtChange.BorderStyle = BorderStyle.FixedSingle;
             txtChange.Font = new Font("Segoe UI", 10F);
             txtChange.Location = new Point(257, 145);
             txtChange.Name = "txtChange";
             txtChange.ReadOnly = true;
-            txtChange.Size = new Size(191, 30);
+            txtChange.Size = new Size(250, 30);
             txtChange.TabIndex = 50;
             // 
             // txtAmountGiven
@@ -336,7 +352,7 @@
             txtAmountGiven.Font = new Font("Segoe UI", 10F);
             txtAmountGiven.Location = new Point(257, 101);
             txtAmountGiven.Name = "txtAmountGiven";
-            txtAmountGiven.Size = new Size(191, 30);
+            txtAmountGiven.Size = new Size(250, 30);
             txtAmountGiven.TabIndex = 49;
             txtAmountGiven.TextChanged += txtAmountGiven_TextChanged;
             txtAmountGiven.KeyPress += txtAmountGiven_KeyPress;
@@ -344,55 +360,50 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI Semibold", 12F);
+            label12.Font = new Font("Segoe UI Semibold", 10F);
             label12.ForeColor = Color.DarkCyan;
             label12.Location = new Point(10, 143);
             label12.Name = "label12";
-            label12.Size = new Size(146, 28);
+            label12.Size = new Size(123, 23);
             label12.TabIndex = 48;
             label12.Text = "Tiền trả khách:";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI Semibold", 12F);
+            label10.Font = new Font("Segoe UI Semibold", 10F);
             label10.ForeColor = Color.DarkCyan;
             label10.Location = new Point(10, 101);
             label10.Name = "label10";
-            label10.Size = new Size(156, 28);
+            label10.Size = new Size(132, 23);
             label10.TabIndex = 47;
             label10.Text = "Tiền khách đưa:";
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 12F);
+            label11.Font = new Font("Segoe UI", 10F);
             label11.ForeColor = Color.Black;
-            label11.Location = new Point(454, 17);
+            label11.Location = new Point(527, 17);
             label11.Name = "label11";
-            label11.Size = new Size(53, 28);
+            label11.Size = new Size(46, 23);
             label11.TabIndex = 46;
             label11.Text = "VNĐ";
             // 
             // btPayment
             // 
-            btPayment.Location = new Point(375, 211);
+            btPayment.BackColor = Color.FromArgb(0, 184, 148);
+            btPayment.FlatAppearance.BorderSize = 0;
+            btPayment.FlatStyle = FlatStyle.Flat;
+            btPayment.Font = new Font("Segoe UI Semibold", 10F);
+            btPayment.ForeColor = Color.White;
+            btPayment.Location = new Point(448, 211);
             btPayment.Name = "btPayment";
             btPayment.Size = new Size(132, 41);
             btPayment.TabIndex = 45;
             btPayment.Text = "Thanh toán";
-            btPayment.UseVisualStyleBackColor = true;
+            btPayment.UseVisualStyleBackColor = false;
             btPayment.Click += btPayment_Click;
-            // 
-            // btCancel
-            // 
-            btCancel.Location = new Point(258, 211);
-            btCancel.Name = "btCancel";
-            btCancel.Size = new Size(100, 41);
-            btCancel.TabIndex = 44;
-            btCancel.Text = "Hủy";
-            btCancel.UseVisualStyleBackColor = true;
-            btCancel.Click += btCancel_Click;
             // 
             // cbPaymentMethod
             // 
@@ -400,40 +411,40 @@
             cbPaymentMethod.FormattingEnabled = true;
             cbPaymentMethod.Location = new Point(257, 58);
             cbPaymentMethod.Name = "cbPaymentMethod";
-            cbPaymentMethod.Size = new Size(250, 31);
+            cbPaymentMethod.Size = new Size(323, 31);
             cbPaymentMethod.TabIndex = 43;
             cbPaymentMethod.SelectedIndexChanged += cbPaymentMethod_SelectedIndexChanged;
             // 
             // lbTotalAmount
             // 
             lbTotalAmount.AutoSize = true;
-            lbTotalAmount.Font = new Font("Segoe UI", 12F);
+            lbTotalAmount.Font = new Font("Segoe UI", 10F);
             lbTotalAmount.ForeColor = Color.Black;
             lbTotalAmount.Location = new Point(257, 17);
             lbTotalAmount.Name = "lbTotalAmount";
-            lbTotalAmount.Size = new Size(24, 28);
+            lbTotalAmount.Size = new Size(22, 23);
             lbTotalAmount.TabIndex = 42;
             lbTotalAmount.Text = "...";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI Semibold", 12F);
+            label9.Font = new Font("Segoe UI Semibold", 10F);
             label9.ForeColor = Color.DarkCyan;
             label9.Location = new Point(10, 17);
             label9.Name = "label9";
-            label9.Size = new Size(115, 28);
+            label9.Size = new Size(96, 23);
             label9.TabIndex = 41;
             label9.Text = "Tổng cộng:";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI Semibold", 12F);
+            label8.Font = new Font("Segoe UI Semibold", 10F);
             label8.ForeColor = Color.DarkCyan;
             label8.Location = new Point(10, 61);
             label8.Name = "label8";
-            label8.Size = new Size(241, 28);
+            label8.Size = new Size(205, 23);
             label8.TabIndex = 40;
             label8.Text = "Phương thức thanh toán:";
             // 
@@ -450,7 +461,7 @@
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(10, 0);
             panel4.Name = "panel4";
-            panel4.Size = new Size(514, 250);
+            panel4.Size = new Size(624, 250);
             panel4.TabIndex = 0;
             // 
             // label6
@@ -467,66 +478,66 @@
             // lbDoctorName
             // 
             lbDoctorName.AutoSize = true;
-            lbDoctorName.Font = new Font("Segoe UI", 12F);
+            lbDoctorName.Font = new Font("Segoe UI", 10F);
             lbDoctorName.ForeColor = Color.Black;
             lbDoctorName.Location = new Point(141, 150);
             lbDoctorName.Name = "lbDoctorName";
-            lbDoctorName.Size = new Size(24, 28);
+            lbDoctorName.Size = new Size(22, 23);
             lbDoctorName.TabIndex = 40;
             lbDoctorName.Text = "...";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI Semibold", 12F);
+            label5.Font = new Font("Segoe UI Semibold", 10F);
             label5.ForeColor = Color.DarkCyan;
             label5.Location = new Point(10, 150);
             label5.Name = "label5";
-            label5.Size = new Size(125, 28);
+            label5.Size = new Size(105, 23);
             label5.TabIndex = 39;
             label5.Text = "Bác sĩ khám:";
             // 
             // lbPhone
             // 
             lbPhone.AutoSize = true;
-            lbPhone.Font = new Font("Segoe UI", 12F);
+            lbPhone.Font = new Font("Segoe UI", 10F);
             lbPhone.ForeColor = Color.Black;
             lbPhone.Location = new Point(141, 106);
             lbPhone.Name = "lbPhone";
-            lbPhone.Size = new Size(24, 28);
+            lbPhone.Size = new Size(22, 23);
             lbPhone.TabIndex = 38;
             lbPhone.Text = "...";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI Semibold", 12F);
+            label4.Font = new Font("Segoe UI Semibold", 10F);
             label4.ForeColor = Color.DarkCyan;
             label4.Location = new Point(10, 106);
             label4.Name = "label4";
-            label4.Size = new Size(53, 28);
+            label4.Size = new Size(44, 23);
             label4.TabIndex = 37;
             label4.Text = "SĐT:";
             // 
             // lbPatientName
             // 
             lbPatientName.AutoSize = true;
-            lbPatientName.Font = new Font("Segoe UI", 12F);
+            lbPatientName.Font = new Font("Segoe UI", 10F);
             lbPatientName.ForeColor = Color.Black;
             lbPatientName.Location = new Point(141, 62);
             lbPatientName.Name = "lbPatientName";
-            lbPatientName.Size = new Size(24, 28);
+            lbPatientName.Size = new Size(22, 23);
             lbPatientName.TabIndex = 36;
             lbPatientName.Text = "...";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI Semibold", 12F);
+            label7.Font = new Font("Segoe UI Semibold", 10F);
             label7.ForeColor = Color.DarkCyan;
             label7.Location = new Point(10, 62);
             label7.Name = "label7";
-            label7.Size = new Size(80, 28);
+            label7.Size = new Size(67, 23);
             label7.TabIndex = 35;
             label7.Text = "Họ tên:";
             // 
@@ -553,7 +564,7 @@
             Margin = new Padding(4);
             Name = "UC_Receptionist_Invoice";
             Padding = new Padding(10);
-            Size = new Size(1146, 771);
+            Size = new Size(1300, 771);
             Load += UC_Receptionist_Invoice_Load;
             pnLeft.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvWaitingList).EndInit();
@@ -582,7 +593,6 @@
         private Panel panel5;
         private DataGridView dgvInvoiceDetail;
         private Button btPayment;
-        private Button btCancel;
         private ComboBox cbPaymentMethod;
         private Label lbTotalAmount;
         private Label label9;
@@ -605,5 +615,6 @@
         private DateTimePicker dtpStart;
         private Label label15;
         private Label label16;
+        private Button btCancelInvoice;
     }
 }

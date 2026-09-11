@@ -106,7 +106,7 @@ namespace DentalClinic.APP
                         "MedicineImportId",
 
                     HeaderText =
-                        "Mã phiếu",
+                        "Mã",
 
                     Width = 70
                 });
@@ -140,30 +140,6 @@ namespace DentalClinic.APP
                         "Nhà cung cấp",
 
                     Width = 160
-                });
-
-            dgvImportHistory.Columns.Add(
-                new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName =
-                        "UserName",
-
-                    HeaderText =
-                        "Người nhập",
-
-                    Width = 120
-                });
-
-            dgvImportHistory.Columns.Add(
-                new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName =
-                        "PaymentMethodName",
-
-                    HeaderText =
-                        "PTTT",
-
-                    Width = 110
                 });
 
             dgvImportHistory.Columns.Add(
@@ -426,6 +402,9 @@ namespace DentalClinic.APP
                 detail.Items;
         }
 
+        private void label3_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

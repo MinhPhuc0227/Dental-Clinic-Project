@@ -243,13 +243,13 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            label8.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             label8.ForeColor = Color.DarkCyan;
-            label8.Location = new Point(179, 22);
+            label8.Location = new Point(147, 19);
             label8.Name = "label8";
-            label8.Size = new Size(203, 32);
+            label8.Size = new Size(270, 37);
             label8.TabIndex = 55;
-            label8.Text = "HỒ SƠ CÁ NHÂN";
+            label8.Text = "HỒ SƠ BỆNH NHÂN";
             // 
             // btCancel
             // 

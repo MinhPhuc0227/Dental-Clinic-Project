@@ -211,14 +211,9 @@ namespace DentalClinic.APP
             this.Close();
         }
 
-        private void cbRole_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void Dialog_Receptionist_Load(object sender, EventArgs e)
         {
-            txtFullName.Focus();
+            BeginInvoke(new Action(() => txtFullName.Focus()));
         }
 
         private void chkShowPassword_CheckedChanged(object sender, EventArgs e)

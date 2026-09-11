@@ -387,10 +387,7 @@ namespace DentalClinic.DAL
             }
         }
 
-        public bool CancelInvoice(
-    int invoiceId,
-    int receptionistId,
-    string cancellationReason)
+        public bool CancelInvoice(int invoiceId, int receptionistId, string cancellationReason)
         {
             using var trans = _context.Database.BeginTransaction();
 
@@ -400,8 +397,7 @@ namespace DentalClinic.DAL
                     .FirstOrDefault(i => i.InvoiceId == invoiceId);
 
                 if (invoice == null)
-                    throw new InvalidOperationException(
-                        "Không tìm thấy hóa đơn.");
+                    throw new InvalidOperationException("Không tìm thấy hóa đơn.");
 
                 if (invoice.Status != InvoiceStatus.Paid &&
                     invoice.Status != InvoiceStatus.Unpaid)
@@ -414,21 +410,20 @@ namespace DentalClinic.DAL
                     .FirstOrDefault(v => v.VisitId == invoice.VisitId);
 
                 if (visit == null)
-                    throw new InvalidOperationException(
-                        "Không tìm thấy ca khám của hóa đơn.");
+                    throw new InvalidOperationException("Không tìm thấy lượt khám.");
 
                 InvoiceStatus oldStatus = invoice.Status;
 
-                // 1. Hủy hóa đơn
+                // Hủy hóa đơn
                 invoice.Status = InvoiceStatus.Cancelled;
                 invoice.CancellationReason = cancellationReason;
                 invoice.CancelledBy = receptionistId;
                 invoice.CancelledDate = DateTime.Now;
 
-                // 2. Hủy hóa đơn = kết thúc ca khám
-                visit.Status = VisitStatus.Completed;
+                // Hủy luôn lượt khám
+                visit.Status = VisitStatus.Cancelled;
 
-                // 3. Chỉ hoàn kho nếu hóa đơn đã thanh toán
+                // Nếu hóa đơn đã thanh toán thì hoàn lại thuốc
                 if (oldStatus == InvoiceStatus.Paid)
                 {
                     var invoiceDetails = _context.InvoiceDetails

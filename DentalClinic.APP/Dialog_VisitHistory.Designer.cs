@@ -1,13 +1,13 @@
 ﻿namespace DentalClinic.APP
 {
-    partial class UC_Doctor_MedicalRecord
+    partial class Dialog_VisitHistory
     {
-        /// <summary> 
+        /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,10 +20,10 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
+        #region Windows Form Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
+        /// <summary>
+        /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -35,14 +35,6 @@
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             panel1 = new Panel();
-            label13 = new Label();
-            cbStatus = new ComboBox();
-            dtpEnd = new DateTimePicker();
-            dtpStart = new DateTimePicker();
-            label6 = new Label();
-            label11 = new Label();
-            label12 = new Label();
-            txtSearch = new TextBox();
             label1 = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel2 = new Panel();
@@ -55,8 +47,6 @@
             dgvMedicine = new DataGridView();
             dgvService = new DataGridView();
             panel7 = new Panel();
-            lbVisitStatus = new Label();
-            label10 = new Label();
             txtNote = new TextBox();
             txtConclusion = new TextBox();
             txtDiagnosis = new TextBox();
@@ -83,119 +73,23 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(label13);
-            panel1.Controls.Add(cbStatus);
-            panel1.Controls.Add(dtpEnd);
-            panel1.Controls.Add(dtpStart);
-            panel1.Controls.Add(label6);
-            panel1.Controls.Add(label11);
-            panel1.Controls.Add(label12);
-            panel1.Controls.Add(txtSearch);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(11, 12);
-            panel1.Margin = new Padding(2);
+            panel1.Location = new Point(10, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1422, 131);
-            panel1.TabIndex = 1;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI Semibold", 12F);
-            label13.ForeColor = Color.DarkCyan;
-            label13.Location = new Point(591, 66);
-            label13.Name = "label13";
-            label13.Size = new Size(201, 28);
-            label13.TabIndex = 28;
-            label13.Text = "Trạng thái lượt khám";
-            // 
-            // cbStatus
-            // 
-            cbStatus.Font = new Font("Segoe UI", 10F);
-            cbStatus.FormattingEnabled = true;
-            cbStatus.Location = new Point(803, 64);
-            cbStatus.Name = "cbStatus";
-            cbStatus.Size = new Size(160, 31);
-            cbStatus.TabIndex = 27;
-            cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
-            // 
-            // dtpEnd
-            // 
-            dtpEnd.CustomFormat = "dd/MM/yyyy";
-            dtpEnd.Font = new Font("Segoe UI", 10F);
-            dtpEnd.Format = DateTimePickerFormat.Custom;
-            dtpEnd.Location = new Point(395, 65);
-            dtpEnd.Name = "dtpEnd";
-            dtpEnd.Size = new Size(138, 30);
-            dtpEnd.TabIndex = 26;
-            dtpEnd.ValueChanged += dtpEnd_ValueChanged;
-            // 
-            // dtpStart
-            // 
-            dtpStart.CustomFormat = "dd/MM/yyyy";
-            dtpStart.Font = new Font("Segoe UI", 10F);
-            dtpStart.Format = DateTimePickerFormat.Custom;
-            dtpStart.Location = new Point(99, 65);
-            dtpStart.Name = "dtpStart";
-            dtpStart.Size = new Size(138, 30);
-            dtpStart.TabIndex = 25;
-            dtpStart.ValueChanged += dtpStart_ValueChanged;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Semibold", 12F);
-            label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(294, 66);
-            label6.Name = "label6";
-            label6.Size = new Size(99, 28);
-            label6.TabIndex = 24;
-            label6.Text = "Đến ngày";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI Semibold", 12F);
-            label11.ForeColor = Color.DarkCyan;
-            label11.Location = new Point(11, 66);
-            label11.Name = "label11";
-            label11.Size = new Size(85, 28);
-            label11.TabIndex = 23;
-            label11.Text = "Từ ngày";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI Semibold", 12F);
-            label12.ForeColor = Color.DarkCyan;
-            label12.Location = new Point(1059, 65);
-            label12.Name = "label12";
-            label12.Size = new Size(97, 28);
-            label12.TabIndex = 22;
-            label12.Text = "Tìm kiếm";
-            // 
-            // txtSearch
-            // 
-            txtSearch.BorderStyle = BorderStyle.FixedSingle;
-            txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(1162, 64);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(235, 30);
-            txtSearch.TabIndex = 21;
-            txtSearch.TextChanged += txtSearch_TextChanged;
+            panel1.Size = new Size(1406, 64);
+            panel1.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(11, 12);
-            label1.Margin = new Padding(2, 0, 2, 0);
+            label1.Location = new Point(14, 14);
             label1.Name = "label1";
-            label1.Size = new Size(240, 37);
+            label1.Size = new Size(292, 37);
             label1.TabIndex = 0;
-            label1.Text = "BỆNH ÁN ĐÃ LẬP";
+            label1.Text = "LỊCH SỬ KHÁM BỆNH";
             // 
             // tableLayoutPanel1
             // 
@@ -205,12 +99,12 @@
             tableLayoutPanel1.Controls.Add(panel2, 0, 0);
             tableLayoutPanel1.Controls.Add(panel3, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(11, 143);
+            tableLayoutPanel1.Location = new Point(10, 74);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(1422, 769);
-            tableLayoutPanel1.TabIndex = 2;
+            tableLayoutPanel1.Size = new Size(1406, 793);
+            tableLayoutPanel1.TabIndex = 1;
             // 
             // panel2
             // 
@@ -219,7 +113,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(420, 763);
+            panel2.Size = new Size(415, 787);
             panel2.TabIndex = 0;
             // 
             // dgvVisitHistory
@@ -259,7 +153,7 @@
             dgvVisitHistory.RowHeadersWidth = 51;
             dgvVisitHistory.RowTemplate.Height = 38;
             dgvVisitHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvVisitHistory.Size = new Size(420, 707);
+            dgvVisitHistory.Size = new Size(415, 731);
             dgvVisitHistory.TabIndex = 8;
             dgvVisitHistory.CellClick += dgvVisitHistory_CellClick;
             // 
@@ -270,7 +164,7 @@
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
             panel4.Name = "panel4";
-            panel4.Size = new Size(420, 56);
+            panel4.Size = new Size(415, 56);
             panel4.TabIndex = 0;
             // 
             // label3
@@ -280,18 +174,18 @@
             label3.ForeColor = Color.DarkCyan;
             label3.Location = new Point(11, 12);
             label3.Name = "label3";
-            label3.Size = new Size(227, 28);
+            label3.Size = new Size(243, 28);
             label3.TabIndex = 2;
-            label3.Text = "DANH SÁCH BỆNH ÁN";
+            label3.Text = "DANH SÁCH LẦN KHÁM";
             // 
             // panel3
             // 
             panel3.Controls.Add(panel5);
             panel3.Controls.Add(panel6);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(429, 3);
+            panel3.Location = new Point(424, 3);
             panel3.Name = "panel3";
-            panel3.Size = new Size(990, 763);
+            panel3.Size = new Size(979, 787);
             panel3.TabIndex = 1;
             // 
             // panel5
@@ -301,7 +195,7 @@
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(0, 56);
             panel5.Name = "panel5";
-            panel5.Size = new Size(990, 707);
+            panel5.Size = new Size(979, 731);
             panel5.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -316,7 +210,7 @@
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(990, 505);
+            tableLayoutPanel2.Size = new Size(979, 529);
             tableLayoutPanel2.TabIndex = 1;
             // 
             // dgvMedicine
@@ -348,7 +242,7 @@
             dgvMedicine.Dock = DockStyle.Fill;
             dgvMedicine.EnableHeadersVisualStyles = false;
             dgvMedicine.GridColor = Color.DarkCyan;
-            dgvMedicine.Location = new Point(3, 255);
+            dgvMedicine.Location = new Point(3, 267);
             dgvMedicine.MultiSelect = false;
             dgvMedicine.Name = "dgvMedicine";
             dgvMedicine.ReadOnly = true;
@@ -356,7 +250,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMedicine.Size = new Size(984, 247);
+            dgvMedicine.Size = new Size(973, 259);
             dgvMedicine.TabIndex = 10;
             // 
             // dgvService
@@ -396,13 +290,11 @@
             dgvService.RowHeadersWidth = 51;
             dgvService.RowTemplate.Height = 38;
             dgvService.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvService.Size = new Size(984, 246);
+            dgvService.Size = new Size(973, 258);
             dgvService.TabIndex = 9;
             // 
             // panel7
             // 
-            panel7.Controls.Add(lbVisitStatus);
-            panel7.Controls.Add(label10);
             panel7.Controls.Add(txtNote);
             panel7.Controls.Add(txtConclusion);
             panel7.Controls.Add(txtDiagnosis);
@@ -414,28 +306,8 @@
             panel7.Dock = DockStyle.Top;
             panel7.Location = new Point(0, 0);
             panel7.Name = "panel7";
-            panel7.Size = new Size(990, 202);
+            panel7.Size = new Size(979, 202);
             panel7.TabIndex = 0;
-            // 
-            // lbVisitStatus
-            // 
-            lbVisitStatus.AutoSize = true;
-            lbVisitStatus.Location = new Point(555, 21);
-            lbVisitStatus.Name = "lbVisitStatus";
-            lbVisitStatus.Size = new Size(55, 23);
-            lbVisitStatus.TabIndex = 24;
-            lbVisitStatus.Text = "label6";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI Semibold", 10F);
-            label10.ForeColor = Color.DarkCyan;
-            label10.Location = new Point(374, 21);
-            label10.Name = "label10";
-            label10.Size = new Size(175, 23);
-            label10.TabIndex = 23;
-            label10.Text = "Trạng thái lượt khám:";
             // 
             // txtNote
             // 
@@ -467,7 +339,7 @@
             // lbExaminationDate
             // 
             lbExaminationDate.AutoSize = true;
-            lbExaminationDate.Location = new Point(114, 21);
+            lbExaminationDate.Location = new Point(120, 21);
             lbExaminationDate.Name = "lbExaminationDate";
             lbExaminationDate.Size = new Size(55, 23);
             lbExaminationDate.TabIndex = 18;
@@ -524,7 +396,7 @@
             panel6.Dock = DockStyle.Top;
             panel6.Location = new Point(0, 0);
             panel6.Name = "panel6";
-            panel6.Size = new Size(990, 56);
+            panel6.Size = new Size(979, 56);
             panel6.TabIndex = 1;
             // 
             // label2
@@ -534,22 +406,24 @@
             label2.ForeColor = Color.DarkCyan;
             label2.Location = new Point(17, 12);
             label2.Name = "label2";
-            label2.Size = new Size(221, 28);
+            label2.Size = new Size(237, 28);
             label2.TabIndex = 1;
-            label2.Text = "THÔNG TIN BỆNH ÁN";
+            label2.Text = "THÔNG TIN LẦN KHÁM";
             // 
-            // UC_Doctor_MedicalRecord
+            // Dialog_VisitHistory
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            ClientSize = new Size(1426, 877);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(panel1);
             Font = new Font("Segoe UI", 10F);
-            Name = "UC_Doctor_MedicalRecord";
-            Padding = new Padding(11, 12, 11, 12);
-            Size = new Size(1444, 924);
-            Load += UC_Doctor_MedicalRecord_Load;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Name = "Dialog_VisitHistory";
+            Padding = new Padding(10);
+            ShowIcon = false;
+            Load += Dialog_VisitHistory_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
@@ -575,11 +449,13 @@
         private Label label1;
         private TableLayoutPanel tableLayoutPanel1;
         private Panel panel2;
-        private DataGridView dgvVisitHistory;
         private Panel panel4;
-        private Label label3;
         private Panel panel3;
+        private Panel panel6;
         private Panel panel5;
+        private DataGridView dgvVisitHistory;
+        private Label label3;
+        private Label label2;
         private TableLayoutPanel tableLayoutPanel2;
         private DataGridView dgvMedicine;
         private DataGridView dgvService;
@@ -592,17 +468,5 @@
         private Label label7;
         private Label label5;
         private Label label4;
-        private Panel panel6;
-        private Label label2;
-        private DateTimePicker dtpEnd;
-        private DateTimePicker dtpStart;
-        private Label label6;
-        private Label label11;
-        private Label label12;
-        private TextBox txtSearch;
-        private Label label13;
-        private ComboBox cbStatus;
-        private Label lbVisitStatus;
-        private Label label10;
     }
 }

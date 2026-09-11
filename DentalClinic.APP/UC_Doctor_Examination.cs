@@ -889,8 +889,12 @@ namespace DentalClinic.APP
 
         private void btViewMedicalHistory_Click(object sender, EventArgs e)
         {
-            Dialog_PatientHistory diaglog = new Dialog_PatientHistory(_medicalRecordBLL, _currentVisitId, lbFullName.Text);
-            diaglog.ShowDialog();
+            using var dialog = new Dialog_VisitHistory(
+                _medicalRecordBLL,
+                _currentVisitId,
+                lbFullName.Text);
+
+            dialog.ShowDialog(this);
         }
 
         private void dgvWaitingQueue_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

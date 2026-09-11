@@ -66,13 +66,16 @@ namespace DentalClinic.BLL
             }
         }
 
-        public List<MedicalHistoryDto> GetPatientHistory(int visitId)
+        public List<PatientHistoryDto> GetPatientHistory(int visitId)
         {
             try
             {
                 return _dal.GetPatientHistoryByVisit(visitId);
             }
-            catch { return new List<MedicalHistoryDto>(); }
+            catch
+            {
+                return new List<PatientHistoryDto>();
+            }
         }
 
         // Lấy danh sách các ca đã khám của Bác sĩ (pnLeft trong UC_Doctor_MedicalRecord)
@@ -94,15 +97,26 @@ namespace DentalClinic.BLL
         }
 
         // Lấy chi tiết 1 ca khám để hiển thị (pnRight trong UC_Doctor_MedicalRecord)
-        public (string Diagnosis, string Conclusion, string? Note, List<ExaminedServiceDto> Services, List<ExaminedMedicineDto> Medicines) GetRecordDetails(int visitId)
+        public (
+    string Diagnosis,
+    string Conclusion,
+    string? Note,
+    List<ExaminedServiceDto> Services,
+    List<ExaminedMedicineDto> Medicines
+) GetRecordDetails(int medicalRecordId)
         {
             try
             {
-                return _dal.GetRecordDetails(visitId);
+                return _dal.GetRecordDetails(medicalRecordId);
             }
-            catch (Exception)
+            catch
             {
-                return (string.Empty, string.Empty, null, new List<ExaminedServiceDto>(), new List<ExaminedMedicineDto>());
+                return (
+                    string.Empty,
+                    string.Empty,
+                    null,
+                    new List<ExaminedServiceDto>(),
+                    new List<ExaminedMedicineDto>());
             }
         }
 

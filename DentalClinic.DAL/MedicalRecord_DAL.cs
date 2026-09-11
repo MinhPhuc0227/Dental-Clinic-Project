@@ -167,38 +167,39 @@ namespace DentalClinic.DAL
             return dto;
         }
 
-        public List<MedicalHistoryDto> GetPatientHistory(int patientId)
-        {
-            return _context.MedicalRecords
-                .Where(m => m.Visit.PatientId == patientId && m.Visit.Status == VisitStatus.Completed)
-                .OrderByDescending(m => m.ExaminationDateTime)
-                .Select(m => new MedicalHistoryDto
-                {
-                    ExaminationDate = m.ExaminationDateTime,
-                    DoctorName = m.Visit.Doctor.FullName,
-                    Diagnosis = m.Diagnosis,
-                    Conclusion = m.Conclusion,
-                    Note = m.Note
-                }).ToList();
-        }
+        //public List<MedicalHistoryDto> GetPatientHistory(int patientId)
+        //{
+        //    return _context.MedicalRecords
+        //        .Where(m => m.Visit.PatientId == patientId && m.Visit.Status == VisitStatus.Completed)
+        //        .OrderByDescending(m => m.ExaminationDateTime)
+        //        .Select(m => new MedicalHistoryDto
+        //        {
+        //            ExaminationDate = m.ExaminationDateTime,
+        //            Diagnosis = m.Diagnosis,
+        //            Conclusion = m.Conclusion,
+        //            Note = m.Note
+        //        }).ToList();
+        //}
 
-        public List<MedicalHistoryDto> GetPatientHistoryByVisit(int currentVisitId)
+        public List<PatientHistoryDto> GetPatientHistoryByVisit(int currentVisitId)
         {
             var currentVisit = _context.Visits.Find(currentVisitId);
 
             if (currentVisit == null)
-                return new List<MedicalHistoryDto>();
+                return new List<PatientHistoryDto>();
 
             return _context.MedicalRecords
                 .Where(m =>
                     m.Visit.PatientId == currentVisit.PatientId &&
                     m.Visit.Status == VisitStatus.Completed)
                 .OrderByDescending(m => m.ExaminationDateTime)
-                .Select(m => new MedicalHistoryDto
+                .Select(m => new PatientHistoryDto
                 {
+                    MedicalRecordId = m.MedicalRecordId,
                     VisitId = m.VisitId,
                     ExaminationDate = m.ExaminationDateTime,
                     DoctorName = m.Visit.Doctor.FullName,
+                    VisitStatus = m.Visit.Status,
                     Diagnosis = m.Diagnosis,
                     Conclusion = m.Conclusion,
                     Note = m.Note
@@ -207,7 +208,12 @@ namespace DentalClinic.DAL
         }
 
         // Lấy danh sách các ca đã khám của Bác sĩ (pnLeft trong UC_Doctor_MedicalRecord)
-        public List<ExaminedRecordDto> GetExaminedRecords(int doctorId, DateTime fromDate, DateTime toDate, string keyword, VisitStatus? status)
+        public List<ExaminedRecordDto> GetExaminedRecords(
+    int doctorId,
+    DateTime fromDate,
+    DateTime toDate,
+    string keyword,
+    VisitStatus? status)
         {
             var query = _context.MedicalRecords
                 .Where(m =>
@@ -215,37 +221,49 @@ namespace DentalClinic.DAL
                     m.ExaminationDateTime.Date >= fromDate.Date &&
                     m.ExaminationDateTime.Date <= toDate.Date);
 
-            // Lọc theo trạng thái Visit nếu người dùng chọn
             if (status.HasValue)
-            {
                 query = query.Where(m => m.Visit.Status == status.Value);
-            }
 
-            // Lọc theo từ khóa
             if (!string.IsNullOrWhiteSpace(keyword))
             {
+                string kw = keyword.Trim().ToLower();
                 query = query.Where(m =>
-                    m.Visit.Patient.FullName.Contains(keyword));
+                    m.Visit.Patient.FullName.ToLower().Contains(kw));
             }
 
             return query
                 .Select(m => new ExaminedRecordDto
                 {
-                    VisitId = m.VisitId,
                     MedicalRecordId = m.MedicalRecordId,
                     ExaminationTime = m.ExaminationDateTime,
                     PatientName = m.Visit.Patient.FullName,
-                    Diagnosis = m.Diagnosis
+                    VisitStatus = m.Visit.Status,
+                    Diagnosis = m.Diagnosis,
+                    Conclusion = m.Conclusion
                 })
                 .OrderByDescending(m => m.ExaminationTime)
                 .ToList();
         }
 
         // Lấy chi tiết 1 ca khám để hiển thị (pnRight trong UC_Doctor_MedicalRecord)
-        public (string Diagnosis, string Conclusion, string? Note, List<ExaminedServiceDto> Services, List<ExaminedMedicineDto> Medicines) GetRecordDetails(int visitId)
+        public (
+    string Diagnosis,
+    string Conclusion,
+    string? Note,
+    List<ExaminedServiceDto> Services,
+    List<ExaminedMedicineDto> Medicines
+) GetRecordDetails(int medicalRecordId)
         {
-            var record = _context.MedicalRecords.FirstOrDefault(m => m.VisitId == visitId);
-            if (record == null) return (string.Empty, string.Empty, null, new List<ExaminedServiceDto>(), new List<ExaminedMedicineDto>());
+            var record = _context.MedicalRecords
+                .FirstOrDefault(m => m.MedicalRecordId == medicalRecordId);
+
+            if (record == null)
+                return (
+                    string.Empty,
+                    string.Empty,
+                    null,
+                    new List<ExaminedServiceDto>(),
+                    new List<ExaminedMedicineDto>());
 
             var services = _context.MedicalRecordServices
                 .Where(s => s.MedicalRecordId == record.MedicalRecordId)
@@ -253,10 +271,14 @@ namespace DentalClinic.DAL
                 {
                     ServiceName = s.Service.ServiceName,
                     Quantity = s.Quantity
-                }).ToList();
+                })
+                .ToList();
 
             var medicines = new List<ExaminedMedicineDto>();
-            var prescription = _context.Prescriptions.FirstOrDefault(p => p.MedicalRecordId == record.MedicalRecordId);
+
+            var prescription = _context.Prescriptions
+                .FirstOrDefault(p => p.MedicalRecordId == record.MedicalRecordId);
+
             if (prescription != null)
             {
                 medicines = _context.PrescriptionDetails
@@ -264,12 +286,24 @@ namespace DentalClinic.DAL
                     .Select(pd => new ExaminedMedicineDto
                     {
                         MedicineName = pd.Medicine.MedicineName,
+                        Morning = pd.Morning,
+                        Noon = pd.Noon,
+                        Afternoon = pd.Afternoon,
+                        Evening = pd.Evening,
+                        Days = pd.Days,
                         Quantity = pd.Quantity,
                         Instruction = pd.Instruction
-                    }).ToList();
+                    })
+                    .ToList();
             }
 
-            return (record.Diagnosis, record.Conclusion, record.Note, services, medicines);
+            return (
+                record.Diagnosis,
+                record.Conclusion,
+                record.Note,
+                services,
+                medicines
+            );
         }
 
         // Khách hàng online có thể xem được lịch sử khám bệnh của mình
@@ -282,9 +316,7 @@ namespace DentalClinic.DAL
                 .OrderByDescending(m => m.ExaminationDateTime)
                 .Select(m => new MedicalHistoryDto
                 {
-                    VisitId = m.VisitId,
                     ExaminationDate = m.ExaminationDateTime,
-                    DoctorName = m.Visit.Doctor.FullName,
                     Diagnosis = m.Diagnosis,
                     Conclusion = m.Conclusion,
                     Note = m.Note,

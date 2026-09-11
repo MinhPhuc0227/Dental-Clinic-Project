@@ -318,8 +318,8 @@ namespace DentalClinic.APP
             }
 
             MessageBox.Show(
-                result.Message,
-                "Thành công",
+                "Hủy hóa đơn thành công. Lượt khám đã được chuyển sang trạng thái Đã hủy.",
+                "Thông báo",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
 

@@ -27,127 +27,311 @@ namespace DentalClinic.APP
 
         private void UC_Doctor_MedicalRecord_Load(object sender, EventArgs e)
         {
-            SetupGrids();
+            DateTime today = DateTime.Today;
+            dtpStart.Value = new DateTime(today.Year, today.Month, 1);
+            dtpEnd.Value = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
 
-            dtpStart.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            dtpEnd.Value = DateTime.Now;
-
-            LoadExaminedList();
+            SetupVisitHistoryGrid();
+            SetupServiceGrid();
+            SetupMedicineGrid();
+            LoadStatusComboBox();
+            LoadData();
         }
 
-        public void LoadExaminedList()
+        private void LoadStatusComboBox()
         {
-            VisitStatus? selectedStatus = null;
-
-            //if (cbStatus.SelectedIndex > 0)
-            //{
-            //    selectedStatus = (VisitStatus?)cbStatus.SelectedValue;
-            //}
-
-            dgvExaminedList.DataSource = _bll.GetExaminedRecords(
-                _currentDoctorId,
-                dtpStart.Value,
-                dtpEnd.Value,
-                txtSearch.Text.Trim(),
-                selectedStatus
-            );
-
-            ClearDetails();
+            cbStatus.Items.Clear();
+            cbStatus.Items.Add("Tất cả");
+            cbStatus.Items.Add("Đang khám");
+            cbStatus.Items.Add("Chờ thanh toán");
+            cbStatus.Items.Add("Hoàn thành");
+            cbStatus.Items.Add("Đã hủy");
+            cbStatus.SelectedIndex = 0;
         }
 
-        public void ClearDetails()
+        private void SetupVisitHistoryGrid()
         {
-            lbMedicalRecordId.Text = "...";
-            lbExaminationDateTime.Text = "...";
-            lbPatientName.Text = "...";
+            dgvVisitHistory.AutoGenerateColumns = false;
+            dgvVisitHistory.Columns.Clear();
+
+            dgvVisitHistory.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colMedicalRecordId",
+                    HeaderText = "Mã bệnh án",
+                    DataPropertyName = "MedicalRecordId",
+                    Visible = false
+                });
+
+            dgvVisitHistory.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colExaminationTime",
+                    DataPropertyName = "ExaminationTime",
+                    HeaderText = "Ngày khám",
+                    Width = 145,
+                    DefaultCellStyle = new DataGridViewCellStyle
+                    {
+                        Format = "dd/MM/yyyy HH:mm",
+                        Alignment = DataGridViewContentAlignment.MiddleCenter
+                    }
+                });
+
+            dgvVisitHistory.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colPatientName",
+                    DataPropertyName = "PatientName",
+                    HeaderText = "Bệnh nhân",
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                });
+
+            dgvVisitHistory.ReadOnly = true;
+            dgvVisitHistory.AllowUserToAddRows = false;
+            dgvVisitHistory.AllowUserToDeleteRows = false;
+            dgvVisitHistory.RowHeadersVisible = false;
+            dgvVisitHistory.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+            dgvVisitHistory.MultiSelect = false;
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                VisitStatus? status = cbStatus.SelectedIndex switch
+                {
+                    1 => VisitStatus.InExamination,
+                    2 => VisitStatus.WaitingForPayment,
+                    3 => VisitStatus.Completed,
+                    4 => VisitStatus.Cancelled,
+                    _ => null
+                };
+
+                string keyword = txtSearch.Text.Trim();
+
+                var data = _bll.GetExaminedRecords(
+                    _currentDoctorId,
+                    dtpStart.Value.Date,
+                    dtpEnd.Value.Date,
+                    keyword,
+                    status);
+
+                dgvVisitHistory.DataSource = null;
+                dgvVisitHistory.DataSource = data;
+
+                if (data.Count > 0)
+                {
+                    dgvVisitHistory.ClearSelection();
+                    dgvVisitHistory.Rows[0].Selected = true;
+
+                    LoadVisitDetails(data[0]);
+                }
+                else
+                {
+                    ClearVisitDetails();
+                    dgvService.DataSource = null;
+                    dgvMedicine.DataSource = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Lỗi tải danh sách lượt khám:\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadVisitDetails(ExaminedRecordDto record)
+        {
+            var result = _bll.GetRecordDetails(record.MedicalRecordId);
+
+            lbExaminationDate.Text =
+                record.ExaminationTime.ToString("dd/MM/yyyy HH:mm");
+
+            lbVisitStatus.Text = record.VisitStatus switch
+            {
+                VisitStatus.InExamination => "Đang khám",
+                VisitStatus.WaitingForPayment => "Chờ thanh toán",
+                VisitStatus.Completed => "Hoàn thành",
+                VisitStatus.Cancelled => "Đã hủy",
+                _ => "Không xác định"
+            };
+
+            txtDiagnosis.Text =
+                string.IsNullOrWhiteSpace(result.Diagnosis)
+                    ? "Không có"
+                    : result.Diagnosis;
+
+            txtConclusion.Text =
+                string.IsNullOrWhiteSpace(result.Conclusion)
+                    ? "Không có"
+                    : result.Conclusion;
+
+            txtNote.Text =
+                string.IsNullOrWhiteSpace(result.Note)
+                    ? "Không có"
+                    : result.Note;
+
+            dgvService.DataSource = result.Services;
+            dgvMedicine.DataSource = result.Medicines;
+        }
+
+        private void SetupServiceGrid()
+        {
+            dgvService.AutoGenerateColumns = false;
+            dgvService.Columns.Clear();
+
+            dgvService.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colServiceName",
+                    DataPropertyName = "ServiceName",
+                    HeaderText = "Tên dịch vụ / thủ thuật",
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                });
+
+            dgvService.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colServiceQuantity",
+                    DataPropertyName = "Quantity",
+                    HeaderText = "Số lượng",
+                    Width = 100,
+                    DefaultCellStyle = new DataGridViewCellStyle
+                    {
+                        Alignment =
+                            DataGridViewContentAlignment.MiddleCenter
+                    }
+                });
+
+            dgvService.ReadOnly = true;
+            dgvService.AllowUserToAddRows = false;
+            dgvService.RowHeadersVisible = false;
+            dgvService.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+        }
+
+        private void SetupMedicineGrid()
+        {
+            dgvMedicine.AutoGenerateColumns = false;
+            dgvMedicine.Columns.Clear();
+
+            dgvMedicine.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colMedicineName",
+                    DataPropertyName = "MedicineName",
+                    HeaderText = "Tên thuốc",
+                    Width = 200
+                });
+
+            dgvMedicine.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colMorning",
+                    DataPropertyName = "Morning",
+                    HeaderText = "Sáng",
+                    Width = 55
+                });
+
+            dgvMedicine.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colNoon",
+                    DataPropertyName = "Noon",
+                    HeaderText = "Trưa",
+                    Width = 55
+                });
+
+            dgvMedicine.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colAfternoon",
+                    DataPropertyName = "Afternoon",
+                    HeaderText = "Chiều",
+                    Width = 55
+                });
+
+            dgvMedicine.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colEvening",
+                    DataPropertyName = "Evening",
+                    HeaderText = "Tối",
+                    Width = 55
+                });
+
+            dgvMedicine.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colDays",
+                    DataPropertyName = "Days",
+                    HeaderText = "Ngày",
+                    Width = 55
+                });
+
+            dgvMedicine.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    Name = "colInstruction",
+                    DataPropertyName = "Instruction",
+                    HeaderText = "Cách dùng",
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                });
+
+            dgvMedicine.ReadOnly = true;
+            dgvMedicine.AllowUserToAddRows = false;
+            dgvMedicine.RowHeadersVisible = false;
+            dgvMedicine.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+        }
+
+        private void ClearVisitDetails()
+        {
+            lbExaminationDate.Text = "";
+            lbVisitStatus.Text = "";
+
             txtDiagnosis.Clear();
             txtConclusion.Clear();
             txtNote.Clear();
+
             dgvService.DataSource = null;
             dgvMedicine.DataSource = null;
         }
 
-        // Sự kiện khi click vào 1 dòng trên lưới danh sách ca khám
-        private void dgvExaminedList_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                // Lấy ra DataBoundItem của dòng đang chọn
-                if (dgvExaminedList.Rows[e.RowIndex].DataBoundItem is ExaminedRecordDto selectedRecord)
-                {
-                    lbMedicalRecordId.Text = selectedRecord.MedicalRecordId.ToString();
-                    lbExaminationDateTime.Text = selectedRecord.ExaminationTime.ToString("dd/MM/yyyy HH:mm");
-                    lbPatientName.Text = selectedRecord.PatientName;
-
-                    // Lấy chi tiết bệnh án từ DB lên
-                    var details = _bll.GetRecordDetails(selectedRecord.VisitId);
-
-                    // Hiển thị lên giao diện
-                    txtDiagnosis.Text = details.Diagnosis;
-                    txtConclusion.Text = details.Conclusion;
-                    txtNote.Text = details.Note;
-                    dgvService.DataSource = details.Services;
-                    dgvMedicine.DataSource = details.Medicines;
-                }
-            }
-        }
-
-        private void SetupGrids()
-        {
-            // dgvExaminedList
-            dgvExaminedList.AutoGenerateColumns = false;
-            dgvExaminedList.Columns.Clear();
-
-            // Cột ẩn VisitId (Chỉ để lưu data, không cần hiện cho bác sĩ xem)
-            dgvExaminedList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "VisitId", Visible = false });
-
-            dgvExaminedList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MedicalRecordId", HeaderText = "Mã BA", Width = 70 });
-            dgvExaminedList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ExaminationTime", HeaderText = "Giờ khám", Width = 130, DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy HH:mm" } });
-            dgvExaminedList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientName", HeaderText = "Bệnh nhân", Width = 150 });
-            dgvExaminedList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Diagnosis", HeaderText = "Chẩn đoán", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-
-            // dgvService
-            dgvService.AutoGenerateColumns = false;
-            dgvService.Columns.Clear();
-            dgvService.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ServiceName", HeaderText = "Tên dịch vụ / Thủ thuật", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            dgvService.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Quantity", HeaderText = "Số lượng", Width = 100, DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } });
-
-            // dgvMedicine 
-            dgvMedicine.AutoGenerateColumns = false;
-            dgvMedicine.Columns.Clear();
-            dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MedicineName", HeaderText = "Tên thuốc", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Quantity", HeaderText = "Số lượng", Width = 100, DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } });
-            dgvMedicine.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Instruction", HeaderText = "Cách dùng / Liều dùng", Width = 250 });
-        }
-
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            LoadExaminedList();
+            LoadData();
         }
 
         private void dtpStart_ValueChanged(object sender, EventArgs e)
         {
-            LoadExaminedList();
+            LoadData();
         }
 
         private void dtpEnd_ValueChanged(object sender, EventArgs e)
         {
-            LoadExaminedList();
+            LoadData();
         }
 
         private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            LoadData();
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void dgvVisitHistory_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0)
+                return;
 
-        }
-
-        private void dgvService_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            if (dgvVisitHistory.Rows[e.RowIndex].DataBoundItem
+                is ExaminedRecordDto selectedRecord)
+            {
+                LoadVisitDetails(selectedRecord);
+            }
         }
     }
 }

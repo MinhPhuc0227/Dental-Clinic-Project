@@ -538,8 +538,8 @@ namespace DentalClinic.APP
             }
 
             MessageBox.Show(
-                result.Message,
-                "Thành công",
+                "Hủy hóa đơn thành công.",
+                "Thông báo",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
 

@@ -116,8 +116,6 @@ namespace DentalClinic.APP
             if (rbMedicalRecord.Checked)
             {
                 ShowUC(MedicalRecordUC);
-                MedicalRecordUC.LoadExaminedList();
-                MedicalRecordUC.ClearDetails();
             }
         }
 

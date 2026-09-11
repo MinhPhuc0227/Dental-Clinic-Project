@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DentalClinic.MODEL;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -23,11 +24,12 @@ namespace DentalClinic.DTO
     // Dùng để hiển thị thông tin chung các bệnh án đã lưu
     public class ExaminedRecordDto
     {
-        public int VisitId { get; set; }
         public int MedicalRecordId { get; set; }
         public DateTime ExaminationTime { get; set; }
         public string PatientName { get; set; } = string.Empty;
+        public VisitStatus VisitStatus { get; set; }
         public string Diagnosis { get; set; } = string.Empty;
+        public string Conclusion { get; set; } = string.Empty;
     }
 
     // Hiển thị ngắn gọn dịch vụ của bệnh án 
@@ -37,10 +39,15 @@ namespace DentalClinic.DTO
         public int Quantity { get; set; }
     }
 
-    // Hiển thị ngắn gọn thuốc của bệnh án
+    // Hiển thị thông tin sử dụng thuốc của bệnh án
     public class ExaminedMedicineDto
     {
         public string MedicineName { get; set; } = string.Empty;
+        public int Morning { get; set; }
+        public int Noon { get; set; }
+        public int Afternoon { get; set; }
+        public int Evening { get; set; }
+        public int Days { get; set; }
         public int Quantity { get; set; }
         public string Instruction { get; set; } = string.Empty;
     }

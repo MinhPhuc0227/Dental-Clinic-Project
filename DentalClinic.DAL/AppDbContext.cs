@@ -277,8 +277,8 @@ namespace DentalClinic.DAL
 
                 // Relationship 2: Visit
                 entity.HasOne(i => i.Visit)
-                      .WithMany(v => v.Invoices)
-                      .HasForeignKey(i => i.VisitId)
+                      .WithOne(v => v.Invoice)
+                      .HasForeignKey<Invoice>(i => i.VisitId)
                       .IsRequired()
                       .OnDelete(DeleteBehavior.Restrict);
 

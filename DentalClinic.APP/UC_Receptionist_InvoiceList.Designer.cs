@@ -167,7 +167,6 @@
             dgvInvoiceList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvInvoiceList.BackgroundColor = Color.White;
             dgvInvoiceList.BorderStyle = BorderStyle.None;
-            dgvInvoiceList.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvInvoiceList.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.DarkCyan;

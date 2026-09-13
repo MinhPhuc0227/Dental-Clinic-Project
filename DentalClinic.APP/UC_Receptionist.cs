@@ -80,6 +80,10 @@ namespace DentalClinic.APP
             dgvReceptionist.DataSource = null;
             dgvReceptionist.DataSource = receptionists;
 
+            dgvReceptionist.Columns["AccountId"].Visible = false;
+            dgvReceptionist.Columns["Username"].Visible = false;
+            dgvReceptionist.Columns["CreatedAt"].Visible = false;
+
             AddActionImageColumns();
 
             // Đưa Sửa và Xóa về cuối

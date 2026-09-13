@@ -39,9 +39,11 @@ namespace DentalClinic.MODEL
         public Appointment? Appointment { get; set; }
 
         // Navigation Property
+
         // Một lần khám có thể có hoặc không có bệnh án nào
         public MedicalRecord? MedicalRecord { get; set; }
-        // Một lần khám có thể có nhiều hóa đơn, hoặc không có hóa đơn nào
-        public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();  
+
+        // Một lượt khám có thể có hoặc không có hóa đơn
+        public Invoice? Invoice { get; set; }
     }
 }

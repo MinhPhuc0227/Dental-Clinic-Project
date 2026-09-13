@@ -137,7 +137,7 @@
             // 
             // pnLeft
             // 
-            pnLeft.BackColor = Color.DarkCyan;
+            pnLeft.BackColor = Color.WhiteSmoke;
             pnLeft.Controls.Add(pnPatientInfo);
             pnLeft.Controls.Add(pnWaitingQueue);
             pnLeft.Dock = DockStyle.Left;
@@ -419,7 +419,7 @@
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(812, 394);
+            tabPage2.Size = new Size(660, 394);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Đang khám";
             tabPage2.UseVisualStyleBackColor = true;
@@ -462,13 +462,13 @@
             dgvInExamination.RowHeadersWidth = 51;
             dgvInExamination.RowTemplate.Height = 38;
             dgvInExamination.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInExamination.Size = new Size(806, 388);
+            dgvInExamination.Size = new Size(654, 388);
             dgvInExamination.TabIndex = 8;
             dgvInExamination.CellContentClick += dgvInExamination_CellContentClick;
             // 
             // pnRight
             // 
-            pnRight.BackColor = Color.DarkCyan;
+            pnRight.BackColor = Color.WhiteSmoke;
             pnRight.Controls.Add(pnServiceMedicine);
             pnRight.Controls.Add(pnAction);
             pnRight.Controls.Add(pnMedicalRecordInfo);
@@ -482,7 +482,7 @@
             // 
             // pnServiceMedicine
             // 
-            pnServiceMedicine.BackColor = Color.DarkCyan;
+            pnServiceMedicine.BackColor = Color.WhiteSmoke;
             pnServiceMedicine.Controls.Add(tabControl1);
             pnServiceMedicine.Dock = DockStyle.Fill;
             pnServiceMedicine.Location = new Point(10, 266);
@@ -633,7 +633,7 @@
             tpMedicine.Location = new Point(4, 29);
             tpMedicine.Name = "tpMedicine";
             tpMedicine.Padding = new Padding(3);
-            tpMedicine.Size = new Size(799, 386);
+            tpMedicine.Size = new Size(951, 386);
             tpMedicine.TabIndex = 1;
             tpMedicine.Text = "Thuốc";
             // 
@@ -674,7 +674,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvMedicine.Size = new Size(793, 157);
+            dgvMedicine.Size = new Size(945, 157);
             dgvMedicine.TabIndex = 8;
             dgvMedicine.CellClick += dgvMedicine_CellClick;
             dgvMedicine.CellEndEdit += dgvMedicine_CellEndEdit;
@@ -700,7 +700,7 @@
             panel8.Dock = DockStyle.Top;
             panel8.Location = new Point(3, 3);
             panel8.Name = "panel8";
-            panel8.Size = new Size(793, 223);
+            panel8.Size = new Size(945, 223);
             panel8.TabIndex = 0;
             // 
             // label25

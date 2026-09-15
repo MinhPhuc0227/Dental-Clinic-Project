@@ -11,142 +11,96 @@ namespace DentalClinic.BLL
     {
         private readonly MedicineImport_DAL _dal;
 
-        public MedicineImport_BLL(
-            MedicineImport_DAL dal)
+        public MedicineImport_BLL(MedicineImport_DAL dal)
         {
             _dal = dal;
         }
 
-        // =========================================================
         // CREATE
-        // =========================================================
-        public Result Create(
-            CreateMedicineImportDto dto)
+        public Result Create(CreateMedicineImportDto dto)
         {
-            // Validate DTO cha
-            string? validationError =
-                dto.Validate();
+            string? validationError = dto.Validate();
 
             if (!string.IsNullOrEmpty(validationError))
             {
-                return Result.Failure(
-                    validationError);
+                return Result.Failure(validationError);
             }
 
-            // Validate từng item
             foreach (var item in dto.Items)
             {
-                string? itemError =
-                    item.Validate();
+                string? itemError = item.Validate();
 
                 if (!string.IsNullOrEmpty(itemError))
                 {
-                    return Result.Failure(
-                        $"Thuốc \"{item.MedicineName}\": {itemError}");
+                    return Result.Failure($"Thuốc \"{item.MedicineName}\": {itemError}");
                 }
             }
 
-            // Business rule
             if (dto.ImportDate > DateTime.Now)
             {
-                return Result.Failure(
-                    "Ngày nhập không được lớn hơn thời gian hiện tại.");
+                return Result.Failure("Ngày nhập không được lớn hơn thời gian hiện tại.");
             }
 
             try
             {
-                bool success =
-                    _dal.CreateImport(dto);
+                bool success = _dal.CreateImport(dto);
 
                 return success
-                    ? Result.Success(
-                        "Nhập kho thuốc thành công!")
-                    : Result.Failure(
-                        "Không thể tạo phiếu nhập.");
+                    ? Result.Success("Nhập kho thuốc thành công!")
+                    : Result.Failure("Không thể tạo phiếu nhập.");
             }
             catch (Exception ex)
             {
-                return Result.Failure(
-                    "Lỗi nhập kho: " +
-                    (ex.InnerException?.Message
-                     ?? ex.Message));
+                return Result.Failure("Lỗi nhập kho: " + (ex.InnerException?.Message ?? ex.Message));
             }
         }
 
-
-        // =========================================================
-        // HISTORY
-        // =========================================================
-        public Result<List<MedicineImportListDto>>
-            GetHistory(
-                DateTime fromDate,
-                DateTime toDate,
-                int? supplierId,
-                string keyword)
+        // GETHISTORY
+        public Result<List<MedicineImportListDto>> GetHistory(
+            DateTime fromDate,
+            DateTime toDate,
+            int? supplierId,
+            string keyword)
         {
             if (fromDate.Date > toDate.Date)
             {
-                return Result<List<MedicineImportListDto>>
-                    .Failure(
-                        "Ngày bắt đầu không được lớn hơn ngày kết thúc.");
+                return Result<List<MedicineImportListDto>>.Failure("Ngày bắt đầu không được lớn hơn ngày kết thúc.");
             }
 
             try
             {
-                var data =
-                    _dal.GetHistory(
-                        fromDate,
-                        toDate,
-                        supplierId,
-                        keyword);
+                var data = _dal.GetHistory(fromDate, toDate, supplierId, keyword);
 
-                return Result<List<MedicineImportListDto>>
-                    .Success(data);
+                return Result<List<MedicineImportListDto>>.Success(data);
             }
             catch (Exception ex)
             {
-                return Result<List<MedicineImportListDto>>
-                    .Failure(
-                        "Lỗi tải lịch sử nhập kho: " +
-                        ex.Message);
+                return Result<List<MedicineImportListDto>>.Failure("Lỗi tải lịch sử nhập kho: " + ex.Message);
             }
         }
 
-
-        // =========================================================
-        // DETAIL
-        // =========================================================
-        public Result<MedicineImportDetailDto>
-            GetDetail(int importId)
+        // GETDETAIL
+        public Result<MedicineImportDetailDto> GetDetail(int importId)
         {
             if (importId <= 0)
             {
-                return Result<MedicineImportDetailDto>
-                    .Failure(
-                        "Mã phiếu nhập không hợp lệ.");
+                return Result<MedicineImportDetailDto>.Failure("Mã phiếu nhập không hợp lệ.");
             }
 
             try
             {
-                var data =
-                    _dal.GetDetail(importId);
+                var data = _dal.GetDetail(importId);
 
                 if (data == null)
                 {
-                    return Result<MedicineImportDetailDto>
-                        .Failure(
-                            "Không tìm thấy phiếu nhập.");
+                    return Result<MedicineImportDetailDto>.Failure("Không tìm thấy phiếu nhập.");
                 }
 
-                return Result<MedicineImportDetailDto>
-                    .Success(data);
+                return Result<MedicineImportDetailDto>.Success(data);
             }
             catch (Exception ex)
             {
-                return Result<MedicineImportDetailDto>
-                    .Failure(
-                        "Lỗi tải chi tiết phiếu nhập: " +
-                        ex.Message);
+                return Result<MedicineImportDetailDto>.Failure("Lỗi tải chi tiết phiếu nhập: " + ex.Message);
             }
         }
     }

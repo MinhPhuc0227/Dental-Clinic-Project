@@ -12,7 +12,6 @@ namespace DentalClinic.BLL
     public class Medicine_BLL
     {
         private readonly Medicine_DAL _dal;
-
         public Medicine_BLL(Medicine_DAL dal)
         {
             _dal = dal;
@@ -42,8 +41,7 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
-                return Result<List<MedicineDto>>
-                    .Failure("Lỗi khi tải danh sách thuốc: " + ex.Message);
+                return Result<List<MedicineDto>>.Failure("Lỗi khi tải danh sách thuốc: " + ex.Message);
             }
         }
 
@@ -87,6 +85,7 @@ namespace DentalClinic.BLL
         public Result Add(CreateMedicineDto dto)
         {
             var validationError = dto.Validate();
+
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
@@ -110,9 +109,7 @@ namespace DentalClinic.BLL
                 };
 
                 bool isSuccess = _dal.Add(entity);
-                return isSuccess
-                    ? Result.Success("Thêm mới thuốc thành công!")
-                    : Result.Failure("Thêm thuốc thất bại.");
+                return isSuccess ? Result.Success("Thêm mới thuốc thành công!") : Result.Failure("Thêm thuốc thất bại.");
             }
             catch (Exception ex)
             {
@@ -124,6 +121,7 @@ namespace DentalClinic.BLL
         public Result Update(UpdateMedicineDto dto)
         {
             var validationError = dto.Validate();
+
             if (!string.IsNullOrEmpty(validationError))
             {
                 return Result.Failure(validationError);
@@ -147,9 +145,7 @@ namespace DentalClinic.BLL
                 };
 
                 bool isSuccess = _dal.Update(entity);
-                return isSuccess
-                    ? Result.Success("Cập nhật thông tin thuốc thành công!")
-                    : Result.Failure("Không tìm thấy thuốc hoặc cập nhật thất bại.");
+                return isSuccess ? Result.Success("Cập nhật thông tin thuốc thành công!") : Result.Failure("Không tìm thấy thuốc hoặc cập nhật thất bại.");
             }
             catch (Exception ex)
             {
@@ -168,9 +164,7 @@ namespace DentalClinic.BLL
             try
             {
                 bool isSuccess = _dal.Delete(medicineId);
-                return isSuccess
-                    ? Result.Success("Xóa thuốc thành công!")
-                    : Result.Failure("Không tìm thấy thuốc cần xóa.");
+                return isSuccess ? Result.Success("Xóa thuốc thành công!") : Result.Failure("Không tìm thấy thuốc cần xóa.");
             }
             catch (Exception)
             {

@@ -74,7 +74,9 @@ namespace DentalClinic.BLL
         public Result Update(UpdatePaymentMethodDto dto)
         {
             var validationError = dto.Validate();
-            if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
+
+            if (!string.IsNullOrEmpty(validationError)) 
+                return Result.Failure(validationError);
 
             if (_dal.IsNameExists(dto.PaymentMethodName.Trim(), dto.PaymentMethodId))
                 return Result.Failure("Tên phương thức thanh toán đã trùng với phương thức khác.");
@@ -102,7 +104,8 @@ namespace DentalClinic.BLL
         // DELETE
         public Result Delete(int id)
         {
-            if (id <= 0) return Result.Failure("Mã phương thức thanh toán không hợp lệ.");
+            if (id <= 0) 
+                return Result.Failure("Mã phương thức thanh toán không hợp lệ.");
 
             try
             {

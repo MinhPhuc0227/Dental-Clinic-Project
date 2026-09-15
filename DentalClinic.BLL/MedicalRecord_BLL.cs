@@ -83,12 +83,7 @@ namespace DentalClinic.BLL
         {
             try
             {
-                return _dal.GetExaminedRecords(
-                    doctorId,
-                    fromDate,
-                    toDate,
-                    keyword,
-                    status);
+                return _dal.GetExaminedRecords(doctorId, fromDate, toDate, keyword, status);
             }
             catch (Exception)
             {
@@ -97,13 +92,7 @@ namespace DentalClinic.BLL
         }
 
         // Lấy chi tiết 1 ca khám để hiển thị (pnRight trong UC_Doctor_MedicalRecord)
-        public (
-    string Diagnosis,
-    string Conclusion,
-    string? Note,
-    List<ExaminedServiceDto> Services,
-    List<ExaminedMedicineDto> Medicines
-) GetRecordDetails(int medicalRecordId)
+        public (string Diagnosis, string Conclusion, string? Note, List<ExaminedServiceDto> Services, List<ExaminedMedicineDto> Medicines) GetRecordDetails(int medicalRecordId)
         {
             try
             {
@@ -117,24 +106,6 @@ namespace DentalClinic.BLL
                     null,
                     new List<ExaminedServiceDto>(),
                     new List<ExaminedMedicineDto>());
-            }
-        }
-
-        // Khách hàng online có thể xem được lịch sử khám bệnh của mình
-        public List<MedicalHistoryDto> GetPatientHistoryByPatientId(int patientId)
-        {
-            if (patientId <= 0)
-            {
-                return new List<MedicalHistoryDto>();
-            }
-
-            try
-            {
-                return _dal.GetPatientHistoryByPatientId(patientId);
-            }
-            catch
-            {
-                return new List<MedicalHistoryDto>();
             }
         }
     }

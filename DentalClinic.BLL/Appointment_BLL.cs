@@ -37,6 +37,7 @@ namespace DentalClinic.BLL
             try
             {
                 var app = _appointmentDAL.GetById(id);
+
                 if (app == null)
                     return Result<AppointmentDetailDto>.Failure("Không tìm thấy lịch hẹn.");
 
@@ -68,7 +69,9 @@ namespace DentalClinic.BLL
         public Result Create(AppointmentCreateDto dto)
         {
             string? validationError = dto.Validate();
-            if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
+
+            if (!string.IsNullOrEmpty(validationError)) 
+                return Result.Failure(validationError);
 
             DateTime fullDateTime = dto.AppointmentDate.Date.Add(dto.AppointmentTime);
 
@@ -97,6 +100,7 @@ namespace DentalClinic.BLL
                     };
 
                     bool success = _appointmentDAL.Add(entity);
+
                     if (success)
                     {
                         transaction.Commit();
@@ -118,9 +122,12 @@ namespace DentalClinic.BLL
         public Result Update(AppointmentUpdateDto dto)
         {
             string? validationError = dto.Validate();
-            if (!string.IsNullOrEmpty(validationError)) return Result.Failure(validationError);
+
+            if (!string.IsNullOrEmpty(validationError)) 
+                return Result.Failure(validationError);
 
             var entity = _appointmentDAL.GetById(dto.AppointmentId);
+
             if (entity == null)
             {
                 return Result.Failure("Không tìm thấy dữ liệu lịch hẹn để cập nhật.");
@@ -170,14 +177,15 @@ namespace DentalClinic.BLL
         {
             var warnings = new List<string>();
 
-            // 1: Vượt số ngày đặt trước
+            // Vượt số ngày đặt trước
             if (fullDateTime > DateTime.Now.AddDays(SystemConstants.MaxAdvanceBookingDays))
                 warnings.Add($"Lịch hẹn vượt quá số ngày đặt trước tối đa ({SystemConstants.MaxAdvanceBookingDays} ngày).");
 
-            // 2: Ngoài giờ làm việc
+            // Ngoài giờ làm việc
             TimeSpan time = fullDateTime.TimeOfDay;
             bool isMorning = time >= SystemConstants.MorningStartTime && time < SystemConstants.MorningEndTime;
             bool isAfternoon = time >= SystemConstants.AfternoonStartTime && time < SystemConstants.AfternoonEndTime;
+            
             if (!isMorning && !isAfternoon)
             {
                 string mStart = SystemConstants.MorningStartTime.ToString(@"hh\:mm");
@@ -187,7 +195,7 @@ namespace DentalClinic.BLL
                 warnings.Add($"Giờ hẹn đang nằm ngoài khung giờ làm việc tiêu chuẩn ({mStart}-{mEnd}, {aStart}-{aEnd}).");
             }
 
-            // 3: Trùng lịch Bác sĩ
+            // Trùng lịch Bác sĩ
             if (_appointmentDAL.HasDoctorConflict(doctorId, fullDateTime, SystemConstants.DefaultSlotDurationMinutes, excludeAppId))
                 warnings.Add("Bác sĩ này đã có lịch hẹn/ca khám trùng vào khung giờ này.");
 
@@ -218,29 +226,27 @@ namespace DentalClinic.BLL
         }
 
         public Result CreateVisitFromAppointment(
-    int appointmentId,
-    int receptionistId,
-    bool keepPriority = true)
+            int appointmentId,
+            int receptionistId,
+            bool keepPriority = true)
         {
             try
             {
-                // 1. Lấy thông tin lịch hẹn
+                // Lấy thông tin lịch hẹn
                 var appointment = _appointmentDAL.GetById(appointmentId);
 
                 if (appointment == null)
                 {
-                    return Result.Failure(
-                        "Không tìm thấy lịch hẹn.");
+                    return Result.Failure("Không tìm thấy lịch hẹn.");
                 }
 
-                // 2. Kiểm tra trạng thái lịch hẹn
+                // Kiểm tra trạng thái lịch hẹn
                 if (appointment.Status != AppointmentStatus.Scheduled)
                 {
-                    return Result.Failure(
-                        "Lịch hẹn này không còn ở trạng thái có thể tiếp nhận.");
+                    return Result.Failure("Lịch hẹn này không còn ở trạng thái có thể tiếp nhận.");
                 }
 
-                // 3. Kiểm tra bệnh nhân đã có ca khám chưa hoàn tất hôm nay
+                // Kiểm tra bệnh nhân đã có ca khám chưa hoàn tất hôm nay
                 if (_visitBLL.HasActiveVisitToday(appointment.PatientId))
                 {
                     return Result.Failure(
@@ -249,12 +255,8 @@ namespace DentalClinic.BLL
                         "Vui lòng hoàn tất ca hiện tại trước khi tiếp nhận lịch hẹn này.");
                 }
 
-                // 4. Tạo Visit
-                bool isSuccess =
-                    _appointmentDAL.CreateVisitFromAppointmentTransaction(
-                        appointmentId,
-                        receptionistId,
-                        keepPriority);
+                // Tạo Visit
+                bool isSuccess = _appointmentDAL.CreateVisitFromAppointmentTransaction(appointmentId, receptionistId, keepPriority);
 
                 if (isSuccess)
                 {
@@ -265,8 +267,7 @@ namespace DentalClinic.BLL
                     return Result.Success(msg);
                 }
 
-                return Result.Failure(
-                    "Lịch hẹn không tồn tại hoặc đã bị hủy từ trước!");
+                return Result.Failure("Lịch hẹn không tồn tại hoặc đã bị hủy từ trước!");
             }
             catch (InvalidOperationException ex)
             {
@@ -274,16 +275,14 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
-                return Result.Failure(
-                    "Lỗi hệ thống khi tiếp nhận: " +
-                    (ex.InnerException?.Message ?? ex.Message));
+                return Result.Failure("Lỗi hệ thống khi tiếp nhận: " + (ex.InnerException?.Message ?? ex.Message));
             }
         }
 
         public List<string> GetCheckInWarnings(DateTime appointmentDateTime)
         {
             var warnings = new List<string>();
-            var diff = DateTime.Now - appointmentDateTime; // Trễ là số dương, Sớm là số âm
+            var diff = DateTime.Now - appointmentDateTime; 
 
             if (diff.TotalMinutes < -SystemConstants.AllowedEarlyCheckInMinutes)
             {

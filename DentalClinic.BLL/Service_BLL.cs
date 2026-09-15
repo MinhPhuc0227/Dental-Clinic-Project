@@ -105,9 +105,7 @@ namespace DentalClinic.BLL
                 };
 
                 bool isSuccess = _dal.Add(entity);
-                return isSuccess
-                    ? Result.Success("Thêm mới dịch vụ thành công!")
-                    : Result.Failure("Thêm dịch vụ thất bại.");
+                return isSuccess ? Result.Success("Thêm mới dịch vụ thành công!") : Result.Failure("Thêm dịch vụ thất bại.");
             }
             catch (Exception ex)
             {
@@ -142,9 +140,7 @@ namespace DentalClinic.BLL
                 };
 
                 bool isSuccess = _dal.Update(entity);
-                return isSuccess
-                    ? Result.Success("Cập nhật dịch vụ thành công!")
-                    : Result.Failure("Không tìm thấy dịch vụ hoặc cập nhật thất bại.");
+                return isSuccess ? Result.Success("Cập nhật dịch vụ thành công!") : Result.Failure("Không tìm thấy dịch vụ hoặc cập nhật thất bại.");
             }
             catch (Exception ex)
             {
@@ -163,9 +159,7 @@ namespace DentalClinic.BLL
             try
             {
                 bool isSuccess = _dal.Delete(serviceId);
-                return isSuccess
-                    ? Result.Success("Xóa dịch vụ thành công!")
-                    : Result.Failure("Không tìm thấy dịch vụ cần xóa.");
+                return isSuccess ? Result.Success("Xóa dịch vụ thành công!") : Result.Failure("Không tìm thấy dịch vụ cần xóa.");
             }
             catch (Exception)
             {

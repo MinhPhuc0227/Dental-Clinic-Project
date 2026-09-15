@@ -19,9 +19,7 @@ namespace DentalClinic.BLL
         }
 
         // GET ALL
-        public Result<List<SupplierDto>> GetAll(
-            string keyword = "",
-            bool? isActive = null)
+        public Result<List<SupplierDto>> GetAll(string keyword = "", bool? isActive = null)
         {
             try
             {
@@ -133,11 +131,7 @@ namespace DentalClinic.BLL
 
                 bool success = _dal.Add(supplier);
 
-                return success
-                    ? Result.Success(
-                        "Thêm nhà cung cấp thành công!")
-                    : Result.Failure(
-                        "Thêm nhà cung cấp thất bại.");
+                return success ? Result.Success("Thêm nhà cung cấp thành công!") : Result.Failure("Thêm nhà cung cấp thất bại.");
             }
             catch (Exception ex)
             {
@@ -204,12 +198,7 @@ namespace DentalClinic.BLL
                 supplier.Note = string.IsNullOrWhiteSpace(dto.Note) ? null : dto.Note.Trim();
                 supplier.IsActive = dto.IsActive;
                 bool success = _dal.Update(supplier);
-
-                return success
-                    ? Result.Success(
-                        "Cập nhật nhà cung cấp thành công!")
-                    : Result.Failure(
-                        "Cập nhật nhà cung cấp thất bại.");
+                return success ? Result.Success("Cập nhật nhà cung cấp thành công!") : Result.Failure("Cập nhật nhà cung cấp thất bại.");
             }
             catch (Exception ex)
             {

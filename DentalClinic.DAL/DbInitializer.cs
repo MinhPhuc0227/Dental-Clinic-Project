@@ -155,8 +155,7 @@ namespace DentalClinic.DAL
             string password,
             AccountRole role)
         {
-            var account = context.Accounts
-                .FirstOrDefault(a => a.UserName == userName);
+            var account = context.Accounts.FirstOrDefault(a => a.UserName == userName);
 
             if (account != null)
             {
@@ -184,7 +183,7 @@ namespace DentalClinic.DAL
             return account;
         }
 
-        // 2. Phương thức thanh toán
+        // Phương thức thanh toán
         private static void SeedPaymentMethods(AppDbContext context)
         {
             var paymentMethods = new List<PaymentMethod>
@@ -217,7 +216,7 @@ namespace DentalClinic.DAL
             context.SaveChanges();
         }
 
-        // 3. Dịch vụ
+        // Dịch vụ
         private static void SeedServices(AppDbContext context)
         {
             var services = new List<Service>
@@ -292,7 +291,7 @@ namespace DentalClinic.DAL
             context.SaveChanges();
         }
 
-        // 4. Nhà cung cấp
+        // Nhà cung cấp
         private static void SeedSuppliers(AppDbContext context)
         {
             var suppliers = new List<Supplier>
@@ -338,7 +337,7 @@ namespace DentalClinic.DAL
             context.SaveChanges();
         }
 
-        // 5. Thuốc
+        // Thuốc
         private static void SeedMedicines(AppDbContext context)
         {
             var medicines = new List<Medicine>
@@ -429,7 +428,7 @@ namespace DentalClinic.DAL
             context.SaveChanges();
         }
 
-        // 6. Bệnh nhân 
+        // Bệnh nhân 
         private static void SeedPatients(AppDbContext context)
         {
             var patients = new List<Patient>

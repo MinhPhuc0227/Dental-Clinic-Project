@@ -41,8 +41,7 @@ namespace DentalClinic.BLL
             }
             catch (Exception ex)
             {
-                return Result<List<PatientDto>>.Failure(
-                    "Lỗi tải danh sách bệnh nhân: " + ex.Message);
+                return Result<List<PatientDto>>.Failure("Lỗi tải danh sách bệnh nhân: " + ex.Message);
             }
         }
 
@@ -50,6 +49,7 @@ namespace DentalClinic.BLL
         public Result<int> Add(CreatePatientDto dto)
         {
             var validationError = dto.Validate();
+
             if (!string.IsNullOrEmpty(validationError)) return Result<int>.Failure(validationError);
 
             if (_dal.IsPhoneExists(dto.Phone.Trim()))
@@ -70,9 +70,7 @@ namespace DentalClinic.BLL
 
                 bool success = _dal.Add(patient);
 
-                return success
-                    ? Result<int>.Success(patient.PatientId, "Thêm mới bệnh nhân thành công!")
-                    : Result<int>.Failure("Thêm mới thất bại.");
+                return success ? Result<int>.Success(patient.PatientId, "Thêm mới bệnh nhân thành công!") : Result<int>.Failure("Thêm mới thất bại.");
             }
             catch (Exception ex)
             {
@@ -115,7 +113,8 @@ namespace DentalClinic.BLL
         // DELETE
         public Result Delete(int patientId)
         {
-            if (patientId <= 0) return Result.Failure("Mã bệnh nhân không hợp lệ.");
+            if (patientId <= 0) 
+                return Result.Failure("Mã bệnh nhân không hợp lệ.");
 
             try
             {

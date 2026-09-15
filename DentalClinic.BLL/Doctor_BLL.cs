@@ -195,9 +195,7 @@ namespace DentalClinic.BLL
                 };
 
                 bool success = _dal.UpdateWithAccount(doctor, account, hasNewPassword);
-                return success
-                    ? Result.Success("Cập nhật thông tin bác sĩ thành công!")
-                    : Result.Failure("Cập nhật thất bại.");
+                return success ? Result.Success("Cập nhật thông tin bác sĩ thành công!") : Result.Failure("Cập nhật thất bại.");
             }
             catch (Exception ex)
             {
@@ -216,9 +214,7 @@ namespace DentalClinic.BLL
             try
             {
                 bool success = _dal.DeleteWithAccount(doctorId);
-                return success
-                    ? Result.Success("Xóa bác sĩ và tài khoản liên quan thành công!")
-                    : Result.Failure("Không tìm thấy thông tin bác sĩ cần xóa.");
+                return success ? Result.Success("Xóa bác sĩ và tài khoản liên quan thành công!") : Result.Failure("Không tìm thấy thông tin bác sĩ cần xóa.");
             }
             catch (Exception)
             {

@@ -34,13 +34,11 @@ namespace DentalClinic.BLL
         {
             try
             {
-                return Result<List<DashboardDailyStatisticDto>>
-                    .Success(_dal.GetVisitStatistics(fromDate, toDate));
+                return Result<List<DashboardDailyStatisticDto>>.Success(_dal.GetVisitStatistics(fromDate, toDate));
             }
             catch (Exception ex)
             {
-                return Result<List<DashboardDailyStatisticDto>>
-                    .Failure("Lỗi tải thống kê lượt khám: " + ex.Message);
+                return Result<List<DashboardDailyStatisticDto>>.Failure("Lỗi tải thống kê lượt khám: " + ex.Message);
             }
         }
 
@@ -49,13 +47,11 @@ namespace DentalClinic.BLL
         {
             try
             {
-                return Result<List<DashboardDailyStatisticDto>>
-                    .Success(_dal.GetRevenueStatistics(fromDate, toDate));
+                return Result<List<DashboardDailyStatisticDto>>.Success(_dal.GetRevenueStatistics(fromDate, toDate));
             }
             catch (Exception ex)
             {
-                return Result<List<DashboardDailyStatisticDto>>
-                    .Failure("Lỗi tải thống kê doanh thu: " + ex.Message);
+                return Result<List<DashboardDailyStatisticDto>>.Failure("Lỗi tải thống kê doanh thu: " + ex.Message);
             }
         }
 
@@ -64,13 +60,11 @@ namespace DentalClinic.BLL
         {
             try
             {
-                return Result<List<DashboardVisitStatusDto>>
-                    .Success(_dal.GetVisitStatusStatistics(fromDate, toDate));
+                return Result<List<DashboardVisitStatusDto>>.Success(_dal.GetVisitStatusStatistics(fromDate, toDate));
             }
             catch (Exception ex)
             {
-                return Result<List<DashboardVisitStatusDto>>
-                    .Failure("Lỗi tải trạng thái lượt khám: " + ex.Message);
+                return Result<List<DashboardVisitStatusDto>>.Failure("Lỗi tải trạng thái lượt khám: " + ex.Message);
             }
         }
 
@@ -79,13 +73,11 @@ namespace DentalClinic.BLL
         {
             try
             {
-                return Result<List<DashboardLowStockDto>>
-                    .Success(_dal.GetLowStockMedicines(threshold));
+                return Result<List<DashboardLowStockDto>>.Success(_dal.GetLowStockMedicines(threshold));
             }
             catch (Exception ex)
             {
-                return Result<List<DashboardLowStockDto>>
-                    .Failure("Lỗi tải thuốc sắp hết: " + ex.Message);
+                return Result<List<DashboardLowStockDto>>.Failure("Lỗi tải thuốc sắp hết: " + ex.Message);
             }
         }
 
@@ -94,13 +86,11 @@ namespace DentalClinic.BLL
         {
             try
             {
-                return Result<List<DashboardRecentImportDto>>
-                    .Success(_dal.GetRecentImports(count));
+                return Result<List<DashboardRecentImportDto>>.Success(_dal.GetRecentImports(count));
             }
             catch (Exception ex)
             {
-                return Result<List<DashboardRecentImportDto>>
-                    .Failure("Lỗi tải nhập kho: " + ex.Message);
+                return Result<List<DashboardRecentImportDto>>.Failure("Lỗi tải nhập kho: " + ex.Message);
             }
         }
 
@@ -109,13 +99,11 @@ namespace DentalClinic.BLL
         {
             try
             {
-                return Result<List<DashboardDoctorStatisticDto>>
-                    .Success(_dal.GetDoctorStatistics(fromDate, toDate));
+                return Result<List<DashboardDoctorStatisticDto>>.Success(_dal.GetDoctorStatistics(fromDate, toDate));
             }
             catch (Exception ex)
             {
-                return Result<List<DashboardDoctorStatisticDto>>
-                    .Failure("Lỗi tải thống kê bác sĩ: " + ex.Message);
+                return Result<List<DashboardDoctorStatisticDto>>.Failure("Lỗi tải thống kê bác sĩ: " + ex.Message);
             }
         }
 
@@ -124,13 +112,11 @@ namespace DentalClinic.BLL
         {
             try
             {
-                return Result<List<DashboardPatientStatisticDto>>
-                    .Success(_dal.GetPatientStatistics(fromDate, toDate));
+                return Result<List<DashboardPatientStatisticDto>>.Success(_dal.GetPatientStatistics(fromDate, toDate));
             }
             catch (Exception ex)
             {
-                return Result<List<DashboardPatientStatisticDto>>
-                    .Failure("Lỗi tải thống kê bệnh nhân: " + ex.Message);
+                return Result<List<DashboardPatientStatisticDto>>.Failure("Lỗi tải thống kê bệnh nhân: " + ex.Message);
             }
         }
     }

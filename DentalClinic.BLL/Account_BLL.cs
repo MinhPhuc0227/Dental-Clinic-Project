@@ -63,8 +63,7 @@ namespace DentalClinic.BLL
             }
 
             // Không cho tự khóa hoặc tự ngừng hoạt động tài khoản đang đăng nhập
-            if (dto.AccountId == currentAccountId &&
-                dto.Status != AccountStatus.Active)
+            if (dto.AccountId == currentAccountId && dto.Status != AccountStatus.Active)
             {
                 return Result.Failure("Không thể khóa hoặc ngừng hoạt động tài khoản đang đăng nhập.");
             }
@@ -98,9 +97,7 @@ namespace DentalClinic.BLL
                 }
 
                 bool success = _dal.Update(entity, updatePassword);
-                return success
-                    ? Result.Success("Cập nhật thông tin tài khoản thành công!")
-                    : Result.Failure("Cập nhật thất bại.");
+                return success ? Result.Success("Cập nhật thông tin tài khoản thành công!") : Result.Failure("Cập nhật thất bại.");
             }
             catch (Exception ex)
             {
@@ -119,9 +116,7 @@ namespace DentalClinic.BLL
             try
             {
                 bool success = _dal.Delete(accountId);
-                return success
-                    ? Result.Success("Xóa tài khoản thành công!")
-                    : Result.Failure("Không tìm thấy tài khoản cần xóa.");
+                return success ? Result.Success("Xóa tài khoản thành công!") : Result.Failure("Không tìm thấy tài khoản cần xóa.");
             }
             catch (Exception)
             {
@@ -134,14 +129,12 @@ namespace DentalClinic.BLL
         {
             if (string.IsNullOrWhiteSpace(userName))
             {
-                return Result.Failure(
-                    "Tên đăng nhập không được để trống.");
+                return Result.Failure("Tên đăng nhập không được để trống.");
             }
 
             if (string.IsNullOrWhiteSpace(password))
             {
-                return Result.Failure(
-                    "Mật khẩu không được để trống.");
+                return Result.Failure("Mật khẩu không được để trống.");
             }
 
             userName = userName.Trim();
@@ -149,20 +142,17 @@ namespace DentalClinic.BLL
 
             if (userName.Length < 4 || userName.Length > 50)
             {
-                return Result.Failure(
-                    "Tên đăng nhập phải từ 4 đến 50 ký tự.");
+                return Result.Failure("Tên đăng nhập phải từ 4 đến 50 ký tự.");
             }
 
             if (password.Length < 6)
             {
-                return Result.Failure(
-                    "Mật khẩu phải có ít nhất 6 ký tự.");
+                return Result.Failure("Mật khẩu phải có ít nhất 6 ký tự.");
             }
 
             if (_dal.IsUserNameExists(userName))
             {
-                return Result.Failure(
-                    "Tên đăng nhập này đã tồn tại.");
+                return Result.Failure("Tên đăng nhập này đã tồn tại.");
             }
 
             try
@@ -178,14 +168,11 @@ namespace DentalClinic.BLL
 
                 bool success = _dal.Create(account);
 
-                return success
-                    ? Result.Success("Tạo tài khoản Admin thành công!")
-                    : Result.Failure("Tạo tài khoản Admin thất bại.");
+                return success ? Result.Success("Tạo tài khoản Admin thành công!") : Result.Failure("Tạo tài khoản Admin thất bại.");
             }
             catch (Exception ex)
             {
-                return Result.Failure(
-                    "Lỗi hệ thống: " + ex.Message);
+                return Result.Failure("Lỗi hệ thống: " + ex.Message);
             }
         }
 
@@ -197,6 +184,7 @@ namespace DentalClinic.BLL
                 return Result<AccountDto>.Failure(validationError);
 
             var account = _dal.GetByUserName(dto.UserName.Trim());
+
             if (account == null || !PasswordHelper.VerifyPassword(dto.Password.Trim(), account.Password))
             {
                 return Result<AccountDto>.Failure("Tên đăng nhập hoặc mật khẩu không chính xác.");

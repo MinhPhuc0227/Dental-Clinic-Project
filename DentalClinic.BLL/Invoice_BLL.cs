@@ -68,38 +68,29 @@ namespace DentalClinic.BLL
 
             try
             {
-                var existingInvoice =
-                    _dal.GetUnpaidInvoiceByVisitId(visitId);
+                var existingInvoice = _dal.GetUnpaidInvoiceByVisitId(visitId);
 
                 if (existingInvoice != null)
                 {
-                    return Result.Failure(
-                        "Lượt khám này đã có hóa đơn chưa thanh toán.");
+                    return Result.Failure("Lượt khám này đã có hóa đơn chưa thanh toán.");
                 }
 
-                bool success =
-                    _dal.CreateUnpaidInvoice(visitId);
+                bool success = _dal.CreateUnpaidInvoice(visitId);
 
-                return success
-                    ? Result.Success(
-                        "Tạo hóa đơn chưa thanh toán thành công!")
-                    : Result.Failure(
-                        "Không thể tạo hóa đơn.");
+                return success ? Result.Success("Tạo hóa đơn chưa thanh toán thành công!") : Result.Failure("Không thể tạo hóa đơn.");
             }
             catch (Exception ex)
             {
-                return Result.Failure(
-                    "Lỗi tạo hóa đơn: " +
-                    (ex.InnerException?.Message ?? ex.Message));
+                return Result.Failure("Lỗi tạo hóa đơn: " + (ex.InnerException?.Message ?? ex.Message));
             }
         }
 
         public Result Checkout(
-    int invoiceId,
-    int paymentMethodId,
-    int receptionistId,
-    decimal amountGiven,
-    decimal changeAmount)
+            int invoiceId,
+            int paymentMethodId,
+            int receptionistId,
+            decimal amountGiven,
+            decimal changeAmount)
         {
             if (invoiceId <= 0)
                 return Result.Failure("Mã hóa đơn không hợp lệ.");
@@ -119,26 +110,21 @@ namespace DentalClinic.BLL
                     amountGiven,
                     changeAmount);
 
-                return success
-                    ? Result.Success("Thanh toán thành công!")
-                    : Result.Failure("Không thể thanh toán hóa đơn.");
+                return success ? Result.Success("Thanh toán thành công!") : Result.Failure("Không thể thanh toán hóa đơn.");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"=== Checkout ERROR ===");
                 Debug.WriteLine($"InvoiceId: {invoiceId}");
                 Debug.WriteLine($"Message: {ex.Message}");
-
-                return Result.Failure(
-                    "Lỗi thanh toán: " +
-                    (ex.InnerException?.Message ?? ex.Message));
+                return Result.Failure("Lỗi thanh toán: " + (ex.InnerException?.Message ?? ex.Message));
             }
         }
 
         public Result CancelInvoice(
-    int invoiceId,
-    int receptionistId,
-    string cancellationReason)
+            int invoiceId,
+            int receptionistId,
+            string cancellationReason)
         {
             if (invoiceId <= 0)
                 return Result.Failure("Mã hóa đơn không hợp lệ.");
@@ -156,15 +142,11 @@ namespace DentalClinic.BLL
                     receptionistId,
                     cancellationReason.Trim());
 
-                return success
-                    ? Result.Success("Hủy hóa đơn thành công.")
-                    : Result.Failure("Không thể hủy hóa đơn.");
+                return success ? Result.Success("Hủy hóa đơn thành công.") : Result.Failure("Không thể hủy hóa đơn.");
             }
             catch (Exception ex)
             {
-                return Result.Failure(
-                    "Lỗi hủy hóa đơn: " +
-                    (ex.InnerException?.Message ?? ex.Message));
+                return Result.Failure("Lỗi hủy hóa đơn: " + (ex.InnerException?.Message ?? ex.Message));
             }
         }
 

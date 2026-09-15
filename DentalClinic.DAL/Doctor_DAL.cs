@@ -53,8 +53,7 @@ namespace DentalClinic.DAL
         // Kiểm tra trùng username 
         public bool IsUserNameExists(string userName, int excludeAccountId = 0)
         {
-            return _context.Accounts.Any(a => a.UserName.ToLower() == userName.ToLower()
-                                              && a.AccountId != excludeAccountId);
+            return _context.Accounts.Any(a => a.UserName.ToLower() == userName.ToLower() && a.AccountId != excludeAccountId);
         }
 
         // Kiểm tra trùng sđt

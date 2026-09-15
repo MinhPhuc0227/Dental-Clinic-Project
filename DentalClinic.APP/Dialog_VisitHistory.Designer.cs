@@ -311,6 +311,7 @@
             // 
             // txtNote
             // 
+            txtNote.BackColor = Color.White;
             txtNote.BorderStyle = BorderStyle.FixedSingle;
             txtNote.Location = new Point(120, 149);
             txtNote.Name = "txtNote";
@@ -320,6 +321,7 @@
             // 
             // txtConclusion
             // 
+            txtConclusion.BackColor = Color.White;
             txtConclusion.BorderStyle = BorderStyle.FixedSingle;
             txtConclusion.Location = new Point(120, 104);
             txtConclusion.Name = "txtConclusion";
@@ -329,6 +331,7 @@
             // 
             // txtDiagnosis
             // 
+            txtDiagnosis.BackColor = Color.White;
             txtDiagnosis.BorderStyle = BorderStyle.FixedSingle;
             txtDiagnosis.Location = new Point(120, 59);
             txtDiagnosis.Name = "txtDiagnosis";

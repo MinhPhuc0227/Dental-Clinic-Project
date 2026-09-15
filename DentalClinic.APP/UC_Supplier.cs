@@ -29,93 +29,10 @@ namespace DentalClinic.APP
         }
 
         // SET UP DGV DANH SÁCH NCC
-
-        // Sinh cột tự động
         private void SetupGrid()
         {
             dgvSupplier.AutoGenerateColumns = true;
         }
-
-        // Set up từng cột
-        //private void SetupGrid()
-        //{
-        //    dgvSupplier.AutoGenerateColumns = false;
-        //    dgvSupplier.Columns.Clear();
-
-        //    dgvSupplier.Columns.Add(
-        //        new DataGridViewTextBoxColumn
-        //        {
-        //            DataPropertyName = "SupplierId",
-        //            HeaderText = "Mã",
-        //            Width = 60
-        //        });
-
-        //    dgvSupplier.Columns.Add(
-        //        new DataGridViewTextBoxColumn
-        //        {
-        //            DataPropertyName = "SupplierName",
-        //            HeaderText = "Nhà cung cấp",
-        //            Width = 200
-        //        });
-
-        //    dgvSupplier.Columns.Add(
-        //        new DataGridViewTextBoxColumn
-        //        {
-        //            DataPropertyName = "Phone",
-        //            HeaderText = "Số điện thoại",
-        //            Width = 120
-        //        });
-
-        //    dgvSupplier.Columns.Add(
-        //        new DataGridViewTextBoxColumn
-        //        {
-        //            DataPropertyName = "Address",
-        //            HeaderText = "Địa chỉ",
-        //            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        //        });
-
-        //    dgvSupplier.Columns.Add(
-        //        new DataGridViewTextBoxColumn
-        //        {
-        //            DataPropertyName = "Email",
-        //            HeaderText = "Email",
-        //            Width = 180
-        //        });
-
-        //    dgvSupplier.Columns.Add(
-        //        new DataGridViewTextBoxColumn
-        //        {
-        //            DataPropertyName = "StatusText",
-        //            HeaderText = "Trạng thái",
-        //            Width = 130
-        //        });
-
-        //    // Cột sửa
-        //    var editColumn =
-        //        new DataGridViewButtonColumn
-        //        {
-        //            Name = "colEdit",
-        //            HeaderText = "Sửa",
-        //            Text = "Sửa",
-        //            UseColumnTextForButtonValue = true,
-        //            Width = 65
-        //        };
-
-        //    dgvSupplier.Columns.Add(editColumn);
-
-        //    // Cột xóa
-        //    var deleteColumn =
-        //        new DataGridViewButtonColumn
-        //        {
-        //            Name = "colDelete",
-        //            HeaderText = "Xóa",
-        //            Text = "Xóa",
-        //            UseColumnTextForButtonValue = true,
-        //            Width = 65
-        //        };
-
-        //    dgvSupplier.Columns.Add(deleteColumn);
-        //}
 
         // LOAD DỮ LIỆU LÊN DANH SÁCH NCC
         public void LoadData()
@@ -159,16 +76,6 @@ namespace DentalClinic.APP
 
             dgvSupplier.DataSource = suppliers;
             AddActionImageColumns();
-
-            // Cho 2 cột sửa và xóa ở vị trí cuối
-            //var editColumn = dgvSupplier.Columns["EditCol"];
-            //var deleteColumn = dgvSupplier.Columns["DeleteCol"];
-
-            //if (editColumn != null)
-            //    editColumn.DisplayIndex = dgvSupplier.Columns.Count - 2;
-
-            //if (deleteColumn != null)
-            //    deleteColumn.DisplayIndex = dgvSupplier.Columns.Count - 1;
         }
 
         // THÊM 2 CỘT SỬA VÀ XÓA CHO DGV
@@ -202,7 +109,6 @@ namespace DentalClinic.APP
                 dgvSupplier.Columns.Add(imgDelete);
             }
 
-            // Đưa cột Xóa xuống cuối và cột Sửa ngay trước cột Xóa
             var deleteColumn = dgvSupplier.Columns["DeleteCol"];
             var editColumn = dgvSupplier.Columns["EditCol"];
 
@@ -217,8 +123,7 @@ namespace DentalClinic.APP
         // LOAD CB TRẠNG THÁI
         private void LoadStatusComboBox()
         {
-            var statusList =
-                new List<object>
+            var statusList = new List<object>
                 {
                     new {Value = (bool?)null, Text = "Tất cả"},
                     new {Value = (bool?)true, Text = "Đang hoạt động"},
@@ -247,8 +152,6 @@ namespace DentalClinic.APP
             cbSort.ValueMember = "Value";
             cbSort.SelectedIndex = 0;
         }
-
-        // ================================================
 
         // SỰ KIỆN TÌM KIẾM
         private void txtSearch_TextChanged(object sender, EventArgs e)

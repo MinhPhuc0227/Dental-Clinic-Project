@@ -10,10 +10,7 @@ namespace DentalClinic.APP
         private readonly int _visitId;
         private readonly MedicalRecord_BLL _medicalRecordBLL;
 
-        public Dialog_VisitHistory(
-            MedicalRecord_BLL medicalRecordBLL,
-            int visitId,
-            string patientName)
+        public Dialog_VisitHistory(MedicalRecord_BLL medicalRecordBLL, int visitId, string patientName)
         {
             InitializeComponent();
 
@@ -50,18 +47,12 @@ namespace DentalClinic.APP
             txtDiagnosis.ReadOnly = true;
             txtConclusion.ReadOnly = true;
             txtNote.ReadOnly = true;
-
-            txtDiagnosis.BackColor = System.Drawing.Color.White;
-            txtConclusion.BackColor = System.Drawing.Color.White;
-            txtNote.BackColor = System.Drawing.Color.White;
-
             ClearVisitDetails();
         }
 
         private void ClearVisitDetails()
         {
             lbExaminationDate.Text = "";
-
             txtDiagnosis.Clear();
             txtConclusion.Clear();
             txtNote.Clear();
@@ -90,8 +81,7 @@ namespace DentalClinic.APP
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
                         Format = "dd/MM/yyyy HH:mm",
-                        Alignment =
-                            DataGridViewContentAlignment.MiddleCenter
+                        Alignment = DataGridViewContentAlignment.MiddleCenter
                     }
                 });
 
@@ -101,16 +91,14 @@ namespace DentalClinic.APP
                     Name = "colDoctorName",
                     DataPropertyName = "DoctorName",
                     HeaderText = "Bác sĩ",
-                    AutoSizeMode =
-                        DataGridViewAutoSizeColumnMode.Fill
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 });
 
             dgvVisitHistory.ReadOnly = true;
             dgvVisitHistory.AllowUserToAddRows = false;
             dgvVisitHistory.AllowUserToDeleteRows = false;
             dgvVisitHistory.RowHeadersVisible = false;
-            dgvVisitHistory.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
+            dgvVisitHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvVisitHistory.MultiSelect = false;
         }
 
@@ -125,8 +113,7 @@ namespace DentalClinic.APP
                     Name = "colServiceName",
                     DataPropertyName = "ServiceName",
                     HeaderText = "Tên dịch vụ",
-                    AutoSizeMode =
-                        DataGridViewAutoSizeColumnMode.Fill
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 });
 
             dgvService.Columns.Add(
@@ -138,8 +125,7 @@ namespace DentalClinic.APP
                     Width = 100,
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
-                        Alignment =
-                            DataGridViewContentAlignment.MiddleCenter
+                        Alignment = DataGridViewContentAlignment.MiddleCenter
                     }
                 });
 
@@ -147,8 +133,7 @@ namespace DentalClinic.APP
             dgvService.AllowUserToAddRows = false;
             dgvService.AllowUserToDeleteRows = false;
             dgvService.RowHeadersVisible = false;
-            dgvService.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
+            dgvService.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvService.MultiSelect = false;
         }
 
@@ -175,8 +160,7 @@ namespace DentalClinic.APP
                     Width = 65,
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
-                        Alignment =
-                            DataGridViewContentAlignment.MiddleCenter
+                        Alignment = DataGridViewContentAlignment.MiddleCenter
                     }
                 });
 
@@ -189,8 +173,7 @@ namespace DentalClinic.APP
                     Width = 65,
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
-                        Alignment =
-                            DataGridViewContentAlignment.MiddleCenter
+                        Alignment = DataGridViewContentAlignment.MiddleCenter
                     }
                 });
 
@@ -203,8 +186,7 @@ namespace DentalClinic.APP
                     Width = 65,
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
-                        Alignment =
-                            DataGridViewContentAlignment.MiddleCenter
+                        Alignment = DataGridViewContentAlignment.MiddleCenter
                     }
                 });
 
@@ -217,8 +199,7 @@ namespace DentalClinic.APP
                     Width = 65,
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
-                        Alignment =
-                            DataGridViewContentAlignment.MiddleCenter
+                        Alignment = DataGridViewContentAlignment.MiddleCenter
                     }
                 });
 
@@ -231,8 +212,7 @@ namespace DentalClinic.APP
                     Width = 65,
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
-                        Alignment =
-                            DataGridViewContentAlignment.MiddleCenter
+                        Alignment = DataGridViewContentAlignment.MiddleCenter
                     }
                 });
 
@@ -242,23 +222,20 @@ namespace DentalClinic.APP
                     Name = "colInstruction",
                     DataPropertyName = "Instruction",
                     HeaderText = "Cách dùng",
-                    AutoSizeMode =
-                        DataGridViewAutoSizeColumnMode.Fill
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 });
 
             dgvMedicine.ReadOnly = true;
             dgvMedicine.AllowUserToAddRows = false;
             dgvMedicine.AllowUserToDeleteRows = false;
             dgvMedicine.RowHeadersVisible = false;
-            dgvMedicine.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
+            dgvMedicine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvMedicine.MultiSelect = false;
         }
 
         private void LoadHistory()
         {
-            var history =
-                _medicalRecordBLL.GetPatientHistory(_visitId);
+            var history = _medicalRecordBLL.GetPatientHistory(_visitId);
 
             if (history == null || history.Count == 0)
             {
@@ -280,25 +257,20 @@ namespace DentalClinic.APP
 
             dgvVisitHistory.DataSource = history;
 
-            if (dgvVisitHistory.Rows.Count > 0 &&
-    dgvVisitHistory.Rows[0].DataBoundItem is PatientHistoryDto firstRecord)
+            if (dgvVisitHistory.Rows.Count > 0 && dgvVisitHistory.Rows[0].DataBoundItem is PatientHistoryDto firstRecord)
             {
                 dgvVisitHistory.ClearSelection();
                 dgvVisitHistory.Rows[0].Selected = true;
-
                 LoadRecordDetails(firstRecord.MedicalRecordId);
             }
         }
 
-        private void dgvVisitHistory_CellClick(
-            object sender,
-            DataGridViewCellEventArgs e)
+        private void dgvVisitHistory_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
                 return;
 
-            if (dgvVisitHistory.Rows[e.RowIndex].DataBoundItem
-    is PatientHistoryDto selectedRecord)
+            if (dgvVisitHistory.Rows[e.RowIndex].DataBoundItem is PatientHistoryDto selectedRecord)
             {
                 LoadRecordDetails(selectedRecord.MedicalRecordId);
             }
@@ -312,17 +284,11 @@ namespace DentalClinic.APP
 
                 lbExaminationDate.Text = GetHistoryDateText(medicalRecordId);
 
-                txtDiagnosis.Text = string.IsNullOrWhiteSpace(result.Diagnosis)
-                    ? "Không có"
-                    : result.Diagnosis;
+                txtDiagnosis.Text = string.IsNullOrWhiteSpace(result.Diagnosis) ? "Không có" : result.Diagnosis;
 
-                txtConclusion.Text = string.IsNullOrWhiteSpace(result.Conclusion)
-                    ? "Không có"
-                    : result.Conclusion;
+                txtConclusion.Text = string.IsNullOrWhiteSpace(result.Conclusion) ? "Không có" : result.Conclusion;
 
-                txtNote.Text = string.IsNullOrWhiteSpace(result.Note)
-                    ? "Không có"
-                    : result.Note;
+                txtNote.Text = string.IsNullOrWhiteSpace(result.Note) ? "Không có" : result.Note;
 
                 dgvService.DataSource = result.Services;
                 dgvMedicine.DataSource = result.Medicines;

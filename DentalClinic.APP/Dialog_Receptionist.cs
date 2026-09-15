@@ -35,7 +35,6 @@ namespace DentalClinic.APP
         public Dialog_Receptionist(Receptionist_BLL bll, ReceptionistDto data) : this(bll)
         {
             this.Text = "Chỉnh sửa thông tin lễ tân";
-            //pnAccount.Enabled = false;
             txtPassword.UseSystemPasswordChar = true;
             _isEdit = true;
             ReceptionistData = data;
@@ -57,41 +56,29 @@ namespace DentalClinic.APP
 
         private readonly bool _viewOnly = false;
         public Dialog_Receptionist(
-    Receptionist_BLL bll,
-    ReceptionistDto data,
-    bool viewOnly = false) : this(bll)
+            Receptionist_BLL bll,
+            ReceptionistDto data,
+            bool viewOnly = false) : this(bll)
         {
-            this.Text = viewOnly
-                ? "Thông tin lễ tân"
-                : "Chỉnh sửa thông tin lễ tân";
-
+            this.Text = viewOnly ? "Thông tin lễ tân" : "Chỉnh sửa thông tin lễ tân";
             _viewOnly = viewOnly;
-
             pnAccount.Enabled = false;
-
             _isEdit = true;
+
             ReceptionistData = data;
 
             lbReceptionistId.Text = data.ReceptionistId.ToString();
-
             txtFullName.Text = data.FullName;
             cbGender.SelectedValue = data.Gender;
-            dtpDateOfBirth.Value =
-                data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
-
+            dtpDateOfBirth.Value = data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
             txtPhone.Text = data.Phone;
             txtEmail.Text = data.Email;
             txtDescription.Text = data.Description;
-
             lbAccountId.Text = data.AccountId.ToString();
-
             txtUserName.Text = data.UserName;
             txtPassword.Text = string.Empty;
-
             cbStatus.SelectedValue = data.Status;
-
-            lbCreatedDate.Text =
-                data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
+            lbCreatedDate.Text = data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
 
             if (viewOnly)
             {
@@ -105,13 +92,10 @@ namespace DentalClinic.APP
             txtPhone.ReadOnly = true;
             txtEmail.ReadOnly = true;
             txtDescription.ReadOnly = true;
-
             cbGender.Enabled = false;
             dtpDateOfBirth.Enabled = false;
             cbStatus.Enabled = false;
-
             txtUserName.ReadOnly = true;
-
             btSave.Visible = false;
         }
 
@@ -124,6 +108,7 @@ namespace DentalClinic.APP
                 new { Value = Gender.Female, Display = "Nữ" },
                 new { Value = Gender.Other, Display = "Khác" }
             };
+
             cbGender.DisplayMember = "Display";
             cbGender.ValueMember = "Value";
 
@@ -138,18 +123,19 @@ namespace DentalClinic.APP
                 new { Value = AccountStatus.Inactive, Display = "Ngừng hoạt động" },
                 new { Value = AccountStatus.Locked, Display = "Khóa" }
             };
+
             cbStatus.DisplayMember = "Display";
             cbStatus.ValueMember = "Value";
         }
 
-        // Cancel button
+        // Cancel
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        // Save button
+        // Save 
         private void btSave_Click(object sender, EventArgs e)
         {
             var selectedGender = cbGender.SelectedValue != null ? (Gender)cbGender.SelectedValue : Gender.Female;

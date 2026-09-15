@@ -139,10 +139,6 @@ namespace DentalClinic.DAL
                 v.CheckInDateTime < tomorrow &&
                 (
                     v.Status == VisitStatus.Waiting
-                // Nếu hệ thống của bạn có trạng thái đang khám,
-                // thêm vào đây, ví dụ:
-                 //|| v.Status == VisitStatus.InProgress
-                 //|| v.Status == VisitStatus.Examining
                 )
             );
         }
@@ -153,13 +149,11 @@ namespace DentalClinic.DAL
             {
                 try
                 {
-                    // 1. Lấy lịch hẹn
                     var app = _context.Appointments.Find(appointmentId);
 
                     if (app == null || app.Status != AppointmentStatus.Scheduled)
                         return false;
 
-                    // 2. CHẶN CỨNG: Bệnh nhân đã có Visit đang hoạt động hôm nay
                     if (HasActiveVisitToday(app.PatientId))
                     {
                         throw new InvalidOperationException(
@@ -168,18 +162,15 @@ namespace DentalClinic.DAL
                         );
                     }
 
-                    // 3. Đổi trạng thái lịch hẹn 
                     app.Status = AppointmentStatus.CheckedIn;
                     _context.Appointments.Update(app);
 
-                    // 4. Đếm số bệnh nhân của bác sĩ hôm nay
                     int currentQueueCount = _context.Visits
                         .Count(v =>
                             v.DoctorId == app.DoctorId &&
                             v.CheckInDateTime >= DateTime.Today &&
                             v.CheckInDateTime < DateTime.Today.AddDays(1));
 
-                    // 5. Tạo Visit mới
                     var newVisit = new Visit
                     {
                         AppointmentId = keepPriority ? app.AppointmentId : (int?)null,
@@ -194,7 +185,6 @@ namespace DentalClinic.DAL
 
                     _context.Visits.Add(newVisit);
 
-                    // 6. Lưu
                     _context.SaveChanges();
                     transaction.Commit();
 
@@ -222,7 +212,7 @@ namespace DentalClinic.DAL
             );
         }
 
-        // Kiểm tra trùng lịch Bệnh nhân (1 người không thể khám 2 phòng cùng lúc)
+        // Kiểm tra trùng lịch Bệnh nhân 
         public bool HasPatientConflict(int patientId, DateTime startTime, int durationMinutes, int? excludeAppId = null)
         {
             DateTime endTime = startTime.AddMinutes(durationMinutes);

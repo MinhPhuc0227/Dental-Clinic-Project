@@ -17,7 +17,6 @@ namespace DentalClinic.APP
     {
         private readonly int _currentAccountId;
 
-        // Khởi tạo BLL
         private readonly Account_BLL _accountBLL;
         private readonly Doctor_BLL _doctorBLL;
         private readonly Receptionist_BLL _receptionistBLL;
@@ -168,40 +167,27 @@ namespace DentalClinic.APP
 
             AddActionImageColumns();
 
-            // Đưa Xóa về cuối
+            // Chuyển cột xóa, sửa xuống cuối
             var deleteColumn = dgvAccount.Columns["DeleteCol"];
-
             if (deleteColumn != null)
-            {
                 deleteColumn.DisplayIndex = dgvAccount.Columns.Count - 1;
-            }
 
-            // Đưa Sửa ngay trước Xóa
             var editColumn = dgvAccount.Columns["EditCol"];
-
             if (editColumn != null && deleteColumn != null)
-            {
                 editColumn.DisplayIndex = deleteColumn.DisplayIndex - 1;
-            }
 
             // Đặt tên hiển thị cho một số cột
             var doctorIdColumn = dgvAccount.Columns["DoctorId"];
             if (doctorIdColumn != null)
-            {
                 doctorIdColumn.HeaderText = "Mã Bác Sĩ";
-            }
 
             var receptionistIdColumn = dgvAccount.Columns["ReceptionistId"];
             if (receptionistIdColumn != null)
-            {
                 receptionistIdColumn.HeaderText = "Mã Lễ Tân";
-            }
 
             var fullNameColumn = dgvAccount.Columns["FullName"];
             if (fullNameColumn != null)
-            {
                 fullNameColumn.HeaderText = "Họ và Tên";
-            }
         }
 
         // THÊM CỘT SỬA VÀ XÓA CHO DGV
@@ -232,8 +218,6 @@ namespace DentalClinic.APP
             }
         }
 
-        // =====================================================
-
         // SỰ KIỆN CỘT SỬA, XÓA TRONG DGV 
         private void dgvAccount_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -258,7 +242,6 @@ namespace DentalClinic.APP
             // Cột xóa
             else if (colName == "DeleteCol")
             {
-                // Không cho xóa chính tài khoản đang đăng nhập
                 if (selectedDto.AccountId == _currentAccountId)
                 {
                     MessageBox.Show(
@@ -316,28 +299,19 @@ namespace DentalClinic.APP
         // SỰ KIỆN CB VAI TRÒ
         private void cbRole_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN CB TRẠNG THÁI
         private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN CB SẮP XẾP
         private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
     }
 }

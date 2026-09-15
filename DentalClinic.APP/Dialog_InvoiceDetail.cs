@@ -32,18 +32,14 @@ namespace DentalClinic.APP
             string receptionistName)
         {
             InitializeComponent();
-
             _invoiceBLL = invoiceBLL;
             _invoiceId = invoiceId;
             _currentReceptionistId = receptionistId;
             _currentReceptionistName = receptionistName;
-
             _printDocument.PrintPage += PrintDocument_PrintPage;
         }
 
-        private void Dialog_InvoiceDetail_Load(
-            object sender,
-            EventArgs e)
+        private void Dialog_InvoiceDetail_Load(object sender, EventArgs e)
         {
             SetupGrid();
             LoadInvoice();
@@ -67,8 +63,7 @@ namespace DentalClinic.APP
                 {
                     DataPropertyName = "ItemName",
                     HeaderText = "Tên thuốc / dịch vụ",
-                    AutoSizeMode =
-                        DataGridViewAutoSizeColumnMode.Fill
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 });
 
             dgvInvoiceDetail.Columns.Add(
@@ -88,8 +83,7 @@ namespace DentalClinic.APP
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
                         Format = "N0",
-                        Alignment =
-                            DataGridViewContentAlignment.MiddleRight
+                        Alignment = DataGridViewContentAlignment.MiddleRight
                     }
                 });
 
@@ -102,24 +96,21 @@ namespace DentalClinic.APP
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
                         Format = "N0",
-                        Alignment =
-                            DataGridViewContentAlignment.MiddleRight
+                        Alignment = DataGridViewContentAlignment.MiddleRight
                     }
                 });
 
             dgvInvoiceDetail.ReadOnly = true;
             dgvInvoiceDetail.AllowUserToAddRows = false;
             dgvInvoiceDetail.RowHeadersVisible = false;
-            dgvInvoiceDetail.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
+            dgvInvoiceDetail.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void LoadInvoice()
         {
             try
             {
-                _invoice =
-                    _invoiceBLL.GetInvoiceDetail(_invoiceId);
+                _invoice = _invoiceBLL.GetInvoiceDetail(_invoiceId);
 
                 if (_invoice == null)
                 {
@@ -134,117 +125,46 @@ namespace DentalClinic.APP
                 }
 
                 // Invoice
-                lbInvoiceId.Text =
-                    _invoice.InvoiceId.ToString();
-
-                lbInvoiceDate.Text =
-                    _invoice.InvoiceDateTime
-                        .ToString("dd/MM/yyyy HH:mm");
-
-                lbInvoiceStatus.Text =
-                    _invoice.Status;
-
-                lbInvoiceReceptionist.Text =
-                    _invoice.ReceptionistName;
+                lbInvoiceId.Text = _invoice.InvoiceId.ToString();
+                lbInvoiceDate.Text = _invoice.InvoiceDateTime.ToString("dd/MM/yyyy HH:mm");
+                lbInvoiceStatus.Text = _invoice.Status;
+                lbInvoiceReceptionist.Text = _invoice.ReceptionistName;
 
                 // Patient
-                lbPatientId.Text =
-                    _invoice.PatientId.ToString();
-
-                lbPatientName.Text =
-                    _invoice.PatientName;
-
-                lbPatientPhone.Text =
-                    _invoice.PatientPhone;
-
-                lbPatientDateOfBirth.Text =
-                    _invoice.PatientDateOfBirth
-                        .ToString("dd/MM/yyyy");
-
-                txtPatientAddress.Text =
-                    string.IsNullOrWhiteSpace(
-                        _invoice.PatientAddress)
-                        ? "Không có"
-                        : _invoice.PatientAddress;
+                lbPatientId.Text = _invoice.PatientId.ToString();
+                lbPatientName.Text = _invoice.PatientName;
+                lbPatientPhone.Text = _invoice.PatientPhone;
+                lbPatientDateOfBirth.Text = _invoice.PatientDateOfBirth.ToString("dd/MM/yyyy");
+                txtPatientAddress.Text = string.IsNullOrWhiteSpace(_invoice.PatientAddress) ? "Không có" : _invoice.PatientAddress;
 
                 // Visit
-                lbVisitId.Text =
-                    _invoice.VisitId.ToString();
-
-                lbExaminationDate.Text =
-                    _invoice.ExaminationDateTime.HasValue
-                        ? _invoice.ExaminationDateTime
-                            .Value.ToString("dd/MM/yyyy HH:mm")
-                        : "Không có";
-
-                lbDoctorName.Text =
-                    _invoice.DoctorName;
-
-                lbDiagnosis.Text =
-                    string.IsNullOrWhiteSpace(
-                        _invoice.Diagnosis)
-                        ? "Không có"
-                        : _invoice.Diagnosis;
-
-                txtConclusion.Text =
-                    string.IsNullOrWhiteSpace(
-                        _invoice.Conclusion)
-                        ? "Không có"
-                        : _invoice.Conclusion;
+                lbVisitId.Text = _invoice.VisitId.ToString();
+                lbExaminationDate.Text = _invoice.ExaminationDateTime.HasValue ? _invoice.ExaminationDateTime.Value.ToString("dd/MM/yyyy HH:mm") : "Không có";
+                lbDoctorName.Text = _invoice.DoctorName;
+                lbDiagnosis.Text = string.IsNullOrWhiteSpace(_invoice.Diagnosis) ? "Không có" : _invoice.Diagnosis;
+                txtConclusion.Text = string.IsNullOrWhiteSpace(_invoice.Conclusion) ? "Không có" : _invoice.Conclusion;
 
                 // Payment
-                lbTotalAmount.Text =
-                    _invoice.TotalAmount.ToString("N0")
-                    + " VNĐ";
-
-                lbAmountGiven.Text =
-                    _invoice.AmountGiven.ToString("N0")
-                    + " VNĐ";
-
-                lbChangeAmount.Text =
-                    _invoice.ChangeAmount.ToString("N0")
-                    + " VNĐ";
-
-                lbPaymentMethod.Text =
-                    _invoice.PaymentMethodName;
+                lbTotalAmount.Text = _invoice.TotalAmount.ToString("N0") + " VNĐ";
+                lbAmountGiven.Text = _invoice.AmountGiven.ToString("N0") + " VNĐ";
+                lbChangeAmount.Text = _invoice.ChangeAmount.ToString("N0") + " VNĐ";
+                lbPaymentMethod.Text = _invoice.PaymentMethodName;
 
                 // Cancellation
-                bool isCancelled =
-                    _invoice.Status == "Đã hủy";
-
+                bool isCancelled = _invoice.Status == "Đã hủy";
                 lbCancellationReason.Visible = isCancelled;
                 lbCancelledDate.Visible = isCancelled;
                 lbCancelledBy.Visible = isCancelled;
 
                 if (isCancelled)
                 {
-                    lbCancellationReason.Text =
-                        string.IsNullOrWhiteSpace(
-                            _invoice.CancellationReason)
-                            ? "Không có"
-                            : _invoice.CancellationReason;
-
-                    lbCancelledDate.Text =
-                        _invoice.CancelledDate.HasValue
-                            ? _invoice.CancelledDate
-                                .Value.ToString("dd/MM/yyyy HH:mm")
-                            : "Không có";
-
-                    lbCancelledBy.Text =
-                        string.IsNullOrWhiteSpace(
-                            _invoice.CancelledByName)
-                            ? "Không có"
-                            : _invoice.CancelledByName;
+                    lbCancellationReason.Text = string.IsNullOrWhiteSpace(_invoice.CancellationReason) ? "Không có" : _invoice.CancellationReason;
+                    lbCancelledDate.Text = _invoice.CancelledDate.HasValue ? _invoice.CancelledDate.Value.ToString("dd/MM/yyyy HH:mm") : "Không có";
+                    lbCancelledBy.Text = string.IsNullOrWhiteSpace(_invoice.CancelledByName) ? "Không có" : _invoice.CancelledByName;
                 }
 
-                // Load items
-                _items =
-                    _invoiceBLL.GetInvoiceDetailItems(
-                        _invoiceId);
-
+                _items = _invoiceBLL.GetInvoiceDetailItems(_invoiceId);
                 dgvInvoiceDetail.DataSource = _items;
-
-                // Hóa đơn chưa thanh toán hoặc đã thanh toán được phép hủy
                 btnCancelInvoice.Visible = _invoice.Status == "Đã thanh toán" || _invoice.Status == "Chưa thanh toán";
             }
             catch (Exception ex)
@@ -263,8 +183,7 @@ namespace DentalClinic.APP
             if (_invoice == null)
                 return;
 
-            if (_invoice.Status != "Đã thanh toán" &&
-                _invoice.Status != "Chưa thanh toán")
+            if (_invoice.Status != "Đã thanh toán" && _invoice.Status != "Chưa thanh toán")
             {
                 MessageBox.Show(
                     "Chỉ có thể hủy hóa đơn chưa thanh toán hoặc đã thanh toán.",
@@ -275,9 +194,7 @@ namespace DentalClinic.APP
                 return;
             }
 
-            using var cancelDialog = new Dialog_CancelInvoice(
-                _currentReceptionistName,
-                _invoice.TotalAmount);
+            using var cancelDialog = new Dialog_CancelInvoice(_currentReceptionistName, _invoice.TotalAmount);
 
             if (cancelDialog.ShowDialog(this) != DialogResult.OK)
                 return;
@@ -288,8 +205,7 @@ namespace DentalClinic.APP
 
             if (_invoice.Status == "Đã thanh toán")
             {
-                confirmMessage +=
-                    "\n\nThuốc đã xuất trong hóa đơn sẽ được hoàn lại tồn kho.";
+                confirmMessage += "\n\nThuốc đã xuất trong hóa đơn sẽ được hoàn lại tồn kho.";
             }
 
             var confirm = MessageBox.Show(
@@ -354,8 +270,6 @@ namespace DentalClinic.APP
             try
             {
                 _printDocument.Print();
-
-                // Đưa Dialog_InvoiceDetail trở lại phía trước
                 this.WindowState = FormWindowState.Normal;
                 this.Show();
                 this.BringToFront();
@@ -368,7 +282,6 @@ namespace DentalClinic.APP
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
-                // Sau khi đóng MessageBox vẫn giữ form phía trước
                 this.WindowState = FormWindowState.Normal;
                 this.BringToFront();
                 this.Activate();
@@ -388,7 +301,6 @@ namespace DentalClinic.APP
         }
 
         // VẼ HÓA ĐƠN
-
         private void DrawText(Graphics g, string text, Font font, float x, float y)
         {
             g.DrawString(text ?? "", font, Brushes.Black, x, y);
@@ -500,7 +412,6 @@ namespace DentalClinic.APP
             DrawText(g, $"Mã hóa đơn: #{_invoice.InvoiceId}", normalFont, left, y);
             DrawTextRight(g, $"Ngày lập: {_invoice.InvoiceDateTime:dd/MM/yyyy HH:mm}", normalFont, right, y);
             y += 6;
-
             DrawText(g, $"Trạng thái: {_invoice.Status}", normalFont, left, y);
             y += 9;
 
@@ -563,11 +474,8 @@ namespace DentalClinic.APP
 
                 string itemName = $"{item.ItemName} ({item.ItemType})";
                 DrawTextInRect(g, itemName, normalFont, new RectangleF(xName + 1, y + 1, wName - 2, rowHeight - 2));
-
                 DrawCenteredInRect(g, item.Quantity.ToString(), normalFont, new RectangleF(xQty, y, wQty, rowHeight));
-
                 DrawRightInRect(g, item.UnitPrice.ToString("N0"), normalFont, new RectangleF(xPrice, y, wPrice - 1, rowHeight));
-
                 DrawRightInRect(g, item.TotalAmount.ToString("N0"), normalFont, new RectangleF(xTotal, y, wTotal - 1, rowHeight));
 
                 y += rowHeight;

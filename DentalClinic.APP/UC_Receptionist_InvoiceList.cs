@@ -15,8 +15,10 @@ namespace DentalClinic.APP
     public partial class UC_Receptionist_InvoiceList : UserControl
     {
         private readonly Invoice_BLL _invoiceBLL;
+
         private readonly int _currentReceptionistId;
         private readonly string _currentReceptionistName;
+
         public event EventHandler? InvoiceChanged;
 
         public UC_Receptionist_InvoiceList(int receptionistId, string receptionistName, Invoice_BLL invoiceBLL)
@@ -52,7 +54,6 @@ namespace DentalClinic.APP
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ChangeAmount", HeaderText = "Tiền Thối", Width = 90, DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
             dgvInvoiceList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Status", HeaderText = "Trạng Thái", Width = 100 });
 
-            // Xem
             var viewColumn = new DataGridViewButtonColumn
             {
                 Name = "colView",
@@ -70,11 +71,11 @@ namespace DentalClinic.APP
         {
             var statusList = new[]
             {
-        new { Text = "Tất cả", Value = (InvoiceStatus?)null },
-        new { Text = "Chưa thanh toán", Value = (InvoiceStatus?)InvoiceStatus.Unpaid },
-        new { Text = "Đã thanh toán", Value = (InvoiceStatus?)InvoiceStatus.Paid },
-        new { Text = "Đã hủy", Value = (InvoiceStatus?)InvoiceStatus.Cancelled }
-    };
+                new { Text = "Tất cả", Value = (InvoiceStatus?)null },
+                new { Text = "Chưa thanh toán", Value = (InvoiceStatus?)InvoiceStatus.Unpaid },
+                new { Text = "Đã thanh toán", Value = (InvoiceStatus?)InvoiceStatus.Paid },
+                new { Text = "Đã hủy", Value = (InvoiceStatus?)InvoiceStatus.Cancelled }
+            };
 
             cbStatus.DataSource = statusList;
             cbStatus.DisplayMember = "Text";
@@ -96,46 +97,28 @@ namespace DentalClinic.APP
 
             string keyword = txtSearch.Text.Trim();
 
-            dgvInvoiceList.DataSource = _invoiceBLL.GetAllInvoices(
-                dtpStart.Value,
-                dtpEnd.Value,
-                keyword,
-                status);
+            dgvInvoiceList.DataSource = _invoiceBLL.GetAllInvoices(dtpStart.Value, dtpEnd.Value, keyword, status);
         }
 
-        private void dgvInvoiceList_CellContentClick(
-    object sender,
-    DataGridViewCellEventArgs e)
+        private void dgvInvoiceList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
                 return;
 
-            string columnName =
-                dgvInvoiceList.Columns[e.ColumnIndex].Name;
+            string columnName = dgvInvoiceList.Columns[e.ColumnIndex].Name;
 
             if (columnName != "colView")
                 return;
 
-            if (dgvInvoiceList.Rows[e.RowIndex].DataBoundItem
-                is not InvoiceDisplayDto invoice)
-            {
+            if (dgvInvoiceList.Rows[e.RowIndex].DataBoundItem is not InvoiceDisplayDto invoice)
                 return;
-            }
 
-            using var detailDialog =
-                new Dialog_InvoiceDetail(
-                    _invoiceBLL,
-                    invoice.InvoiceId,
-                    _currentReceptionistId,
-                    _currentReceptionistName);
+            using var detailDialog = new Dialog_InvoiceDetail(_invoiceBLL, invoice.InvoiceId, _currentReceptionistId, _currentReceptionistName);
 
             if (detailDialog.ShowDialog(this) == DialogResult.OK)
             {
                 LoadData();
-
-                InvoiceChanged?.Invoke(
-                    this,
-                    EventArgs.Empty);
+                InvoiceChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 

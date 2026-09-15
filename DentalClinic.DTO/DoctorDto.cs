@@ -37,8 +37,6 @@ namespace DentalClinic.DTO
 
 
         // Account information
-        public string? ProfileImage { get; set; }
-
         [DisplayName("Mã TK")]
         public int AccountId { get; set; }
 

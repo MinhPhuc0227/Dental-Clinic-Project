@@ -19,7 +19,6 @@ namespace DentalClinic.DAL
         {
             var query = _context.Services.AsQueryable();
 
-            // Tìm kiếm
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 keyword = keyword.Trim();
@@ -29,13 +28,11 @@ namespace DentalClinic.DAL
                     (s.Description != null && s.Description.Contains(keyword)));
             }
 
-            // Lọc loại dịch vụ
             if (isLongTerm.HasValue)
             {
                 query = query.Where(s => s.IsLongTerm == isLongTerm.Value);
             }
 
-            // Lọc trạng thái
             if (status.HasValue)
             {
                 query = query.Where(s => s.Status == status.Value);
@@ -50,7 +47,7 @@ namespace DentalClinic.DAL
                 return _context.Services.FirstOrDefault(s => s.ServiceId == id);
         }
 
-        // Kiểm tra tên dịch vụ đã tồn tại hay chưa (không kiểm tra dịch vụ đang chọn), dùng khi update dịch vụ
+        // Kiểm tra tên dịch vụ đã tồn tại hay chưa 
         public bool IsNameExists(string name, int excludeId = 0)
         {
             return _context.Services.Any(s => s.ServiceName.ToLower() == name.ToLower()

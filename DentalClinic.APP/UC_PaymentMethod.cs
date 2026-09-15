@@ -80,16 +80,14 @@ namespace DentalClinic.App
 
             if (deleteColumn != null)
             {
-                deleteColumn.DisplayIndex =
-                    dgvPaymentMethod.Columns.Count - 1;
+                deleteColumn.DisplayIndex = dgvPaymentMethod.Columns.Count - 1;
             }
 
             var editColumn = dgvPaymentMethod.Columns["EditCol"];
 
             if (editColumn != null && deleteColumn != null)
             {
-                editColumn.DisplayIndex =
-                    deleteColumn.DisplayIndex - 1;
+                editColumn.DisplayIndex = deleteColumn.DisplayIndex - 1;
             }
         }
 
@@ -156,8 +154,6 @@ namespace DentalClinic.App
             cbSort.SelectedIndex = 0;
         }
 
-        // ===========================================================
-
         // SỰ KIỆN NÚT THÊM
         private void btAdd_Click(object sender, EventArgs e)
         {
@@ -218,25 +214,19 @@ namespace DentalClinic.App
         // EVENT TÌM KIẾM
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            LoadDataToGridView();
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // EVENT CB TRẠNG THÁI
         private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // EVENT CB SẮP XẾP
         private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
     }
 }

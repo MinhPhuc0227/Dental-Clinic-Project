@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -14,20 +15,21 @@ namespace DentalClinic.APP
 {
     public partial class UC_Receptionist_Invoice : UserControl
     {
-        // Danh sách lưu tạm chi tiết hóa đơn đang hiển thị
         private int _selectedPaymentMethodId = 0;
         private List<InvoiceDetailDisplayDto> _currentInvoiceDetails = new List<InvoiceDetailDisplayDto>();
         private int _currentInvoiceId = 0;
         private int _currentVisitId = 0;
         private readonly int _currentReceptionistId;
         private readonly string _currentReceptionistName;
-        private readonly Invoice_BLL _invoiceBLL;
 
-        public UC_Receptionist_Invoice(int receptionistId, string receptionistName, Invoice_BLL invoiceBLL)
+        private readonly Invoice_BLL _invoiceBLL;
+        private readonly PaymentMethod_BLL _paymentMethodBLL; 
+
+        public UC_Receptionist_Invoice(int receptionistId, string receptionistName, Invoice_BLL invoiceBLL, PaymentMethod_BLL paymentMethodBLL)
         {
             InitializeComponent();
             _invoiceBLL = invoiceBLL;
-
+            _paymentMethodBLL = paymentMethodBLL; 
             _currentReceptionistId = receptionistId;
             _currentReceptionistName = receptionistName;
         }
@@ -48,10 +50,18 @@ namespace DentalClinic.APP
 
         private void LoadPaymentMethods()
         {
-            var methods = _invoiceBLL.GetPaymentMethods();
+            var result = _paymentMethodBLL.GetAll("", PaymentMethodStatus.Active);
+
+            if (!result.IsSuccess || result.Data == null)
+            {
+                cbPaymentMethod.DataSource = null;
+                cbPaymentMethod.SelectedIndex = -1;
+                return;
+            }
+
+            var methods = result.Data;
 
             cbPaymentMethod.DataSource = null;
-
             cbPaymentMethod.DisplayMember = "PaymentMethodName";
             cbPaymentMethod.ValueMember = "PaymentMethodId";
             cbPaymentMethod.DataSource = methods;
@@ -62,9 +72,12 @@ namespace DentalClinic.APP
 
                 if (cbPaymentMethod.SelectedItem is PaymentMethodDto selectedMethod)
                 {
-                    _selectedPaymentMethodId =
-                        selectedMethod.PaymentMethodId;
+                    _selectedPaymentMethodId = selectedMethod.PaymentMethodId;
                 }
+            }
+            else
+            {
+                cbPaymentMethod.SelectedIndex = -1;
             }
         }
 
@@ -74,12 +87,7 @@ namespace DentalClinic.APP
             DateTime startDate = dtpStart.Value.Date;
             DateTime endDate = dtpEnd.Value.Date;
             string keyword = txtSearch.Text.Trim();
-
-            var waitingList = _invoiceBLL.GetWaitingPayments(
-                startDate,
-                endDate,
-                keyword);
-
+            var waitingList = _invoiceBLL.GetWaitingPayments(startDate, endDate, keyword);
             dgvWaitingList.DataSource = waitingList;
         }
 
@@ -99,28 +107,10 @@ namespace DentalClinic.APP
             dgvWaitingList.AutoGenerateColumns = false;
             dgvWaitingList.Columns.Clear();
 
-            // Invoice ID
-            dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "InvoiceId",
-                HeaderText = "Mã HĐ",
-                Width = 70,
-                DefaultCellStyle = new DataGridViewCellStyle
-                {
-                    Alignment = DataGridViewContentAlignment.MiddleCenter
-                }
-            });
-
+            dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "InvoiceId", HeaderText = "Mã HĐ", Width = 70, DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } });
             dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "VisitId", Visible = false });
             dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientName", HeaderText = "Bệnh Nhân", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            //dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "CheckInDateTime", HeaderText = "Giờ", Width = 60, DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm" } });
-            dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "InvoiceDateTime",
-                HeaderText = "Giờ tạo HĐ",
-                Width = 60,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm" }
-            });
+            dgvWaitingList.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "InvoiceDateTime", HeaderText = "Giờ tạo HĐ", Width = 60, DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm" } });
 
             dgvWaitingList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvWaitingList.ReadOnly = true;
@@ -172,16 +162,12 @@ namespace DentalClinic.APP
                     lbPhone.Text = selectedInvoice.Phone;
                     lbDoctorName.Text = selectedInvoice.DoctorName;
 
-                    // Lấy chi tiết từ chính Invoice Unpaid
-                    _currentInvoiceDetails =
-                        _invoiceBLL.GetInvoiceDetailsByInvoice(
-                            _currentInvoiceId);
+                    // Lấy chi tiết từ Invoice Unpaid
+                    _currentInvoiceDetails = _invoiceBLL.GetInvoiceDetailsByInvoice(_currentInvoiceId);
 
-                    // Load lên dgvInvoiceDetail
                     dgvInvoiceDetail.DataSource = null;
                     dgvInvoiceDetail.DataSource = _currentInvoiceDetails;
 
-                    // Tính tổng tiền
                     CalculateTotalAmount();
                 }
             }
@@ -197,24 +183,14 @@ namespace DentalClinic.APP
             // 1. Kiểm tra hóa đơn
             if (_currentInvoiceId <= 0)
             {
-                MessageBox.Show(
-                    "Vui lòng chọn hóa đơn cần thanh toán!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Vui lòng chọn hóa đơn cần thanh toán!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             // 2. Kiểm tra phương thức thanh toán
             if (_selectedPaymentMethodId <= 0)
             {
-                MessageBox.Show(
-                    "Vui lòng chọn phương thức thanh toán!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Vui lòng chọn phương thức thanh toán!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -223,29 +199,23 @@ namespace DentalClinic.APP
 
             if (totalAmount <= 0)
             {
-                MessageBox.Show(
-                    "Tổng tiền hóa đơn không hợp lệ!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Tổng tiền hóa đơn không hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 4. Lấy phương thức thanh toán
-            var paymentMethods = _invoiceBLL.GetPaymentMethods();
+            // 4. Lấy phương thức thanh toán 
+            var paymentMethodsResult = _paymentMethodBLL.GetAll("", PaymentMethodStatus.Active);
+            if (!paymentMethodsResult.IsSuccess || paymentMethodsResult.Data == null)
+            {
+                MessageBox.Show("Không thể tải danh sách phương thức thanh toán!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            var paymentMethod = paymentMethods.FirstOrDefault(
-                x => x.PaymentMethodId == _selectedPaymentMethodId);
+            var paymentMethod = paymentMethodsResult.Data.FirstOrDefault(x => x.PaymentMethodId == _selectedPaymentMethodId);
 
             if (paymentMethod == null)
             {
-                MessageBox.Show(
-                    "Không tìm thấy phương thức thanh toán!",
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
+                MessageBox.Show("Không tìm thấy phương thức thanh toán!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -256,40 +226,23 @@ namespace DentalClinic.APP
             if (paymentMethod.IsCash)
             {
                 // TIỀN MẶT
-                if (!decimal.TryParse(
-                        txtAmountGiven.Text.Replace(",", "").Trim(),
-                        out amountGiven))
+                if (!decimal.TryParse(txtAmountGiven.Text.Replace(",", "").Trim(), out amountGiven))
                 {
-                    MessageBox.Show(
-                        "Số tiền khách đưa không hợp lệ!",
-                        "Thông báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
+                    MessageBox.Show("Số tiền khách đưa không hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtAmountGiven.Focus();
                     return;
                 }
 
                 if (amountGiven <= 0)
                 {
-                    MessageBox.Show(
-                        "Số tiền khách đưa phải lớn hơn 0!",
-                        "Thông báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
+                    MessageBox.Show("Số tiền khách đưa phải lớn hơn 0!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtAmountGiven.Focus();
                     return;
                 }
 
                 if (amountGiven < totalAmount)
                 {
-                    MessageBox.Show(
-                        "Số tiền khách đưa chưa đủ để thanh toán!",
-                        "Cảnh báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
+                    MessageBox.Show("Số tiền khách đưa chưa đủ để thanh toán!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtAmountGiven.Focus();
                     return;
                 }
@@ -310,40 +263,20 @@ namespace DentalClinic.APP
             txtChange.Text = changeAmount.ToString("N0");
 
             // 7. Thanh toán
-            var result = _invoiceBLL.Checkout(
-    _currentInvoiceId,
-    _selectedPaymentMethodId,
-    _currentReceptionistId,
-    amountGiven,
-    changeAmount);
+            var result = _invoiceBLL.Checkout(_currentInvoiceId, _selectedPaymentMethodId, _currentReceptionistId, amountGiven, changeAmount);
 
             if (!result.IsSuccess)
             {
-                MessageBox.Show(
-                    result.Message,
-                    "Thanh toán thất bại",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
+                MessageBox.Show(result.Message, "Thanh toán thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             // 8. Thanh toán thành công
-            var printConfirm = MessageBox.Show(
-                "Thanh toán hóa đơn thành công!\n\nBạn có muốn in hóa đơn không?",
-                "Thanh toán thành công",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Information);
+            var printConfirm = MessageBox.Show("Thanh toán hóa đơn thành công!\n\nBạn có muốn in hóa đơn không?", "Thanh toán thành công", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
-            // 9. Nếu chọn Yes → mở Dialog_InvoiceDetail
             if (printConfirm == DialogResult.Yes)
             {
-                using var detailDialog = new Dialog_InvoiceDetail(
-                    _invoiceBLL,
-                    _currentInvoiceId,
-                    _currentReceptionistId,
-                    _currentReceptionistName);
-
+                using var detailDialog = new Dialog_InvoiceDetail(_invoiceBLL, _currentInvoiceId, _currentReceptionistId, _currentReceptionistName);
                 detailDialog.ShowDialog(this);
             }
 
@@ -352,7 +285,6 @@ namespace DentalClinic.APP
 
             // 11. Reset giao diện
             ClearPatientInfo();
-
             _selectedPaymentMethodId = 0;
 
             txtAmountGiven.Text = "0";
@@ -369,26 +301,7 @@ namespace DentalClinic.APP
             dgvWaitingList.ClearSelection();
         }
 
-        private void btReset_Click(object sender, EventArgs e)
-        {
-            //if (_currentVisitId == 0)
-            //{
-            //    return;
-            //}
-
-            //var confirm = MessageBox.Show("Bạn muốn hủy thao tác thanh toán cho bệnh nhân này?",
-            //                              "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            //if (confirm == DialogResult.Yes)
-            //{
-            //    ClearPatientInfo();
-            //    dgvWaitingList.ClearSelection();
-            //}
-        }
-
-        private void cbPaymentMethod_SelectedIndexChanged(
-    object sender,
-    EventArgs e)
+        private void cbPaymentMethod_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbPaymentMethod.SelectedItem is not PaymentMethodDto selectedMethod)
             {
@@ -396,9 +309,7 @@ namespace DentalClinic.APP
                 return;
             }
 
-            _selectedPaymentMethodId =
-                selectedMethod.PaymentMethodId;
-
+            _selectedPaymentMethodId = selectedMethod.PaymentMethodId;
             decimal totalAmount = GetTotalAmountFromLabel();
 
             if (selectedMethod.IsCash)
@@ -413,19 +324,14 @@ namespace DentalClinic.APP
             {
                 // Chuyển khoản
                 txtAmountGiven.ReadOnly = true;
-
-                txtAmountGiven.Text =
-                    totalAmount.ToString("N0");
-
+                txtAmountGiven.Text = totalAmount.ToString("N0");
                 txtChange.Text = "0";
-
                 txtAmountGiven.ForeColor = Color.Green;
             }
         }
 
         private void txtAmountGiven_TextChanged(object sender, EventArgs e)
         {
-            // Nếu ô trống thì reset
             if (string.IsNullOrWhiteSpace(txtAmountGiven.Text))
             {
                 txtChange.Text = "0";
@@ -433,19 +339,16 @@ namespace DentalClinic.APP
                 return;
             }
 
-            // Xóa dấu phẩy để chuyển về số tính toán
             string rawText = txtAmountGiven.Text.Replace(",", "");
             decimal totalAmount = GetTotalAmountFromLabel();
 
             if (decimal.TryParse(rawText, out decimal amountGiven))
             {
-                // Tự động định dạng lại có dấu phẩy 
                 txtAmountGiven.TextChanged -= txtAmountGiven_TextChanged;
                 txtAmountGiven.Text = amountGiven.ToString("N0");
                 txtAmountGiven.SelectionStart = txtAmountGiven.Text.Length;
                 txtAmountGiven.TextChanged += txtAmountGiven_TextChanged;
 
-                // Logic tính tiền và đổi màu chữ
                 if (amountGiven >= totalAmount)
                 {
                     txtAmountGiven.ForeColor = Color.Green;
@@ -460,7 +363,6 @@ namespace DentalClinic.APP
             }
         }
 
-        // Hàm lấy tổng tiền từ label
         private decimal GetTotalAmountFromLabel()
         {
             string rawTotal = lbTotalAmount.Text.Replace(",", "");
@@ -471,7 +373,6 @@ namespace DentalClinic.APP
 
         private void txtAmountGiven_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Chỉ cho phép nhập số và phím Backspace (xóa)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
@@ -492,56 +393,31 @@ namespace DentalClinic.APP
         {
             if (_currentInvoiceId <= 0)
             {
-                MessageBox.Show(
-                    "Vui lòng chọn hóa đơn cần hủy.",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Vui lòng chọn hóa đơn cần hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            using var cancelDialog = new Dialog_CancelInvoice(
-                _currentReceptionistName,
-                GetTotalAmountFromLabel());
+            using var cancelDialog = new Dialog_CancelInvoice(_currentReceptionistName, GetTotalAmountFromLabel());
 
             if (cancelDialog.ShowDialog(this) != DialogResult.OK)
                 return;
 
-            string confirmMessage =
-                $"Bạn có chắc chắn muốn hủy hóa đơn #{_currentInvoiceId}?\n\n" +
-                "Hóa đơn sẽ được hủy và ca khám sẽ kết thúc.";
+            string confirmMessage = $"Bạn có chắc chắn muốn hủy hóa đơn #{_currentInvoiceId}?\n\nHóa đơn sẽ được hủy và ca khám sẽ kết thúc.";
 
-            var confirm = MessageBox.Show(
-                confirmMessage,
-                "Xác nhận hủy hóa đơn",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
+            var confirm = MessageBox.Show(confirmMessage, "Xác nhận hủy hóa đơn", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (confirm != DialogResult.Yes)
                 return;
 
-            var result = _invoiceBLL.CancelInvoice(
-                _currentInvoiceId,
-                _currentReceptionistId,
-                cancelDialog.CancellationReason);
+            var result = _invoiceBLL.CancelInvoice(_currentInvoiceId, _currentReceptionistId, cancelDialog.CancellationReason);
 
             if (!result.IsSuccess)
             {
-                MessageBox.Show(
-                    result.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
+                MessageBox.Show(result.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(
-                "Hủy hóa đơn thành công.",
-                "Thông báo",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            MessageBox.Show("Hủy hóa đơn thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             LoadWaitingList();
             ClearPatientInfo();

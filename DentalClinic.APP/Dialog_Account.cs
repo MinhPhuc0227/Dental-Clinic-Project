@@ -13,11 +13,9 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Account : Form
     {
-        // Khai báo biến lưu thông tin tài khoản đang đăng nhập
         private readonly int _currentAccountId;
         public AccountDto? AccountData { get; private set; }
 
-        // BLL
         private readonly Account_BLL _bll;
 
         public Dialog_Account(AccountDto data, int currentAccountId, Account_BLL bll)
@@ -35,7 +33,7 @@ namespace DentalClinic.APP
 
             lbAccountId.Text = data.AccountId.ToString();
             txtUserName.Text = data.UserName;
-            txtPassword.Text = string.Empty; // empty if dont need to change password
+            txtPassword.Text = string.Empty; 
             cbRole.SelectedValue = data.Role;
             cbStatus.SelectedValue = data.Status;
             lbCreatedDate.Text = data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
@@ -46,7 +44,7 @@ namespace DentalClinic.APP
         }
 
 
-        // Load role and status combobox
+        // Load role, status combobox
         private void LoadComboBoxes()
         {
             cbRole.DataSource = new[]
@@ -68,14 +66,14 @@ namespace DentalClinic.APP
             cbStatus.ValueMember = "Value";
         }
 
-        // Cancel button 
+        // Cancel
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        // Save button 
+        // Save 
         private void btSave_Click(object sender, EventArgs e)
         {
             if (AccountData == null) return;

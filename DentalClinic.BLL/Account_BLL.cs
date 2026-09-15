@@ -207,6 +207,11 @@ namespace DentalClinic.BLL
                 return Result<AccountDto>.Failure("Tài khoản này hiện đang bị khóa.");
             }
 
+            if (account.Status == AccountStatus.Inactive)
+            {
+                return Result<AccountDto>.Failure("Tài khoản này hiện đang ngừng hoạt động.");
+            }
+
             var accountDto = new AccountDto
             {
                 AccountId = account.AccountId,

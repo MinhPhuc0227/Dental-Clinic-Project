@@ -49,33 +49,24 @@ namespace DentalClinic.APP
             switch (cbSort.SelectedValue?.ToString())
             {
                 case "IdAsc":
-                    patients = patients
-                        .OrderBy(p => p.PatientId)
-                        .ToList();
+                    patients = patients.OrderBy(p => p.PatientId).ToList();
                     break;
 
                 case "IdDesc":
-                    patients = patients
-                        .OrderByDescending(p => p.PatientId)
-                        .ToList();
+                    patients = patients.OrderByDescending(p => p.PatientId).ToList();
                     break;
 
                 case "NameAsc":
-                    patients = patients
-                        .OrderBy(p => p.FullName)
-                        .ToList();
+                    patients = patients.OrderBy(p => p.FullName).ToList();
                     break;
 
                 case "NameDesc":
-                    patients = patients
-                        .OrderByDescending(p => p.FullName)
-                        .ToList();
+                    patients = patients.OrderByDescending(p => p.FullName).ToList();
                     break;
             }
 
             dgvPatient.DataSource = null;
             dgvPatient.DataSource = patients;
-
             AddActionImageColumns();
         }
 
@@ -134,7 +125,6 @@ namespace DentalClinic.APP
             cbSort.SelectedIndex = 0;
         }
 
-        // =========================================================
         // SỰ KIỆN NÚT THÊM
         private void btAdd_Click(object sender, EventArgs e)
         {
@@ -169,6 +159,7 @@ namespace DentalClinic.APP
                 if (confirm == DialogResult.Yes)
                 {
                     var result = _patientBLL.Delete(selectedDto.PatientId);
+
                     if (result.IsSuccess)
                     {
                         MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -185,7 +176,7 @@ namespace DentalClinic.APP
         // SỰ KIỆN TÌM KIẾM
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            LoadDataToGridView();
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN CB SẮP XẾP

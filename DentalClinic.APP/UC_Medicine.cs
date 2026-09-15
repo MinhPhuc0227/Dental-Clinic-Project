@@ -13,13 +13,10 @@ namespace DentalClinic.APP
 {
     public partial class UC_Medicine : UserControl
     {
-        // Khai báo biến
         private readonly int _accountId;
 
-        // Dependency Injection
         private readonly IServiceProvider _serviceProvider;
 
-        // BLL 
         private readonly Medicine_BLL _bll;
 
         public UC_Medicine(int accountId, Medicine_BLL bll, IServiceProvider serviceProvider)
@@ -119,7 +116,6 @@ namespace DentalClinic.APP
 
             dgvMedicine.DataSource = null;
             dgvMedicine.DataSource = medicines;
-
             AddActionImageColumns();
         }
 
@@ -154,7 +150,6 @@ namespace DentalClinic.APP
                 dgvMedicine.Columns.Add(imgDelete);
             }
 
-            // Đưa cột Xóa xuống cuối và cột Sửa ngay trước cột Xóa
             var deleteColumn = dgvMedicine.Columns["DeleteCol"];
             var editColumn = dgvMedicine.Columns["EditCol"];
 
@@ -166,7 +161,6 @@ namespace DentalClinic.APP
 
         }
 
-        // ==========================================================================
         // SỰ KIỆN TÌM KIẾM
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
@@ -176,19 +170,13 @@ namespace DentalClinic.APP
         // SỰ KIỆN CB TRẠNG THÁI
         private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN CB SẮP XẾP
         private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN NHẤN NÚT THÊM MỚI THUỐC

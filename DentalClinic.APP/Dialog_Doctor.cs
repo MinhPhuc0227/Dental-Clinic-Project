@@ -36,32 +36,25 @@ namespace DentalClinic.APP
 
         public Dialog_Doctor(Doctor_BLL bll, DoctorDto data, bool viewOnly = false) : this(bll)
         {
-            this.Text = viewOnly
-                ? "Thông tin bác sĩ"
-                : "Chỉnh sửa thông tin bác sĩ";
-
+            this.Text = viewOnly ? "Thông tin bác sĩ" : "Chỉnh sửa thông tin bác sĩ";
             _viewOnly = viewOnly;
-
-            //pnAccount.Enabled = false;
             txtPassword.UseSystemPasswordChar = true;
             _isEdit = true;
+
             DoctorData = data;
 
             lbDoctorId.Text = data.DoctorId.ToString();
             txtFullName.Text = data.FullName;
             cbGender.SelectedValue = data.Gender;
-            dtpDateOfBirth.Value =
-                data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
+            dtpDateOfBirth.Value = data.DateOfBirth.ToDateTime(TimeOnly.MinValue);
             txtPhone.Text = data.Phone;
             txtEmail.Text = data.Email;
             txtDescription.Text = data.Description;
-
             lbAccountId.Text = data.AccountId.ToString();
             txtUserName.Text = data.UserName;
             txtPassword.Text = string.Empty;
             cbStatus.SelectedValue = data.Status;
-            lbCreatedDate.Text =
-                data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
+            lbCreatedDate.Text = data.CreatedAt.ToString("dd/MM/yyyy HH:mm");
 
             if (viewOnly)
             {
@@ -75,13 +68,10 @@ namespace DentalClinic.APP
             txtPhone.ReadOnly = true;
             txtEmail.ReadOnly = true;
             txtDescription.ReadOnly = true;
-
             cbGender.Enabled = false;
             dtpDateOfBirth.Enabled = false;
             cbStatus.Enabled = false;
-
             txtUserName.ReadOnly = true;
-
             btSave.Visible = false;
         }
 
@@ -112,14 +102,14 @@ namespace DentalClinic.APP
             cbStatus.ValueMember = "Value";
         }
 
-        // Cancel button
+        // Cancel 
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        // Save button
+        // Save 
         private void btSave_Click(object sender, EventArgs e)
         {
             var selectedGender = cbGender.SelectedValue != null
@@ -143,12 +133,12 @@ namespace DentalClinic.APP
                     Email = txtEmail.Text.Trim(),
                     Description = txtDescription.Text.Trim(),
                     UserName = txtUserName.Text.Trim(),
-                    //Password = txtPassword.Text.Trim(),
                     Password = string.IsNullOrWhiteSpace(txtPassword.Text) ? null : txtPassword.Text.Trim(),
                     Status = selectedStatus
                 };
 
                 var result = _bll.Add(createDto);
+
                 if (!result.IsSuccess)
                 {
                     MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -177,6 +167,7 @@ namespace DentalClinic.APP
                 };
 
                 var result = _bll.Update(updateDto);
+
                 if (!result.IsSuccess)
                 {
                     MessageBox.Show(result.Message, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);

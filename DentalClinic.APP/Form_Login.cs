@@ -18,25 +18,21 @@ namespace DentalClinic.APP
         private readonly Account_BLL _accountBll;
         private readonly IServiceProvider _serviceProvider;
 
-        public Form_Login(
-    Account_BLL accountBll,
-    IServiceProvider serviceProvider)
+        public Form_Login(Account_BLL accountBll, IServiceProvider serviceProvider)
         {
             InitializeComponent();
-
             _accountBll = accountBll;
             _serviceProvider = serviceProvider;
-
             txtPassword.UseSystemPasswordChar = true;
         }
 
-        // chkShowPassword
+        // Ẩn/Hiện password
         private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
         {
             txtPassword.UseSystemPasswordChar = !chkShowPassword.Checked;
         }
 
-        // Login button
+        // Sự kiện nút đăng nhập
         private void btLogin_Click(object sender, EventArgs e)
         {
             var loginDto = new LoginRequestDto
@@ -54,37 +50,26 @@ namespace DentalClinic.APP
             }
 
             this.Hide();
-            OpenMainFormByRole(result.Data); // Truyền result.Data vào đây
+            OpenMainFormByRole(result.Data); 
         }
 
-        // Open form by role
+        // Mở form theo vai trò
         private void OpenMainFormByRole(AccountDto userSession)
         {
             Form? mainForm = null;
 
-            // Lúc này userSession.Role là AccountRole enum nên switch case sẽ không bị lỗi nữa
             switch (userSession.Role)
             {
                 case AccountRole.Admin:
-                    mainForm = ActivatorUtilities.CreateInstance<Form_Admin>(
-    _serviceProvider,
-    userSession.AccountId);
+                    mainForm = ActivatorUtilities.CreateInstance<Form_Admin>(_serviceProvider, userSession.AccountId);
                     break;
 
                 case AccountRole.Doctor:
-                    // Dùng AccountId và UserName có sẵn trong AccountDto truyền sang
-                    mainForm = ActivatorUtilities.CreateInstance<Form_Doctor>(
-    _serviceProvider,
-    userSession.AccountId,
-    userSession.UserName);
+                    mainForm = ActivatorUtilities.CreateInstance<Form_Doctor>(_serviceProvider, userSession.AccountId, userSession.UserName);
                     break;
 
                 case AccountRole.Receptionist:
-                    // Dùng AccountId và UserName có sẵn trong AccountDto truyền sang
-                    mainForm = ActivatorUtilities.CreateInstance<Form_Receptionist>(
-    _serviceProvider,
-    userSession.AccountId,
-    userSession.UserName);
+                    mainForm = ActivatorUtilities.CreateInstance<Form_Receptionist>(_serviceProvider, userSession.AccountId, userSession.UserName);
                     break;
 
                 default:
@@ -103,11 +88,6 @@ namespace DentalClinic.APP
 
                 mainForm.Show();
             }
-        }
-
-        private void txtUserName_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

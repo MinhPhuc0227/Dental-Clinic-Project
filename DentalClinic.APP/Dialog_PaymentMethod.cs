@@ -8,11 +8,9 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_PaymentMethod : Form
     {
-        // Khai báo biến
         public PaymentMethodDto? PaymentData { get; private set; }
         private readonly bool _isEdit = false;
 
-        // BLL
         private readonly PaymentMethod_BLL _bll;
 
         public Dialog_PaymentMethod(PaymentMethod_BLL bll)
@@ -21,7 +19,6 @@ namespace DentalClinic.APP
             _bll = bll;
             this.Text = "Thêm phương thức thanh toán";
             _isEdit = false;
-
             lbPaymentMethodId.Text = "Tự động";
             LoadComboBoxes();
         }
@@ -31,7 +28,6 @@ namespace DentalClinic.APP
             this.Text = "Chỉnh sửa phương thức thanh toán";
             _isEdit = true;
             PaymentData = data;
-
             lbPaymentMethodId.Text = data.PaymentMethodId.ToString();
             txtPaymentMethodName.Text = data.PaymentMethodName;
             txtDescription.Text = data.Description;
@@ -51,14 +47,14 @@ namespace DentalClinic.APP
             cbStatus.ValueMember = "Value";
         }
 
-        // Cancel button
+        // Cancel
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        // Save button
+        // Save
         private void btSave_Click(object sender, EventArgs e)
         {
             var selectedStatus = cbStatus.SelectedValue != null ? (PaymentMethodStatus)cbStatus.SelectedValue : PaymentMethodStatus.Active;

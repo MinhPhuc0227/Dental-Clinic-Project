@@ -478,7 +478,6 @@
             pnRight.Padding = new Padding(10);
             pnRight.Size = new Size(979, 829);
             pnRight.TabIndex = 1;
-            pnRight.Paint += pnRight_Paint;
             // 
             // pnServiceMedicine
             // 
@@ -630,10 +629,10 @@
             tpMedicine.BackColor = Color.White;
             tpMedicine.Controls.Add(dgvMedicine);
             tpMedicine.Controls.Add(panel8);
-            tpMedicine.Location = new Point(4, 29);
+            tpMedicine.Location = new Point(4, 37);
             tpMedicine.Name = "tpMedicine";
             tpMedicine.Padding = new Padding(3);
-            tpMedicine.Size = new Size(951, 386);
+            tpMedicine.Size = new Size(951, 378);
             tpMedicine.TabIndex = 1;
             tpMedicine.Text = "Thuốc";
             // 
@@ -674,7 +673,7 @@
             dgvMedicine.RowHeadersWidth = 51;
             dgvMedicine.RowTemplate.Height = 38;
             dgvMedicine.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvMedicine.Size = new Size(945, 157);
+            dgvMedicine.Size = new Size(945, 149);
             dgvMedicine.TabIndex = 8;
             dgvMedicine.CellClick += dgvMedicine_CellClick;
             dgvMedicine.CellEndEdit += dgvMedicine_CellEndEdit;

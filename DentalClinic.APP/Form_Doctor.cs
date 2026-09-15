@@ -16,22 +16,18 @@ namespace DentalClinic.APP
 {
     public partial class Form_Doctor : Form
     {
-        // Khai báo các User Control
         private UC_Doctor_Examination ExaminationUC;
         private UC_Doctor_Appointment DoctorAppointmentUC;
         private UC_Doctor_MedicalRecord MedicalRecordUC;
 
-        // Khai báo biến lưu thông tin bác sĩ đang đăng nhập
         private readonly int _currentDoctorId;
         private readonly string _currentDoctorName;
 
-        // BLL
         private readonly Doctor_BLL _doctorBll;
         private readonly MedicalRecord_BLL _medicalRecordBLL;
         private readonly Visit_BLL _visitBLL;
         private readonly Appointment_BLL _appointmentBLL;
 
-        // Dependency Injection
         private readonly IServiceProvider _serviceProvider;
 
         public Form_Doctor(
@@ -66,12 +62,14 @@ namespace DentalClinic.APP
             }
 
             this.Text = $"Bác sĩ: {_currentDoctorName}";
-
             ExaminationUC = ActivatorUtilities.CreateInstance<UC_Doctor_Examination>(_serviceProvider, _currentDoctorId);
-
             DoctorAppointmentUC = new UC_Doctor_Appointment(_appointmentBLL, _currentDoctorId);
-
             MedicalRecordUC = new UC_Doctor_MedicalRecord(_medicalRecordBLL, _currentDoctorId);
+        }
+
+        private void Form_Doctor_Load(object sender, EventArgs e)
+        {
+            rbExamination.Checked = true;
         }
 
         // HÀM MỞ UC
@@ -94,7 +92,6 @@ namespace DentalClinic.APP
             if (rbExamination.Checked)
             {
                 ShowUC(ExaminationUC);
-
                 ExaminationUC.LoadWaitingQueue();
                 ExaminationUC.LoadInExamination();
             }
@@ -123,11 +120,6 @@ namespace DentalClinic.APP
         private void btLogout_Click_1(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void Form_Doctor_Load(object sender, EventArgs e)
-        {
-            rbExamination.Checked = true;
         }
     }
 }

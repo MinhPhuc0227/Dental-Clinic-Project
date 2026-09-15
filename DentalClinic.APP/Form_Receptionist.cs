@@ -14,23 +14,19 @@ namespace DentalClinic.APP
 {
     public partial class Form_Receptionist : Form
     {
-        // 1. Khai báo biến lưu thông tin Lễ tân đang đăng nhập
         private readonly int _currentReceptionistId;
         private readonly string _currentReceptionistName;
 
-        // 2. Khai báo các User Control
         private UC_Receptionist_Visit VisitUC;
         private UC_Receptionist_Appointment AppointmentUC;
         private UC_Receptionist_WaitingQueue WaitingQueueUC;
         private UC_Receptionist_Invoice InvoiceUC;
         private UC_Receptionist_InvoiceList InvoiceListUC;
 
-        // 3. Khai báo BLL
         private readonly Receptionist_BLL _receptionistBLL;
         private readonly Visit_BLL _visitBLL;
         private readonly Appointment_BLL _appointmentBLL;
 
-        // dependency injection
         private readonly IServiceProvider _serviceProvider;
 
         public Form_Receptionist(
@@ -48,8 +44,7 @@ namespace DentalClinic.APP
             _appointmentBLL = appointmentBLL;
             _serviceProvider = serviceProvider;
 
-            var receptionist =
-                _receptionistBLL.GetReceptionistByAccountId(accountId);
+            var receptionist = _receptionistBLL.GetReceptionistByAccountId(accountId);
 
             if (receptionist != null)
             {
@@ -94,7 +89,6 @@ namespace DentalClinic.APP
             ShowUC(VisitUC);
         }
 
-        // SỰ KIỆN 
         private void InvoiceListUC_InvoiceChanged(object? sender, EventArgs e)
         {
             InvoiceUC?.LoadWaitingList();

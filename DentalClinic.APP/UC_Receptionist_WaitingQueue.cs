@@ -35,8 +35,6 @@ namespace DentalClinic.APP
 
         private void InitFilterControls()
         {
-
-            // 1. Nạp danh sách bác sĩ
             var doctorRes = _visitBLL.GetDoctorsLookup();
             if (doctorRes.IsSuccess && doctorRes.Data != null)
             {
@@ -47,7 +45,6 @@ namespace DentalClinic.APP
                 cbDoctor.ValueMember = "Id";
             }
 
-            // 2. Nạp danh sách Trạng thái (Mặc định chọn "Đang chờ khám")
             var statusList = new List<object>
             {
                 new { Value = (VisitStatus?)null, Text = "Tất cả Trạng thái" },
@@ -58,8 +55,6 @@ namespace DentalClinic.APP
             cbStatus.DataSource = statusList;
             cbStatus.DisplayMember = "Text";
             cbStatus.ValueMember = "Value";
-
-            // Ép ComboBox chọn dòng "Đang chờ khám" làm mặc định
             cbStatus.SelectedIndex = 1;
         }
 
@@ -67,7 +62,6 @@ namespace DentalClinic.APP
         {
             dgvWaitingQueue.AutoGenerateColumns = false;
             dgvWaitingQueue.Columns.Clear();
-
             dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "QueueNumber", HeaderText = "STT", Width = 50 });
             dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientName", HeaderText = "Bệnh Nhân", Width = 150 });
             dgvWaitingQueue.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientPhone", HeaderText = "SĐT", Width = 100 });
@@ -96,7 +90,7 @@ namespace DentalClinic.APP
             string keyword = txtSearch.Text.Trim();
             int? doctorId = cbDoctor.SelectedValue is int dId && dId > 0 ? dId : null;
             VisitStatus? status = cbStatus.SelectedValue as VisitStatus?;
-
+            
             var result = _visitBLL.GetWaitingQueue(startDate, endDate, keyword, doctorId, status);
 
             if (result.IsSuccess)

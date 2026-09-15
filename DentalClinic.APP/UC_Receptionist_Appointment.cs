@@ -19,19 +19,17 @@ namespace DentalClinic.APP
         private readonly int _currentReceptionistId;
         private readonly string _currentReceptionistName;
 
-        // Dependency Injection
         private readonly IServiceProvider _serviceProvider;
 
-        // BLL
         private readonly Appointment_BLL _appointmentBLL;
         private readonly Visit_BLL _visitBLL;
 
         public UC_Receptionist_Appointment(
-    Appointment_BLL appointmentBLL,
-    Visit_BLL visitBLL,
-    IServiceProvider serviceProvider,
-    int receptionistId,
-    string receptionistName)
+            Appointment_BLL appointmentBLL,
+            Visit_BLL visitBLL,
+            IServiceProvider serviceProvider,
+            int receptionistId,
+            string receptionistName)
         {
             InitializeComponent();
 
@@ -56,7 +54,6 @@ namespace DentalClinic.APP
             dtpStart.Value = new DateTime(today.Year, today.Month, 1);
             dtpEnd.Value = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
 
-            // Nạp danh sách bác sĩ vào ComboBox
             var doctorRes = _appointmentBLL.GetDoctorsLookup();
             if (doctorRes.IsSuccess && doctorRes.Data != null)
             {
@@ -67,7 +64,6 @@ namespace DentalClinic.APP
                 cbDoctor.ValueMember = "Id";
             }
 
-            // Nạp danh sách Trạng thái
             var statusList = new List<object>
             {
                 new { Value = (AppointmentStatus?)null, Text = "Tất cả Trạng thái" },
@@ -89,7 +85,6 @@ namespace DentalClinic.APP
             dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientName", HeaderText = "Bệnh Nhân", Width = 140 });
             dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientPhone", HeaderText = "SĐT", Width = 100 });
             dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "DoctorName", HeaderText = "Bác Sĩ", Width = 140 });
-            //dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AppointmentDateTime", HeaderText = "Thời Gian Khám", Width = 130 });
             dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "AppointmentDateTime",
@@ -149,10 +144,7 @@ namespace DentalClinic.APP
 
         private void btAdd_Click(object? sender, EventArgs e)
         {
-            using (var dialog = ActivatorUtilities.CreateInstance<Dialog_Appointment>(
-    _serviceProvider,
-    _currentReceptionistId,
-    _currentReceptionistName))
+            using (var dialog = ActivatorUtilities.CreateInstance<Dialog_Appointment>(_serviceProvider, _currentReceptionistId, _currentReceptionistName))
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -168,7 +160,6 @@ namespace DentalClinic.APP
                 var columnName = dgvAppointment.Columns[e.ColumnIndex].Name;
                 if (dgvAppointment.Rows[e.RowIndex].DataBoundItem is AppointmentListDto dto)
                 {
-                    // Xử lý khi nhấn Tiếp nhận
                     if (columnName == "colCheckIn")
                     {
                         if (dto.Status == AppointmentStatus.Cancelled || dto.Status == AppointmentStatus.CheckedIn)
@@ -179,7 +170,7 @@ namespace DentalClinic.APP
 
                         bool keepPriority = true;
 
-                        // --- 1. KIỂM TRA GIỜ GIẤC ---
+                        // Kiểm tra giờ 
                         var timeWarnings = _appointmentBLL.GetCheckInWarnings(dto.AppointmentDateTime);
                         if (timeWarnings.Count > 0)
                         {
@@ -191,7 +182,7 @@ namespace DentalClinic.APP
                             keepPriority = false;
                         }
 
-                        // --- 2. KIỂM TRA QUÁ TẢI ---
+                        // Kiểm tra quá tải
                         if (_visitBLL.IsDoctorOverloaded(dto.DoctorId))
                         {
                             var confirmOverload = MessageBox.Show(
@@ -200,7 +191,7 @@ namespace DentalClinic.APP
 
                             if (confirmOverload != DialogResult.Yes) return;
                         }
-                        else if (timeWarnings.Count == 0) // Chỉ hiện câu xác nhận thường nếu không có cảnh báo
+                        else if (timeWarnings.Count == 0) 
                         {
                             if (MessageBox.Show($"Xác nhận tiếp nhận bệnh nhân {dto.PatientName}?", "Tiếp nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                             {
@@ -208,7 +199,7 @@ namespace DentalClinic.APP
                             }
                         }
 
-                        // --- 3. TIẾP NHẬN ---
+                        // Tiếp nhận 
                         Result res = _appointmentBLL.CreateVisitFromAppointment(dto.AppointmentId, _currentReceptionistId, keepPriority);
                         if (res.IsSuccess)
                         {
@@ -220,14 +211,14 @@ namespace DentalClinic.APP
                             MessageBox.Show(res.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                    // Xử lý khi nhấn Sửa
+                    // Cột sửa
                     else if (columnName == "colEdit")
                     {
                         using (var dialog = ActivatorUtilities.CreateInstance<Dialog_Appointment>(
-    _serviceProvider,
-    _currentReceptionistId,
-    _currentReceptionistName,
-    dto.AppointmentId))
+                            _serviceProvider,
+                            _currentReceptionistId,
+                            _currentReceptionistName,
+                            dto.AppointmentId))
                         {
                             if (dialog.ShowDialog() == DialogResult.OK)
                             {

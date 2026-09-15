@@ -12,19 +12,14 @@ namespace DentalClinic.APP
         public Dialog_Admin(Account_BLL bll)
         {
             InitializeComponent();
-
             _bll = bll;
-
             txtPassword.UseSystemPasswordChar = true;
-
             this.Text = "Tạo tài khoản Admin";
-
             LoadComboBoxes();
         }
 
         private void LoadComboBoxes()
         {
-            // Vai trò: chỉ có Admin
             cbRole.DataSource = new[]
             {
                 new
@@ -36,11 +31,9 @@ namespace DentalClinic.APP
 
             cbRole.DisplayMember = "Display";
             cbRole.ValueMember = "Value";
-
             cbRole.SelectedIndex = 0;
             cbRole.Enabled = false;
 
-            // Trạng thái
             cbStatus.DataSource = new[]
             {
                 new
@@ -62,8 +55,6 @@ namespace DentalClinic.APP
 
             cbStatus.DisplayMember = "Display";
             cbStatus.ValueMember = "Value";
-
-            // Mặc định tài khoản mới là Hoạt động
             cbStatus.SelectedValue = AccountStatus.Active;
         }
 
@@ -107,9 +98,7 @@ namespace DentalClinic.APP
                 return;
             }
 
-            var result = _bll.CreateAdmin(
-                userName,
-                password);
+            var result = _bll.CreateAdmin(userName, password);
 
             if (!result.IsSuccess)
             {
@@ -132,12 +121,9 @@ namespace DentalClinic.APP
             Close();
         }
 
-        private void chkShowPassword_CheckedChanged(
-            object sender,
-            EventArgs e)
+        private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
         {
-            txtPassword.UseSystemPasswordChar =
-                !chkShowPassword.Checked;
+            txtPassword.UseSystemPasswordChar = !chkShowPassword.Checked;
         }
     }
 }

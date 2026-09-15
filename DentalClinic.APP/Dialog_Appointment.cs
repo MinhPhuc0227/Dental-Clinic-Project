@@ -22,22 +22,19 @@ namespace DentalClinic.APP
         private readonly int? _appointmentId;
         private AppointmentStatus _currentStatus = AppointmentStatus.Scheduled;
 
-        // Dependency Injection
         private readonly IServiceProvider _serviceProvider;
 
-        // BLL
         private readonly Visit_BLL _visitBLL;
 
         public Dialog_Appointment(
-    Appointment_BLL appointmentBLL,
-    Visit_BLL visitBLL,
-    int receptionistId,
-    string receptionistName,
-    IServiceProvider serviceProvider,
-    int? appointmentId = null)
+            Appointment_BLL appointmentBLL,
+            Visit_BLL visitBLL,
+            int receptionistId,
+            string receptionistName,
+            IServiceProvider serviceProvider,
+            int? appointmentId = null)
         {
             InitializeComponent();
-
             _appointmentBLL = appointmentBLL;
             _visitBLL = visitBLL;
             _receptionistId = receptionistId;
@@ -59,11 +56,9 @@ namespace DentalClinic.APP
                 lbAppointmentId.Text = _appointmentId.Value.ToString();
                 LoadAppointmentDetail(_appointmentId.Value);
 
-                // Ẩn/Hiện nút Tiếp nhận dựa trên trạng thái hiện tại
                 if (_currentStatus == AppointmentStatus.CheckedIn || _currentStatus == AppointmentStatus.Cancelled)
                 {
                     btCheckIn.Visible = false; 
-                    //btSave.Enabled = false;    
                 }
                 else
                 {
@@ -79,7 +74,6 @@ namespace DentalClinic.APP
                 dtpAppointmentTime.Value = DateTime.Now;
                 lbCreatedDate.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 _currentStatus = AppointmentStatus.Scheduled;
-                //lbStatus.Text = "...";
             }
         }
 
@@ -131,7 +125,6 @@ namespace DentalClinic.APP
             else
             {
                 MessageBox.Show(res.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //this.Close();
             }
         }
 
@@ -145,14 +138,13 @@ namespace DentalClinic.APP
 
         private void btCreatePatient_Click(object? sender, EventArgs e)
         {
-            using (var dialogPatient =
-    ActivatorUtilities.CreateInstance<Dialog_Patient>(_serviceProvider))
+            using (var dialogPatient = ActivatorUtilities.CreateInstance<Dialog_Patient>(_serviceProvider))
             {
                 if (dialogPatient.ShowDialog() == DialogResult.OK)
                 {
                     int newlyAddedPatientId = dialogPatient.CreatedPatientId;
-                    LoadPatients(); // Nạp lại danh sách bệnh nhân
-                    cbPatient.SelectedValue = newlyAddedPatientId; // Tự động chọn bệnh nhân vừa tạo
+                    LoadPatients(); 
+                    cbPatient.SelectedValue = newlyAddedPatientId; 
                 }
             }
         }
@@ -163,10 +155,8 @@ namespace DentalClinic.APP
             int selectedDoctorId = cbDoctor.SelectedValue is int dId ? dId : 0;
             DateTime fullDateTime = dtpAppointmentDate.Value.Date.Add(dtpAppointmentTime.Value.TimeOfDay);
 
-            // LOGIC CẢNH BÁO YES/NO 
             int? excludeId = (_appointmentId.HasValue && _appointmentId.Value > 0) ? _appointmentId.Value : (int?)null;
 
-            // Lấy danh sách các cảnh báo từ BLL
             var warnings = _appointmentBLL.GetBookingWarnings(selectedDoctorId, fullDateTime, excludeId);
 
             if (warnings.Count > 0)
@@ -180,7 +170,6 @@ namespace DentalClinic.APP
 
                 var confirm = MessageBox.Show(msg, "Cảnh báo đặt lịch linh động", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                // Nếu Lễ tân bấm No -> Hủy lưu, quay lại form
                 if (confirm == DialogResult.No)
                 {
                     return;
@@ -224,12 +213,10 @@ namespace DentalClinic.APP
                 result = _appointmentBLL.Update(updateDto);
             }
 
-            // Xử lý kết quả trả về
             if (result.IsSuccess)
             {
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
-                //this.Close();
             }
             else
             {
@@ -239,14 +226,14 @@ namespace DentalClinic.APP
 
         private void btCancel_Click(object sender, EventArgs e)
         {
-            // 1. Kiểm tra nếu đang ở chế độ Tạo mới (chưa có ID lịch hẹn trong DB)
+            // Kiểm tra nếu đang ở chế độ Tạo mới 
             if (!_appointmentId.HasValue || _appointmentId.Value <= 0)
             {
                 MessageBox.Show("Lịch hẹn chưa được tạo nên không thể thực hiện hủy!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Kiểm tra các trạng thái không hợp lệ để hủy
+            // Kiểm tra các trạng thái không hợp lệ để hủy
             if (_currentStatus == AppointmentStatus.Cancelled)
             {
                 MessageBox.Show("Lịch hẹn này đã được hủy từ trước!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -259,7 +246,6 @@ namespace DentalClinic.APP
                 return;
             }
 
-            // 3. Hỏi xác nhận người dùng
             var confirm = MessageBox.Show(
                 "Bạn có chắc chắn muốn HỦY lịch hẹn này không?",
                 "Xác nhận hủy lịch",
@@ -269,7 +255,6 @@ namespace DentalClinic.APP
 
             if (confirm != DialogResult.Yes) return;
 
-            // 4. Lấy dữ liệu trên Form và chuyển trạng thái sang Cancelled
             int selectedPatientId = cbPatient.SelectedValue is int pId ? pId : 0;
             int selectedDoctorId = cbDoctor.SelectedValue is int dId ? dId : 0;
 
@@ -283,17 +268,15 @@ namespace DentalClinic.APP
                 ReasonForVisit = txtReasonForVisit.Text.Trim(),
                 Note = txtNote.Text.Trim(),
                 ReceptionistId = _receptionistId,
-                Status = AppointmentStatus.Cancelled // Đổi trạng thái thành Đã hủy
+                Status = AppointmentStatus.Cancelled 
             };
 
-            // 5. Gọi BLL cập nhật xuống Database
             Result result = _appointmentBLL.Update(updateDto);
 
             if (result.IsSuccess)
             {
                 MessageBox.Show("Hủy lịch hẹn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK; // Đặt DialogResult để Form cha (UC) tự động reload lại danh sách
-                //this.Close();
+                this.DialogResult = DialogResult.OK; 
             }
             else
             {
@@ -312,7 +295,7 @@ namespace DentalClinic.APP
             DateTime appTime = dtpAppointmentDate.Value.Date.Add(dtpAppointmentTime.Value.TimeOfDay);
             bool keepPriority = true;
 
-            // --- 1. KIỂM TRA GIỜ GIẤC ĐẾN SỚM/TRỄ ---
+            // Kiểm tra giờ
             var timeWarnings = _appointmentBLL.GetCheckInWarnings(appTime);
             if (timeWarnings.Count > 0)
             {
@@ -321,10 +304,10 @@ namespace DentalClinic.APP
 
                 if (confirmTime == DialogResult.No) return;
 
-                keepPriority = false; // Tước quyền ưu tiên nếu chọn Yes
+                keepPriority = false; 
             }
 
-            // --- 2. KIỂM TRA BÁC SĨ QUÁ TẢI ---
+            // Kiểm tra quá tải
             int selectedDoctorId = cbDoctor.SelectedValue is int dId ? dId : 0;
 
             if (selectedDoctorId > 0 && _visitBLL.IsDoctorOverloaded(selectedDoctorId))
@@ -335,13 +318,12 @@ namespace DentalClinic.APP
 
                 if (confirmOverload != DialogResult.Yes) return;
             }
-            else if (timeWarnings.Count == 0) // Chỉ hỏi câu cơ bản nếu không bị dính cảnh báo nào ở trên
+            else if (timeWarnings.Count == 0) 
             {
                 var confirm = MessageBox.Show("Xác nhận tiếp nhận bệnh nhân này và đưa vào hàng chờ khám?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirm != DialogResult.Yes) return;
             }
 
-            // --- 3. GỌI LỆNH TIẾP NHẬN ---
             Result result = _appointmentBLL.CreateVisitFromAppointment(_appointmentId.Value, _receptionistId, keepPriority);
 
             if (result.IsSuccess)

@@ -179,7 +179,6 @@
             label3.Size = new Size(104, 28);
             label3.TabIndex = 35;
             label3.Text = "Đến ngày:";
-            label3.Click += label3_Click;
             // 
             // label1
             // 

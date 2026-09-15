@@ -18,15 +18,11 @@ namespace DentalClinic.APP
             _dashboardBLL = dashboardBLL;
         }
 
-        // LOAD
         private void UC_DashBoard_Load(object sender, EventArgs e)
         {
+            // Đặt Datetime picker mặc định
             DateTime today = DateTime.Today;
-
-            // dtpFrom là ngày 1 của tháng hiện tại
             dtpFrom.Value = new DateTime(today.Year, today.Month, 1);
-
-            // Tìm số ngày của tháng hiện tại
             int daysInMonth = DateTime.DaysInMonth(today.Year, today.Month);
             dtpTo.Value = new DateTime(today.Year, today.Month, daysInMonth);
 
@@ -37,7 +33,7 @@ namespace DentalClinic.APP
             LoadDashboard();
         }
 
-        // LOAD ALL
+        // LOAD CÁC DASHBOARD
         public void LoadDashboard()
         {
             if (dtpFrom.Value.Date > dtpTo.Value.Date)
@@ -63,7 +59,7 @@ namespace DentalClinic.APP
             LoadPatientStatistics(from, to);
         }
 
-        // SUMMARY
+        // TỔNG QUAN
         private void LoadSummary(DateTime from, DateTime to)
         {
             var result = _dashboardBLL.GetSummary(from, to);
@@ -92,6 +88,7 @@ namespace DentalClinic.APP
             SetupChart(chartDoctorVisits);
         }
 
+        // SetupChart
         private void SetupChart(Chart chart)
         {
             chart.Series.Clear();
@@ -109,7 +106,7 @@ namespace DentalClinic.APP
             chart.ChartAreas.Add(area);
         }
 
-        // VISIT CHART
+        // LƯỢT KHÁM THEO NGÀY
         private void LoadVisitChart(DateTime from, DateTime to)
         {
             var result = _dashboardBLL.GetVisitStatistics(from, to);
@@ -141,7 +138,7 @@ namespace DentalClinic.APP
             chartVisits.ChartAreas[0].AxisY.Interval = 1;
         }
 
-        // REVENUE CHART
+        // DOANH THU THEO NGÀY
         private void LoadRevenueChart(DateTime from, DateTime to)
         {
             var result = _dashboardBLL.GetRevenueStatistics(from, to);
@@ -176,7 +173,7 @@ namespace DentalClinic.APP
             chartRevenue.ChartAreas[0].AxisY.LabelStyle.Format = "N0";
         }
 
-        // VISIT STATUS
+        // TRẠNG THÁI LƯỢT KHÁM
         private void LoadVisitStatusChart(DateTime from, DateTime to)
         {
             var result = _dashboardBLL.GetVisitStatusStatistics(from, to);
@@ -187,7 +184,6 @@ namespace DentalClinic.APP
             chartVisitStatus.Series.Clear();
             chartVisitStatus.Legends.Clear();
             chartVisitStatus.Titles.Clear();
-
             chartVisitStatus.Titles.Add("TRẠNG THÁI LƯỢT KHÁM");
 
             if (result.Data.Count == 0)
@@ -212,7 +208,7 @@ namespace DentalClinic.APP
             });
         }
 
-        // LOW STOCK
+        // SET UP DGV TỒN KHO THẤP
         private void SetupLowStockGrid()
         {
             dgvLowStock.AutoGenerateColumns = false;
@@ -251,6 +247,7 @@ namespace DentalClinic.APP
             dgvLowStock.AllowUserToAddRows = false;
         }
 
+        // LOAD DGV TỒN KHO THẤP
         private void LoadLowStock()
         {
             var result = _dashboardBLL.GetLowStockMedicines();
@@ -261,7 +258,7 @@ namespace DentalClinic.APP
             dgvLowStock.DataSource = result.Data;
         }
 
-        // RECENT IMPORT
+        // SET UP DGV NHẬP KHO GẦN ĐÂY
         private void SetupRecentImportGrid()
         {
             dgvRecentImports.AutoGenerateColumns = false;
@@ -316,6 +313,7 @@ namespace DentalClinic.APP
             dgvRecentImports.AllowUserToAddRows = false;
         }
 
+        // LOAD NHẬP KHO GẦN ĐÂY
         private void LoadRecentImports()
         {
             var result = _dashboardBLL.GetRecentImports(5);
@@ -326,7 +324,7 @@ namespace DentalClinic.APP
             dgvRecentImports.DataSource = result.Data;
         }
 
-        // DOCTOR CHART
+        // LOAD LƯỢT KHÁM THEO BÁC SĨ
         private void LoadDoctorChart(DateTime from, DateTime to)
         {
             var result = _dashboardBLL.GetDoctorStatistics(from, to);
@@ -371,7 +369,7 @@ namespace DentalClinic.APP
             area.AxisY.IsMarginVisible = true;
         }
 
-        // PATIENT GRID
+        // SET UP THỐNG KÊ BỆNH NHÂN
         private void SetupPatientGrid()
         {
             dgvPatientStatistics.AutoGenerateColumns = false;
@@ -414,6 +412,7 @@ namespace DentalClinic.APP
             dgvPatientStatistics.AllowUserToAddRows = false;
         }
 
+        // LOAD THỐNG KÊ BỆNH NHÂN
         private void LoadPatientStatistics(DateTime from, DateTime to)
         {
             var result = _dashboardBLL.GetPatientStatistics(from, to);
@@ -424,17 +423,16 @@ namespace DentalClinic.APP
             dgvPatientStatistics.DataSource = result.Data;
         }
 
-        // DATE FILTER
+        // SỰ KIỆN DTP FROM
         private void dtpFrom_ValueChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-                LoadDashboard();
+            if (IsHandleCreated) LoadDashboard();
         }
 
+        // SỰ KIỆN DTP TO
         private void dtpTo_ValueChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-                LoadDashboard();
+            if (IsHandleCreated) LoadDashboard();
         }
     }
 }

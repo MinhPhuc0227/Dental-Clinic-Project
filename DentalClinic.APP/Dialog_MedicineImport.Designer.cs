@@ -128,7 +128,6 @@
             cbSupplier.Name = "cbSupplier";
             cbSupplier.Size = new Size(285, 31);
             cbSupplier.TabIndex = 1;
-            cbSupplier.SelectedIndexChanged += cbSupplier_SelectedIndexChanged;
             // 
             // txtNote
             // 
@@ -481,7 +480,6 @@
             label7.Size = new Size(247, 32);
             label7.TabIndex = 10;
             label7.Text = "THÊM THUỐC NHẬP";
-            label7.Click += label7_Click;
             // 
             // Dialog_MedicineImport
             // 

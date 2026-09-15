@@ -16,50 +16,30 @@ namespace DentalClinic.APP
         private readonly Supplier_BLL _supplierBLL;
         private readonly int? _supplierId;
 
-        public Dialog_Supplier(
-            Supplier_BLL supplierBLL,
-            int? supplierId)
+        public Dialog_Supplier(Supplier_BLL supplierBLL, int? supplierId)
         {
             InitializeComponent();
-
-            _supplierBLL =
-                supplierBLL;
-
-            _supplierId =
-                supplierId;
-
-            StartPosition =
-                FormStartPosition.CenterParent;
+            _supplierBLL = supplierBLL;
+            _supplierId = supplierId;
         }
 
-        private void Dialog_Supplier_Load(
-            object sender,
-            EventArgs e)
+        private void Dialog_Supplier_Load(object sender, EventArgs e)
         {
             LoadStatus();
 
-            if (_supplierId.HasValue &&
-                _supplierId.Value > 0)
+            if (_supplierId.HasValue && _supplierId.Value > 0)
             {
-                Text =
-                    "Cập nhật nhà cung cấp";
-
-                LoadSupplier(
-                    _supplierId.Value);
+                Text = "Cập nhật nhà cung cấp";
+                LoadSupplier(_supplierId.Value);
             }
             else
             {
-                Text =
-                    "Thêm nhà cung cấp";
-
-                cbStatus.SelectedValue =
-                    true;
+                Text = "Thêm nhà cung cấp";
+                cbStatus.SelectedValue = true;
             }
         }
 
-        // =========================================================
         // STATUS
-        // =========================================================
 
         private void LoadStatus()
         {
@@ -79,27 +59,18 @@ namespace DentalClinic.APP
                     }
                 };
 
-            cbStatus.DataSource =
-                statusList;
-
-            cbStatus.DisplayMember =
-                "Text";
-
-            cbStatus.ValueMember =
-                "Value";
+            cbStatus.DataSource = statusList;
+            cbStatus.DisplayMember = "Text";
+            cbStatus.ValueMember = "Value";
         }
 
-        // =========================================================
         // LOAD DETAIL
-        // =========================================================
 
         private void LoadSupplier(int id)
         {
-            var result =
-                _supplierBLL.GetById(id);
+            var result = _supplierBLL.GetById(id);
 
-            if (!result.IsSuccess ||
-                result.Data == null)
+            if (!result.IsSuccess || result.Data == null)
             {
                 MessageBox.Show(
                     result.Message,
@@ -111,35 +82,18 @@ namespace DentalClinic.APP
                 return;
             }
 
-            var supplier =
-                result.Data;
-
-            txtSupplierName.Text =
-                supplier.SupplierName;
-
-            txtPhone.Text =
-                supplier.Phone ?? "";
-
-            txtAddress.Text =
-                supplier.Address ?? "";
-
-            txtEmail.Text =
-                supplier.Email ?? "";
-
-            txtNote.Text =
-                supplier.Note ?? "";
-
-            cbStatus.SelectedValue =
-                supplier.IsActive;
+            var supplier = result.Data;
+            txtSupplierName.Text = supplier.SupplierName;
+            txtPhone.Text = supplier.Phone ?? "";
+            txtAddress.Text = supplier.Address ?? "";
+            txtEmail.Text = supplier.Email ?? "";
+            txtNote.Text = supplier.Note ?? "";
+            cbStatus.SelectedValue = supplier.IsActive;
         }
 
-        // =========================================================
         // SAVE
-        // =========================================================
 
-        private void btSave_Click(
-            object sender,
-            EventArgs e)
+        private void btSave_Click(object sender, EventArgs e)
         {
             Result result;
 
@@ -148,59 +102,32 @@ namespace DentalClinic.APP
                 var dto =
                     new SupplierCreateDto
                     {
-                        SupplierName =
-                            txtSupplierName.Text.Trim(),
-
-                        Phone =
-                            txtPhone.Text.Trim(),
-
-                        Address =
-                            txtAddress.Text.Trim(),
-
-                        Email =
-                            txtEmail.Text.Trim(),
-
-                        Note =
-                            txtNote.Text.Trim()
+                        SupplierName = txtSupplierName.Text.Trim(),
+                        Phone = txtPhone.Text.Trim(),
+                        Address = txtAddress.Text.Trim(),
+                        Email = txtEmail.Text.Trim(),
+                        Note = txtNote.Text.Trim()
                     };
 
-                result =
-                    _supplierBLL.Create(dto);
+                result = _supplierBLL.Create(dto);
             }
             else
             {
-                bool isActive =
-                    cbStatus.SelectedValue
-                    is bool value
-                    && value;
+                bool isActive = cbStatus.SelectedValue is bool value && value;
 
                 var dto =
                     new SupplierUpdateDto
                     {
-                        SupplierId =
-                            _supplierId.Value,
-
-                        SupplierName =
-                            txtSupplierName.Text.Trim(),
-
-                        Phone =
-                            txtPhone.Text.Trim(),
-
-                        Address =
-                            txtAddress.Text.Trim(),
-
-                        Email =
-                            txtEmail.Text.Trim(),
-
-                        Note =
-                            txtNote.Text.Trim(),
-
-                        IsActive =
-                            isActive
+                        SupplierId = _supplierId.Value,
+                        SupplierName = txtSupplierName.Text.Trim(),
+                        Phone = txtPhone.Text.Trim(),
+                        Address = txtAddress.Text.Trim(),
+                        Email = txtEmail.Text.Trim(),
+                        Note = txtNote.Text.Trim(),
+                        IsActive = isActive
                     };
 
-                result =
-                    _supplierBLL.Update(dto);
+                result = _supplierBLL.Update(dto);
             }
 
             if (result.IsSuccess)
@@ -211,8 +138,7 @@ namespace DentalClinic.APP
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
-                DialogResult =
-                    DialogResult.OK;
+                DialogResult = DialogResult.OK;
 
                 Close();
             }
@@ -226,13 +152,8 @@ namespace DentalClinic.APP
             }
         }
 
-        // =========================================================
         // CANCEL
-        // =========================================================
-
-        private void btCancel_Click(
-            object sender,
-            EventArgs e)
+        private void btCancel_Click(object sender, EventArgs e)
         {
             Close();
         }

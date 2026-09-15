@@ -139,7 +139,6 @@ namespace DentalClinic.APP
 
             AddActionImageColumns();
 
-            // Đưa Xóa về cuối
             var deleteColumn = dgvService.Columns["DeleteCol"];
 
             if (deleteColumn != null)
@@ -147,7 +146,6 @@ namespace DentalClinic.APP
                 deleteColumn.DisplayIndex = dgvService.Columns.Count - 1;
             }
 
-            // Đưa Sửa ngay trước Xóa
             var editColumn = dgvService.Columns["EditCol"];
 
             if (editColumn != null && deleteColumn != null)
@@ -185,8 +183,6 @@ namespace DentalClinic.APP
                 dgvService.Columns.Add(imgDelete);
             }
         }
-
-        // ====================================================
 
         // SỰ KIỆN NÚT THÊM
         private void btAdd_Click(object sender, EventArgs e)
@@ -251,34 +247,25 @@ namespace DentalClinic.APP
         // SỰ KIỆN TÌM KIẾM
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            LoadDataToGridView();
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN CB LOẠI
         private void cbType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN CB TRẠNG THÁI
         private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN CB SẮP XẾP
         private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
     }
 }

@@ -13,11 +13,9 @@ namespace DentalClinic.APP
 {
     public partial class UC_Doctor_MedicalRecord : UserControl
     {
-        // Nhận dữ liệu từ Form_Doctor truyền vào
         private readonly int _currentDoctorId;
         private readonly MedicalRecord_BLL _bll;
 
-        // Constructor có chứa BLL và DoctorId
         public UC_Doctor_MedicalRecord(MedicalRecord_BLL bll, int doctorId)
         {
             InitializeComponent();
@@ -90,8 +88,7 @@ namespace DentalClinic.APP
             dgvVisitHistory.AllowUserToAddRows = false;
             dgvVisitHistory.AllowUserToDeleteRows = false;
             dgvVisitHistory.RowHeadersVisible = false;
-            dgvVisitHistory.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
+            dgvVisitHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvVisitHistory.MultiSelect = false;
         }
 
@@ -124,7 +121,6 @@ namespace DentalClinic.APP
                 {
                     dgvVisitHistory.ClearSelection();
                     dgvVisitHistory.Rows[0].Selected = true;
-
                     LoadVisitDetails(data[0]);
                 }
                 else
@@ -148,8 +144,7 @@ namespace DentalClinic.APP
         {
             var result = _bll.GetRecordDetails(record.MedicalRecordId);
 
-            lbExaminationDate.Text =
-                record.ExaminationTime.ToString("dd/MM/yyyy HH:mm");
+            lbExaminationDate.Text = record.ExaminationTime.ToString("dd/MM/yyyy HH:mm");
 
             lbVisitStatus.Text = record.VisitStatus switch
             {
@@ -160,20 +155,9 @@ namespace DentalClinic.APP
                 _ => "Không xác định"
             };
 
-            txtDiagnosis.Text =
-                string.IsNullOrWhiteSpace(result.Diagnosis)
-                    ? "Không có"
-                    : result.Diagnosis;
-
-            txtConclusion.Text =
-                string.IsNullOrWhiteSpace(result.Conclusion)
-                    ? "Không có"
-                    : result.Conclusion;
-
-            txtNote.Text =
-                string.IsNullOrWhiteSpace(result.Note)
-                    ? "Không có"
-                    : result.Note;
+            txtDiagnosis.Text = string.IsNullOrWhiteSpace(result.Diagnosis) ? "Không có" : result.Diagnosis;
+            txtConclusion.Text = string.IsNullOrWhiteSpace(result.Conclusion) ? "Không có" : result.Conclusion;
+            txtNote.Text = string.IsNullOrWhiteSpace(result.Note) ? "Không có" : result.Note;
 
             dgvService.DataSource = result.Services;
             dgvMedicine.DataSource = result.Medicines;
@@ -210,8 +194,7 @@ namespace DentalClinic.APP
             dgvService.ReadOnly = true;
             dgvService.AllowUserToAddRows = false;
             dgvService.RowHeadersVisible = false;
-            dgvService.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
+            dgvService.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void SetupMedicineGrid()
@@ -285,8 +268,7 @@ namespace DentalClinic.APP
             dgvMedicine.ReadOnly = true;
             dgvMedicine.AllowUserToAddRows = false;
             dgvMedicine.RowHeadersVisible = false;
-            dgvMedicine.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
+            dgvMedicine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void ClearVisitDetails()

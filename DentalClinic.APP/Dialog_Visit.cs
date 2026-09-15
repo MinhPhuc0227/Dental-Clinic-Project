@@ -19,7 +19,6 @@ namespace DentalClinic.APP
         private readonly Visit_BLL _visitBLL;
         private readonly int _receptionistId;
 
-        // Dependency Injection
         private readonly IServiceProvider _serviceProvider;
 
         public Dialog_Visit(Visit_BLL visitBLL, IServiceProvider serviceProvider, int receptionistId)
@@ -76,7 +75,6 @@ namespace DentalClinic.APP
                 return;
             }
 
-            // --- LOGIC CẢNH BÁO YES/NO ---
             var warnings = _visitBLL.GetWalkInWarnings(createDto.DoctorId);
 
             if (warnings.Count > 0)
@@ -92,18 +90,16 @@ namespace DentalClinic.APP
 
                 if (confirmResult == DialogResult.No)
                 {
-                    return; // Lễ tân bấm No -> Hủy lưu
+                    return; 
                 }
             }
 
-            // Gọi BLL và lưu (Lỗi cứng như trùng bệnh nhân sẽ bị chặn ở trong BLL)
             Result result = _visitBLL.CreateWalkInVisit(createDto);
 
             if (result.IsSuccess)
             {
                 MessageBox.Show(result.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
-                //this.Close();
             }
             else
             {
@@ -133,14 +129,13 @@ namespace DentalClinic.APP
 
         private void btCreatePatient_Click(object sender, EventArgs e)
         {
-            using (var dialogPatient = ActivatorUtilities.CreateInstance<Dialog_Patient>(
-    _serviceProvider))
+            using (var dialogPatient = ActivatorUtilities.CreateInstance<Dialog_Patient>(_serviceProvider))
             {
                 if (dialogPatient.ShowDialog() == DialogResult.OK)
                 {
                     int newlyAddedPatientId = dialogPatient.CreatedPatientId;
-                    LoadPatients(); // Nạp lại danh sách bệnh nhân
-                    cbPatient.SelectedValue = newlyAddedPatientId; // Tự động chọn bệnh nhân vừa tạo
+                    LoadPatients(); 
+                    cbPatient.SelectedValue = newlyAddedPatientId; 
                 }
             }
         }

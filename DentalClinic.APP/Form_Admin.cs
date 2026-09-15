@@ -26,12 +26,10 @@ namespace DentalClinic.App
         private UC_PaymentMethod paymentUC;
         private UC_Supplier supplierUC;
 
-        // Dependency Injection
-        private readonly IServiceProvider _serviceProvider;
-
-        // BLL
         private readonly Dashboard_BLL _dashboardBLL;
         private readonly Account_BLL _accountBLL;
+
+        private readonly IServiceProvider _serviceProvider;
 
         public Form_Admin(int accountId, Dashboard_BLL dashboardBLL, Account_BLL accountBLL, IServiceProvider serviceProvider)
         {

@@ -80,13 +80,18 @@ namespace DentalClinic.APP
             dgvReceptionist.DataSource = null;
             dgvReceptionist.DataSource = receptionists;
 
-            dgvReceptionist.Columns["AccountId"].Visible = false;
-            dgvReceptionist.Columns["Username"].Visible = false;
-            dgvReceptionist.Columns["CreatedAt"].Visible = false;
+            // Ẩn một số cột
+            var accountIdCol = dgvReceptionist.Columns["AccountId"];
+            if (accountIdCol != null) accountIdCol.Visible = false;
+
+            var usernameCol = dgvReceptionist.Columns["Username"];
+            if (usernameCol != null) usernameCol.Visible = false;
+
+            var createdAtCol = dgvReceptionist.Columns["CreatedAt"];
+            if (createdAtCol != null) createdAtCol.Visible = false;
 
             AddActionImageColumns();
 
-            // Đưa Sửa và Xóa về cuối
             var deleteColumn = dgvReceptionist.Columns["DeleteCol"];
 
             if (deleteColumn != null)
@@ -166,8 +171,6 @@ namespace DentalClinic.APP
             cbStatus.SelectedIndex = 0;
         }
 
-        // =========================================================
-
         // SỰ KIỆN NÚT THÊM 
         private void btAdd_Click(object sender, EventArgs e)
         {
@@ -221,25 +224,19 @@ namespace DentalClinic.APP
         // SỰ KIỆN TÌM KIẾM
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            LoadDataToGridView();
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN CB SẮP XẾP
         private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
 
         // SỰ KIỆN CB TRẠNG THÁI
         private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IsHandleCreated)
-            {
-                LoadDataToGridView();
-            }
+            if (IsHandleCreated) LoadDataToGridView();
         }
     }
 }

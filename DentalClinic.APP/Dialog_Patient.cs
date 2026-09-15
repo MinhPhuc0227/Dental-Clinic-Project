@@ -13,12 +13,10 @@ namespace DentalClinic.APP
 {
     public partial class Dialog_Patient : Form
     {
-        // Khai báo biến
         public PatientDto? PatientData { get; private set; }
         private readonly bool _isEdit = false;
         public int CreatedPatientId { get; private set; }
 
-        // BLL
         private readonly Patient_BLL _bll;
 
         public Dialog_Patient(Patient_BLL bll)
@@ -27,9 +25,7 @@ namespace DentalClinic.APP
             _bll = bll;
             this.Text = "Thêm mới bệnh nhân";
             _isEdit = false;
-
             lbPatientId.Text = "Tự động";
-
             LoadComboBoxes();
         }
 
@@ -38,7 +34,6 @@ namespace DentalClinic.APP
             this.Text = "Chỉnh sửa thông tin bệnh nhân";
             _isEdit = true;
             PatientData = data;
-
             lbPatientId.Text = data.PatientId.ToString();
             txtFullName.Text = data.FullName;
             cbGender.SelectedValue = data.Gender;
@@ -62,14 +57,14 @@ namespace DentalClinic.APP
             cbGender.ValueMember = "Value";
         }
 
-        // Cancel button
+        // Cancel
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        // Save button
+        // Save 
         private void btSave_Click(object sender, EventArgs e)
         {
             var selectedGender = cbGender.SelectedValue != null ? (Gender)cbGender.SelectedValue : Gender.Male;

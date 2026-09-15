@@ -21,7 +21,7 @@ namespace DentalClinic.DAL
             return _context.Treatments
                 .Include(t => t.Service)
                 .Include(t => t.Doctor)
-                .Include(t => t.Visits) // thêm dòng này
+                .Include(t => t.Visits) 
                 .Where(t => t.PatientId == patientId)
                 .OrderByDescending(t => t.StartDate)
                 .ToList();
@@ -46,8 +46,7 @@ namespace DentalClinic.DAL
         // Cập nhật Treatment
         public bool Update(Treatment entity)
         {
-            var existing = _context.Treatments
-                .FirstOrDefault(t => t.TreatmentId == entity.TreatmentId);
+            var existing = _context.Treatments.FirstOrDefault(t => t.TreatmentId == entity.TreatmentId);
 
             if (existing == null)
                 return false;
@@ -67,8 +66,7 @@ namespace DentalClinic.DAL
         // Xóa Treatment
         public bool Delete(int treatmentId)
         {
-            var existing = _context.Treatments
-                .FirstOrDefault(t => t.TreatmentId == treatmentId);
+            var existing = _context.Treatments.FirstOrDefault(t => t.TreatmentId == treatmentId);
 
             if (existing == null)
                 return false;
@@ -80,8 +78,7 @@ namespace DentalClinic.DAL
         // Kiểm tra Treatment đã có Visit hay chưa
         public bool HasVisits(int treatmentId)
         {
-            return _context.Visits
-                .Any(v => v.TreatmentId == treatmentId);
+            return _context.Visits.Any(v => v.TreatmentId == treatmentId);
         }
 
         // Lấy các Visit thuộc Treatment
@@ -119,20 +116,16 @@ namespace DentalClinic.DAL
 
         public bool UpdateStatus(int treatmentId, TreatmentStatus status)
         {
-            var existing = _context.Treatments
-                .FirstOrDefault(t => t.TreatmentId == treatmentId);
+            var existing = _context.Treatments.FirstOrDefault(t => t.TreatmentId == treatmentId);
 
             if (existing == null)
                 return false;
 
             existing.Status = status;
-
             return _context.SaveChanges() > 0;
         }
 
-        public Treatment? GetActiveByPatientAndService(
-    int patientId,
-    int serviceId)
+        public Treatment? GetActiveByPatientAndService(int patientId, int serviceId)
         {
             return _context.Treatments
                 .Include(t => t.Service)

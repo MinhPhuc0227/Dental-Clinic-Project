@@ -16,7 +16,6 @@ namespace DentalClinic.APP
         private readonly Appointment_BLL _appointmentBLL;
         private readonly int _doctorId;
 
-        // Constructor nhận vào BLL và DoctorId từ Form_Doctor truyền sang
         public UC_Doctor_Appointment(Appointment_BLL appointmentBLL, int doctorId)
         {
             InitializeComponent();
@@ -33,12 +32,11 @@ namespace DentalClinic.APP
 
         private void InitFilterControls()
         {
-            // 1. Mặc định DateTimePicker lấy tháng hiện tại
+            // Mặc định DateTimePicker lấy tháng hiện tại
             DateTime today = DateTime.Today;
             dtpStart.Value = new DateTime(today.Year, today.Month, 1);
             dtpEnd.Value = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
 
-            // 2. Nạp danh sách Trạng thái vào ComboBox (giống mẫu Lễ tân)
             var statusList = new List<object>
             {
                 new { Value = (AppointmentStatus?)null, Text = "Tất cả" },
@@ -46,6 +44,7 @@ namespace DentalClinic.APP
                 new { Value = (AppointmentStatus?)AppointmentStatus.CheckedIn, Text = "Đã tiếp nhận" },
                 new { Value = (AppointmentStatus?)AppointmentStatus.Cancelled, Text = "Đã hủy" }
             };
+
             cbAppointmentStatus.DataSource = statusList;
             cbAppointmentStatus.DisplayMember = "Text";
             cbAppointmentStatus.ValueMember = "Value";
@@ -55,10 +54,28 @@ namespace DentalClinic.APP
         {
             dgvAppointment.AutoGenerateColumns = false;
             dgvAppointment.Columns.Clear();
-
-            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AppointmentId", HeaderText = "Mã Lịch Hẹn", Width = 90, Visible = false });
-            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientName", HeaderText = "Bệnh Nhân", Width = 150 });
-            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PatientPhone", HeaderText = "SĐT", Width = 110 });
+            
+            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn 
+            { 
+                DataPropertyName = "AppointmentId", 
+                HeaderText = "Mã Lịch Hẹn", 
+                Width = 90, 
+                Visible = false });
+            
+            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn 
+            { 
+                DataPropertyName = "PatientName", 
+                HeaderText = "Bệnh Nhân", 
+                Width = 150 
+            });
+            
+            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn 
+            {
+                DataPropertyName = "PatientPhone",
+                HeaderText = "SĐT", 
+                Width = 110 
+            });
+            
             dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "AppointmentDateTime",
@@ -66,9 +83,27 @@ namespace DentalClinic.APP
                 Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm dd/MM/yyyy" }
             });
-            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "StatusText", HeaderText = "Trạng Thái", Width = 120 });
-            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ReasonForVisit", HeaderText = "Lý Do Khám", Width = 180 });
-            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Note", HeaderText = "Ghi Chú", Width = 150 });
+
+            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn 
+            { 
+                DataPropertyName = "StatusText", 
+                HeaderText = "Trạng Thái", 
+                Width = 120 
+            });
+            
+            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn 
+            { 
+                DataPropertyName = "ReasonForVisit", 
+                HeaderText = "Lý Do Khám", 
+                Width = 180 
+            });
+            
+            dgvAppointment.Columns.Add(new DataGridViewTextBoxColumn 
+            { 
+                DataPropertyName = "Note", 
+                HeaderText = "Ghi Chú", 
+                Width = 150 
+            });
 
             dgvAppointment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvAppointment.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -77,18 +112,17 @@ namespace DentalClinic.APP
 
         public void LoadData()
         {
-            // Thiết lập bộ lọc (tận dụng AppointmentFilterDto sẵn có)
             var filter = new AppointmentFilterDto
             {
                 Keyword = txtSearch.Text.Trim(),
-                // Lọc trọn vẹn trong ngày mà bác sĩ chọn trên dtp
                 StartDate = dtpStart.Value.Date,
                 EndDate = dtpEnd.Value.Date,
-                DoctorId = _doctorId, // Cố định đúng mã của Bác sĩ đang đăng nhập
+                DoctorId = _doctorId, 
                 Status = cbAppointmentStatus.SelectedValue as AppointmentStatus?
             };
 
             var result = _appointmentBLL.GetFiltered(filter);
+
             if (result.IsSuccess)
             {
                 dgvAppointment.DataSource = result.Data;

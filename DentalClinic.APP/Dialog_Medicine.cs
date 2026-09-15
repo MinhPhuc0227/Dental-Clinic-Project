@@ -12,7 +12,6 @@ namespace DentalClinic.APP
         public MedicineDto? MedicineData { get; private set; }
         private readonly bool _isEdit = false;
 
-        // Constructor 1: for Adding 
         public Dialog_Medicine(Medicine_BLL bll)
         {
             InitializeComponent();
@@ -24,10 +23,9 @@ namespace DentalClinic.APP
             LoadStatusComboBox();
         }
 
-        // Constructor 2: for Updating
         public Dialog_Medicine(
-    MedicineDto data,
-    Medicine_BLL bll) : this(bll)
+            MedicineDto data,
+            Medicine_BLL bll) : this(bll)
         {
             this.Text = "Chỉnh sửa thông tin thuốc";
             _isEdit = true;
@@ -37,7 +35,6 @@ namespace DentalClinic.APP
             txtMedicineName.Text = data.MedicineName;
             txtUnit.Text = data.Unit;
             txtUnitPrice.Text = data.UnitPrice.ToString("G29");
-            // Hiển thị tồn kho hiện tại
             lbQuantityInStock.Text = data.QuantityInStock.ToString();
             txtDescription.Text = data.Description;
             cbStatus.SelectedValue = data.Status;
@@ -57,14 +54,14 @@ namespace DentalClinic.APP
             cbStatus.ValueMember = "Value";
         }
 
-        // Cancel button
+        // Cancel 
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        // Save button
+        // Save 
         private void btSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtMedicineName.Text))
@@ -92,7 +89,6 @@ namespace DentalClinic.APP
                 ? (MedicineStatus)cbStatus.SelectedValue
                 : MedicineStatus.Active;
 
-            // Save data to database (using BLL)
             if (!_isEdit)
             {
                 // Add 

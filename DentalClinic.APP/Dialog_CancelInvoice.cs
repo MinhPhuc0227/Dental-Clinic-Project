@@ -10,18 +10,14 @@ namespace DentalClinic.APP
         private readonly string _receptionistName;
         private readonly decimal _totalAmount;
 
-        public Dialog_CancelInvoice(
-            string receptionistName,
-            decimal totalAmount)
+        public Dialog_CancelInvoice(string receptionistName, decimal totalAmount)
         {
             InitializeComponent();
 
             _receptionistName = receptionistName;
             _totalAmount = totalAmount;
-
             lbCancelledBy.Text = receptionistName;
             lbCancelledDate.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-
             txtOtherReason.Clear();
             txtOtherReason.Focus();
         }
@@ -49,7 +45,6 @@ namespace DentalClinic.APP
             }
 
             CancellationReason = reason;
-
             DialogResult = DialogResult.OK;
             Close();
         }

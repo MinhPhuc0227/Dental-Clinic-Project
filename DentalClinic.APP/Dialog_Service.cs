@@ -17,7 +17,6 @@ namespace DentalClinic.APP
         public ServiceDto? ServiceData { get; private set; }
         private readonly bool _isEdit = false;
 
-        // Constructor 1: for Adding
         public Dialog_Service(Service_BLL bll)
         {
             InitializeComponent();
@@ -28,7 +27,6 @@ namespace DentalClinic.APP
             LoadStatusComboBox();
         }
 
-        // Constructor 2: for Updating
         public Dialog_Service(Service_BLL bll, ServiceDto data) : this(bll)
         {
             this.Text = "Chỉnh sửa dịch vụ";
@@ -43,7 +41,6 @@ namespace DentalClinic.APP
             cbStatus.SelectedValue = data.Status;
         }
 
-        // Load status combo box
         private void LoadStatusComboBox()
         {
             var statusList = new[]
@@ -57,14 +54,12 @@ namespace DentalClinic.APP
             cbStatus.ValueMember = "Value";
         }
 
-        // Cancel button
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        // Save button
         private void btSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtServiceName.Text))
@@ -85,7 +80,6 @@ namespace DentalClinic.APP
                 ? (ServiceStatus)cbStatus.SelectedValue
                 : ServiceStatus.Active;
 
-            // Save new data to database (using BLL)
             if (!_isEdit)
             {
                 var createDto = new CreateServiceDto

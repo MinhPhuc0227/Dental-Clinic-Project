@@ -3,7 +3,7 @@ using DentalClinic.MODEL;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace DentalClinic.DAL
 {
@@ -16,27 +16,22 @@ namespace DentalClinic.DAL
             _context = context;
         }
 
-        // 1. Lấy danh sách những người đã khám xong nhưng chưa xuất hóa đơn Paid
+        // 1. Lấy danh sách chờ thanh toán
         public List<WaitingPaymentDto> GetWaitingPayments(DateTime startDate, DateTime endDate, string keyword)
         {
             DateTime start = startDate.Date;
             DateTime end = endDate.Date.AddDays(1);
 
             var query = _context.Invoices
-                .Include(i => i.Visit)
-                    .ThenInclude(v => v.Patient)
-                .Include(i => i.Visit)
-                    .ThenInclude(v => v.Doctor)
+                .Include(i => i.Visit).ThenInclude(v => v.Patient)
+                .Include(i => i.Visit).ThenInclude(v => v.Doctor)
                 .Where(i => i.Status == InvoiceStatus.Unpaid)
                 .Where(i => i.InvoiceDateTime >= start && i.InvoiceDateTime < end);
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 string kw = keyword.Trim().ToLower();
-
-                query = query.Where(i =>
-                    i.Visit.Patient.FullName.ToLower().Contains(kw) ||
-                    i.Visit.Patient.Phone.Contains(kw));
+                query = query.Where(i => i.Visit.Patient.FullName.ToLower().Contains(kw) || i.Visit.Patient.Phone.Contains(kw));
             }
 
             return query
@@ -53,7 +48,7 @@ namespace DentalClinic.DAL
                 .ToList();
         }
 
-        // 2. Gom chung Dịch vụ và Thuốc vào 1 danh sách
+        // 2. Gom chung Dịch vụ và Thuốc vào 1 danh sách theo ca khám
         public List<InvoiceDetailDisplayDto> GetInvoiceDetailsByVisit(int visitId)
         {
             var result = new List<InvoiceDetailDisplayDto>();
@@ -61,7 +56,7 @@ namespace DentalClinic.DAL
             var record = _context.MedicalRecords.FirstOrDefault(m => m.VisitId == visitId);
             if (record == null) return result;
 
-            // Kéo Dịch vụ
+            // Dịch vụ
             var services = _context.MedicalRecordServices
                 .Where(s => s.MedicalRecordId == record.MedicalRecordId)
                 .Select(s => new InvoiceDetailDisplayDto
@@ -76,7 +71,7 @@ namespace DentalClinic.DAL
                 }).ToList();
             result.AddRange(services);
 
-            // Kéo Thuốc
+            // Thuốc
             var prescription = _context.Prescriptions.FirstOrDefault(p => p.MedicalRecordId == record.MedicalRecordId);
             if (prescription != null)
             {
@@ -98,85 +93,59 @@ namespace DentalClinic.DAL
             return result;
         }
 
+        // Lấy chi tiết hóa đơn theo InvoiceId
         public List<InvoiceDetailDisplayDto> GetInvoiceDetailsByInvoiceId(int invoiceId)
         {
             return _context.InvoiceDetails
                 .Where(d => d.InvoiceId == invoiceId)
                 .Select(d => new InvoiceDetailDisplayDto
                 {
-                    ItemType = d.MedicalRecordServiceId.HasValue
-                        ? "Dịch vụ"
-                        : "Thuốc",
-
+                    ItemType = d.MedicalRecordServiceId.HasValue ? "Dịch vụ" : "Thuốc",
                     ItemName = d.ItemName,
                     Quantity = d.Quantity,
                     UnitPrice = d.UnitPrice,
                     TotalAmount = d.TotalAmount,
-
                     MedicalRecordServiceId = d.MedicalRecordServiceId,
                     PrescriptionDetailId = d.PrescriptionDetailId
                 })
                 .ToList();
         }
 
+        // Lấy hóa đơn chưa thanh toán theo VisitId
         public Invoice? GetUnpaidInvoiceByVisitId(int visitId)
         {
-            return _context.Invoices
-                .FirstOrDefault(i =>
-                    i.VisitId == visitId &&
-                    i.Status == InvoiceStatus.Unpaid);
+            return _context.Invoices.FirstOrDefault(i => i.VisitId == visitId && i.Status == InvoiceStatus.Unpaid);
         }
 
+        // Tạo hóa đơn chưa thanh toán
         public bool CreateUnpaidInvoice(int visitId)
         {
             using (var trans = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    // 1. Lấy Visit kèm MedicalRecord
                     var visit = _context.Visits
-                        .Include(v => v.MedicalRecord)
-                            .ThenInclude(m => m.MedicalRecordServices)
-                        .Include(v => v.MedicalRecord)
-                            .ThenInclude(m => m.Prescription)
-                                .ThenInclude(p => p.PrescriptionDetails)
+                        .Include(v => v.MedicalRecord).ThenInclude(m => m.MedicalRecordServices)
+                        .Include(v => v.MedicalRecord).ThenInclude(m => m.Prescription).ThenInclude(p => p.PrescriptionDetails)
                         .FirstOrDefault(v => v.VisitId == visitId);
 
-                    if (visit == null)
-                        throw new InvalidOperationException("Không tìm thấy ca khám.");
+                    if (visit == null) throw new InvalidOperationException("Không tìm thấy ca khám.");
+                    if (visit.MedicalRecord == null) throw new InvalidOperationException("Ca khám chưa có hồ sơ bệnh án.");
 
-                    if (visit.MedicalRecord == null)
-                        throw new InvalidOperationException("Ca khám chưa có hồ sơ bệnh án.");
+                    bool hasUnpaidInvoice = _context.Invoices.Any(i => i.VisitId == visitId && i.Status == InvoiceStatus.Unpaid);
+                    if (hasUnpaidInvoice) throw new InvalidOperationException("Ca khám này đã có hóa đơn chưa thanh toán.");
 
-                    // 2. Kiểm tra đã có Invoice Unpaid chưa
-                    bool hasUnpaidInvoice = _context.Invoices
-                        .Any(i => i.VisitId == visitId &&
-                                  i.Status == InvoiceStatus.Unpaid);
-
-                    if (hasUnpaidInvoice)
-                        throw new InvalidOperationException(
-                            "Ca khám này đã có hóa đơn chưa thanh toán.");
-
-                    // 3. Kiểm tra đã có Invoice Paid chưa
-                    bool hasPaidInvoice = _context.Invoices
-                        .Any(i => i.VisitId == visitId &&
-                                  i.Status == InvoiceStatus.Paid);
-
-                    if (hasPaidInvoice)
-                        throw new InvalidOperationException(
-                            "Ca khám này đã có hóa đơn đã thanh toán.");
+                    bool hasPaidInvoice = _context.Invoices.Any(i => i.VisitId == visitId && i.Status == InvoiceStatus.Paid);
+                    if (hasPaidInvoice) throw new InvalidOperationException("Ca khám này đã có hóa đơn đã thanh toán.");
 
                     var record = visit.MedicalRecord;
 
-                    // 4. Lấy dịch vụ
                     var services = _context.MedicalRecordServices
                         .Include(s => s.Service)
                         .Where(s => s.MedicalRecordId == record.MedicalRecordId)
                         .ToList();
 
-                    // 5. Lấy thuốc
                     var medicines = new List<PrescriptionDetail>();
-
                     if (record.Prescription != null)
                     {
                         medicines = _context.PrescriptionDetails
@@ -185,28 +154,18 @@ namespace DentalClinic.DAL
                             .ToList();
                     }
 
-                    // 6. Không có gì để thanh toán
                     if (!services.Any() && !medicines.Any())
-                        throw new InvalidOperationException(
-                            "Hồ sơ bệnh án chưa có dịch vụ hoặc thuốc.");
+                        throw new InvalidOperationException("Hồ sơ bệnh án chưa có dịch vụ hoặc thuốc.");
 
-                    // 7. Tạo Invoice Unpaid
                     var invoice = new Invoice
                     {
                         VisitId = visitId,
-
-                        // Invoice được tạo tự động khi hoàn thành khám.
-                        // Tạm dùng Receptionist của Visit.
                         ReceptionistId = visit.ReceptionistId,
-
                         PaymentMethodId = null,
-
                         InvoiceDateTime = DateTime.Now,
-
                         TotalAmount = 0,
                         AmountGiven = 0,
                         ChangeAmount = 0,
-
                         Status = InvoiceStatus.Unpaid
                     };
 
@@ -215,7 +174,6 @@ namespace DentalClinic.DAL
 
                     decimal totalAmount = 0;
 
-                    // 8. Tạo InvoiceDetail - Dịch vụ
                     foreach (var service in services)
                     {
                         var detail = new InvoiceDetail
@@ -230,15 +188,12 @@ namespace DentalClinic.DAL
                         };
 
                         _context.InvoiceDetails.Add(detail);
-
                         totalAmount += service.TotalAmount;
                     }
 
-                    // 9. Tạo InvoiceDetail - Thuốc
                     foreach (var medicine in medicines)
                     {
-                        decimal medicineTotal =
-                            medicine.Quantity * medicine.Medicine.UnitPrice;
+                        decimal medicineTotal = medicine.Quantity * medicine.Medicine.UnitPrice;
 
                         var detail = new InvoiceDetail
                         {
@@ -252,13 +207,10 @@ namespace DentalClinic.DAL
                         };
 
                         _context.InvoiceDetails.Add(detail);
-
                         totalAmount += medicineTotal;
                     }
 
-                    // 10. Cập nhật tổng tiền
                     invoice.TotalAmount = totalAmount;
-
                     _context.SaveChanges();
 
                     trans.Commit();
@@ -272,111 +224,64 @@ namespace DentalClinic.DAL
             }
         }
 
-        public bool CheckoutInvoice(
-    int invoiceId,
-    int paymentMethodId,
-    int receptionistId,
-    decimal amountGiven,
-    decimal changeAmount)
+        // Thanh toán hóa đơn
+        public bool CheckoutInvoice(int invoiceId, int paymentMethodId, int receptionistId, decimal amountGiven, decimal changeAmount)
         {
             using var trans = _context.Database.BeginTransaction();
 
             try
             {
-                // 1. Lấy Invoice
-                var invoice = _context.Invoices
-                    .FirstOrDefault(i => i.InvoiceId == invoiceId);
+                var invoice = _context.Invoices.FirstOrDefault(i => i.InvoiceId == invoiceId);
+                if (invoice == null) throw new InvalidOperationException("Không tìm thấy hóa đơn.");
 
-                if (invoice == null)
-                    throw new InvalidOperationException(
-                        "Không tìm thấy hóa đơn.");
-
-                // 2. Chỉ cho thanh toán Invoice Unpaid
                 if (invoice.Status != InvoiceStatus.Unpaid)
-                    throw new InvalidOperationException(
-                        "Hóa đơn này không ở trạng thái chưa thanh toán.");
+                    throw new InvalidOperationException("Hóa đơn này không ở trạng thái chưa thanh toán.");
 
-                // 3. Kiểm tra phương thức thanh toán
-                var paymentMethod = _context.PaymentMethods
-                    .FirstOrDefault(p =>
-                        p.PaymentMethodId == paymentMethodId);
+                var paymentMethod = _context.PaymentMethods.FirstOrDefault(p => p.PaymentMethodId == paymentMethodId);
+                if (paymentMethod == null) throw new InvalidOperationException("Không tìm thấy phương thức thanh toán.");
 
-                if (paymentMethod == null)
-                    throw new InvalidOperationException(
-                        "Không tìm thấy phương thức thanh toán.");
+                var receptionist = _context.Receptionists.FirstOrDefault(r => r.ReceptionistId == receptionistId);
+                if (receptionist == null) throw new InvalidOperationException("Không tìm thấy nhân viên thanh toán.");
 
-                // 4. Kiểm tra nhân viên
-                var receptionist = _context.Receptionists
-                    .FirstOrDefault(r =>
-                        r.ReceptionistId == receptionistId);
-
-                if (receptionist == null)
-                    throw new InvalidOperationException(
-                        "Không tìm thấy nhân viên thanh toán.");
-
-                // 5. Kiểm tra tiền khách đưa
                 if (amountGiven < invoice.TotalAmount)
-                    throw new InvalidOperationException(
-                        "Số tiền khách đưa chưa đủ.");
+                    throw new InvalidOperationException("Số tiền khách đưa chưa đủ.");
 
-                // 6. Cập nhật Invoice
                 invoice.PaymentMethodId = paymentMethodId;
                 invoice.ReceptionistId = receptionistId;
                 invoice.AmountGiven = amountGiven;
                 invoice.ChangeAmount = changeAmount;
                 invoice.Status = InvoiceStatus.Paid;
 
-                // 7. Lấy Visit
-                var visit = _context.Visits
-                    .FirstOrDefault(v => v.VisitId == invoice.VisitId);
+                var visit = _context.Visits.FirstOrDefault(v => v.VisitId == invoice.VisitId);
+                if (visit == null) throw new InvalidOperationException("Không tìm thấy ca khám.");
 
-                if (visit == null)
-                    throw new InvalidOperationException(
-                        "Không tìm thấy ca khám.");
-
-                // 8. Trừ tồn kho thuốc
                 var prescriptionDetails = _context.InvoiceDetails
-                    .Where(d =>
-                        d.InvoiceId == invoiceId &&
-                        d.PrescriptionDetailId.HasValue)
+                    .Where(d => d.InvoiceId == invoiceId && d.PrescriptionDetailId.HasValue)
                     .ToList();
 
                 foreach (var detail in prescriptionDetails)
                 {
-                    if (!detail.PrescriptionDetailId.HasValue)
-                        continue;
+                    if (!detail.PrescriptionDetailId.HasValue) continue;
 
-                    var prescriptionDetail =
-                        _context.PrescriptionDetails
-                            .FirstOrDefault(p =>
-                                p.PrescriptionDetailId ==
-                                detail.PrescriptionDetailId.Value);
+                    var prescriptionDetail = _context.PrescriptionDetails
+                        .FirstOrDefault(p => p.PrescriptionDetailId == detail.PrescriptionDetailId.Value);
 
-                    if (prescriptionDetail == null)
-                        continue;
+                    if (prescriptionDetail == null) continue;
 
                     var medicine = _context.Medicines
-                        .FirstOrDefault(m =>
-                            m.MedicineId ==
-                            prescriptionDetail.MedicineId);
+                        .FirstOrDefault(m => m.MedicineId == prescriptionDetail.MedicineId);
 
-                    if (medicine == null)
-                        throw new InvalidOperationException(
-                            $"Không tìm thấy thuốc có mã {prescriptionDetail.MedicineId}.");
+                    if (medicine == null) throw new InvalidOperationException($"Không tìm thấy thuốc có mã {prescriptionDetail.MedicineId}.");
 
                     if (medicine.QuantityInStock < detail.Quantity)
-                        throw new InvalidOperationException(
-                            $"Thuốc '{medicine.MedicineName}' không đủ tồn kho.");
+                        throw new InvalidOperationException($"Thuốc '{medicine.MedicineName}' không đủ tồn kho.");
 
                     medicine.QuantityInStock -= detail.Quantity;
                 }
 
-                // 9. Hoàn tất Visit
                 visit.Status = VisitStatus.Completed;
 
-                // 10. Lưu
                 _context.SaveChanges();
-
                 trans.Commit();
                 return true;
             }
@@ -387,65 +292,50 @@ namespace DentalClinic.DAL
             }
         }
 
+        // Hủy hóa đơn
         public bool CancelInvoice(int invoiceId, int receptionistId, string cancellationReason)
         {
             using var trans = _context.Database.BeginTransaction();
 
             try
             {
-                var invoice = _context.Invoices
-                    .FirstOrDefault(i => i.InvoiceId == invoiceId);
+                var invoice = _context.Invoices.FirstOrDefault(i => i.InvoiceId == invoiceId);
+                if (invoice == null) throw new InvalidOperationException("Không tìm thấy hóa đơn.");
 
-                if (invoice == null)
-                    throw new InvalidOperationException("Không tìm thấy hóa đơn.");
-
-                if (invoice.Status != InvoiceStatus.Paid &&
-                    invoice.Status != InvoiceStatus.Unpaid)
+                if (invoice.Status != InvoiceStatus.Paid && invoice.Status != InvoiceStatus.Unpaid)
                 {
-                    throw new InvalidOperationException(
-                        "Chỉ có thể hủy hóa đơn chưa thanh toán hoặc đã thanh toán.");
+                    throw new InvalidOperationException("Chỉ có thể hủy hóa đơn chưa thanh toán hoặc đã thanh toán.");
                 }
 
-                var visit = _context.Visits
-                    .FirstOrDefault(v => v.VisitId == invoice.VisitId);
-
-                if (visit == null)
-                    throw new InvalidOperationException("Không tìm thấy lượt khám.");
+                var visit = _context.Visits.FirstOrDefault(v => v.VisitId == invoice.VisitId);
+                if (visit == null) throw new InvalidOperationException("Không tìm thấy lượt khám.");
 
                 InvoiceStatus oldStatus = invoice.Status;
 
-                // Hủy hóa đơn
                 invoice.Status = InvoiceStatus.Cancelled;
                 invoice.CancellationReason = cancellationReason;
                 invoice.CancelledBy = receptionistId;
                 invoice.CancelledDate = DateTime.Now;
 
-                // Hủy luôn lượt khám
                 visit.Status = VisitStatus.Cancelled;
 
-                // Nếu hóa đơn đã thanh toán thì hoàn lại thuốc
                 if (oldStatus == InvoiceStatus.Paid)
                 {
                     var invoiceDetails = _context.InvoiceDetails
-                        .Where(d => d.InvoiceId == invoiceId &&
-                                    d.PrescriptionDetailId.HasValue)
+                        .Where(d => d.InvoiceId == invoiceId && d.PrescriptionDetailId.HasValue)
                         .ToList();
 
                     foreach (var detail in invoiceDetails)
                     {
-                        if (!detail.PrescriptionDetailId.HasValue)
-                            continue;
+                        if (!detail.PrescriptionDetailId.HasValue) continue;
 
                         var prescriptionDetail = _context.PrescriptionDetails
-                            .FirstOrDefault(p =>
-                                p.PrescriptionDetailId == detail.PrescriptionDetailId.Value);
+                            .FirstOrDefault(p => p.PrescriptionDetailId == detail.PrescriptionDetailId.Value);
 
-                        if (prescriptionDetail == null)
-                            continue;
+                        if (prescriptionDetail == null) continue;
 
                         var medicine = _context.Medicines
-                            .FirstOrDefault(m =>
-                                m.MedicineId == prescriptionDetail.MedicineId);
+                            .FirstOrDefault(m => m.MedicineId == prescriptionDetail.MedicineId);
 
                         if (medicine != null)
                             medicine.QuantityInStock += detail.Quantity;
@@ -464,30 +354,27 @@ namespace DentalClinic.DAL
             }
         }
 
+        // Lấy danh sách phương thức thanh toán
         public List<PaymentMethod> GetPaymentMethods()
         {
             return _context.PaymentMethods.ToList();
         }
 
+        // Lấy tất cả hóa đơn theo bộ lọc
         public List<InvoiceDisplayDto> GetAllInvoices(DateTime fromDate, DateTime toDate, string keyword = "", InvoiceStatus? status = null)
         {
             var query = _context.Invoices.AsQueryable();
 
-            // Lọc theo khoảng thời gian
-            query = query.Where(i => i.InvoiceDateTime >= fromDate.Date &&
-                                     i.InvoiceDateTime < toDate.Date.AddDays(1));
+            query = query.Where(i => i.InvoiceDateTime >= fromDate.Date && i.InvoiceDateTime < toDate.Date.AddDays(1));
 
-            // Lọc theo trạng thái
             if (status.HasValue)
             {
                 query = query.Where(i => i.Status == status.Value);
             }
 
-            // Lọc theo từ khóa: Mã HĐ, tên bệnh nhân, SĐT
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 string kw = keyword.Trim().ToLower();
-
                 query = query.Where(i =>
                     i.InvoiceId.ToString().Contains(kw) ||
                     i.Visit.Patient.FullName.ToLower().Contains(kw) ||
@@ -505,96 +392,60 @@ namespace DentalClinic.DAL
                     TotalAmount = i.TotalAmount,
                     AmountGiven = i.AmountGiven,
                     ChangeAmount = i.ChangeAmount,
-                    Status = i.Status == InvoiceStatus.Paid
-                        ? "Đã thanh toán" : i.Status == InvoiceStatus.Cancelled
-                        ? "Đã hủy"
-                        : "Chưa thanh toán"
+                    Status = i.Status == InvoiceStatus.Paid ? "Đã thanh toán" : i.Status == InvoiceStatus.Cancelled ? "Đã hủy" : "Chưa thanh toán"
                 })
                 .OrderByDescending(i => i.InvoiceDateTime)
                 .ToList();
         }
 
+        // Lấy chi tiết hóa đơn theo ID để xem/in
         public InvoiceDetailDto? GetInvoiceDetail(int invoiceId)
         {
             var invoice = _context.Invoices
-                .Include(i => i.Visit)
-                    .ThenInclude(v => v.Patient)
-                .Include(i => i.Visit)
-                    .ThenInclude(v => v.Doctor)
-                .Include(i => i.Visit)
-                    .ThenInclude(v => v.MedicalRecord)
+                .Include(i => i.Visit).ThenInclude(v => v.Patient)
+                .Include(i => i.Visit).ThenInclude(v => v.Doctor)
+                .Include(i => i.Visit).ThenInclude(v => v.MedicalRecord)
                 .Include(i => i.PaymentMethod)
                 .Include(i => i.Receptionist)
                 .Include(i => i.CancelledByReceptionist)
                 .AsNoTracking()
                 .FirstOrDefault(i => i.InvoiceId == invoiceId);
 
-            if (invoice == null)
-                return null;
+            if (invoice == null) return null;
 
             return new InvoiceDetailDto
             {
-                // Invoice
                 InvoiceId = invoice.InvoiceId,
                 InvoiceDateTime = invoice.InvoiceDateTime,
-
-                Status = invoice.Status == InvoiceStatus.Unpaid
-                    ? "Chưa thanh toán"
-                    : invoice.Status == InvoiceStatus.Paid
-                        ? "Đã thanh toán"
-                        : "Đã hủy",
-
+                Status = invoice.Status == InvoiceStatus.Unpaid ? "Chưa thanh toán" : invoice.Status == InvoiceStatus.Paid ? "Đã thanh toán" : "Đã hủy",
                 TotalAmount = invoice.TotalAmount,
                 AmountGiven = invoice.AmountGiven,
                 ChangeAmount = invoice.ChangeAmount,
-
-                PaymentMethodName =
-                    invoice.PaymentMethod?.PaymentMethodName
-                    ?? "Chưa thanh toán",
-
-                ReceptionistName =
-                    invoice.Receptionist?.FullName
-                    ?? "",
-
-                // Cancellation
+                PaymentMethodName = invoice.PaymentMethod?.PaymentMethodName ?? "Chưa thanh toán",
+                ReceptionistName = invoice.Receptionist?.FullName ?? "",
+               
                 CancellationReason = invoice.CancellationReason,
                 CancelledDate = invoice.CancelledDate,
-
-                CancelledByName =
-                    invoice.CancelledByReceptionist?.FullName,
-
-                // Patient
+                CancelledByName = invoice.CancelledByReceptionist?.FullName,
+                
                 PatientId = invoice.Visit.PatientId,
                 PatientName = invoice.Visit.Patient.FullName,
                 PatientPhone = invoice.Visit.Patient.Phone,
                 PatientDateOfBirth = invoice.Visit.Patient.DateOfBirth,
                 PatientAddress = invoice.Visit.Patient.Address,
-
-                // Visit
+                
                 VisitId = invoice.VisitId,
                 CheckInDateTime = invoice.Visit.CheckInDateTime,
                 ReasonForVisit = invoice.Visit.ReasonForVisit,
-
-                // Doctor
-                DoctorName =
-                    invoice.Visit.Doctor?.FullName
-                    ?? "",
-
-                // MedicalRecord
-                MedicalRecordId =
-                    invoice.Visit.MedicalRecord?.MedicalRecordId,
-
-                ExaminationDateTime =
-                    invoice.Visit.MedicalRecord?.ExaminationDateTime,
-
-                Diagnosis =
-                    invoice.Visit.MedicalRecord?.Diagnosis,
-
-                Conclusion =
-                    invoice.Visit.MedicalRecord?.Conclusion
+                DoctorName = invoice.Visit.Doctor?.FullName ?? "",
+                MedicalRecordId = invoice.Visit.MedicalRecord?.MedicalRecordId,
+                ExaminationDateTime = invoice.Visit.MedicalRecord?.ExaminationDateTime,
+                Diagnosis = invoice.Visit.MedicalRecord?.Diagnosis,
+                Conclusion = invoice.Visit.MedicalRecord?.Conclusion
             };
         }
 
+        // Lấy danh sách item chi tiết trong hóa đơn
         public List<InvoiceDetailItemDto> GetInvoiceDetailItems(int invoiceId)
         {
             return _context.InvoiceDetails
@@ -602,46 +453,20 @@ namespace DentalClinic.DAL
                 .Select(d => new InvoiceDetailItemDto
                 {
                     InvoiceDetailId = d.InvoiceDetailId,
-
-                    ItemType = d.MedicalRecordServiceId.HasValue
-                        ? "Dịch vụ"
-                        : "Thuốc",
-
+                    ItemType = d.MedicalRecordServiceId.HasValue ? "Dịch vụ" : "Thuốc",
                     ItemName = d.ItemName,
                     Quantity = d.Quantity,
                     UnitPrice = d.UnitPrice,
                     TotalAmount = d.TotalAmount,
-
-                    Morning = d.PrescriptionDetailId.HasValue
-                        ? d.PrescriptionDetail.Morning
-                        : 0,
-
-                    Noon = d.PrescriptionDetailId.HasValue
-                        ? d.PrescriptionDetail.Noon
-                        : 0,
-
-                    Afternoon = d.PrescriptionDetailId.HasValue
-                        ? d.PrescriptionDetail.Afternoon
-                        : 0,
-
-                    Evening = d.PrescriptionDetailId.HasValue
-                        ? d.PrescriptionDetail.Evening
-                        : 0,
-
-                    Days = d.PrescriptionDetailId.HasValue
-                        ? d.PrescriptionDetail.Days
-                        : 0,
-
-                    Instruction = d.PrescriptionDetailId.HasValue
-                        ? d.PrescriptionDetail.Instruction
-                        : "",
-
-                    Note = d.MedicalRecordServiceId.HasValue
-                        ? d.MedicalRecordService.Note
-                        : null
+                    Morning = d.PrescriptionDetailId.HasValue ? d.PrescriptionDetail.Morning : 0,
+                    Noon = d.PrescriptionDetailId.HasValue ? d.PrescriptionDetail.Noon : 0,
+                    Afternoon = d.PrescriptionDetailId.HasValue ? d.PrescriptionDetail.Afternoon : 0,
+                    Evening = d.PrescriptionDetailId.HasValue ? d.PrescriptionDetail.Evening : 0,
+                    Days = d.PrescriptionDetailId.HasValue ? d.PrescriptionDetail.Days : 0,
+                    Instruction = d.PrescriptionDetailId.HasValue ? d.PrescriptionDetail.Instruction : "",
+                    Note = d.MedicalRecordServiceId.HasValue ? d.MedicalRecordService.Note : null
                 })
                 .ToList();
         }
-
     }
 }

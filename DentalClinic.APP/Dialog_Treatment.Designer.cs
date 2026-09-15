@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             pnCenter = new Panel();
             dgvTreatmentSession = new DataGridView();
             panel4 = new Panel();
@@ -49,7 +49,7 @@
             btCancel = new Button();
             btEditTreatment = new Button();
             nudPlannedSessions = new NumericUpDown();
-            textBox1 = new TextBox();
+            txtNote = new TextBox();
             dtpEndDate = new DateTimePicker();
             lbCompletedSessions = new Label();
             lbProgress = new Label();
@@ -105,23 +105,23 @@
             dgvTreatmentSession.BorderStyle = BorderStyle.None;
             dgvTreatmentSession.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvTreatmentSession.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvTreatmentSession.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvTreatmentSession.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvTreatmentSession.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvTreatmentSession.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvTreatmentSession.DefaultCellStyle = dataGridViewCellStyle6;
             dgvTreatmentSession.Dock = DockStyle.Fill;
             dgvTreatmentSession.EnableHeadersVisualStyles = false;
             dgvTreatmentSession.GridColor = Color.DarkCyan;
@@ -221,23 +221,23 @@
             dgvTreatments.BorderStyle = BorderStyle.None;
             dgvTreatments.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvTreatments.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.DarkCyan;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvTreatments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.DarkCyan;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle7.ForeColor = Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle7.SelectionForeColor = Color.White;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dgvTreatments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dgvTreatments.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvTreatments.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.White;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle8.ForeColor = Color.Black;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            dgvTreatments.DefaultCellStyle = dataGridViewCellStyle8;
             dgvTreatments.Dock = DockStyle.Fill;
             dgvTreatments.EnableHeadersVisualStyles = false;
             dgvTreatments.GridColor = Color.DarkCyan;
@@ -280,7 +280,7 @@
             panel2.Controls.Add(btCancel);
             panel2.Controls.Add(btEditTreatment);
             panel2.Controls.Add(nudPlannedSessions);
-            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(txtNote);
             panel2.Controls.Add(dtpEndDate);
             panel2.Controls.Add(lbCompletedSessions);
             panel2.Controls.Add(lbProgress);
@@ -373,14 +373,14 @@
             nudPlannedSessions.Size = new Size(59, 30);
             nudPlannedSessions.TabIndex = 6;
             // 
-            // textBox1
+            // txtNote
             // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Location = new Point(230, 324);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(432, 85);
-            textBox1.TabIndex = 5;
+            txtNote.BorderStyle = BorderStyle.FixedSingle;
+            txtNote.Location = new Point(230, 324);
+            txtNote.Multiline = true;
+            txtNote.Name = "txtNote";
+            txtNote.Size = new Size(432, 85);
+            txtNote.TabIndex = 5;
             // 
             // dtpEndDate
             // 
@@ -679,7 +679,7 @@
         private Label label1;
         private Button btEditTreatment;
         private DateTimePicker dtpEndDate;
-        private TextBox textBox1;
+        private TextBox txtNote;
         private Button btSave;
         private Button btCancel;
         private NumericUpDown nudPlannedSessions;

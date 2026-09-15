@@ -8,17 +8,17 @@ namespace DentalClinic.DAL
     public class Medicine_DAL
     {
         private readonly AppDbContext _context;
+
         public Medicine_DAL(AppDbContext context)
         {
             _context = context;
         }
 
-        // GetAll: Lấy danh sách tất cả các thuốc, có thể tìm kiếm theo từ khóa và lọc theo trạng thái
+        // GetAll
         public List<Medicine> GetAll(string keyword = "", MedicineStatus? status = null)
         {
                 var query = _context.Medicines.AsQueryable();
 
-            // Tìm kiếm theo MedicineName hoặc Unit
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 string kw = keyword.Trim().ToLower();
@@ -28,15 +28,12 @@ namespace DentalClinic.DAL
                     m.Unit.ToLower().Contains(kw));
              }
 
-             // Lọc theo Status
              if (status.HasValue)
              {
                  query = query.Where(m => m.Status == status.Value);
              }
 
-             return query
-                    .OrderBy(m => m.MedicineName)
-                    .ToList();
+             return query.OrderBy(m => m.MedicineName).ToList();
         }
 
         // GetById
@@ -48,8 +45,7 @@ namespace DentalClinic.DAL
         // Kiểm tra trùng tên thuốc khi thêm hoặc sửa
         public bool IsNameExists(string name, int excludeId = 0)
         {
-            return _context.Medicines.Any(m => m.MedicineName.ToLower() == name.ToLower()
-                                           && m.MedicineId != excludeId);
+            return _context.Medicines.Any(m => m.MedicineName.ToLower() == name.ToLower() && m.MedicineId != excludeId);
         }
 
         // ADD
@@ -79,7 +75,6 @@ namespace DentalClinic.DAL
         {
                 var existing = _context.Medicines.FirstOrDefault(m => m.MedicineId == id);
                 if (existing == null) return false;
-
                 _context.Medicines.Remove(existing);
                 return _context.SaveChanges() > 0;
         }

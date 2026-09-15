@@ -68,15 +68,13 @@ namespace DentalClinic.DAL
         // Kiểm tra tên người dùng đã tồn tại chưa (không kiểm tra tài khoản đang được cập nhật)
         public bool IsUserNameExists(string userName, int excludeAccountId = 0)
         {
-            return _context.Accounts.Any(a => a.UserName.ToLower() == userName.ToLower()
-                                          && a.AccountId != excludeAccountId);
+            return _context.Accounts.Any(a => a.UserName.ToLower() == userName.ToLower() && a.AccountId != excludeAccountId);
         }
 
         // Tương tự, kiểm tra số điện thoại đã tồn tại chưa
         public bool IsPatientPhoneExists(string phone)
         {
-            return _context.Patients.Any(
-                p => p.Phone == phone);
+            return _context.Patients.Any(p => p.Phone == phone);
         }
 
         // CREATE
@@ -109,7 +107,6 @@ namespace DentalClinic.DAL
         {
                 var existing = _context.Accounts.FirstOrDefault(a => a.AccountId == accountId);
                 if (existing == null) return false;
-
                 _context.Accounts.Remove(existing);
                 return _context.SaveChanges() > 0;
         }
